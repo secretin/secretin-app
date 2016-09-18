@@ -1,0 +1,17 @@
+.user-avatars
+  display: flex
+  align-items: center
+  flex-direction: row
+  justify-content: flex-start
+
+.user-avatars .user-avatar
+  transition: margin-left .2s
+
+.user-avatars .user-avatar--size-base
+  margin-left: -12px
+
+.user-avatars .user-avatar:first-child
+  margin-left: 0
+
+.user-avatars .user-avatar:hover + .user-avatar
+  margin-left: 0

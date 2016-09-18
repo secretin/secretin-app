@@ -1,0 +1,34 @@
+.tabs
+  .nav-tabs
+    display: flex
+    align-items: center
+    list-style: none
+    margin: 0
+    padding: 0
+
+    li
+      a
+        display: flex
+        align-items: center
+        height: 42px
+        border-bottom: 2px solid transparent
+        color: inherit
+        outline: none
+        text-decoration: none
+        margin-right: 25px
+      &.active
+        a
+          border-bottom: 2px solid currentColor
+        &:last-child a
+          margin-right: 0
+
+      &.disabled
+        opacity: .2
+
+  .tab-pane
+    display: none
+    &.active
+      display: block
+
+  .tab-content
+    margin-top: 20px

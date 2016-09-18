@@ -1,0 +1,44 @@
+.input
+  display: inline-block
+
+.input label
+  display: block
+  font-weight: 500
+  margin: 0 0 10px
+  font-size: 11px
+  text-transform: uppercase
+  color: rgba(51, 65, 73, .6)
+
+.input-label-actions:before
+  display: inline-block
+  content: '-'
+  text-align: center
+  width: 10px
+
+.input-label-actions a
+  display: inline-block
+  outline: none
+  margin-right: 4px
+  user-select: none
+
+.input input
+  display: block
+  width: 100%
+  margin: 0
+  border: 1px solid rgba(51, 65, 73, .2)
+  outline: none
+
+.input.input--size-small input
+  height: 28px
+  font-size: 12px
+  padding: 0 8px
+  border-radius: 2px
+
+.input.input--size-base input
+  height: 44px
+  font-size: 13px
+  padding: 0 14px
+  border-radius: 2px
+
+.input input:focus
+  border: 1px solid rgba(51, 65, 73, .4)

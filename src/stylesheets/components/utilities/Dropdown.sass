@@ -1,0 +1,75 @@
+.dropdown
+  -webkit-user-select: none
+  position: relative
+  display: inline-block
+  vertical-align: middle
+
+.dropdown.open .dropdown-menu
+  visibility: visible
+  opacity: 1
+
+.dropdown-toggle
+  position: relative
+  z-index: 1
+  display: block
+  border: none
+  background: none
+  padding: 0
+  cursor: pointer
+  color: inherit
+  outline: none
+
+.dropdown-toggle:active
+  outline: none
+
+.dropdown-menu
+  -webkit-user-select: none
+  position: absolute
+  z-index: 2
+  visibility: hidden
+  opacity: 0
+  width: 180px
+  top: 100%
+  list-style: none
+  margin: 0
+  padding: 5px 0
+  background: white
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1),0 2px 6px 0 rgba(0,0,0,.1)
+  border-radius: 4px
+
+.dropdown-menu-left
+  left: 0
+
+.dropdown-menu-right
+  right: 0
+
+.dropdown-menu .divider
+  margin: 5px 0
+  height: 1px
+  background-color: rgba(0, 0, 0, .1)
+
+.dropdown-menu-item a
+  display: flex
+  flex-direction: row
+  align-items: center
+  height: 24px
+  color: inherit
+  text-decoration: none
+  cursor: pointer
+  padding: 0 16px
+  outline: none
+
+.dropdown-menu-item a:hover,
+.dropdown-menu-item a:active,
+.dropdown-menu-item a:focus
+  background-color: #EEE
+  text-decoration: none
+
+.dropdown-menu-item.disabled a
+  cursor: default
+  opacity: .4
+
+.dropdown-menu-item.disabled a:hover,
+.dropdown-menu-item.disabled a:active,
+.dropdown-menu-item.disabled a:focus
+  background-color: inherit
