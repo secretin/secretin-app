@@ -38,7 +38,8 @@
     "build": "npm run build-css && NODE_PATH=./src  react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
-    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src/",
+    "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
