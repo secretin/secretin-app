@@ -35,7 +35,6 @@ class MetadataActions {
     return secretin
       .deleteSecret(secret.id)
       .catch((error) => {
-        console.error(error);
         throw error;
       })
       .then(() => (

@@ -27,8 +27,6 @@ function SecretListContainer({ params, showAll }) {
   const folders = new Immutable.List(path);
   const folder = folders.last();
   const secrets = MetadataStore.getSecretsInFolder(folder);
-  const test = MetadataStore.getById(folder);
-  console.log(test && test.toJS())
 
   return (
     <div className="secret-list-container">
