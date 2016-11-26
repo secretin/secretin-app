@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { escapeRegExp } from 'lodash';
 import Immutable from 'immutable';
 
+import Secret from 'models/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
@@ -10,7 +11,7 @@ import SecretListItem from 'components/secrets/SecretListItem';
 class SecretList extends Component {
 
   static propTypes = {
-    folder: PropTypes.any,
+    folder: PropTypes.instanceOf(Secret),
     folders: PropTypes.instanceOf(Immutable.List),
     secrets: PropTypes.instanceOf(Immutable.Map),
     searchQuery: PropTypes.string,
