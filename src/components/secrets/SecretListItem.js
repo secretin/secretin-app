@@ -26,7 +26,7 @@ function SecretListItem({ secret, folders }) {
         {
           secret.type === 'folder' ? (
             <Link to={buildSecretURL(folders.push(secret.id))}>
-              <Icon id={secret.getIcon()} size="small" />
+              <Icon id={secret.getIcon()} size="base" />
               {secret.title}
             </Link>
           ) : (
@@ -34,7 +34,7 @@ function SecretListItem({ secret, folders }) {
               onClick={() => ShowSecretUIActions.showSecret({ secret })}
               tabIndex="-1"
             >
-              <Icon id={secret.getIcon()} size="small" />
+              <Icon id={secret.getIcon()} size="base" />
               {secret.title}
             </a>
           )

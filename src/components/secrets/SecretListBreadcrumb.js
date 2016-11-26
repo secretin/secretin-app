@@ -46,7 +46,11 @@ function SecretListBreadcrumb({ folders }) {
         </div>
       )
       .push(
-        <Icon key={`${folder}-sep`} id="chevron-right" />
+        <Icon
+          key={`${folder}-sep`}
+          id="chevron-right"
+          className="secret-list-breadcrumb-item-separator"
+        />
       );
   }, new Immutable.List());
 
@@ -54,7 +58,13 @@ function SecretListBreadcrumb({ folders }) {
     <div className="secret-list-breadcrumb">
       {
         breadcrumb
-          .unshift(<Icon key="home-sep" id="chevron-right" />)
+          .unshift(
+            <Icon
+              key="home-sep"
+              id="chevron-right"
+              className="secret-list-breadcrumb-item-separator"
+            />
+          )
           .unshift(
             <div key="home" className="secret-list-breadcrumb-item">
               <Link
@@ -63,6 +73,7 @@ function SecretListBreadcrumb({ folders }) {
                 activeClassName="secret-list-breadcrumb-link--active"
                 activeOnlyWhenExact
               >
+                <Icon id="home" size="base" />
                 Home
               </Link>
             </div>

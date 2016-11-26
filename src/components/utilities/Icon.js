@@ -10,10 +10,12 @@ class Icon extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     size: PropTypes.string,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
     size: 'base',
+    className: '',
   }
 
   render() {
@@ -21,7 +23,8 @@ class Icon extends Component {
     const className = classNames(
       'icon',
       `icon--id-${id}`,
-      `icon--size-${size}`
+      `icon--size-${size}`,
+      this.props.className
     );
 
     return (
