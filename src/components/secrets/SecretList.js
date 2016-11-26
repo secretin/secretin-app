@@ -10,6 +10,7 @@ import SecretListItem from 'components/secrets/SecretListItem';
 class SecretList extends Component {
 
   static propTypes = {
+    folder: PropTypes.any,
     folders: PropTypes.instanceOf(Immutable.List),
     secrets: PropTypes.instanceOf(Immutable.Map),
     searchQuery: PropTypes.string,
@@ -49,7 +50,7 @@ class SecretList extends Component {
       <div className="secret-list">
         <div className="secret-list-header">
           <SecretListBreadcrumb folders={this.props.folders} />
-          <SecretListNew folder={this.props.folders.last()} />
+          <SecretListNew folder={this.props.folder} />
           <SecretListSearch onChange={this.onSearch} />
         </div>
 

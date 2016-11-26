@@ -8,7 +8,10 @@ class Button extends Component {
     form: PropTypes.string,
     disabled: PropTypes.bool,
     size: PropTypes.string,
-    buttonStyle: PropTypes.string,
+    buttonStyle: PropTypes.oneOf([
+      'default',
+      'primary',
+    ]),
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

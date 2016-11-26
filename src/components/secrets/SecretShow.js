@@ -8,6 +8,7 @@ import Secret from 'models/Secret';
 import SecretEdit from 'components/secrets/SecretEdit';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
+import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
 
 class SecretShow extends Component {
@@ -78,7 +79,13 @@ class SecretShow extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          Yo
+          <Button
+            type="reset"
+            buttonStyle="default"
+            onClick={ShowSecretUIActions.hideModal}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     );

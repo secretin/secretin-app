@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import AppUIActions from 'actions/AppUIActions';
 
+import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
@@ -19,15 +20,9 @@ class UserConnect extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      username: 'Charley',
-      password: 'test',
+      username: '',
+      password: '',
     };
-  }
-
-  componentDidMount() {
-    if (this.state.username && this.state.password) {
-      this.onSubmit();
-    }
   }
 
   onSubmit(e) {
@@ -49,43 +44,46 @@ class UserConnect extends Component {
 
   render() {
     return (
-      <form
-        disabled={this.props.loading}
-        onSubmit={this.onSubmit}
-      >
-        <Input
-          name="username"
-          type="text"
-          value={this.state.username}
-          onChange={this.handleChange}
-          autoFocus
+      <div className="user-connect">
+        <Form
+          className="user-connect-form"
           disabled={this.props.loading}
-          placeholder="Username"
-        />
-        <Input
-          name="password"
-          type="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          disabled={this.props.loading}
-          placeholder="Password"
-        />
-
-        {
-          this.props.error && (
-            <div>
-              Invalid username or password
-            </div>
-          )
-        }
-
-        <Button
-          type="submit"
-          disabled={this.props.loading}
+          onSubmit={this.onSubmit}
         >
-          Login
-        </Button>
-      </form>
+          <Input
+            name="username"
+            label="Username"
+            type="text"
+            value={this.state.username}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+            autoFocus
+          />
+          <Input
+            name="password"
+            label="Password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+          />
+
+          {
+            this.props.error && (
+              <div>
+                Invalid username or password
+              </div>
+            )
+          }
+
+          <Button
+            type="submit"
+            disabled={this.props.loading}
+          >
+            Login
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

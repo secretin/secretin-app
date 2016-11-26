@@ -1,6 +1,7 @@
 .button
   display: flex
   align-items: center
+  justify-content: center
   border: none
   background-color: transparent
   padding: 0
@@ -19,12 +20,17 @@
   padding: 0 28px
   border-radius: 3px
 
-.button--style-primary
-  background-color: #3498db
-  color: white
+.button--style-default
+  background-color: $color-silver
+  color: $color-text
   font-weight: 600
   text-transform: uppercase
   letter-spacing: 1px
+
+.button--style-primary
+  @extend .button--style-default
+  background-color: $color-peter-river
+  color: white
 
 .button:hover,
 .button:active

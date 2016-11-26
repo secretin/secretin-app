@@ -20,7 +20,6 @@
   position: relative
   background-color: #FFF
   min-width: 480px
-  min-height: 320px
   border-radius: 3px
 
 .modal-dialog:focus
@@ -40,5 +39,25 @@
   align-items: center
   justify-content: center
   font-weight: 300
+  .icon
+    margin-right: 8px
+    fill: $color-concrete
+
+  .icon--id-description
+    opacity: .4
 
 .modal-footer
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: flex-end
+  padding: 40px
+  .button
+    margin-left: 10px
+    &:first-child
+      margin-left: 0
+
+.modal-header + .modal-footer,
+.modal-body + .modal-footer
+  padding-top: 0
+  margin-top: -10px
