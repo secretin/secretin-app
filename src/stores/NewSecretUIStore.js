@@ -1,4 +1,4 @@
-import Immutable, { Record } from 'immutable';
+import { Record } from 'immutable';
 import alt from 'utils/alt';
 import makeImmutable from 'utils/makeImmutable';
 

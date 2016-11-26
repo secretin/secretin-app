@@ -13,11 +13,8 @@ class AppUIActions {
   loginUser({ username, password }) {
     secretin
       .loginUser(username, password)
-      .then((currentUser) => this.loginUserSuccess({ currentUser }))
-      .catch((error) => {
-        console.error(error);
-        return this.loginUserFailure();
-      });
+      .then(currentUser => this.loginUserSuccess({ currentUser }))
+      .catch(error => this.loginUserFailure({ error }));
     return { username };
   }
 }

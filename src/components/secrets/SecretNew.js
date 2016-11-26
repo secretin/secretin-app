@@ -5,6 +5,7 @@ import MetadataActions from 'actions/MetadataActions';
 import NewSecretUIActions from 'actions/NewSecretUIActions';
 import NewSecretUIStore from 'stores/NewSecretUIStore';
 
+import SecretDataRecord from 'models/SecretDataRecord';
 import SecretFields from 'components/secrets/SecretFields';
 import Modal from 'components/utilities/Modal';
 import Form from 'components/utilities/Form';
@@ -17,7 +18,7 @@ class SecretNew extends Component {
     folder: PropTypes.string,
     isFolder: PropTypes.bool,
     title: PropTypes.string,
-    data: PropTypes.object,
+    data: PropTypes.instanceOf(SecretDataRecord),
   }
 
   static getStores() {
@@ -77,14 +78,12 @@ class SecretNew extends Component {
           <Button
             type="reset"
             onClick={NewSecretUIActions.hideModal}
-            disabled={this.props.loading}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             onClick={this.onSubmit}
-            disabled={this.props.loading}
           >
             Save
           </Button>
