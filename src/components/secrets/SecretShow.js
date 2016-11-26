@@ -6,6 +6,7 @@ import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretUsers from 'components/secrets/SecretUsers';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
@@ -69,7 +70,7 @@ class SecretShow extends Component {
             </Tab>
 
             <Tab eventKey="access" title="Who has access">
-              <pre>{JSON.stringify(this.props.secret.users, null, 2)}</pre>
+              <SecretUsers secret={this.props.secret} />
             </Tab>
 
             <Tab eventKey="settings" title="Settings" disabled>

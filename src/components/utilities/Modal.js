@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import ReactOverlaysModal from 'react-overlays/lib/Modal';
 
+import Icon from 'components/utilities/Icon';
+
 function Modal(props) {
   return (
     <ReactOverlaysModal
@@ -11,6 +13,10 @@ function Modal(props) {
       onBackdropClick={props.onClose}
     >
       <div className="modal-dialog">
+        <button className="modal-dialog-close" onClick={props.onClose}>
+          <Icon id="close" size="small" />
+        </button>
+
         {props.children}
       </div>
     </ReactOverlaysModal>
@@ -48,7 +54,7 @@ Modal.Header = props => (
   </div>
 );
 Modal.Header.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
