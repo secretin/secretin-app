@@ -7,6 +7,12 @@
   padding: 0
   outline: none
   cursor: pointer
+  &[disabled]
+    opacity: .6
+    cursor: default
+    &:hover,
+    &:active
+      opacity: .6
 
 .button--size-small
   height: 28px

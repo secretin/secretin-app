@@ -17,6 +17,7 @@ class Input extends Component {
     type: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    error: PropTypes.string,
 
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
@@ -81,7 +82,10 @@ class Input extends Component {
     const className = classNames(
       'input',
       `input--type-${this.props.type}`,
-      `input--size-${this.props.size}`
+      `input--size-${this.props.size}`,
+      {
+        'input--error': this.props.error,
+      }
     );
 
     let actions = this.props.actions;
@@ -127,7 +131,6 @@ class Input extends Component {
         <input
           id={this.id}
           ref={(input) => { this.input = input; }}
-          className={className}
           name={this.props.name}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
@@ -138,6 +141,13 @@ class Input extends Component {
           disabled={this.props.disabled}
           readOnly={this.props.readOnly}
         />
+        {
+          this.props.error && (
+            <span className="input-error">
+              { this.props.error }
+            </span>
+          )
+        }
       </div>
     );
   }

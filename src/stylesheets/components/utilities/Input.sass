@@ -1,44 +1,50 @@
 .input
   display: inline-block
 
-.input label
-  display: block
-  font-weight: 500
-  margin: 0 0 10px
-  font-size: 11px
-  text-transform: uppercase
-  color: rgba(51, 65, 73, .6)
+  label
+    display: block
+    font-weight: 500
+    margin: 0 0 10px
+    font-size: 11px
+    text-transform: uppercase
+    color: rgba($color-brand, .6)
 
-.input-label-actions:before
-  display: inline-block
-  content: '-'
-  text-align: center
-  width: 10px
+  input
+    display: block
+    width: 100%
+    margin: 0
+    border: 1px solid rgba($color-brand, .2)
+    outline: none
+    &:focus
+      border: 1px solid rgba($color-brand, .4)
 
-.input-label-actions a
-  display: inline-block
-  outline: none
-  margin-right: 4px
-  user-select: none
+  &.input--size-small input
+    height: 28px
+    font-size: 12px
+    padding: 0 8px
+    border-radius: 2px
 
-.input input
-  display: block
-  width: 100%
-  margin: 0
-  border: 1px solid rgba(51, 65, 73, .2)
-  outline: none
+  &.input--size-base input
+    height: 44px
+    font-size: 13px
+    padding: 0 14px
+    border-radius: 2px
 
-.input.input--size-small input
-  height: 28px
-  font-size: 12px
-  padding: 0 8px
-  border-radius: 2px
+  &.input--error
+    input
+      border-color: $color-error
+    .input-error
+      color: $color-error
+      font-size: 11px
 
-.input.input--size-base input
-  height: 44px
-  font-size: 13px
-  padding: 0 14px
-  border-radius: 2px
-
-.input input:focus
-  border: 1px solid rgba(51, 65, 73, .4)
+.input-label-actions
+  &:before
+    display: inline-block
+    content: '-'
+    text-align: center
+    width: 10px
+  a
+    display: inline-block
+    outline: none
+    margin-right: 4px
+    user-select: none

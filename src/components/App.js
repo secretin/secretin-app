@@ -28,7 +28,7 @@ class App extends Component {
     return {
       loading: state.get('loading'),
       connected: state.get('connected'),
-      error: state.get('error'),
+      errors: state.get('errors'),
       secrets: MetadataStore.getSecretsInFolder(),
     };
   }
@@ -43,7 +43,7 @@ class App extends Component {
             ) : (
               <UserConnect
                 loading={this.props.loading}
-                error={this.props.error}
+                errors={this.props.errors}
               />
             )
           }

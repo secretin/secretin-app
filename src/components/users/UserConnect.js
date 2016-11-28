@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
+import Immutable from 'immutable';
 
 import AppUIActions from 'actions/AppUIActions';
 
@@ -10,7 +12,7 @@ class UserConnect extends Component {
 
   static propTypes = {
     loading: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor(props) {
@@ -57,6 +59,7 @@ class UserConnect extends Component {
             value={this.state.username}
             onChange={this.handleChange}
             disabled={this.props.loading}
+            error={this.props.errors.get('username')}
             autoFocus
           />
           <Input
@@ -66,19 +69,16 @@ class UserConnect extends Component {
             value={this.state.password}
             onChange={this.handleChange}
             disabled={this.props.loading}
+            error={this.props.errors.get('password')}
           />
-
-          {
-            this.props.error && (
-              <div>
-                Invalid username or password
-              </div>
-            )
-          }
 
           <Button
             type="submit"
-            disabled={this.props.loading}
+            disabled={
+              this.props.loading ||
+              isEmpty(this.state.username) ||
+              isEmpty(this.state.password)
+            }
           >
             Login
           </Button>

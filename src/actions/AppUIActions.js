@@ -15,7 +15,15 @@ class AppUIActions {
       .loginUser(username, password)
       .then(currentUser => this.loginUserSuccess({ currentUser }))
       .catch((error) => {
-        this.loginUserFailure({ error });
+        if (error.match && error.match(/user not found/i)) {
+          return this.loginUserFailure({
+            error: { username: 'User not found' },
+          });
+        } else if (error.match && error.match(/password/i)) {
+          return this.loginUserFailure({
+            error: { password: 'Invalid password' },
+          });
+        }
         throw error;
       });
     return { username };

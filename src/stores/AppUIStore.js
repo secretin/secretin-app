@@ -1,4 +1,4 @@
-import { Record } from 'immutable';
+import Immutable, { Record } from 'immutable';
 import alt from 'utils/alt';
 import makeImmutable from 'utils/makeImmutable';
 
@@ -7,7 +7,7 @@ import AppUIActions from 'actions/AppUIActions';
 const AppUIState = new Record({
   loading: false,
   connected: false,
-  error: false,
+  errors: new Immutable.Map(),
   currentUser: null,
 });
 
@@ -31,18 +31,18 @@ class AppUIStore {
       this.state.merge({
         loading: false,
         connected: true,
-        error: false,
+        errors: new Immutable.Map(),
         currentUser,
       })
     );
   }
 
-  onLoginUserFailure() {
+  onLoginUserFailure({ error }) {
     this.setState(
       this.state.merge({
         loading: false,
         connected: false,
-        error: true,
+        errors: new Immutable.Map(error),
       })
     );
   }
