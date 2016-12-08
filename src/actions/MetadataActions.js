@@ -5,7 +5,13 @@ class MetadataActions {
   constructor() {
     this.generateActions(
       'createSecretSuccess',
-      'deleteSecretSuccess'
+      'deleteSecretSuccess',
+      'createSecretUserRightsSuccess',
+      'createSecretUserRightsFailure',
+      'updateSecretUserRightsSuccess',
+      'updateSecretUserRightsFailure',
+      'deleteSecretUserRightsSuccess',
+      'deleteSecretUserRightsFailure',
     );
   }
 
@@ -41,6 +47,42 @@ class MetadataActions {
         this.deleteSecretSuccess({
           currentUser: secretin.currentUser,
         })
+      ));
+  }
+
+  createSecretUserRights({ secret, user, rights }) {
+    return secretin
+      .shareSecret(secret.id, user.username, secret.type, rights)
+      .catch((error) => {
+        this.createSecretUserRightsFailure({ error });
+        throw error;
+      })
+      .then(() => (
+        this.createSecretUserRightsSuccess({ secret, user, rights })
+      ));
+  }
+
+  updateSecretUserRights({ secret, user, rights }) {
+    return secretin
+      .shareSecret(secret.id, user.username, secret.type, rights)
+      .catch((error) => {
+        this.updateSecretUserRightsFailure({ error });
+        throw error;
+      })
+      .then(() => (
+        this.updateSecretUserRightsSuccess({ secret, user, rights })
+      ));
+  }
+
+  deleteSecretUserRights({ secret, user }) {
+    return secretin
+      .unshareSecret(secret.id, user.username)
+      .catch((error) => {
+        this.deleteSecretUserRightsFailure({ error });
+        throw error;
+      })
+      .then(() => (
+        this.deleteSecretUserRightsSuccess({ secret, user })
       ));
   }
 }

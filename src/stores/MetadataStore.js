@@ -20,23 +20,33 @@ class MetadataStore {
   }
 
   onLoadMetadata({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
     );
   }
 
   onCreateSecretSuccess({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
     );
   }
 
   onDeleteSecretSuccess({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+    );
+  }
+
+  onUpdateSecretUserRightsSuccess({ secret, user, rights }) {
+    this.setState(this.state
+      .updateIn(['metadata', secret.id, 'users'], users =>
+        users.map((userToUpdate) => {
+          if (userToUpdate.id === user.id) {
+            return userToUpdate.set('rights', rights);
+          }
+          return userToUpdate;
+        })
+      )
     );
   }
 

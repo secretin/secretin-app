@@ -17,6 +17,7 @@ class SecretShow extends Component {
     secret: PropTypes.instanceOf(Secret),
     shown: PropTypes.bool,
     tab: PropTypes.string,
+    isUpdating: PropTypes.bool,
   }
 
   static getStores() {
@@ -31,6 +32,7 @@ class SecretShow extends Component {
       secret: state.secret,
       shown: !!state.secret,
       tab: state.tab,
+      isUpdating: state.isUpdating,
     };
   }
 
@@ -66,15 +68,17 @@ class SecretShow extends Component {
             onSelect={this.handleChangeTab}
           >
             <Tab eventKey="details" title="Details">
-              <SecretEdit secret={this.props.secret} />
+              <SecretEdit
+                isUpdating={this.props.isUpdating}
+                secret={this.props.secret}
+              />
             </Tab>
 
             <Tab eventKey="access" title="Who has access">
-              <SecretUsers secret={this.props.secret} />
-            </Tab>
-
-            <Tab eventKey="settings" title="Settings" disabled>
-              Tab 3 content
+              <SecretUsers
+                isUpdating={this.props.isUpdating}
+                secret={this.props.secret}
+              />
             </Tab>
           </Tabs>
         </Modal.Body>
@@ -84,6 +88,7 @@ class SecretShow extends Component {
             type="reset"
             buttonStyle="default"
             onClick={ShowSecretUIActions.hideModal}
+            disabled={this.props.isUpdating}
           >
             Close
           </Button>

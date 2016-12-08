@@ -6,6 +6,7 @@ import AppUIActions from 'actions/AppUIActions';
 
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
+import Checkbox from 'components/utilities/Checkbox';
 import Button from 'components/utilities/Button';
 
 class UserConnect extends Component {
@@ -19,12 +20,18 @@ class UserConnect extends Component {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleSignup = this.toggleSignup.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      username: '',
-      password: '',
+      signup: false,
+      username: 'Charley Test 2',
+      password: 'test',
     };
+  }
+
+  componentDidMount() {
+    this.onSubmit();
   }
 
   onSubmit(e) {
@@ -32,9 +39,22 @@ class UserConnect extends Component {
       e.preventDefault();
     }
 
-    AppUIActions.loginUser({
-      username: this.state.username,
-      password: this.state.password,
+    if (this.state.signup) {
+      AppUIActions.createUser({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    } else {
+      AppUIActions.loginUser({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    }
+  }
+
+  toggleSignup({ checked }) {
+    this.setState({
+      signup: checked,
     });
   }
 
@@ -47,6 +67,16 @@ class UserConnect extends Component {
   render() {
     return (
       <div className="user-connect">
+        <h2>
+          Secret-in
+          {
+            this.state.signup ? (
+              'Sign-up'
+            ) : (
+              'Sign-in'
+            )
+          }
+        </h2>
         <Form
           className="user-connect-form"
           disabled={this.props.loading}
@@ -72,6 +102,13 @@ class UserConnect extends Component {
             error={this.props.errors.get('password')}
           />
 
+          <Checkbox
+            checked={this.state.signup}
+            onChange={this.toggleSignup}
+          >
+            Create an account
+          </Checkbox>
+
           <Button
             type="submit"
             disabled={
@@ -80,7 +117,7 @@ class UserConnect extends Component {
               isEmpty(this.state.password)
             }
           >
-            Login
+            { this.state.signup ? 'Register' : 'Connect' }
           </Button>
         </Form>
       </div>

@@ -47,7 +47,7 @@ class SecretListSearch extends Component {
         <input
           ref={(ref) => { this.searchInput = ref; }}
           type="search"
-          placeholder="Search in folder..."
+          placeholder="Search..."
           onChange={this.onChange}
           onKeyDown={this.blur}
         />

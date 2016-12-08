@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
 import Secret from 'models/Secret';
-import User from 'models/User';
+import User, { UserRights } from 'models/User';
 import UserAvatar from 'components/users/UserAvatar';
+import Icon from 'components/utilities/Icon';
+
+import MetadataActions from 'actions/MetadataActions';
 
 function accessRightLabel(accessRights) {
   switch (accessRights) {
@@ -17,7 +20,7 @@ function accessRightLabel(accessRights) {
   }
 }
 
-function SecretUsersItem({ user }) {
+function SecretUsersItem({ user, isUpdating, onChangeUserRights, onRemoveUserRights }) {
   return (
     <tr className="secret-users-lis-item">
       <td>
@@ -27,31 +30,65 @@ function SecretUsersItem({ user }) {
         {user.username}
       </td>
       <td>
-        {accessRightLabel(user.rights)}
+        <select
+          value={user.rights}
+          disable={isUpdating}
+          onChange={event => onChangeUserRights(user, event.target.value)}
+        >
+          {
+            UserRights.map(rights =>
+              <option key={rights} value={rights}>
+                {accessRightLabel(rights)}
+              </option>
+            )
+          }
+        </select>
       </td>
       <td>
-        Actions
+        <a
+          tabIndex={-1}
+          className="secret-users-lis-item-action"
+          onClick={() => onRemoveUserRights(user)}
+        >
+          <Icon id="delete" size="small" />
+        </a>
       </td>
     </tr>
   );
 }
 SecretUsersItem.propTypes = {
   user: PropTypes.instanceOf(User),
+  isUpdating: PropTypes.bool,
+  onChangeUserRights: PropTypes.func.isRequired,
+  onRemoveUserRights: PropTypes.func.isRequired,
 };
 
 class SecretUsers extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    isUpdating: PropTypes.bool,
   }
 
   constructor(props) {
     super(props);
 
-    this.onRemove = this.onRemove.bind(this);
+    this.onChangeUserRights = this.onChangeUserRights.bind(this);
+    this.onRemoveUserRights = this.onRemoveUserRights.bind(this);
   }
 
-  onRemove() {
+  onChangeUserRights(user, rights) {
+    MetadataActions.updateSecretUserRights({
+      secret: this.props.secret,
+      user,
+      rights,
+    });
+  }
 
+  onRemoveUserRights(user) {
+    MetadataActions.deleteSecretUserRights({
+      secret: this.props.secret,
+      user,
+    });
   }
 
   render() {
@@ -64,6 +101,9 @@ class SecretUsers extends Component {
                 <SecretUsersItem
                   key={user.id}
                   user={user}
+                  disable={this.props.isUpdating}
+                  onChangeUserRights={this.onChangeUserRights}
+                  onRemoveUserRights={this.onRemoveUserRights}
                 />
               )
             }

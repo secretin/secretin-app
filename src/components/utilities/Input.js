@@ -114,7 +114,7 @@ class Input extends Component {
     }
 
     return (
-      <div htmlFor={this.id} className={className}>
+      <div className={className}>
         {
           this.props.label && (
             <label htmlFor={this.id}>

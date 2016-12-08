@@ -7,6 +7,7 @@ import SecretFields from 'components/secrets/SecretFields';
 class SecretEdit extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    isUpdating: PropTypes.bool,
   }
 
   constructor(props) {

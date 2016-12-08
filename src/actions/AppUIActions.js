@@ -4,10 +4,27 @@ import secretin from 'utils/secretin';
 class AppUIActions {
   constructor() {
     this.generateActions(
+      'createUserSuccess',
+      'createUserFailure',
       'loginUserSuccess',
       'loginUserFailure',
       'appReady'
     );
+  }
+
+  createUser({ username, password }) {
+    secretin
+      .newUser(username, password)
+      .then(currentUser => this.createUserSuccess({ currentUser }))
+      .catch((error) => {
+        if (error.match && error.match(/Username already exists/i)) {
+          return this.createUserFailure({
+            error: { username: 'User already exists' },
+          });
+        }
+        throw error;
+      });
+    return { username };
   }
 
   loginUser({ username, password }) {
