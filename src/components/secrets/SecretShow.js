@@ -6,7 +6,7 @@ import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
-import SecretUsers from 'components/secrets/SecretUsers';
+import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
@@ -75,7 +75,7 @@ class SecretShow extends Component {
             </Tab>
 
             <Tab eventKey="access" title="Who has access">
-              <SecretUsers
+              <SecretUserList
                 isUpdating={this.props.isUpdating}
                 secret={this.props.secret}
               />

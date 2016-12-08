@@ -1,12 +1,21 @@
 import React, { PropTypes } from 'react';
 import ReactOverlaysModal from 'react-overlays/lib/Modal';
+import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
 
 function Modal(props) {
+  const className = classNames(
+    'modal',
+    props.className,
+    {
+      'modal--centered': props.centered,
+    }
+  );
+
   return (
     <ReactOverlaysModal
-      className="modal"
+      className={className}
       backdropClassName="modal-backdrop"
       show={props.show}
       onHide={props.onClose}
@@ -27,8 +36,13 @@ Modal.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  centered: PropTypes.bool,
+  className: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func,
+};
+Modal.defaultProps = {
+  centered: false,
 };
 
 

@@ -7,6 +7,10 @@ import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
+import Button from 'components/utilities/Button';
+
+import AppUIStore from 'stores/AppUIStore';
+import NewSecretUIActions from 'actions/NewSecretUIActions';
 
 class SecretList extends Component {
 
@@ -37,7 +41,7 @@ class SecretList extends Component {
     this.setState({ searchQuery });
   }
 
-  render() {
+  renderList() {
     const fuzzyRegexp = new RegExp(
       this.state.searchQuery.split('').map(c => escapeRegExp(c)).join('.*'),
       'i'
@@ -48,6 +52,71 @@ class SecretList extends Component {
       .sortBy(secret => secret.get('title').toLowerCase());
 
     return (
+      <table className="secret-list-content-table">
+        <thead className="secret-list-content-table-header">
+          <tr>
+            <th className="secret-list-content-table-column--title" >
+              Title
+            </th>
+            <th className="secret-list-content-table-column--last-modified" >
+              Last modified
+            </th>
+            <th className="secret-list-content-table-column--shared-with" >
+              Shared with
+            </th>
+            <th className="secret-list-content-table-column--actions" />
+          </tr>
+        </thead>
+        <tbody className="secret-list-content-table-body">
+          {
+            secrets.map(secret => (
+              <SecretListItem
+                key={secret.id}
+                secret={secret}
+                folders={this.props.folders}
+              />
+            )).toArray()
+          }
+        </tbody>
+      </table>
+    );
+  }
+
+  renderPlaceholder() {
+    let folderId = null;
+    let canWrite = true;
+    if (this.props.folder) {
+      folderId = this.props.folder.id;
+      const currentUser = AppUIStore.getCurrentUser();
+      canWrite = this.props.folder.canBeUpdatedBy(currentUser);
+    }
+
+    return (
+      <div className="secret-list-placeholder">
+        <h1 className="secret-list-placeholder-title">
+          You don't have any secrets, yet ;)
+        </h1>
+        <p className="secret-list-placeholder-text">
+          Start adding some now
+        </p>
+        <div className="secret-list-placeholder-actions">
+          <Button
+            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
+          >
+            New folder
+          </Button>
+          <Button
+            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
+          >
+            New secret
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return (
       <div className="secret-list">
         <div className="secret-list-header">
           <SecretListBreadcrumb folders={this.props.folders} />
@@ -56,33 +125,9 @@ class SecretList extends Component {
         </div>
 
         <div className="secret-list-content">
-          <table className="secret-list-content-table">
-            <thead className="secret-list-content-table-header">
-              <tr>
-                <th className="secret-list-content-table-column--title" >
-                  Title
-                </th>
-                <th className="secret-list-content-table-column--last-modified" >
-                  Last modified
-                </th>
-                <th className="secret-list-content-table-column--shared-with" >
-                  Shared with
-                </th>
-                <th className="secret-list-content-table-column--actions" />
-              </tr>
-            </thead>
-            <tbody className="secret-list-content-table-body">
-              {
-                secrets.map(secret => (
-                  <SecretListItem
-                    key={secret.id}
-                    secret={secret}
-                    folders={this.props.folders}
-                  />
-                )).toArray()
-              }
-            </tbody>
-          </table>
+          {
+            this.props.secrets.isEmpty() ? this.renderPlaceholder() : this.renderList()
+          }
         </div>
       </div>
     );

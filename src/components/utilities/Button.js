@@ -4,6 +4,7 @@ import classNames from 'classnames';
 class Button extends Component {
   static propTypes = {
     name: PropTypes.string,
+    title: PropTypes.string,
     type: PropTypes.string,
     form: PropTypes.string,
     disabled: PropTypes.bool,
@@ -11,6 +12,7 @@ class Button extends Component {
     buttonStyle: PropTypes.oneOf([
       'default',
       'primary',
+      'icon',
     ]),
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([
@@ -52,6 +54,7 @@ class Button extends Component {
       <button
         className={className}
         name={this.props.name}
+        title={this.props.title}
         type={this.props.type}
         form={this.props.form}
         onClick={this.handleClick}

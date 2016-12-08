@@ -12,7 +12,24 @@ export const UserRights = new Immutable.List([
   2, // Read, Write && Share
 ]);
 
+export function userRightLabel(accessRights) {
+  switch (accessRights) {
+    case 0:
+      return 'Read only';
+    case 1:
+      return 'Read and write';
+    case 2:
+      return 'Read, write and share';
+    default:
+      throw new Error(`Unknown access rights "${accessRights}"`);
+  }
+}
+
 class User extends new Immutable.Record(defaultRecord) {
+  isValid() {
+    return this.username.length > 0;
+  }
+
   static createFromRaw(rawData) {
     const raw = rawData.set('id', rawData.get('username'));
     return new User(raw);

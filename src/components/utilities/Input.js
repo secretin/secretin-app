@@ -14,6 +14,7 @@ class Input extends Component {
     ]),
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    title: PropTypes.string,
     type: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
@@ -90,7 +91,7 @@ class Input extends Component {
 
     let actions = this.props.actions;
     if (this.props.type === 'password') {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="show"
           onClick={this.onTogglePasswordShow}
@@ -102,7 +103,7 @@ class Input extends Component {
     }
 
     if (this.props.showCopy) {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="copy"
           onClick={this.onCopy}
@@ -132,6 +133,7 @@ class Input extends Component {
           id={this.id}
           ref={(input) => { this.input = input; }}
           name={this.props.name}
+          title={this.props.title}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
           onChange={this.onChange}

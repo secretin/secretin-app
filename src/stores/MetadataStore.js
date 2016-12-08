@@ -37,6 +37,14 @@ class MetadataStore {
     );
   }
 
+  onCreateSecretUserRightsSuccess({ secret, user, rights }) {
+    this.setState(this.state
+      .updateIn(['metadata', secret.id, 'users'], users =>
+        users.push(user.set('rights', rights))
+      )
+    );
+  }
+
   onUpdateSecretUserRightsSuccess({ secret, user, rights }) {
     this.setState(this.state
       .updateIn(['metadata', secret.id, 'users'], users =>
@@ -46,6 +54,14 @@ class MetadataStore {
           }
           return userToUpdate;
         })
+      )
+    );
+  }
+
+  onDeleteSecretUserRightsSuccess({ secret, user }) {
+    this.setState(this.state
+      .updateIn(['metadata', secret.id, 'users'], users =>
+        users.filterNot(userToFilter => userToFilter.id === user.id)
       )
     );
   }

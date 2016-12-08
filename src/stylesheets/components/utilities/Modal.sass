@@ -17,6 +17,9 @@
   padding: 5%
   overflow: auto
 
+  &.modal--centered
+    justify-content: center
+
 .modal-dialog
   position: relative
   background-color: #FFF
@@ -54,7 +57,7 @@
   display: flex
   align-items: center
   justify-content: center
-  font-weight: 300
+  font-weight: $font-weight-light
   .icon
     margin-right: 8px
     fill: $color-concrete

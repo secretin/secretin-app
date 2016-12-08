@@ -29,7 +29,7 @@
 .button--style-default
   background-color: $color-silver
   color: $color-text
-  font-weight: 600
+  font-weight: $font-weight-bold
   text-transform: uppercase
   letter-spacing: 1px
 
@@ -37,6 +37,16 @@
   @extend .button--style-default
   background-color: $color-peter-river
   color: white
+
+.button--style-icon
+  background: none
+  color: $color-text
+  padding: 0
+  &[disabled]
+    opacity: .2
+    &:hover,
+    &:active
+      opacity: .2
 
 .button:hover,
 .button:active

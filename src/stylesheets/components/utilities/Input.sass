@@ -3,32 +3,50 @@
 
   label
     display: block
-    font-weight: 500
+    font-weight: $font-weight-semibold
     margin: 0 0 10px
     font-size: 11px
     text-transform: uppercase
     color: rgba($color-brand, .6)
 
-  input
+  input,
+  select
     display: block
     width: 100%
     margin: 0
     border: 1px solid rgba($color-brand, .2)
+    background: none
     outline: none
+    -webkit-appearance: none
     &:focus
       border: 1px solid rgba($color-brand, .4)
 
-  &.input--size-small input
+  select
+    cursor: pointer
+    &[disabled]
+      cursor: default
+
+  &.input--size-small input,
+  &.input--size-small select
     height: 28px
     font-size: 12px
     padding: 0 8px
     border-radius: 2px
+  &.input--size-small select
+    padding-right: 32px
+    .icon
+      right: 8px
 
-  &.input--size-base input
+  &.input--size-base input,
+  &.input--size-base select
     height: 44px
     font-size: 13px
     padding: 0 14px
     border-radius: 2px
+  &.input--size-base select
+    padding-right: 36px
+    .icon
+      right: 14px
 
   &.input--type-checkbox
     label
@@ -39,6 +57,17 @@
       cursor: pointer
     input
       display: none
+
+  &.input--type-select
+    position: relative
+    .icon
+      position: absolute
+      width: 16px
+      height: 16px
+      top: 50%
+      margin-top: -7px
+      right: 8px
+      fill: rgba($color-brand, .4)
 
   &.input--error
     input

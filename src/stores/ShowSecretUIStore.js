@@ -17,7 +17,27 @@ class ShowSecretUIStore {
   constructor() {
     this.bindActions(ShowSecretUIActions);
     this.bindAction(
+      MetadataActions.CREATE_SECRET_USER_RIGHTS,
+      this.onUpdateSecret,
+    );
+    this.bindAction(
+      MetadataActions.UPDATE_SECRET_USER_RIGHTS,
+      this.onUpdateSecret,
+    );
+    this.bindAction(
+      MetadataActions.DELETE_SECRET_USER_RIGHTS,
+      this.onUpdateSecret,
+    );
+    this.bindAction(
+      MetadataActions.CREATE_SECRET_USER_RIGHTS_SUCCESS,
+      this.onUpdateSecretSuccess,
+    );
+    this.bindAction(
       MetadataActions.UPDATE_SECRET_USER_RIGHTS_SUCCESS,
+      this.onUpdateSecretSuccess,
+    );
+    this.bindAction(
+      MetadataActions.DELETE_SECRET_USER_RIGHTS_SUCCESS,
       this.onUpdateSecretSuccess,
     );
 
@@ -60,7 +80,11 @@ class ShowSecretUIStore {
   onUpdateSecretSuccess() {
     this.waitFor(MetadataStore);
     this.setState(this.state
-      .set('secret', MetadataStore.getById(this.state.secret.id))
+      .update('secret', secret => (
+        secret.merge(
+          MetadataStore.getById(this.state.secret.id).toMap().remove('data')
+        )
+      ))
       .set('isUpdating', false)
     );
   }

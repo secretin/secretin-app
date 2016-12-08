@@ -53,37 +53,37 @@ class MetadataActions {
   createSecretUserRights({ secret, user, rights }) {
     return secretin
       .shareSecret(secret.id, user.username, secret.type, rights)
+      .then(() => (
+        this.createSecretUserRightsSuccess({ secret, user, rights })
+      ))
       .catch((error) => {
         this.createSecretUserRightsFailure({ error });
         throw error;
-      })
-      .then(() => (
-        this.createSecretUserRightsSuccess({ secret, user, rights })
-      ));
+      });
   }
 
   updateSecretUserRights({ secret, user, rights }) {
     return secretin
       .shareSecret(secret.id, user.username, secret.type, rights)
+      .then(() => (
+        this.updateSecretUserRightsSuccess({ secret, user, rights })
+      ))
       .catch((error) => {
         this.updateSecretUserRightsFailure({ error });
         throw error;
-      })
-      .then(() => (
-        this.updateSecretUserRightsSuccess({ secret, user, rights })
-      ));
+      });
   }
 
   deleteSecretUserRights({ secret, user }) {
     return secretin
       .unshareSecret(secret.id, user.username)
+      .then(() => (
+        this.deleteSecretUserRightsSuccess({ secret, user })
+      ))
       .catch((error) => {
         this.deleteSecretUserRightsFailure({ error });
         throw error;
-      })
-      .then(() => (
-        this.deleteSecretUserRightsSuccess({ secret, user })
-      ));
+      });
   }
 }
 
