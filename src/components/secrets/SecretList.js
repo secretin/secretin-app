@@ -9,7 +9,6 @@ import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
 import Button from 'components/utilities/Button';
 
-import AppUIStore from 'stores/AppUIStore';
 import NewSecretUIActions from 'actions/NewSecretUIActions';
 
 class SecretList extends Component {
@@ -84,11 +83,8 @@ class SecretList extends Component {
 
   renderPlaceholder() {
     let folderId = null;
-    let canWrite = true;
     if (this.props.folder) {
       folderId = this.props.folder.id;
-      const currentUser = AppUIStore.getCurrentUser();
-      canWrite = this.props.folder.canBeUpdatedBy(currentUser);
     }
 
     return (

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -13,7 +14,7 @@ class App extends Component {
   static propTypes = {
     loading: PropTypes.bool,
     connected: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   static getStores() {

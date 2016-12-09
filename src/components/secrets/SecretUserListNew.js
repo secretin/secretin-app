@@ -44,11 +44,15 @@ class SecretUserListNew extends Component {
       'read, write and share access',
     ];
 
+    const rights = accessRights[user.rights];
+    const to = user.username;
+    const on = secret.title;
+
     confirm({
       title: 'Are you sure?',
       text: (
         <span>
-          You are about to give <b>{accessRights[user.rights]}</b> to <b>{user.username}</b> on <b>{secret.title}</b>.
+          You are about to give <b>{rights}</b> to <b>{to}</b> on <b>{on}</b>.
         </span>
       ),
       acceptLabel: 'Share the secret',
