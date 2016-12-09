@@ -68,12 +68,11 @@ class UserConnect extends Component {
     return (
       <div className="user-connect">
         <h2>
-          Secret-in
           {
             this.state.signup ? (
-              'Sign-up'
+              'Create an account'
             ) : (
-              'Sign-in'
+              'Login'
             )
           }
         </h2>
