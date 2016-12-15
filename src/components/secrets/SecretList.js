@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 import { escapeRegExp } from 'lodash';
 import Immutable from 'immutable';
 
@@ -130,4 +132,4 @@ class SecretList extends Component {
   }
 }
 
-export default SecretList;
+export default new DragDropContext(HTML5Backend)(SecretList);

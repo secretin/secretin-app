@@ -16,17 +16,17 @@ const defaultProps = {
 };
 
 function SecretListBreadcrumb({ folders }) {
-  const breadcrumbURLs = folders.reduce((memo, folder) => (
-    memo.set(
-      folder,
-      buildSecretURL(
-        new Immutable.List([folder]),
-        memo.last()
-      )
-    )
-  ), new Immutable.OrderedMap());
+  const breadcrumbURLs = folders.reduce((memo, folderId) => (
+    memo.push({
+      folderId,
+      link: buildSecretURL(
+        new Immutable.List([folderId]),
+        memo.last() ? memo.last().link : undefined,
+      ),
+    })
+  ), new Immutable.List());
 
-  const breadcrumb = breadcrumbURLs.reduce((links, link, folderId) => {
+  const breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
     const folder = MetadataStore.getById(folderId);
     if (!folder) {
       return links;
@@ -34,7 +34,7 @@ function SecretListBreadcrumb({ folders }) {
 
     return links
       .push(
-        <div key={folder} className="secret-list-breadcrumb-item">
+        <div key={key} className="secret-list-breadcrumb-item">
           <Link
             to={link}
             className="secret-list-breadcrumb-link"
@@ -47,7 +47,7 @@ function SecretListBreadcrumb({ folders }) {
       )
       .push(
         <Icon
-          key={`${folder}-sep`}
+          key={`${key}-sep`}
           id="chevron-right"
           className="secret-list-breadcrumb-item-separator"
         />

@@ -67,6 +67,16 @@ class MetadataStore {
     );
   }
 
+  onMoveSecretToFolder({ secret, folder }) {
+
+  }
+
+  onMoveSecretToFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret)))
+    );
+  }
+
   static getById(secretId) {
     const { metadata } = this.getState();
     if (!metadata) {
@@ -92,7 +102,7 @@ class MetadataStore {
 
   static getAllSecrets() {
     const { metadata } = this.getState();
-    return metadata || new Immutable.Map();
+    return metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map();
   }
 }
 

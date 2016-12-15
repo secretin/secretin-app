@@ -25,9 +25,13 @@ class UserConnect extends Component {
 
     this.state = {
       signup: false,
-      username: '',
-      password: '',
+      username: 'Charley 2',
+      password: 'test',
     };
+  }
+
+  componentDidMount() {
+    this.onSubmit();
   }
 
   onSubmit(e) {

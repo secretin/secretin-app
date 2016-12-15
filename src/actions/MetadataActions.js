@@ -12,6 +12,8 @@ class MetadataActions {
       'updateSecretUserRightsFailure',
       'deleteSecretUserRightsSuccess',
       'deleteSecretUserRightsFailure',
+      'moveSecretToFolderSuccess',
+      'moveSecretToFolderFailure',
     );
   }
 
@@ -82,6 +84,22 @@ class MetadataActions {
       ))
       .catch((error) => {
         this.deleteSecretUserRightsFailure({ error });
+        throw error;
+      });
+  }
+
+  moveSecretToFolder({ secret, folder }) {
+    return secretin
+      .addSecretToFolder(secret.id, folder.id)
+      .then(() => (
+        this.moveSecretToFolderSuccess({
+          secret,
+          folder,
+          metadata: secretin.currentUser.metadatas,
+        })
+      ))
+      .catch((error) => {
+        this.moveSecretToFolderFailure({ error });
         throw error;
       });
   }
