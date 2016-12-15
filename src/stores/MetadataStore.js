@@ -4,6 +4,7 @@ import makeImmutable from 'utils/makeImmutable';
 
 import AppUIActions from 'actions/AppUIActions';
 import MetadataActions from 'actions/MetadataActions';
+import AppUIStore from 'stores/AppUIStore';
 
 import Secret from 'models/Secret';
 
@@ -74,15 +75,18 @@ class MetadataStore {
     return metadata.get(secretId);
   }
 
-  static getSecretsInFolder(folder) {
+  static getSecretsInFolder(folderId) {
     const { metadata } = this.getState();
-    if (!metadata) {
+    const currentUser = AppUIStore.getCurrentUser();
+    if (!currentUser || !metadata) {
       return new Immutable.Map();
     }
 
+    const userId = currentUser.username;
+
     return metadata.filter(metadatum => (
-      (!folder && metadatum.get('folders').isEmpty()) ||
-      (folder && metadatum.get('folders').has(folder))
+      (!folderId && metadatum.getIn(['users', userId, 'folders', 'ROOT'])) ||
+      (folderId && metadatum.getIn(['users', userId, 'folders', folderId]))
     ));
   }
 

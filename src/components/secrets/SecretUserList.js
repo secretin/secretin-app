@@ -66,7 +66,7 @@ class SecretUserList extends Component {
                 onChangeUserRights={this.onChangeUserRights}
                 onRemoveUserRights={this.onRemoveUserRights}
               />
-            )
+            ).toArray()
           }
         </div>
 

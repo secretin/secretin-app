@@ -9,7 +9,10 @@ const SIZES = {
 class Icon extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    size: PropTypes.string,
+    size: PropTypes.oneOf([
+      'small',
+      'base',
+    ]),
     className: PropTypes.string,
   }
 

@@ -18,7 +18,7 @@ const propTypes = {
 
 function SecretListItem({ secret, folders }) {
   const currentUser = AppUIStore.getCurrentUser();
-  const users = secret.users.filterNot(user => user.id === currentUser.username);
+  const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
 
   return (
     <tr className="secret-list-item">

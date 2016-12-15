@@ -4,6 +4,7 @@ const defaultRecord = {
   id: null,
   username: null,
   rights: null,
+  folders: new Immutable.Map(),
 };
 
 export const UserRights = new Immutable.List([
@@ -31,7 +32,17 @@ class User extends new Immutable.Record(defaultRecord) {
   }
 
   static createFromRaw(rawData) {
-    const raw = rawData.set('id', rawData.get('username'));
+    const raw = Immutable.fromJS(rawData)
+      .map((value, key) => {
+        switch (key) {
+          case 'id':
+            return rawData.get('username');
+          case 'folders':
+            return Immutable.fromJS(value);
+          default:
+            return value;
+        }
+      });
     return new User(raw);
   }
 }
