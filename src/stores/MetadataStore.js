@@ -38,6 +38,12 @@ class MetadataStore {
     );
   }
 
+  onDeleteSecretFailure({ currentUser }) {
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+    );
+  }
+
   onCreateSecretUserRightsSuccess({ secret, user, rights }) {
     this.setState(this.state
       .updateIn(['metadata', secret.id, 'users'], users =>
@@ -71,7 +77,13 @@ class MetadataStore {
   //  // TODO: Do something while we move the secret
   // }
 
-  onMoveSecretToFolderSuccess({ metadata }) {
+  onAddSecretToFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret)))
+    );
+  }
+
+  onRemoveSecretFromCurrentFolderSuccess({ metadata }) {
     this.setState(this.state
       .set('metadata', Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret)))
     );

@@ -8,15 +8,16 @@ import UserAvatars from 'components/users/UserAvatars';
 
 import Icon from 'components/utilities/Icon';
 
-import SecretListItemFolderActions from './Actions';
+import SecretListItemActions from './Actions';
 
 const propTypes = {
   secret: PropTypes.any,
+  parentFolderId: PropTypes.string,
   isDragging: PropTypes.bool,
   connectDragSource: PropTypes.func.isRequired,
 };
 
-function SecretListItemSecret({ secret, isDragging, connectDragSource }) {
+function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragSource }) {
   const currentUser = AppUIStore.getCurrentUser();
   const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
 
@@ -59,7 +60,7 @@ function SecretListItemSecret({ secret, isDragging, connectDragSource }) {
         }
       </td>
       <td className="secret-list-item-last-actions">
-        <SecretListItemFolderActions secret={secret} />
+        <SecretListItemActions parentFolderId={parentFolderId} secret={secret} />
       </td>
     </tr>
   );

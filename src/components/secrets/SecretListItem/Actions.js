@@ -9,11 +9,11 @@ import Icon from 'components/utilities/Icon';
 
 const propTypes = {
   secret: PropTypes.any,
+  parentFolderId: PropTypes.string,
 };
 
-function SecretListItemActions({ secret }) {
+function SecretListItemActions({ parentFolderId, secret }) {
   const currentUser = AppUIStore.getCurrentUser();
-
   return (
     <Dropdown id="secret-action" pullRight>
       <Dropdown.Toggle>
@@ -33,6 +33,16 @@ function SecretListItemActions({ secret }) {
         </Dropdown.MenuItem>
 
         <Dropdown.MenuItem divider />
+
+        <Dropdown.MenuItem
+          onSelect={() => MetadataActions.removeSecretFromCurrentFolder({
+            secret,
+            currentFolderId: parentFolderId,
+          })}
+          disabled={!secret.canBeUpdatedBy(currentUser) || typeof parentFolderId === 'undefined'}
+        >
+          Remove from this folder
+        </Dropdown.MenuItem>
 
         <Dropdown.MenuItem
           onSelect={() => MetadataActions.deleteSecret({ secret })}
