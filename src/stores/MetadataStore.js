@@ -67,9 +67,9 @@ class MetadataStore {
     );
   }
 
-  onMoveSecretToFolder({ secret, folder }) {
-
-  }
+  // onMoveSecretToFolder({ secret, folder }) {
+  //  // TODO: Do something while we move the secret
+  // }
 
   onMoveSecretToFolderSuccess({ metadata }) {
     this.setState(this.state
