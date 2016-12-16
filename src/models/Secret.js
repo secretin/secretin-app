@@ -10,8 +10,7 @@ const defaultRecord = {
   title: null,
   lastModifiedBy: null,
   lastModifiedAt: null,
-  users: new Immutable.List(),
-  folders: new Immutable.List(),
+  users: new Immutable.Map(),
   data: null,
 };
 
@@ -35,7 +34,7 @@ class Secret extends new Immutable.Record(defaultRecord) {
   }
 
   accessRightForUser(user) {
-    return this.users.find(secretUser => secretUser.id === user.username).get('rights');
+    return this.users.get(user.username).get('rights');
   }
 
   canBeReadBy(user) {
@@ -57,7 +56,7 @@ class Secret extends new Immutable.Record(defaultRecord) {
           case 'users':
             return value.map(
               user => User.createFromRaw(user)
-            ).toList();
+            );
           case 'data':
             return SecretDataRecord.createFromRaw(value);
           case 'lastModifiedAt':

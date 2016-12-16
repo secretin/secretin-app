@@ -6,8 +6,10 @@ import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
+import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
 
 class SecretShow extends Component {
@@ -15,6 +17,7 @@ class SecretShow extends Component {
     secret: PropTypes.instanceOf(Secret),
     shown: PropTypes.bool,
     tab: PropTypes.string,
+    isUpdating: PropTypes.bool,
   }
 
   static getStores() {
@@ -29,6 +32,7 @@ class SecretShow extends Component {
       secret: state.secret,
       shown: !!state.secret,
       tab: state.tab,
+      isUpdating: state.isUpdating,
     };
   }
 
@@ -64,21 +68,30 @@ class SecretShow extends Component {
             onSelect={this.handleChangeTab}
           >
             <Tab eventKey="details" title="Details">
-              <SecretEdit secret={this.props.secret} />
+              <SecretEdit
+                isUpdating={this.props.isUpdating}
+                secret={this.props.secret}
+              />
             </Tab>
 
             <Tab eventKey="access" title="Who has access">
-              <pre>{JSON.stringify(this.props.secret.users, null, 2)}</pre>
-            </Tab>
-
-            <Tab eventKey="settings" title="Settings" disabled>
-              Tab 3 content
+              <SecretUserList
+                isUpdating={this.props.isUpdating}
+                secret={this.props.secret}
+              />
             </Tab>
           </Tabs>
         </Modal.Body>
 
         <Modal.Footer>
-          Yo
+          <Button
+            type="reset"
+            buttonStyle="default"
+            onClick={ShowSecretUIActions.hideModal}
+            disabled={this.props.isUpdating}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     );

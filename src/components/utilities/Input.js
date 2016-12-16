@@ -14,9 +14,11 @@ class Input extends Component {
     ]),
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    title: PropTypes.string,
     type: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    error: PropTypes.string,
 
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
@@ -81,12 +83,15 @@ class Input extends Component {
     const className = classNames(
       'input',
       `input--type-${this.props.type}`,
-      `input--size-${this.props.size}`
+      `input--size-${this.props.size}`,
+      {
+        'input--error': this.props.error,
+      }
     );
 
     let actions = this.props.actions;
     if (this.props.type === 'password') {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="show"
           onClick={this.onTogglePasswordShow}
@@ -98,7 +103,7 @@ class Input extends Component {
     }
 
     if (this.props.showCopy) {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="copy"
           onClick={this.onCopy}
@@ -110,7 +115,7 @@ class Input extends Component {
     }
 
     return (
-      <div htmlFor={this.id} className={className}>
+      <div className={className}>
         {
           this.props.label && (
             <label htmlFor={this.id}>
@@ -127,8 +132,8 @@ class Input extends Component {
         <input
           id={this.id}
           ref={(input) => { this.input = input; }}
-          className={className}
           name={this.props.name}
+          title={this.props.title}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
           onChange={this.onChange}
@@ -138,6 +143,13 @@ class Input extends Component {
           disabled={this.props.disabled}
           readOnly={this.props.readOnly}
         />
+        {
+          this.props.error && (
+            <span className="input-error">
+              { this.props.error }
+            </span>
+          )
+        }
       </div>
     );
   }

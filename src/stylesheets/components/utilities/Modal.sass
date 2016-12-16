@@ -14,17 +14,35 @@
   display: flex
   flex-direction: column
   align-items: center
-  justify-content: center
+  padding: 5%
+  overflow: auto
+
+  &.modal--centered
+    justify-content: center
 
 .modal-dialog
   position: relative
   background-color: #FFF
   min-width: 480px
-  min-height: 320px
   border-radius: 3px
 
 .modal-dialog:focus
   outline: none
+
+.modal-dialog-close
+  position: absolute
+  border: none
+  background: none
+  margin: 10px
+  padding: 10px
+  cursor: pointer
+  color: $color-concrete
+  outline: none
+  .icon
+    display: block
+  &:hover,
+  &:active
+    opacity: .8
 
 .modal-body
   padding: 40px
@@ -39,6 +57,26 @@
   display: flex
   align-items: center
   justify-content: center
-  font-weight: 300
+  font-weight: $font-weight-light
+  .icon
+    margin-right: 8px
+    fill: $color-concrete
+
+  .icon--id-description
+    opacity: .4
 
 .modal-footer
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: flex-end
+  padding: 40px
+  .button
+    margin-left: 10px
+    &:first-child
+      margin-left: 0
+
+.modal-header + .modal-footer,
+.modal-body + .modal-footer
+  padding-top: 0
+  margin-top: -10px

@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { uniqueId } from 'lodash';
+import classNames from 'classnames';
 
 class Form extends Component {
   static propTypes = {
     id: PropTypes.string,
+    className: PropTypes.string,
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func,
     children: PropTypes.oneOfType([
@@ -34,10 +36,15 @@ class Form extends Component {
   }
 
   render() {
+    const className = classNames(
+      'form',
+      this.props.className
+    );
+
     return (
       <form
         id={this.id}
-        className="form"
+        className={className}
         onSubmit={this.onSubmit}
       >
         <input type="submit" style={{ display: 'none' }} />

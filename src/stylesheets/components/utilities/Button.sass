@@ -1,11 +1,18 @@
 .button
   display: flex
   align-items: center
+  justify-content: center
   border: none
   background-color: transparent
   padding: 0
   outline: none
   cursor: pointer
+  &[disabled]
+    opacity: .6
+    cursor: default
+    &:hover,
+    &:active
+      opacity: .6
 
 .button--size-small
   height: 28px
@@ -19,12 +26,27 @@
   padding: 0 28px
   border-radius: 3px
 
-.button--style-primary
-  background-color: #3498db
-  color: white
-  font-weight: 600
+.button--style-default
+  background-color: $color-silver
+  color: $color-text
+  font-weight: $font-weight-bold
   text-transform: uppercase
   letter-spacing: 1px
+
+.button--style-primary
+  @extend .button--style-default
+  background-color: $color-peter-river
+  color: white
+
+.button--style-icon
+  background: none
+  color: $color-text
+  padding: 0
+  &[disabled]
+    opacity: .2
+    &:hover,
+    &:active
+      opacity: .2
 
 .button:hover,
 .button:active

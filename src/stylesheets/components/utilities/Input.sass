@@ -1,44 +1,89 @@
 .input
   display: inline-block
 
-.input label
-  display: block
-  font-weight: 500
-  margin: 0 0 10px
-  font-size: 11px
-  text-transform: uppercase
-  color: rgba(51, 65, 73, .6)
+  label
+    display: block
+    font-weight: $font-weight-semibold
+    margin: 0 0 10px
+    font-size: 11px
+    text-transform: uppercase
+    color: rgba($color-brand, .6)
 
-.input-label-actions:before
-  display: inline-block
-  content: '-'
-  text-align: center
-  width: 10px
+  input,
+  select
+    display: block
+    width: 100%
+    margin: 0
+    border: 1px solid rgba($color-brand, .2)
+    background: none
+    outline: none
+    -webkit-appearance: none
+    &:focus
+      border: 1px solid rgba($color-brand, .4)
 
-.input-label-actions a
-  display: inline-block
-  outline: none
-  margin-right: 4px
-  user-select: none
+  select
+    cursor: pointer
+    &[disabled]
+      cursor: default
 
-.input input
-  display: block
-  width: 100%
-  margin: 0
-  border: 1px solid rgba(51, 65, 73, .2)
-  outline: none
+  &.input--size-small input,
+  &.input--size-small select
+    height: 28px
+    font-size: 12px
+    padding: 0 8px
+    border-radius: 2px
+  &.input--size-small select
+    padding-right: 32px
+    .icon
+      right: 8px
 
-.input.input--size-small input
-  height: 28px
-  font-size: 12px
-  padding: 0 8px
-  border-radius: 2px
+  &.input--size-base input,
+  &.input--size-base select
+    height: 44px
+    font-size: 13px
+    padding: 0 14px
+    border-radius: 2px
+  &.input--size-base select
+    padding-right: 36px
+    .icon
+      right: 14px
 
-.input.input--size-base input
-  height: 44px
-  font-size: 13px
-  padding: 0 14px
-  border-radius: 2px
+  &.input--type-checkbox
+    label
+      display: flex
+      flex-direction: row
+      align-items: center
+      user-select: none
+      cursor: pointer
+    input
+      display: none
 
-.input input:focus
-  border: 1px solid rgba(51, 65, 73, .4)
+  &.input--type-select
+    position: relative
+    .icon
+      position: absolute
+      width: 16px
+      height: 16px
+      top: 50%
+      margin-top: -7px
+      right: 8px
+      fill: rgba($color-brand, .4)
+
+  &.input--error
+    input
+      border-color: $color-error
+    .input-error
+      color: $color-error
+      font-size: 11px
+
+.input-label-actions
+  &:before
+    display: inline-block
+    content: '-'
+    text-align: center
+    width: 10px
+  a
+    display: inline-block
+    outline: none
+    margin-right: 4px
+    user-select: none

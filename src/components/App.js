@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -13,7 +14,7 @@ class App extends Component {
   static propTypes = {
     loading: PropTypes.bool,
     connected: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   static getStores() {
@@ -28,7 +29,7 @@ class App extends Component {
     return {
       loading: state.get('loading'),
       connected: state.get('connected'),
-      error: state.get('error'),
+      errors: state.get('errors'),
       secrets: MetadataStore.getSecretsInFolder(),
     };
   }
@@ -43,7 +44,7 @@ class App extends Component {
             ) : (
               <UserConnect
                 loading={this.props.loading}
-                error={this.props.error}
+                errors={this.props.errors}
               />
             )
           }

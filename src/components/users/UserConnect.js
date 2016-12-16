@@ -1,33 +1,37 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
+import Immutable from 'immutable';
 
 import AppUIActions from 'actions/AppUIActions';
 
+import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
+import Checkbox from 'components/utilities/Checkbox';
 import Button from 'components/utilities/Button';
 
 class UserConnect extends Component {
 
   static propTypes = {
     loading: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor(props) {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleSignup = this.toggleSignup.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      username: 'Charley',
+      signup: false,
+      username: 'Charley 2',
       password: 'test',
     };
   }
 
   componentDidMount() {
-    if (this.state.username && this.state.password) {
-      this.onSubmit();
-    }
+    this.onSubmit();
   }
 
   onSubmit(e) {
@@ -35,9 +39,22 @@ class UserConnect extends Component {
       e.preventDefault();
     }
 
-    AppUIActions.loginUser({
-      username: this.state.username,
-      password: this.state.password,
+    if (this.state.signup) {
+      AppUIActions.createUser({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    } else {
+      AppUIActions.loginUser({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    }
+  }
+
+  toggleSignup({ checked }) {
+    this.setState({
+      signup: checked,
     });
   }
 
@@ -49,43 +66,60 @@ class UserConnect extends Component {
 
   render() {
     return (
-      <form
-        disabled={this.props.loading}
-        onSubmit={this.onSubmit}
-      >
-        <Input
-          name="username"
-          type="text"
-          value={this.state.username}
-          onChange={this.handleChange}
-          autoFocus
+      <div className="user-connect">
+        <h2>
+          {
+            this.state.signup ? (
+              'Create an account'
+            ) : (
+              'Login'
+            )
+          }
+        </h2>
+        <Form
+          className="user-connect-form"
           disabled={this.props.loading}
-          placeholder="Username"
-        />
-        <Input
-          name="password"
-          type="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          disabled={this.props.loading}
-          placeholder="Password"
-        />
-
-        {
-          this.props.error && (
-            <div>
-              Invalid username or password
-            </div>
-          )
-        }
-
-        <Button
-          type="submit"
-          disabled={this.props.loading}
+          onSubmit={this.onSubmit}
         >
-          Login
-        </Button>
-      </form>
+          <Input
+            name="username"
+            label="Username"
+            type="text"
+            value={this.state.username}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+            error={this.props.errors.get('username')}
+            autoFocus
+          />
+          <Input
+            name="password"
+            label="Password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+            error={this.props.errors.get('password')}
+          />
+
+          <Checkbox
+            checked={this.state.signup}
+            onChange={this.toggleSignup}
+          >
+            Create an account
+          </Checkbox>
+
+          <Button
+            type="submit"
+            disabled={
+              this.props.loading ||
+              isEmpty(this.state.username) ||
+              isEmpty(this.state.password)
+            }
+          >
+            { this.state.signup ? 'Register' : 'Connect' }
+          </Button>
+        </Form>
+      </div>
     );
   }
 }
