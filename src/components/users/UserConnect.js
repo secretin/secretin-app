@@ -63,14 +63,11 @@ class UserConnect extends Component {
   render() {
     return (
       <div className="user-connect">
-        <h2>
-          {
-            this.state.signup ? (
-              'Create an account'
-            ) : (
-              'Login'
-            )
-          }
+        <h2 className="user-connect-title">
+          Secret-in.me
+          <small>
+            { this.state.signup ? 'Register' : 'Connect' }
+          </small>
         </h2>
         <Form
           className="user-connect-form"
