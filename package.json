@@ -12,10 +12,10 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.8.0",
+    "gh-pages": "^0.12.0",
     "node-sass": "4.0.0",
     "raw-loader": "0.5.1",
     "react-scripts": "0.8.4",
-    "surge": "^0.18.0",
     "webpack": "1.14.0"
   },
   "dependencies": {
