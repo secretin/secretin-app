@@ -22,7 +22,7 @@ class SecretUserListNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      user: new User({
+      user: User.createFromRaw({
         username: '',
         rights: 0,
       }),

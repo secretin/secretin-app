@@ -23,7 +23,7 @@
 .modal-dialog
   position: relative
   background-color: #FFF
-  min-width: 480px
+  width: 480px
   border-radius: 3px
 
 .modal-dialog:focus
@@ -59,8 +59,14 @@
   justify-content: center
   font-weight: $font-weight-light
   .icon
+    flex: 0 0 24px
     margin-right: 8px
     fill: $color-concrete
+  .text
+    flex: 1 1 auto
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 
   .icon--id-description
     opacity: .4

@@ -1,8 +1,14 @@
 .sidebar
+  position: relative
   flex: 0 0 240px
   width: 240px
-  color: white
-  background-color: rgba(51, 65, 73, 1)
+  &:after
+    content: ''
+    position: absolute
+    right: 0
+    top: 0
+    bottom: 0
+    border-left: 1px solid rgba($color-brand, .05)
 
 .sidebar-header
   display: flex
@@ -11,8 +17,8 @@
   font-size: 18px
   font-weight: $font-weight-semibold
   height: 50px
-  color: rgba(255, 255, 255, .4)
-  border-bottom: 1px solid rgba(255, 255, 255, .05)
+  color: rgba($color-brand, .4)
+  border-bottom: 1px solid rgba($color-brand, .05)
 
 .sidebar-menu
   list-style: none
@@ -35,11 +41,11 @@
   border-radius: 3px
 
 .sidebar-menu-link:hover
-  background-color: rgba(255, 255, 255, .1)
+  background-color: rgba($color-brand, .1)
   text-decoration: none
 
 .sidebar-menu-link--active
-  background-color: rgba(255, 255, 255, .05)
+  background-color: rgba($color-brand, .05)
 
 .sidebar-menu-link .icon
   margin-right: 8px

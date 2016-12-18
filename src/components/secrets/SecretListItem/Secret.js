@@ -30,7 +30,7 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
 
   return (
     <tr className={className}>
-      <td className="secret-list-item-title">
+      <td className="secret-list-item-column--title">
         {
           connectDragSource(
             <div>
@@ -39,18 +39,20 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
                 tabIndex="-1"
               >
                 <Icon id={secret.getIcon()} size="base" />
-                {secret.title}
+                <span className="text" title={secret.title}>
+                  {secret.title}
+                </span>
               </a>
             </div>
           )
         }
       </td>
-      <td className="secret-list-item-last-modified">
+      <td className="secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
         <span className="muted">{secret.lastModifiedBy}</span>
       </td>
-      <td className="secret-list-item-last-shared-with">
+      <td className="secret-list-item-column--shared-with">
         {
           users.size > 0 ? (
             <UserAvatars users={users} />
@@ -59,7 +61,7 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
           )
         }
       </td>
-      <td className="secret-list-item-last-actions">
+      <td className="secret-list-item-column--actions">
         <SecretListItemOptions parentFolderId={parentFolderId} secret={secret} />
       </td>
     </tr>

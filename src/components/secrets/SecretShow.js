@@ -58,7 +58,9 @@ class SecretShow extends Component {
       >
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
-          {this.props.secret.title}
+          <span className="text" title={this.props.secret.title}>
+            {this.props.secret.title}
+          </span>
         </Modal.Header>
 
         <Modal.Body>

@@ -56,16 +56,16 @@ class SecretList extends Component {
       <table className="secret-list-content-table">
         <thead className="secret-list-content-table-header">
           <tr>
-            <th className="secret-list-content-table-column--title" >
+            <th className="secret-list-item-column--title" >
               Title
             </th>
-            <th className="secret-list-content-table-column--last-modified" >
+            <th className="secret-list-item-column--last-modified" >
               Last modified
             </th>
-            <th className="secret-list-content-table-column--shared-with" >
+            <th className="secret-list-item-column--shared-with" >
               Shared with
             </th>
-            <th className="secret-list-content-table-column--actions" />
+            <th className="secret-list-item-column--actions" />
           </tr>
         </thead>
         <tbody className="secret-list-content-table-body">
@@ -92,7 +92,7 @@ class SecretList extends Component {
     return (
       <div className="secret-list-placeholder">
         <h1 className="secret-list-placeholder-title">
-          {"You don't have any secrets, yet ;)"}
+          {"You don't have any secrets, yet"}
         </h1>
         <p className="secret-list-placeholder-text">
           Start adding some now

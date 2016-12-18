@@ -37,24 +37,26 @@ function SecretListItemFolder(props) {
   return (
     connectDropTarget(
       <tr className={className}>
-        <td className="secret-list-item-title">
+        <td className="secret-list-item-column--title">
           {
             connectDragSource(
               <div>
                 <Link to={buildSecretURL(folders.push(secret.id))}>
                   <Icon id={secret.getIcon()} size="base" />
-                  {secret.title}
+                  <span className="text" title={secret.title}>
+                    {secret.title}
+                  </span>
                 </Link>
               </div>
             )
           }
         </td>
-        <td className="secret-list-item-last-modified">
+        <td className="secret-list-item-column--last-modified">
           {secret.lastModifiedAt.fromNow()}
           {' - '}
           <span className="muted">{secret.lastModifiedBy}</span>
         </td>
-        <td className="secret-list-item-last-shared-with">
+        <td className="secret-list-item-column--shared-with">
           {
             users.size > 0 ? (
               <UserAvatars users={users} />
@@ -63,7 +65,7 @@ function SecretListItemFolder(props) {
             )
           }
         </td>
-        <td className="secret-list-item-last-actions">
+        <td className="secret-list-item-column--actions">
           <SecretListItemOptions parentFolderId={folders.last()} secret={secret} />
         </td>
       </tr>
