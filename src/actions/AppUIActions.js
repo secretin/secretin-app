@@ -1,5 +1,5 @@
 import alt from 'utils/alt';
-import secretin from 'utils/secretin';
+import secretin, { Errors } from 'utils/secretin';
 
 class AppUIActions {
   constructor() {
@@ -17,7 +17,7 @@ class AppUIActions {
       .newUser(username, password)
       .then(currentUser => this.createUserSuccess({ currentUser }))
       .catch((error) => {
-        if (error.match && error.match(/Username already exists/i)) {
+        if (error instanceof Errors.UsernameAlreadyExistsError) {
           return this.createUserFailure({
             error: { username: 'User already exists' },
           });
@@ -37,11 +37,11 @@ class AppUIActions {
         })
       ))
       .catch((error) => {
-        if (error.match && error.match(/user not found/i)) {
+        if (error instanceof Errors.UserNotFoundError) {
           return this.loginUserFailure({
             error: { username: 'User not found' },
           });
-        } else if (error.match && error.match(/password/i)) {
+        } else if (error instanceof Errors.InvalidPasswordError) {
           return this.loginUserFailure({
             error: { password: 'Invalid password' },
           });
