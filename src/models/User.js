@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import uuid from 'uuid';
 
 const defaultRecord = {
   id: null,
@@ -27,6 +28,15 @@ export function userRightLabel(accessRights) {
 }
 
 class User extends new Immutable.Record(defaultRecord) {
+  constructor(attributes = new Immutable.Map()) {
+    super(
+      attributes.set(
+        'id',
+        attributes.get('username', uuid.v4())
+      )
+    );
+  }
+
   isValid() {
     return this.username.length > 0;
   }
@@ -35,8 +45,6 @@ class User extends new Immutable.Record(defaultRecord) {
     const raw = Immutable.fromJS(rawData)
       .map((value, key) => {
         switch (key) {
-          case 'id':
-            return rawData.get('username');
           case 'folders':
             return Immutable.fromJS(value);
           default:
