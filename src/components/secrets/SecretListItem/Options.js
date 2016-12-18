@@ -12,7 +12,7 @@ const propTypes = {
   parentFolderId: PropTypes.string,
 };
 
-function SecretListItemActions({ parentFolderId, secret }) {
+function SecretListItemOptions({ parentFolderId, secret }) {
   const currentUser = AppUIStore.getCurrentUser();
   return (
     <Dropdown id="secret-action" pullRight>
@@ -39,7 +39,7 @@ function SecretListItemActions({ parentFolderId, secret }) {
             secret,
             currentFolderId: parentFolderId,
           })}
-          disabled={!secret.canBeUpdatedBy(currentUser) || typeof parentFolderId === 'undefined'}
+          disabled={!parentFolderId || !secret.canBeUpdatedBy(currentUser)}
         >
           Remove from this folder
         </Dropdown.MenuItem>
@@ -54,6 +54,6 @@ function SecretListItemActions({ parentFolderId, secret }) {
     </Dropdown>
   );
 }
-SecretListItemActions.propTypes = propTypes;
+SecretListItemOptions.propTypes = propTypes;
 
-export default SecretListItemActions;
+export default SecretListItemOptions;

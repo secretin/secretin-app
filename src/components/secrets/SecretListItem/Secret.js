@@ -8,7 +8,7 @@ import UserAvatars from 'components/users/UserAvatars';
 
 import Icon from 'components/utilities/Icon';
 
-import SecretListItemActions from './Actions';
+import SecretListItemOptions from './Options';
 
 const propTypes = {
   secret: PropTypes.any,
@@ -60,7 +60,7 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
         }
       </td>
       <td className="secret-list-item-last-actions">
-        <SecretListItemActions parentFolderId={parentFolderId} secret={secret} />
+        <SecretListItemOptions parentFolderId={parentFolderId} secret={secret} />
       </td>
     </tr>
   );
