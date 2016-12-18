@@ -12,6 +12,12 @@ const MetadataState = new Record({
   metadata: new Immutable.Map(),
 });
 
+function buildSecrets(metadata) {
+  return Immutable.fromJS(metadata).map(
+    secret => Secret.createFromRaw(secret)
+  );
+}
+
 class MetadataStore {
   constructor() {
     this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadata);
@@ -20,27 +26,43 @@ class MetadataStore {
     this.state = new MetadataState();
   }
 
-  onLoadMetadata({ currentUser }) {
+  onLoadMetadata({ metadata }) {
     this.setState(this.state
-      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
-  onCreateSecretSuccess({ currentUser }) {
+  onCreateSecretSuccess({ metadata }) {
     this.setState(this.state
-      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
-  onDeleteSecretSuccess({ currentUser }) {
+  onDeleteSecretSuccess({ metadata }) {
     this.setState(this.state
-      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
-  onDeleteSecretFailure({ currentUser }) {
+  onDeleteSecretFailure({ metadata }) {
     this.setState(this.state
-      .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  // onAddSecretToFolder({ secret, folder }) {
+  //  // TODO: Do something while we add the secret to a folder
+  // }
+
+  onAddSecretToFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  onRemoveSecretFromCurrentFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
@@ -70,22 +92,6 @@ class MetadataStore {
       .updateIn(['metadata', secret.id, 'users'], users =>
         users.filterNot(userToFilter => userToFilter.id === user.id)
       )
-    );
-  }
-
-  // onMoveSecretToFolder({ secret, folder }) {
-  //  // TODO: Do something while we move the secret
-  // }
-
-  onAddSecretToFolderSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret)))
-    );
-  }
-
-  onRemoveSecretFromCurrentFolderSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret)))
     );
   }
 

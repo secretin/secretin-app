@@ -5,6 +5,7 @@ class MetadataActions {
   constructor() {
     this.generateActions(
       'createSecretSuccess',
+      'createSecretFailure',
       'deleteSecretSuccess',
       'deleteSecretFailure',
       'createSecretUserRightsSuccess',
@@ -15,8 +16,6 @@ class MetadataActions {
       'deleteSecretUserRightsFailure',
       'removeSecretFromCurrentFolderSuccess',
       'removeSecretFromCurrentFolderFailure',
-      'moveSecretToFolderSuccess',
-      'moveSecretToFolderFailure',
       'addSecretToFolderSuccess',
       'addSecretToFolderFailure',
     );
@@ -39,9 +38,13 @@ class MetadataActions {
       })
       .then(() => (
         this.createSecretSuccess({
-          currentUser: secretin.currentUser,
+          metadata: secretin.currentUser.metadatas,
         })
-      ));
+      ))
+      .catch((error) => {
+        this.createSecretFailure({ error });
+        throw error;
+      });
   }
 
   deleteSecret({ secret }) {
@@ -49,13 +52,13 @@ class MetadataActions {
       .deleteSecret(secret.id)
       .catch((error) => {
         this.deleteSecretFailure({
-          currentUser: secretin.currentUser,
+          metadata: secretin.currentUser.metadatas,
         });
         throw error;
       })
       .then(() => (
         this.deleteSecretSuccess({
-          currentUser: secretin.currentUser,
+          metadata: secretin.currentUser.metadatas,
         })
       ));
   }
@@ -127,29 +130,6 @@ class MetadataActions {
         throw error;
       });
   }
-
-  // moveSecretToFolder({ secret, fromFolder, toFolder }) {
-  //   return secretin
-  //     .removeSecretFromFolder(secret.id, fromFolder.id)
-  //     .then(() => {
-  //       if (toFolder !== 'ROOT') {
-  //         return secretin.addSecretToFolder(secret.id, toFolder.id);
-  //       }
-  //       return new Promise();
-  //     })
-  //     .then(() => (
-  //       this.moveSecretToFolderSuccess({
-  //         secret,
-  //         fromFolder,
-  //         toFolder,
-  //         metadata: secretin.currentUser.metadatas,
-  //       })
-  //     ))
-  //     .catch((error) => {
-  //       this.moveSecretToFolderFailure({ error });
-  //       throw error;
-  //     });
-  // }
 }
 
 export default alt.createActions(MetadataActions);

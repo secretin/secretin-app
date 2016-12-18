@@ -30,7 +30,12 @@ class AppUIActions {
   loginUser({ username, password }) {
     secretin
       .loginUser(username, password)
-      .then(currentUser => this.loginUserSuccess({ currentUser }))
+      .then(currentUser => (
+        this.loginUserSuccess({
+          currentUser,
+          metadata: currentUser.metadatas,
+        })
+      ))
       .catch((error) => {
         if (error.match && error.match(/user not found/i)) {
           return this.loginUserFailure({
