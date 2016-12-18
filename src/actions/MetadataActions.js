@@ -5,15 +5,19 @@ class MetadataActions {
   constructor() {
     this.generateActions(
       'createSecretSuccess',
+      'createSecretFailure',
       'deleteSecretSuccess',
+      'deleteSecretFailure',
       'createSecretUserRightsSuccess',
       'createSecretUserRightsFailure',
       'updateSecretUserRightsSuccess',
       'updateSecretUserRightsFailure',
       'deleteSecretUserRightsSuccess',
       'deleteSecretUserRightsFailure',
-      'moveSecretToFolderSuccess',
-      'moveSecretToFolderFailure',
+      'removeSecretFromCurrentFolderSuccess',
+      'removeSecretFromCurrentFolderFailure',
+      'addSecretToFolderSuccess',
+      'addSecretToFolderFailure',
     );
   }
 
@@ -34,20 +38,27 @@ class MetadataActions {
       })
       .then(() => (
         this.createSecretSuccess({
-          currentUser: secretin.currentUser,
+          metadata: secretin.currentUser.metadatas,
         })
-      ));
+      ))
+      .catch((error) => {
+        this.createSecretFailure({ error });
+        throw error;
+      });
   }
 
   deleteSecret({ secret }) {
     return secretin
       .deleteSecret(secret.id)
       .catch((error) => {
+        this.deleteSecretFailure({
+          metadata: secretin.currentUser.metadatas,
+        });
         throw error;
       })
       .then(() => (
         this.deleteSecretSuccess({
-          currentUser: secretin.currentUser,
+          metadata: secretin.currentUser.metadatas,
         })
       ));
   }
@@ -88,18 +99,34 @@ class MetadataActions {
       });
   }
 
-  moveSecretToFolder({ secret, folder }) {
+  addSecretToFolder({ secret, folder }) {
     return secretin
       .addSecretToFolder(secret.id, folder.id)
       .then(() => (
-        this.moveSecretToFolderSuccess({
+        this.addSecretToFolderSuccess({
           secret,
           folder,
           metadata: secretin.currentUser.metadatas,
         })
       ))
       .catch((error) => {
-        this.moveSecretToFolderFailure({ error });
+        this.addSecretToFolderFailure({ error });
+        throw error;
+      });
+  }
+
+  removeSecretFromCurrentFolder({ secret, currentFolderId }) {
+    return secretin
+      .removeSecretFromFolder(secret.id, currentFolderId)
+      .then(() => (
+        this.removeSecretFromCurrentFolderSuccess({
+          secret,
+          currentFolderId,
+          metadata: secretin.currentUser.metadatas,
+        })
+      ))
+      .catch((error) => {
+        this.removeSecretFromCurrentFolderFailure({ error });
         throw error;
       });
   }

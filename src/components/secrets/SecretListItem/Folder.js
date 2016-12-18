@@ -11,7 +11,7 @@ import AppUIStore from 'stores/AppUIStore';
 import UserAvatars from 'components/users/UserAvatars';
 import Icon from 'components/utilities/Icon';
 
-import SecretListItemFolderActions from './Actions';
+import SecretListItemOptions from './Options';
 
 const propTypes = {
   secret: PropTypes.any,
@@ -64,7 +64,7 @@ function SecretListItemFolder(props) {
           }
         </td>
         <td className="secret-list-item-last-actions">
-          <SecretListItemFolderActions secret={secret} />
+          <SecretListItemOptions parentFolderId={folders.last()} secret={secret} />
         </td>
       </tr>
     )
@@ -81,7 +81,7 @@ const itemSource = {
 const itemTarget = {
   drop(props, monitor) {
     const { secret } = monitor.getItem();
-    MetadataActions.moveSecretToFolder({
+    MetadataActions.addSecretToFolder({
       secret,
       folder: props.secret,
     });
