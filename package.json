@@ -38,13 +38,13 @@
     "uuid": "3.0.1"
   },
   "scripts": {
-    "deploy": "npm run build && gh-pages -d build",
-    "start": "npm run build-css && npm run watch-css & NODE_PATH=./src  react-scripts start",
-    "build": "npm run build-css && NODE_PATH=./src  react-scripts build",
+    "deploy": "yarn run build && gh-pages -d build",
+    "start": "yarn run build-css && yarn run watch-css & NODE_PATH=./src  react-scripts start",
+    "build": "yarn run build-css && NODE_PATH=./src  react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
     "lint": "eslint src/",
-    "test": "npm run lint && react-scripts test --env=jsdom",
+    "test": "yarn run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
