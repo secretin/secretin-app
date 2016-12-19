@@ -48,6 +48,10 @@ function Sidebar() {
             <Icon id="people" size="base" />
             Shared
           </SidebarMenuLink>
+          <SidebarMenuLink to="/options/">
+            <Icon id="gear" size="base" />
+            Options
+          </SidebarMenuLink>
         </ul>
       </div>
     </div>
