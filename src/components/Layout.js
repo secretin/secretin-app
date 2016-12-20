@@ -7,6 +7,7 @@ import Redirect from 'react-router/Redirect';
 import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
 import SecretListContainer from 'components/secrets/SecretListContainer';
+import OptionsContainer from 'components/OptionsContainer';
 
 function Layout() {
   return (
@@ -28,6 +29,10 @@ function Layout() {
                 />
               </MatchGroup>
             )}
+          />
+          <Match
+            pattern="/options/"
+            render={() => <OptionsContainer />}
           />
           <Miss
             render={() => <Redirect to="/secrets/" />}

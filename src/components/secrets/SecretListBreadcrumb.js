@@ -6,6 +6,7 @@ import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
 
 import Icon from 'components/utilities/Icon';
+import Title from 'components/utilities/Title';
 
 const propTypes = {
   folders: PropTypes.instanceOf(Immutable.List),
@@ -66,17 +67,7 @@ function SecretListBreadcrumb({ folders }) {
             />
           )
           .unshift(
-            <div key="home" className="secret-list-breadcrumb-item">
-              <Link
-                to="/secrets/"
-                className="secret-list-breadcrumb-link"
-                activeClassName="secret-list-breadcrumb-link--active"
-                activeOnlyWhenExact
-              >
-                <Icon id="home" size="base" />
-                Home
-              </Link>
-            </div>
+            <Title key="home" title="Home" icon="home" link="/secrets/" />
           )
       }
     </div>
