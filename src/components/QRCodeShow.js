@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+// eslint-disable-next-line
 import Secretin from 'secretin';
 import QRCode from 'qrcode.react';
 import connectToStores from 'alt-utils/lib/connectToStores';
