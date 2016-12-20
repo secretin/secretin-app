@@ -44,7 +44,7 @@ class AppUIActions {
         } else if (error instanceof Errors.InvalidPasswordError) {
           if (token) {
             return this.loginUserFailure({
-              error: { totp: 'Token', token: 'Invalid token' },
+              error: { totp: 'Token', password: 'Invalid password', token: 'or invalid token' },
             });
           }
           return this.loginUserFailure({

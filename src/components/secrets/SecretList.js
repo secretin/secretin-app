@@ -127,7 +127,7 @@ class SecretList extends Component {
               </div> :
               <SecretListBreadcrumb folders={this.props.folders} />
           }
-          <SecretListNew folder={this.props.folder} specialView={this.props.showAll} />
+          <SecretListNew folder={this.props.folder} writable={!this.props.showAll} />
           <SecretListSearch onChange={this.onSearch} />
         </div>
 

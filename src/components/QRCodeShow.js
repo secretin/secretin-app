@@ -33,10 +33,11 @@ class QRCodeShow extends Component {
   }
 
   static getPropsFromStores() {
+    const state = OptionsStore.getState();
     return {
-      isVerified: OptionsStore.getState().get('totpIsVerified'),
-      errors: OptionsStore.getState().get('errors'),
-      shown: OptionsStore.getState().get('showQRCode'),
+      isVerified: state.get('totpIsVerified'),
+      errors: state.get('errors'),
+      shown: state.get('showQRCode'),
     };
   }
 

@@ -95,7 +95,7 @@ class UserConnect extends Component {
             error={this.props.errors.get('password')}
           />
           {
-            this.props.errors.get('totp') ?
+            this.props.errors.get('totp') &&
               <Input
                 name="token"
                 label="Token"
@@ -106,8 +106,6 @@ class UserConnect extends Component {
                 error={this.props.errors.get('token')}
                 autoFocus
               />
-            :
-              <span />
           }
 
           <Checkbox

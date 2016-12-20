@@ -9,10 +9,10 @@ import Icon from 'components/utilities/Icon';
 
 const propTypes = {
   folder: PropTypes.instanceOf(Secret),
-  specialView: PropTypes.bool,
+  writable: PropTypes.bool,
 };
 
-function SecretListNew({ folder, specialView }) {
+function SecretListNew({ folder, writable }) {
   let folderId = null;
   let canWrite = true;
   if (folder) {
@@ -26,7 +26,7 @@ function SecretListNew({ folder, specialView }) {
       <SecretNew />
       <Dropdown
         id="new-secret"
-        disabled={!canWrite || specialView}
+        disabled={!canWrite || !writable}
         pullRight
       >
         <Dropdown.Toggle
