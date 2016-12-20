@@ -7,6 +7,9 @@ import OptionsActions from 'actions/OptionsActions';
 
 const OptionsState = new Record({
   options: new Immutable.Map(),
+  totpIsVerified: false,
+  errors: new Immutable.Map(),
+  showQRCode: false,
 });
 
 class OptionsStore {
@@ -18,9 +21,63 @@ class OptionsStore {
   }
 
   onLoadOptions({ currentUser }) {
+    const options = currentUser.options;
+    options.totp = currentUser.totp;
+
     this.setState(this.state
-      .set('options', currentUser.options)
+      .set('options', new Immutable.Map(options))
     );
+  }
+
+  onToggleTotp(showQRCode) {
+    this.setState(this.state
+      .set('showQRCode', showQRCode)
+    );
+  }
+
+  onVerifyTotpSuccess() {
+    this.setState(
+      this.state.merge({
+        totpIsVerified: true,
+        errors: new Immutable.Map(),
+      }));
+  }
+
+  onVerifyTotpFailure() {
+    this.setState(
+      this.state.merge({
+        totpIsVerified: false,
+        errors: new Immutable.Map({ totp: 'Not synchronised' }),
+      }));
+  }
+
+  onHideQRCode() {
+    this.setState(
+      this.state.merge({
+        showQRCode: false,
+        totpIsVerified: false,
+        errors: new Immutable.Map(),
+      }));
+  }
+
+  onActivateTotpSuccess() {
+    this.setState(
+      this.state.merge({
+        showQRCode: false,
+        totpIsVerified: false,
+        errors: new Immutable.Map(),
+        options: this.state.options.set('totp', true),
+      }));
+  }
+
+  onDeactivateTotpSuccess() {
+    this.setState(this.state
+      .set('options', this.state.options.set('totp', false))
+    );
+  }
+
+  static getOptions() {
+    return this.getState().get('options');
   }
 
 }

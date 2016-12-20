@@ -27,9 +27,9 @@ class AppUIActions {
     return { username };
   }
 
-  loginUser({ username, password }) {
+  loginUser({ username, password, token }) {
     secretin
-      .loginUser(username, password)
+      .loginUser(username, password, token)
       .then(currentUser => (
         this.loginUserSuccess({
           currentUser,
@@ -42,8 +42,17 @@ class AppUIActions {
             error: { username: 'User not found' },
           });
         } else if (error instanceof Errors.InvalidPasswordError) {
+          if (token) {
+            return this.loginUserFailure({
+              error: { totp: 'Token', token: 'Invalid token' },
+            });
+          }
           return this.loginUserFailure({
             error: { password: 'Invalid password' },
+          });
+        } else if (error instanceof Errors.NeedTOTPTokenError) {
+          return this.loginUserFailure({
+            error: { totp: 'Token' },
           });
         }
         throw error;
