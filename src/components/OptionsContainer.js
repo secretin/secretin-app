@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 import QRCodeShow from 'components/QRCodeShow';
+import ShortLoginShow from 'components/ShortLoginShow';
 import Title from 'components/utilities/Title';
 import BootstrapPanel from 'react-bootstrap/lib/Panel';
 import Checkbox from 'components/utilities/Checkbox';
@@ -40,6 +41,7 @@ class OptionsContainer extends Component {
             </div>
           </div>
           <QRCodeShow />
+          <ShortLoginShow />
           <div className="secret-list-content">
             <BootstrapPanel
               header={(<h3>Security</h3>)}
@@ -49,6 +51,13 @@ class OptionsContainer extends Component {
                 onChange={OptionsActions.toggleTotp}
               >
                 Activate TOTP
+              </Checkbox>
+              <br />
+              <Checkbox
+                checked={options.get('shortLogin')}
+                onChange={OptionsActions.toggleShortLogin}
+              >
+                Activate ShortLogin
               </Checkbox>
             </BootstrapPanel>
           </div>

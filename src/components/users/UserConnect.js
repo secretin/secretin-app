@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import Immutable from 'immutable';
+import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
@@ -8,6 +9,7 @@ import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
 import Checkbox from 'components/utilities/Checkbox';
 import Button from 'components/utilities/Button';
+import ShortpassShow from 'components/ShortpassShow';
 
 class UserConnect extends Component {
 
@@ -27,7 +29,14 @@ class UserConnect extends Component {
       signup: false,
       username: '',
       password: '',
+      showShortpass: secretin.canITryShortLogin(),
     };
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      showShortpass: secretin.canITryShortLogin(),
+    });
   }
 
   onSubmit(e) {
@@ -61,6 +70,12 @@ class UserConnect extends Component {
     });
   }
 
+  hideShortpass() {
+    this.setState({
+      showShortpass: false
+    });
+  }
+
   render() {
     return (
       <div className="user-connect">
@@ -70,6 +85,7 @@ class UserConnect extends Component {
             { this.state.signup ? 'Register' : 'Connect' }
           </small>
         </h2>
+        <ShortpassShow error={this.props.errors.get('shortlogin')} shown={this.state.showShortpass} hide={this.hideShortpass} />
         <Form
           className="user-connect-form"
           disabled={this.props.loading}

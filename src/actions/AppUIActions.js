@@ -59,6 +59,21 @@ class AppUIActions {
       });
     return { username };
   }
+
+  shortLogin({ shortpass }) {
+    secretin
+      .shortLogin(shortpass)
+      .then((currentUser) => {
+        this.loginUserSuccess({
+          currentUser,
+          metadata: currentUser.metadatas,
+        });
+      })
+      .catch(() => this.loginUserFailure({
+        error: { shortlogin: 'Invalid shortpass' },
+      }));
+    return true;
+  }
 }
 
 export default alt.createActions(AppUIActions);
