@@ -10,6 +10,7 @@ import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
 import Button from 'components/utilities/Button';
+import Title from 'components/utilities/Title';
 
 import NewSecretUIActions from 'actions/NewSecretUIActions';
 
@@ -20,12 +21,14 @@ class SecretList extends Component {
     folders: PropTypes.instanceOf(Immutable.List),
     secrets: PropTypes.instanceOf(Immutable.Map),
     searchQuery: PropTypes.string,
+    showAll: PropTypes.bool,
   }
 
   static defaultProps = {
     folders: new Immutable.List(),
     secrets: new Immutable.Map(),
     searchQuery: '',
+    showAll: false,
   }
 
   constructor(props) {
@@ -115,14 +118,20 @@ class SecretList extends Component {
 
   render() {
     return (
-      <div className="secret-list">
-        <div className="secret-list-header">
-          <SecretListBreadcrumb folders={this.props.folders} />
-          <SecretListNew folder={this.props.folder} />
+      <div className="page">
+        <div className="page-header">
+          {
+            this.props.showAll ?
+              <div className="breadcrumb">
+                <Title icon="apps" title="All" link="/secrets/all/" />
+              </div> :
+              <SecretListBreadcrumb folders={this.props.folders} />
+          }
+          <SecretListNew folder={this.props.folder} writable={!this.props.showAll} />
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        <div className="secret-list-content">
+        <div className="page-content">
           {
             this.props.secrets.isEmpty() ? this.renderPlaceholder() : this.renderList()
           }

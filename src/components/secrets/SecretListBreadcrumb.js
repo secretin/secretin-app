@@ -6,6 +6,7 @@ import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
 
 import Icon from 'components/utilities/Icon';
+import Title from 'components/utilities/Title';
 
 const propTypes = {
   folders: PropTypes.instanceOf(Immutable.List),
@@ -34,11 +35,11 @@ function SecretListBreadcrumb({ folders }) {
 
     return links
       .push(
-        <div key={key} className="secret-list-breadcrumb-item">
+        <div key={key} className="breadcrumb-item">
           <Link
             to={link}
-            className="secret-list-breadcrumb-link"
-            activeClassName="secret-list-breadcrumb-link--active"
+            className="breadcrumb-link"
+            activeClassName="breadcrumb-link--active"
             activeOnlyWhenExact
           >
             {folder.title}
@@ -49,34 +50,24 @@ function SecretListBreadcrumb({ folders }) {
         <Icon
           key={`${key}-sep`}
           id="chevron-right"
-          className="secret-list-breadcrumb-item-separator"
+          className="breadcrumb-item-separator"
         />
       );
   }, new Immutable.List());
 
   return (
-    <div className="secret-list-breadcrumb">
+    <div className="breadcrumb">
       {
         breadcrumb
           .unshift(
             <Icon
               key="home-sep"
               id="chevron-right"
-              className="secret-list-breadcrumb-item-separator"
+              className="breadcrumb-item-separator"
             />
           )
           .unshift(
-            <div key="home" className="secret-list-breadcrumb-item">
-              <Link
-                to="/secrets/"
-                className="secret-list-breadcrumb-link"
-                activeClassName="secret-list-breadcrumb-link--active"
-                activeOnlyWhenExact
-              >
-                <Icon id="home" size="base" />
-                Home
-              </Link>
-            </div>
+            <Title key="home" title="Home" icon="home" link="/secrets/" />
           )
       }
     </div>

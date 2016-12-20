@@ -28,7 +28,9 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        Secret-In.me
+        <Link to="/">
+          Secret-In.me
+        </Link>
       </div>
       <div className="sidebar-content">
         <ul className="sidebar-menu">
@@ -47,6 +49,10 @@ function Sidebar() {
           <SidebarMenuLink to="/secrets/shared/">
             <Icon id="people" size="base" />
             Shared
+          </SidebarMenuLink>
+          <SidebarMenuLink to="/options/">
+            <Icon id="gear" size="base" />
+            Options
           </SidebarMenuLink>
         </ul>
       </div>

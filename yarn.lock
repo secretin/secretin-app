@@ -4814,6 +4814,16 @@ q@1.4.1, q@^1.0.1, q@^1.1.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+
+qrcode.react@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-0.6.1.tgz#e718192d17cdf87cb1f156a34cea16dd67575932"
+  dependencies:
+    qr.js "0.0.0"
+
 qs@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.0.tgz#3b7848c03c2dece69a9522b0fae8c4126d745f3b"
