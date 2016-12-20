@@ -10,6 +10,7 @@ import UserConnectShortPass from 'components/users/UserConnectShortPass';
 class UserConnect extends Component {
 
   static propTypes = {
+    savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
   }
@@ -79,6 +80,7 @@ class UserConnect extends Component {
         {
           this.state.showShortpass ? (
             <UserConnectShortPass
+              savedUsername={this.props.savedUsername}
               loading={this.props.loading}
               error={this.props.errors.get('shortlogin')}
               onCancel={this.hideShortpass}

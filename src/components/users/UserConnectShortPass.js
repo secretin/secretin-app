@@ -9,6 +9,7 @@ import AppUIActions from 'actions/AppUIActions';
 
 class UserConnectShortPass extends Component {
   static propTypes = {
+    savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     error: PropTypes.string,
     onCancel: PropTypes.func,
@@ -43,10 +44,7 @@ class UserConnectShortPass extends Component {
         onSubmit={this.handleSubmit}
       >
         <h2 className="user-connect-title">
-          Hello again Charley!
-          <small>
-            Connect
-          </small>
+          Hello again {this.props.savedUsername}!
         </h2>
 
         <Input
