@@ -24,6 +24,7 @@ class UserConnect extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleSignup = this.toggleSignup.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.hideShortpass = this.hideShortpass.bind(this);
 
     this.state = {
       signup: false,

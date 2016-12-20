@@ -56,19 +56,19 @@ class QRCodeShow extends Component {
               onChange={this.handleChange}
               error={this.props.error}
             />
-            <Button
-              type="button"
-              buttonStyle="default"
-              onClick={() => {
-                AppUIActions.shortLogin({ shortpass: this.state.shortpass });
-              }}
-            >
-              Connect
-            </Button>
           </div>
         </Modal.Body>
 
         <Modal.Footer>
+          <Button
+            type="button"
+            buttonStyle="primary"
+            onClick={() => {
+              AppUIActions.shortLogin({ shortpass: this.state.shortpass });
+            }}
+          >
+            Connect
+          </Button>
           <Button
             type="reset"
             buttonStyle="default"

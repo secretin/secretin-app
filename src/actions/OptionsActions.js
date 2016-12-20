@@ -1,5 +1,6 @@
 import alt from 'utils/alt';
 import secretin from 'utils/secretin';
+import uuid from 'uuid';
 
 class OptionsActions {
   constructor() {
@@ -52,8 +53,8 @@ class OptionsActions {
     return token;
   }
 
-  activateShortLogin({ shortpass, device }) {
-    secretin.activateShortLogin(shortpass, device)
+  activateShortLogin({ shortpass }) {
+    secretin.activateShortLogin(shortpass, uuid.v4())
       .then(() => {
         this.activateShortLoginSuccess();
       })

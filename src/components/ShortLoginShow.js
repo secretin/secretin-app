@@ -42,7 +42,6 @@ class QRCodeShow extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      device: '',
       shortpass: '',
     };
   }
@@ -50,7 +49,6 @@ class QRCodeShow extends Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.shown) {
       this.setState({
-        device: '',
         shortpass: '',
       });
     }
@@ -78,33 +76,25 @@ class QRCodeShow extends Component {
         <Modal.Body>
           <div style={{ textAlign: 'center' }}>
             <Input
-              label="Device name"
-              name="device"
-              value={this.state.device}
-              type="text"
-              onChange={this.handleChange}
-              error={this.props.errors.get('shortlogin')}
-            />
-            <Input
               label="Shortpass"
               name="shortpass"
               value={this.state.shortpass}
               type="password"
               onChange={this.handleChange}
             />
-            <Button
-              type="button"
-              buttonStyle="primary"
-              onClick={() => {
-                OptionsActions.activateShortLogin(this.state);
-              }}
-            >
-              Activate
-            </Button>
           </div>
         </Modal.Body>
 
         <Modal.Footer>
+          <Button
+            type="button"
+            buttonStyle="primary"
+            onClick={() => {
+              OptionsActions.activateShortLogin(this.state);
+            }}
+          >
+            Activate
+          </Button>
           <Button
             type="reset"
             buttonStyle="default"
