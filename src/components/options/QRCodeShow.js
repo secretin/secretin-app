@@ -5,7 +5,7 @@ import QRCode from 'qrcode.react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
-import Icon from 'components/utilities/Icon';
+import Form from 'components/utilities/Form';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
@@ -16,13 +16,11 @@ import OptionsActions from 'actions/OptionsActions';
 class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
-    isVerified: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
   };
 
   static defaultProps = {
     shown: false,
-    isVerified: false,
     errors: new Immutable.Map(),
   };
 
@@ -43,7 +41,9 @@ class QRCodeShow extends Component {
 
   constructor(props) {
     super(props);
+
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       seed: Secretin.Utils.generateSeed(),
@@ -61,9 +61,15 @@ class QRCodeShow extends Component {
   }
 
   handleChange(e) {
+    const token = e.value.slice(0, 6);
+
     this.setState({
-      token: e.value,
+      token,
     });
+  }
+
+  handleSubmit() {
+    OptionsActions.activateTotp(this.state);
   }
 
   render() {
@@ -73,49 +79,34 @@ class QRCodeShow extends Component {
         onClose={OptionsActions.hideQRCode}
       >
         <Modal.Header>
-          <Icon id="gear" size="small" />
-          <span className="text" title="Register TOTP">
-            Register TOTP
+          <span className="text">
+            Activate Two-Factor authentication
           </span>
         </Modal.Header>
 
         <Modal.Body>
-          <div style={{ textAlign: 'center' }}>
-            <QRCode size={256} value={`otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`} />
-            {
-              this.props.isVerified ?
-                <Button
-                  type="button"
-                  buttonStyle="primary"
-                  onClick={() => {
-                    OptionsActions.activateTotp({ seed: this.state.seed });
-                  }}
-                >
-                  Activate
-                </Button>
-              :
-                <div>
-                  <Input
-                    label="TOTP token"
-                    name="token"
-                    value={this.state.token}
-                    type="text"
-                    onChange={this.handleChange}
-                    readOnly={this.props.isVerified}
-                    error={this.props.errors.get('totp')}
-                  />
-                  <Button
-                    type="button"
-                    buttonStyle="default"
-                    onClick={() => {
-                      OptionsActions.verifyTotp({ seed: this.state.seed, token: this.state.token });
-                    }}
-                  >
-                    Verify
-                  </Button>
-                </div>
-            }
-          </div>
+          <Form
+            className="totp-form"
+            id="totp"
+            onSubmit={this.handleSubmit}
+          >
+            <div className="totp-form-qrcode">
+              <QRCode
+                className="totp-form-qrcode"
+                value={`otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`}
+                size={256}
+              />
+            </div>
+            <Input
+              placeholder="6-digit code"
+              name="token"
+              value={this.state.token}
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+              error={this.props.errors.get('totp')}
+              autoFocus
+            />
+          </Form>
         </Modal.Body>
 
         <Modal.Footer>
@@ -125,6 +116,13 @@ class QRCodeShow extends Component {
             onClick={OptionsActions.hideQRCode}
           >
             Close
+          </Button>
+          <Button
+            type="button"
+            buttonStyle="primary"
+            onClick={this.handleSubmit}
+          >
+            Activate
           </Button>
         </Modal.Footer>
       </Modal>

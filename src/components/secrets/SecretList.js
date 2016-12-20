@@ -118,11 +118,11 @@ class SecretList extends Component {
 
   render() {
     return (
-      <div className="secret-list">
-        <div className="secret-list-header">
+      <div className="page">
+        <div className="page-header">
           {
             this.props.showAll ?
-              <div className="secret-list-breadcrumb">
+              <div className="breadcrumb">
                 <Title icon="apps" title="All" link="/secrets/all/" />
               </div> :
               <SecretListBreadcrumb folders={this.props.folders} />
@@ -131,7 +131,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        <div className="secret-list-content">
+        <div className="page-content">
           {
             this.props.secrets.isEmpty() ? this.renderPlaceholder() : this.renderList()
           }

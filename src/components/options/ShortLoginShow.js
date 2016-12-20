@@ -4,7 +4,7 @@ import Secretin from 'secretin';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
-import Icon from 'components/utilities/Icon';
+import Form from 'components/utilities/Form';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
@@ -15,7 +15,6 @@ import OptionsActions from 'actions/OptionsActions';
 class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
-    errors: PropTypes.instanceOf(Immutable.Map),
   };
 
   static defaultProps = {
@@ -39,7 +38,9 @@ class QRCodeShow extends Component {
 
   constructor(props) {
     super(props);
+
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       shortpass: '',
@@ -60,6 +61,12 @@ class QRCodeShow extends Component {
     });
   }
 
+  handleSubmit() {
+    OptionsActions.activateShortLogin({
+      shortpass: this.state.shortpass,
+    });
+  }
+
   render() {
     return (
       <Modal
@@ -67,40 +74,42 @@ class QRCodeShow extends Component {
         onClose={OptionsActions.hideShortLogin}
       >
         <Modal.Header>
-          <Icon id="gear" size="small" />
-          <span className="text" title="Trust this device">
+          <span className="text">
             Trust this device
           </span>
         </Modal.Header>
 
         <Modal.Body>
-          <div style={{ textAlign: 'center' }}>
+          <Form
+            className="totp-form"
+            id="totp"
+            onSubmit={this.handleSubmit}
+          >
             <Input
               label="Shortpass"
               name="shortpass"
               value={this.state.shortpass}
               type="password"
               onChange={this.handleChange}
+              autoFocus
             />
-          </div>
+          </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            type="button"
-            buttonStyle="primary"
-            onClick={() => {
-              OptionsActions.activateShortLogin(this.state);
-            }}
-          >
-            Activate
-          </Button>
           <Button
             type="reset"
             buttonStyle="default"
             onClick={OptionsActions.hideShortLogin}
           >
             Close
+          </Button>
+          <Button
+            type="button"
+            buttonStyle="primary"
+            onClick={this.handleSubmit}
+          >
+            Activate
           </Button>
         </Modal.Footer>
       </Modal>

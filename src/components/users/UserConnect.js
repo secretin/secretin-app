@@ -1,15 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
 import Immutable from 'immutable';
 import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
-import Form from 'components/utilities/Form';
-import Input from 'components/utilities/Input';
-import Checkbox from 'components/utilities/Checkbox';
-import Button from 'components/utilities/Button';
-import ShortpassShow from 'components/ShortpassShow';
+import UserConnectForm from 'components/users/UserConnectForm';
+import UserConnectShortPass from 'components/users/UserConnectShortPass';
 
 class UserConnect extends Component {
 
@@ -80,69 +76,20 @@ class UserConnect extends Component {
   render() {
     return (
       <div className="user-connect">
-        <h2 className="user-connect-title">
-          Secret-in.me
-          <small>
-            { this.state.signup ? 'Register' : 'Connect' }
-          </small>
-        </h2>
-        <ShortpassShow error={this.props.errors.get('shortlogin')} shown={this.state.showShortpass} hide={this.hideShortpass} />
-        <Form
-          className="user-connect-form"
-          disabled={this.props.loading}
-          onSubmit={this.onSubmit}
-        >
-          <Input
-            name="username"
-            label="Username"
-            type="text"
-            value={this.state.username}
-            onChange={this.handleChange}
-            disabled={this.props.loading}
-            error={this.props.errors.get('username')}
-            autoFocus
-          />
-          <Input
-            name="password"
-            label="Password"
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            disabled={this.props.loading}
-            error={this.props.errors.get('password')}
-          />
-          {
-            this.props.errors.get('totp') &&
-              <Input
-                name="token"
-                label="Token"
-                type="text"
-                value={this.state.token}
-                onChange={this.handleChange}
-                disabled={this.props.loading}
-                error={this.props.errors.get('token')}
-                autoFocus
-              />
-          }
-
-          <Checkbox
-            checked={this.state.signup}
-            onChange={this.toggleSignup}
-          >
-            Create an account
-          </Checkbox>
-
-          <Button
-            type="submit"
-            disabled={
-              this.props.loading ||
-              isEmpty(this.state.username) ||
-              isEmpty(this.state.password)
-            }
-          >
-            { this.state.signup ? 'Register' : 'Connect' }
-          </Button>
-        </Form>
+        {
+          this.state.showShortpass ? (
+            <UserConnectShortPass
+              loading={this.props.loading}
+              error={this.props.errors.get('shortlogin')}
+              onCancel={this.hideShortpass}
+            />
+          ) : (
+            <UserConnectForm
+              loading={this.props.loading}
+              errors={this.props.errors}
+            />
+          )
+        }
       </div>
     );
   }

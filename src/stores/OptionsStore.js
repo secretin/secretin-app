@@ -56,7 +56,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         totpIsVerified: false,
-        errors: new Immutable.Map({ totp: 'Not synchronised' }),
+        errors: new Immutable.Map({ totp: 'An error occured' }),
       }));
   }
 
@@ -74,7 +74,8 @@ class OptionsStore {
       this.state.merge({
         showShortLogin: false,
         errors: new Immutable.Map(),
-      }));
+      })
+    );
   }
 
   onActivateTotpSuccess() {

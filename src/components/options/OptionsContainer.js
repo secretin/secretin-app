@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
-import QRCodeShow from 'components/QRCodeShow';
-import ShortLoginShow from 'components/ShortLoginShow';
+import ShortLoginShow from 'components/options/ShortLoginShow';
+import QRCodeShow from 'components/options/QRCodeShow';
 import Title from 'components/utilities/Title';
-import BootstrapPanel from 'react-bootstrap/lib/Panel';
 import Checkbox from 'components/utilities/Checkbox';
 
 import OptionsActions from 'actions/OptionsActions';
@@ -33,34 +32,41 @@ class OptionsContainer extends Component {
   render() {
     const options = this.props.options;
     return (
-      <div className="secret-list-container">
-        <div className="secret-list">
-          <div className="secret-list-header">
-            <div className="secret-list-breadcrumb">
-              <Title link="/options/" icon="gear" title="Options" />
-            </div>
+      <div className="page">
+        <div className="page-header">
+          <div className="breadcrumb">
+            <Title link="/options/" icon="gear" title="Options" />
           </div>
-          <QRCodeShow />
-          <ShortLoginShow />
-          <div className="secret-list-content">
-            <BootstrapPanel
-              header={(<h3>Security</h3>)}
-            >
+        </div>
+
+        <div className="page-content options">
+          <div className="options-section">
+            <h3 className="options-section-title">
+              Security
+            </h3>
+
+            <div className="options-section-item">
+              <QRCodeShow />
               <Checkbox
                 checked={options.get('totp')}
                 onChange={OptionsActions.toggleTotp}
               >
-                Activate TOTP
+                Activate two-factor authentication
               </Checkbox>
-              <br />
+            </div>
+
+            <div className="options-section-item">
+              <ShortLoginShow />
               <Checkbox
                 checked={options.get('shortLogin')}
                 onChange={OptionsActions.toggleShortLogin}
               >
                 Activate ShortLogin
               </Checkbox>
-            </BootstrapPanel>
+            </div>
           </div>
+
+
         </div>
       </div>
     );

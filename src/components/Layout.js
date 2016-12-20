@@ -7,7 +7,7 @@ import Redirect from 'react-router/Redirect';
 import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
 import SecretListContainer from 'components/secrets/SecretListContainer';
-import OptionsContainer from 'components/OptionsContainer';
+import OptionsContainer from 'components/options/OptionsContainer';
 
 function Layout() {
   return (
