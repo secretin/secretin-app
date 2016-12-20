@@ -6,6 +6,7 @@ import QRCodeShow from 'components/QRCodeShow';
 import Title from 'components/utilities/Title';
 import BootstrapPanel from 'react-bootstrap/lib/Panel';
 import Checkbox from 'components/utilities/Checkbox';
+import Button from 'components/utilities/Button';
 
 import OptionsActions from 'actions/OptionsActions';
 
@@ -29,6 +30,21 @@ class OptionsContainer extends Component {
     };
   }
 
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = {
+      keepass: ''
+    };
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
   render() {
     const options = this.props.options;
     return (
@@ -50,6 +66,27 @@ class OptionsContainer extends Component {
               >
                 Activate TOTP
               </Checkbox>
+            </BootstrapPanel>
+            <BootstrapPanel
+              header={(<h3>Import</h3>)}
+            >
+              Keepass :
+              <textarea
+                name="keepass"
+                cols={50}
+                rows={10}
+                onChange={this.handleChange}
+                value={this.state.keepass}
+              />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={() => {
+                  OptionsActions.importKeepass(this.state.keepass);
+                }}
+              >
+                Import
+              </Button>
             </BootstrapPanel>
           </div>
         </div>

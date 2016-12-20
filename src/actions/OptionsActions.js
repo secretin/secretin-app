@@ -1,5 +1,6 @@
 import alt from 'utils/alt';
 import secretin from 'utils/secretin';
+import Import from 'utils/import';
 
 class OptionsActions {
   constructor() {
@@ -41,6 +42,17 @@ class OptionsActions {
     }
 
     return this.deactivateTotp();
+  }
+
+  importKeepass(keepass) {
+    Import.parseKeepass(keepass)
+      .then(() => {
+        this.importKeepassSuccess();
+      })
+      .catch(() => {
+        this.importKeepassFailure();
+      });
+    return true;
   }
 }
 
