@@ -35,7 +35,6 @@ class QRCodeShow extends Component {
   static getPropsFromStores() {
     const state = OptionsStore.getState();
     return {
-      isVerified: state.get('totpIsVerified'),
       errors: state.get('errors'),
       shown: state.get('showQRCode'),
     };
@@ -82,39 +81,23 @@ class QRCodeShow extends Component {
         <Modal.Body>
           <div style={{ textAlign: 'center' }}>
             <QRCode size={256} value={`otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`} />
-            {
-              this.props.isVerified ?
-                <Button
-                  type="button"
-                  buttonStyle="primary"
-                  onClick={() => {
-                    OptionsActions.activateTotp({ seed: this.state.seed });
-                  }}
-                >
-                  Activate
-                </Button>
-              :
-                <div>
-                  <Input
-                    label="TOTP token"
-                    name="token"
-                    value={this.state.token}
-                    type="text"
-                    onChange={this.handleChange}
-                    readOnly={this.props.isVerified}
-                    error={this.props.errors.get('totp')}
-                  />
-                  <Button
-                    type="button"
-                    buttonStyle="default"
-                    onClick={() => {
-                      OptionsActions.verifyTotp({ seed: this.state.seed, token: this.state.token });
-                    }}
-                  >
-                    Verify
-                  </Button>
-                </div>
-            }
+            <Input
+              label="TOTP token"
+              name="token"
+              value={this.state.token}
+              type="text"
+              onChange={this.handleChange}
+              error={this.props.errors.get('totp')}
+            />
+            <Button
+              type="button"
+              buttonStyle="primary"
+              onClick={() => {
+                OptionsActions.activateTotp(this.state);
+              }}
+            >
+              Activate
+            </Button>
           </div>
         </Modal.Body>
 

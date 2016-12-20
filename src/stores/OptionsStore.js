@@ -7,7 +7,6 @@ import OptionsActions from 'actions/OptionsActions';
 
 const OptionsState = new Record({
   options: new Immutable.Map(),
-  totpIsVerified: false,
   errors: new Immutable.Map(),
   showQRCode: false,
 });
@@ -35,36 +34,25 @@ class OptionsStore {
     );
   }
 
-  onVerifyTotpSuccess() {
-    this.setState(
-      this.state.merge({
-        totpIsVerified: true,
-        errors: new Immutable.Map(),
-      }));
-  }
-
-  onVerifyTotpFailure() {
-    this.setState(
-      this.state.merge({
-        totpIsVerified: false,
-        errors: new Immutable.Map({ totp: 'Not synchronised' }),
-      }));
-  }
-
   onHideQRCode() {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
         errors: new Immutable.Map(),
       }));
+  }
+
+  onActivateTotpFailure() {
+    this.setState(
+      this.state
+      .set('errors', new Immutable.Map({ totp: 'Not synchronised' })),
+    );
   }
 
   onActivateTotpSuccess() {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('totp', true),
       }));

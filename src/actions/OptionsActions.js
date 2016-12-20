@@ -4,8 +4,6 @@ import secretin from 'utils/secretin';
 class OptionsActions {
   constructor() {
     this.generateActions(
-      'verifyTotpSuccess',
-      'verifyTotpFailure',
       'deactivateTotpSuccess',
       'deactivateTotpFailure',
       'activateTotpSuccess',
@@ -25,8 +23,9 @@ class OptionsActions {
     return false;
   }
 
-  activateTotp({ seed }) {
-    secretin.activateTotp(seed)
+  activateTotp({ seed, token }) {
+    secretin.api.testTotp(seed.b32, token)
+      .then(() => secretin.activateTotp(seed))
       .then(() => {
         this.activateTotpSuccess();
       })
@@ -34,17 +33,6 @@ class OptionsActions {
         this.activateTotpFailure();
       });
     return true;
-  }
-
-  verifyTotp({ seed, token }) {
-    secretin.api.testTotp(seed.b32, token)
-      .then(() => {
-        this.verifyTotpSuccess();
-      })
-      .catch(() => {
-        this.verifyTotpFailure();
-      });
-    return token;
   }
 
   toggleTotp({ checked }) {
