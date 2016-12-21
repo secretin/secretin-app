@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -32,17 +33,21 @@ class OptionsContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeKeepass = this.handleChangeKeepass.bind(this);
 
     this.state = {
       keepass: ''
     };
   }
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  handleChangeKeepass(e) {
+    const reader = new FileReader();
+    reader.readAsText(e.target.files[0]);
+    reader.onload = (f) => {
+      this.setState({
+        keepass: f.target.result,
+      });
+    };
   }
 
   render() {
@@ -87,16 +92,15 @@ class OptionsContainer extends Component {
             </h3>
             <div className="options-section-item">
               Keepass :
-              <textarea
-                name="keepass"
-                cols={50}
-                rows={10}
-                onChange={this.handleChange}
-                value={this.state.keepass}
+              <input
+                type="file"
+                id="input"
+                onChange={this.handleChangeKeepass}
               />
               <Button
                 type="button"
                 buttonStyle="primary"
+                disabled={isEmpty(this.state.keepass)}
                 onClick={() => {
                   OptionsActions.importKeepass(this.state.keepass);
                 }}

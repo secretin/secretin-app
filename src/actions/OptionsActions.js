@@ -14,6 +14,8 @@ class OptionsActions {
       'activateShortLoginFailure',
       'deactivateShortLoginSuccess',
       'deactivateShortLoginFailure',
+      'importKeepassSuccess',
+      'importKeepassFailure',
       'hideQRCode',
       'hideShortLogin',
     );
