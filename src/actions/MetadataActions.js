@@ -10,6 +10,8 @@ class MetadataActions {
     this.generateActions(
       'createSecretSuccess',
       'createSecretFailure',
+      'updateSecretSuccess',
+      'updateSecretFailure',
       'deleteSecretSuccess',
       'deleteSecretFailure',
       'createSecretUserRightsSuccess',
@@ -49,6 +51,10 @@ class MetadataActions {
         this.createSecretFailure({ error });
         throw error;
       });
+  }
+
+  updateSecret({ secret, data }) {
+    return secretin.editSecret(secret.id, data);
   }
 
   deleteSecret({ secret }) {
