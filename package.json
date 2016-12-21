@@ -39,7 +39,7 @@
     "uuid": "3.0.1"
   },
   "scripts": {
-    "deploy": "yarn run build && gh-pages -d build",
+    "deploy": "scripts/deploy.sh",
     "start": "yarn run build-css && yarn run watch-css & NODE_PATH=./src  react-scripts start",
     "build": "yarn run build-css && NODE_PATH=./src  react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
