@@ -1,6 +1,13 @@
 import alt from 'utils/alt';
 import secretin, { Errors } from 'utils/secretin';
 
+const {
+  UsernameAlreadyExistsError,
+  UserNotFoundError,
+  InvalidPasswordError,
+  NeedTOTPTokenError,
+} = Errors;
+
 class AppUIActions {
   constructor() {
     this.generateActions(
@@ -17,7 +24,7 @@ class AppUIActions {
       .newUser(username, password)
       .then(currentUser => this.createUserSuccess({ currentUser }))
       .catch((error) => {
-        if (error instanceof Errors.UsernameAlreadyExistsError) {
+        if (error instanceof UsernameAlreadyExistsError) {
           return this.createUserFailure({
             error: { username: 'User already exists' },
           });
@@ -37,11 +44,11 @@ class AppUIActions {
         })
       ))
       .catch((error) => {
-        if (error instanceof Errors.UserNotFoundError) {
+        if (error instanceof UserNotFoundError) {
           return this.loginUserFailure({
             error: { username: 'User not found' },
           });
-        } else if (error instanceof Errors.InvalidPasswordError) {
+        } else if (error instanceof InvalidPasswordError) {
           if (token) {
             return this.loginUserFailure({
               error: { totp: 'Token', password: 'Invalid password', token: 'or invalid token' },
@@ -50,7 +57,7 @@ class AppUIActions {
           return this.loginUserFailure({
             error: { password: 'Invalid password' },
           });
-        } else if (error instanceof Errors.NeedTOTPTokenError) {
+        } else if (error instanceof NeedTOTPTokenError) {
           return this.loginUserFailure({
             error: { totp: 'Token' },
           });
@@ -58,6 +65,21 @@ class AppUIActions {
         throw error;
       });
     return { username };
+  }
+
+  shortLogin({ shortpass }) {
+    secretin
+      .shortLogin(shortpass)
+      .then((currentUser) => {
+        this.loginUserSuccess({
+          currentUser,
+          metadata: currentUser.metadatas,
+        });
+      })
+      .catch(() => this.loginUserFailure({
+        error: { shortlogin: 'Invalid shortpass' },
+      }));
+    return true;
   }
 }
 

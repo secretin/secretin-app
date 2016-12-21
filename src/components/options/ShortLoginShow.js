@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 // eslint-disable-next-line
 import Secretin from 'secretin';
-import QRCode from 'qrcode.react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
-import Icon from 'components/utilities/Icon';
+import Form from 'components/utilities/Form';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
@@ -16,13 +15,10 @@ import OptionsActions from 'actions/OptionsActions';
 class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
-    isVerified: PropTypes.bool,
-    errors: PropTypes.instanceOf(Immutable.Map),
   };
 
   static defaultProps = {
     shown: false,
-    isVerified: false,
     errors: new Immutable.Map(),
   };
 
@@ -36,32 +32,38 @@ class QRCodeShow extends Component {
     const state = OptionsStore.getState();
     return {
       errors: state.get('errors'),
-      shown: state.get('showQRCode'),
+      shown: state.get('showShortLogin'),
     };
   }
 
   constructor(props) {
     super(props);
+
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      seed: Secretin.Utils.generateSeed(),
-      token: ''
+      shortpass: '',
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.shown) {
       this.setState({
-        seed: Secretin.Utils.generateSeed(),
-        token: ''
+        shortpass: '',
       });
     }
   }
 
-  handleChange(e) {
+  handleChange({ name, value }) {
     this.setState({
-      token: e.value,
+      [name]: value,
+    });
+  }
+
+  handleSubmit() {
+    OptionsActions.activateShortLogin({
+      shortpass: this.state.shortpass,
     });
   }
 
@@ -69,45 +71,45 @@ class QRCodeShow extends Component {
     return (
       <Modal
         show={this.props.shown}
-        onClose={OptionsActions.hideQRCode}
+        onClose={OptionsActions.hideShortLogin}
       >
         <Modal.Header>
-          <Icon id="gear" size="small" />
-          <span className="text" title="Register TOTP">
-            Register TOTP
+          <span className="text">
+            Trust this device
           </span>
         </Modal.Header>
 
         <Modal.Body>
-          <div style={{ textAlign: 'center' }}>
-            <QRCode size={256} value={`otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`} />
+          <Form
+            className="totp-form"
+            id="totp"
+            onSubmit={this.handleSubmit}
+          >
             <Input
-              label="TOTP token"
-              name="token"
-              value={this.state.token}
-              type="text"
+              label="Shortpass"
+              name="shortpass"
+              value={this.state.shortpass}
+              type="password"
               onChange={this.handleChange}
-              error={this.props.errors.get('totp')}
+              autoFocus
             />
-            <Button
-              type="button"
-              buttonStyle="primary"
-              onClick={() => {
-                OptionsActions.activateTotp(this.state);
-              }}
-            >
-              Activate
-            </Button>
-          </div>
+          </Form>
         </Modal.Body>
 
         <Modal.Footer>
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={OptionsActions.hideQRCode}
+            onClick={OptionsActions.hideShortLogin}
           >
             Close
+          </Button>
+          <Button
+            type="button"
+            buttonStyle="primary"
+            onClick={this.handleSubmit}
+          >
+            Activate
           </Button>
         </Modal.Footer>
       </Modal>

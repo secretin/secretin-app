@@ -1,6 +1,7 @@
 import Immutable, { Record } from 'immutable';
 import alt from 'utils/alt';
 import makeImmutable from 'utils/makeImmutable';
+import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 import OptionsActions from 'actions/OptionsActions';
@@ -9,6 +10,7 @@ const OptionsState = new Record({
   options: new Immutable.Map(),
   errors: new Immutable.Map(),
   showQRCode: false,
+  showShortLogin: false,
 });
 
 class OptionsStore {
@@ -22,6 +24,7 @@ class OptionsStore {
   onLoadOptions({ currentUser }) {
     const options = currentUser.options;
     options.totp = currentUser.totp;
+    options.shortLogin = secretin.canITryShortLogin();
 
     this.setState(this.state
       .set('options', new Immutable.Map(options))
@@ -34,6 +37,19 @@ class OptionsStore {
     );
   }
 
+  onToggleShortLogin(showShortLogin) {
+    this.setState(this.state
+      .set('showShortLogin', showShortLogin)
+    );
+  }
+
+  onActivateTotpFailure() {
+    this.setState(
+      this.state.merge({
+        errors: new Immutable.Map({ totp: 'An error occured' }),
+      }));
+  }
+
   onHideQRCode() {
     this.setState(
       this.state.merge({
@@ -42,10 +58,12 @@ class OptionsStore {
       }));
   }
 
-  onActivateTotpFailure() {
+  onHideShortLogin() {
     this.setState(
-      this.state
-      .set('errors', new Immutable.Map({ totp: 'Not synchronised' })),
+      this.state.merge({
+        showShortLogin: false,
+        errors: new Immutable.Map(),
+      })
     );
   }
 
@@ -62,6 +80,21 @@ class OptionsStore {
     this.setState(this.state
       .set('options', this.state.options.set('totp', false))
     );
+  }
+
+  onDeactivateShortLoginSuccess() {
+    this.setState(this.state
+      .set('options', this.state.options.set('shortLogin', secretin.canITryShortLogin()))
+    );
+  }
+
+  onActivateShortLoginSuccess() {
+    this.setState(
+      this.state.merge({
+        showShortLogin: false,
+        errors: new Immutable.Map(),
+        options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
+      }));
   }
 
   static getOptions() {

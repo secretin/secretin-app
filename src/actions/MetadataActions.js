@@ -1,11 +1,17 @@
 import alt from 'utils/alt';
-import secretin from 'utils/secretin';
+import secretin, { Errors } from 'utils/secretin';
+
+const {
+  FriendNotFoundError,
+} = Errors;
 
 class MetadataActions {
   constructor() {
     this.generateActions(
       'createSecretSuccess',
       'createSecretFailure',
+      'updateSecretSuccess',
+      'updateSecretFailure',
       'deleteSecretSuccess',
       'deleteSecretFailure',
       'createSecretUserRightsSuccess',
@@ -47,6 +53,10 @@ class MetadataActions {
       });
   }
 
+  updateSecret({ secret, data }) {
+    return secretin.editSecret(secret.id, data);
+  }
+
   deleteSecret({ secret }) {
     return secretin
       .deleteSecret(secret.id)
@@ -70,7 +80,14 @@ class MetadataActions {
         this.createSecretUserRightsSuccess({ secret, user, rights })
       ))
       .catch((error) => {
-        this.createSecretUserRightsFailure({ error });
+        if (error instanceof FriendNotFoundError) {
+          return this.createSecretUserRightsFailure({
+            error: { username: 'User not found' },
+          });
+        }
+        this.createSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        });
         throw error;
       });
   }
@@ -82,7 +99,9 @@ class MetadataActions {
         this.updateSecretUserRightsSuccess({ secret, user, rights })
       ))
       .catch((error) => {
-        this.updateSecretUserRightsFailure({ error });
+        this.updateSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        });
         throw error;
       });
   }
@@ -94,7 +113,9 @@ class MetadataActions {
         this.deleteSecretUserRightsSuccess({ secret, user })
       ))
       .catch((error) => {
-        this.deleteSecretUserRightsFailure({ error });
+        this.deleteSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        });
         throw error;
       });
   }
@@ -110,7 +131,9 @@ class MetadataActions {
         })
       ))
       .catch((error) => {
-        this.addSecretToFolderFailure({ error });
+        this.addSecretToFolderFailure({
+          error: { unknown: 'Unknown error' },
+        });
         throw error;
       });
   }
@@ -126,7 +149,9 @@ class MetadataActions {
         })
       ))
       .catch((error) => {
-        this.removeSecretFromCurrentFolderFailure({ error });
+        this.removeSecretFromCurrentFolderFailure({
+          error: { unknown: 'Unknown error' },
+        });
         throw error;
       });
   }

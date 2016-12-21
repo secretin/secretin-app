@@ -16,11 +16,11 @@ const defaultProps = {
 
 function Title({ icon, title, link }) {
   return (
-    <div className="secret-list-breadcrumb-item">
+    <div className="breadcrumb-item">
       <Link
         to={link}
-        className="secret-list-breadcrumb-link"
-        activeClassName="secret-list-breadcrumb-link--active"
+        className="breadcrumb-link"
+        activeClassName="breadcrumb-link--active"
         activeOnlyWhenExact
       >
         <Icon id={icon} size="base" />

@@ -28,7 +28,9 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        Secret-In.me
+        <Link to="/">
+          Secret-In.me
+        </Link>
       </div>
       <div className="sidebar-content">
         <ul className="sidebar-menu">

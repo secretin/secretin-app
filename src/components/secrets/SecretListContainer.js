@@ -17,9 +17,7 @@ function SecretListContainer({ params, showAll }) {
   if (showAll) {
     const secrets = MetadataStore.getAllSecrets();
     return (
-      <div className="secret-list-container">
-        <SecretList secrets={secrets} showAll />
-      </div>
+      <SecretList secrets={secrets} showAll />
     );
   }
 
@@ -30,9 +28,7 @@ function SecretListContainer({ params, showAll }) {
   const secrets = MetadataStore.getSecretsInFolder(folderId);
 
   return (
-    <div className="secret-list-container">
-      <SecretList folder={folder} folders={folders} secrets={secrets} />
-    </div>
+    <SecretList folder={folder} folders={folders} secrets={secrets} />
   );
 }
 SecretListContainer.propTypes = propTypes;

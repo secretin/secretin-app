@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 
 import Secret from 'models/Secret';
 import User, { UserRights, userRightLabel } from 'models/User';
@@ -13,6 +14,7 @@ import Icon from 'components/utilities/Icon';
 class SecretUserListNew extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor(props) {
@@ -75,6 +77,7 @@ class SecretUserListNew extends Component {
           value={this.state.user.username}
           size="small"
           onChange={this.handleChange}
+          error={this.props.errors.get('username')}
         />
         <Select
           name="rights"

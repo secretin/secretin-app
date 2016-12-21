@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import Immutable from 'immutable';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
 import ShowSecretUIStore from 'stores/ShowSecretUIStore';
@@ -15,6 +16,7 @@ import { Tabs, Tab } from 'components/utilities/Tabs';
 class SecretShow extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    errors: PropTypes.instanceOf(Immutable.Map),
     shown: PropTypes.bool,
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
@@ -30,6 +32,7 @@ class SecretShow extends Component {
     const state = ShowSecretUIStore.getState();
     return {
       secret: state.secret,
+      errors: state.errors,
       shown: !!state.secret,
       tab: state.tab,
       isUpdating: state.isUpdating,
@@ -79,6 +82,7 @@ class SecretShow extends Component {
             <Tab eventKey="access" title="Who has access">
               <SecretUserList
                 isUpdating={this.props.isUpdating}
+                errors={this.props.errors}
                 secret={this.props.secret}
               />
             </Tab>

@@ -12,6 +12,7 @@ import Layout from 'components/Layout';
 class App extends Component {
 
   static propTypes = {
+    savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
@@ -27,6 +28,7 @@ class App extends Component {
   static getPropsFromStores() {
     const state = AppUIStore.getState();
     return {
+      savedUsername: state.get('savedUsername'),
       loading: state.get('loading'),
       connected: state.get('connected'),
       errors: state.get('errors'),
@@ -43,6 +45,7 @@ class App extends Component {
               <Layout />
             ) : (
               <UserConnect
+                savedUsername={this.props.savedUsername}
                 loading={this.props.loading}
                 errors={this.props.errors}
               />

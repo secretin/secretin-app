@@ -79,6 +79,10 @@ class Input extends Component {
     copyToClipboard(this.props.value, { debug: true });
   }
 
+  select() {
+    this.input.select();
+  }
+
   render() {
     const className = classNames(
       'input',

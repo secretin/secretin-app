@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 
 import Secret from 'models/Secret';
 import MetadataActions from 'actions/MetadataActions';
@@ -19,6 +20,7 @@ function getDisabledReason(cantShare, isCurrentUser) {
 class SecretUserList extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    errors: PropTypes.instanceOf(Immutable.Map),
     isUpdating: PropTypes.bool,
   }
 
@@ -70,7 +72,10 @@ class SecretUserList extends Component {
           }
         </div>
 
-        <SecretUserListNew secret={this.props.secret} />
+        <SecretUserListNew
+          secret={this.props.secret}
+          errors={this.props.errors}
+        />
       </div>
     );
   }
