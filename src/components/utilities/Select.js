@@ -8,6 +8,11 @@ import Icon from 'components/utilities/Icon';
 class Select extends Component {
   static propTypes = {
     name: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+      PropTypes.string,
+    ]),
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -17,6 +22,7 @@ class Select extends Component {
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     size: PropTypes.string,
+    actions: PropTypes.instanceOf(Immutable.List),
   }
 
   static defaultProps = {
@@ -47,21 +53,35 @@ class Select extends Component {
 
     return (
       <div className={className}>
-        <select
-          value={this.props.value}
-          disabled={this.props.disabled}
-          title={this.props.title}
-          onChange={this.onChange}
-        >
-          {
-            this.props.options.map(option =>
-              <option key={option[0]} value={option[0]}>
-                {option[1]}
-              </option>
-            )
-          }
-        </select>
-        <Icon id="arrow-down" />
+        {
+          this.props.label && (
+            <label htmlFor={this.id}>
+              {this.props.label}
+              {
+                this.props.actions.size > 0 && (
+                  <span className="input-label-actions">{this.props.actions}</span>
+                )
+              }
+            </label>
+          )
+        }
+        <div className="input--type-select--input">
+          <select
+            value={this.props.value}
+            disabled={this.props.disabled}
+            title={this.props.title}
+            onChange={this.onChange}
+          >
+            {
+              this.props.options.map(option =>
+                <option key={option[0]} value={option[0]}>
+                  {option[1]}
+                </option>
+              )
+            }
+          </select>
+          <Icon id="arrow-down" />
+        </div>
       </div>
     );
   }
