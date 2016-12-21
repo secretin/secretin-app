@@ -1,5 +1,19 @@
 import secretin from 'utils/secretin';
 import uuid from 'uuid';
+import { isEmpty } from 'lodash';
+
+class InternalProgressBar {
+  constructor(progressFunction, total) {
+    this.func = progressFunction;
+    this.total = total;
+    this.status = 0;
+  }
+
+  update() {
+    this.status += 1;
+    this.func(this.status, this.total);
+  }
+}
 
 function addSecret(child, hashedParent) {
   let title = '';
@@ -7,7 +21,7 @@ function addSecret(child, hashedParent) {
     type: 'default',
     fields: [],
   };
-  const strings = child.getElementsByTagName('String');
+  const strings = child.querySelectorAll(':scope > String');
 
   for (let j = 0; j < strings.length; j += 1) {
     const key = strings[j].children[0].textContent;
@@ -21,7 +35,7 @@ function addSecret(child, hashedParent) {
         label: key,
         content: value,
       });
-    } else {
+    } else if (!isEmpty(value)) {
       secret.fields.push({
         id: uuid.v4(),
         type: 'text',
@@ -31,7 +45,6 @@ function addSecret(child, hashedParent) {
     }
   }
 
-  console.log(title);
   let hashedTitle = '';
   return secretin.addSecret(title, secret)
     .then((rHashedTitle) => {
@@ -43,48 +56,83 @@ function addSecret(child, hashedParent) {
     });
 }
 
-function addAndParseGroup(group, hashedParent) {
+function defaultProgress(status, total) {
+  console.log(`${status}/${total}`);
+}
+
+function addAndParseGroup(group, progress, hashedParent) {
   let hashedTitle = '';
   const title = group.getElementsByTagName('Name')[0].textContent;
-  console.log(title);
   return secretin.addFolder(title)
     .then((rHashedTitle) => {
       hashedTitle = rHashedTitle;
+      const entries = [].slice.call(group.querySelectorAll(':scope > Entry'));
+      const entryPromises = entries.reduce(
+        (promise, childEntry) =>
+          promise.then(() =>
+            addSecret(childEntry, hashedTitle)
+              .then(() => {
+                progress.update();
+              })
+          )
+        , Promise.resolve()
+      );
+      return entryPromises;
+    })
+    .then(() => {
       if (typeof hashedParent !== 'undefined') {
         return secretin.addSecretToFolder(hashedTitle, hashedParent);
       }
       return Promise.resolve();
     })
     // eslint-disable-next-line
-    .then(() => parseGroup(group, hashedTitle));
+    .then(() => parseGroup(group, progress, hashedTitle));
 }
 
+function parseGroup(group, progress, hashedParent) {
+  let entryPromises;
+  if (typeof hashedParent === 'undefined') {
+    const entries = [].slice.call(group.querySelectorAll(':scope > Entry'));
+    entryPromises = entries.reduce(
+      (promise, childEntry) =>
+        promise.then(() =>
+          addSecret(childEntry, hashedParent)
+          .then(() => {
+            progress.update();
+          })
+        )
+      , Promise.resolve()
+    );
+  } else {
+    entryPromises = Promise.resolve();
+  }
 
-function parseGroup(group, hashedParent) {
-  const groups = [].slice.call(group.querySelectorAll(':scope > Group'));
-  const groupPromises = groups.reduce(
-    (promise, childGroup) =>
-      promise.then(() => addAndParseGroup(childGroup, hashedParent))
-    , Promise.resolve()
-  );
-
-  return groupPromises
+  return entryPromises
     .then(() => {
-      const entries = [].slice.call(group.querySelectorAll(':scope > Entry'));
-      const entryPromises = entries.reduce(
-        (promise, childEntry) =>
-          promise.then(() => addSecret(childEntry, hashedParent))
+      const groups = [].slice.call(group.querySelectorAll(':scope > Group'));
+      return groups.reduce(
+        (promise, childGroup) =>
+          promise.then(() => addAndParseGroup(childGroup, progress, hashedParent))
         , Promise.resolve()
       );
-      return entryPromises;
     });
 }
 
-export function parseKeepass(xml) {
+function count(group) {
+  let nb = group.querySelectorAll(':scope > Entry').length;
+  const groups = group.querySelectorAll(':scope > Group');
+  for (let i = 0; i < groups.length; i += 1) {
+    nb += count(groups[i]);
+  }
+  return nb;
+}
+
+export function parseKeepass(xml, progress = defaultProgress) {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xml, 'application/xml');
   const root = xmlDoc.getElementsByTagName('Root')[0].children[0];
-  return parseGroup(root);
+  const currentProgress = new InternalProgressBar(progress, count(root));
+  return parseGroup(root, currentProgress);
 }
 
 const Import = {
