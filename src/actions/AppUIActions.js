@@ -81,6 +81,10 @@ class AppUIActions {
       }));
     return true;
   }
+
+  disableShortLogin() {
+    secretin.deactivateShortLogin();
+  }
 }
 
 export default alt.createActions(AppUIActions);
