@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 
 import Secret from 'models/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
+import SecretListRefresh from 'components/secrets/SecretListRefresh';
 import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
@@ -127,6 +128,7 @@ class SecretList extends Component {
               </div> :
               <SecretListBreadcrumb folders={this.props.folders} />
           }
+          <SecretListRefresh />
           <SecretListNew folder={this.props.folder} writable={!this.props.showAll} />
           <SecretListSearch onChange={this.onSearch} />
         </div>

@@ -8,6 +8,7 @@ const {
 class MetadataActions {
   constructor() {
     this.generateActions(
+      'loadMetadataSuccess',
       'createSecretSuccess',
       'createSecretFailure',
       'updateSecretSuccess',
@@ -25,6 +26,16 @@ class MetadataActions {
       'addSecretToFolderSuccess',
       'addSecretToFolderFailure',
     );
+  }
+
+  loadMetadata() {
+    return secretin
+      .refreshUser()
+      .then(() => {
+        this.loadMetadataSuccess({
+          metadata: secretin.currentUser.metadatas,
+        });
+      });
   }
 
   createSecret({ title, data, folder, isFolder } = { isFolder: false }) {

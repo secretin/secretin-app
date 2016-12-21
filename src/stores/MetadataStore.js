@@ -20,13 +20,13 @@ function buildSecrets(metadata) {
 
 class MetadataStore {
   constructor() {
-    this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadata);
+    this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadataSuccess);
     this.bindActions(MetadataActions);
 
     this.state = new MetadataState();
   }
 
-  onLoadMetadata({ metadata }) {
+  onLoadMetadataSuccess({ metadata }) {
     this.setState(this.state
       .set('metadata', buildSecrets(metadata))
     );
