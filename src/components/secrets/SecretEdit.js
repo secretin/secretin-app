@@ -18,12 +18,12 @@ class SecretEdit extends Component {
   }
 
   onSubmit({ field }) {
-    const newSecret = this.props.secret.updateIn(['data', 'fields'], (fields) => {
-      const index = fields.findIndex(
-        fieldToUpdate => fieldToUpdate.id === field.id
-      );
-      return fields.set(index, field);
-    });
+    const newSecret = this.props.secret.updateIn(['data', 'fields'], fields =>
+      fields.set(
+        fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
+        field
+      )
+    );
 
     MetadataActions.updateSecret({
       secret: this.props.secret,

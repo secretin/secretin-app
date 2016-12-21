@@ -10,6 +10,7 @@ class SecretField extends Component {
   static propTypes = {
     field: PropTypes.instanceOf(SecretFieldRecord),
     showCopy: PropTypes.bool,
+    onChange: PropTypes.func,
     onSubmit: PropTypes.func,
   }
 
@@ -48,7 +49,15 @@ class SecretField extends Component {
   }
 
   handleChange({ value }) {
-    this.setState({ value });
+    const params = {
+      field: this.props.field,
+      value,
+    };
+
+    if (this.props.onChange) {
+      this.props.onChange(params);
+    }
+    this.setState(params);
   }
 
   render() {
@@ -62,33 +71,37 @@ class SecretField extends Component {
           onChange={this.handleChange}
           type={this.props.field.type}
           showCopy={this.props.showCopy}
-          readOnly={!this.state.editContent}
+          readOnly={!this.state.editContent && !this.props.onChange}
         />
 
-        <div className="secret-field-action">
-          {
-            !this.state.editContent && (
-              <Button
-                title="Edit"
-                buttonStyle="icon"
-                onClick={this.onEdit}
-              >
-                <Icon id="edit" size="small" />
-              </Button>
-            )
-          }
-          {
-            this.state.editContent && (
-              <Button
-                title="Save"
-                buttonStyle="icon"
-                onClick={this.onSave}
-              >
-                <Icon id="save" size="small" />
-              </Button>
-            )
-          }
-        </div>
+        {
+          !this.props.onChange && (
+            <div className="secret-field-action">
+              {
+                !this.state.editContent && (
+                  <Button
+                    title="Edit"
+                    buttonStyle="icon"
+                    onClick={this.onEdit}
+                  >
+                    <Icon id="edit" size="small" />
+                  </Button>
+                )
+              }
+              {
+                this.state.editContent && (
+                  <Button
+                    title="Save"
+                    buttonStyle="icon"
+                    onClick={this.onSave}
+                  >
+                    <Icon id="save" size="small" />
+                  </Button>
+                )
+              }
+            </div>
+          )
+        }
       </div>
     );
   }

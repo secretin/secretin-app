@@ -44,6 +44,7 @@ class SecretNew extends Component {
 
   render() {
     const { isFolder } = this.props;
+
     return (
       <Modal
         show={this.props.shown}
