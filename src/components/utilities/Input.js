@@ -47,7 +47,7 @@ class Input extends Component {
     this.onChange = this.onChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.onCopy = this.onCopy.bind(this);
-    this.id = uniqueId('input_');
+    this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
       showPassword: false,
     };
@@ -136,7 +136,7 @@ class Input extends Component {
         <input
           id={this.id}
           ref={(input) => { this.input = input; }}
-          name={this.props.name}
+          name={this.id}
           title={this.props.title}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
