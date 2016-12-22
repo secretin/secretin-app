@@ -59,6 +59,7 @@ class SecretNew extends Component {
             id="new-secret"
             onSubmit={this.onSubmit}
             disabled={false}
+            autoComplete="off"
           >
             <Input
               label={isFolder ? 'Folder title' : 'Secret title'}

@@ -7,6 +7,7 @@ class Form extends Component {
     id: PropTypes.string,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    autoComplete: PropTypes.string,
     onSubmit: PropTypes.func,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -17,6 +18,7 @@ class Form extends Component {
 
   static defaultProps = {
     disabled: false,
+    autoComplete: null,
     onSubmit: () => ({}),
   }
 
@@ -46,6 +48,7 @@ class Form extends Component {
         id={this.id}
         className={className}
         onSubmit={this.onSubmit}
+        autoComplete={this.props.autoComplete}
       >
         <input type="submit" style={{ display: 'none' }} />
         {this.props.children}
