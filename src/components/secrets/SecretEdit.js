@@ -5,6 +5,7 @@ import Secret from 'models/Secret';
 import SecretFields from 'components/secrets/SecretFields';
 
 import MetadataActions from 'actions/MetadataActions';
+import AppUIStore from 'stores/AppUIStore';
 
 class SecretEdit extends Component {
   static propTypes = {
@@ -41,6 +42,7 @@ class SecretEdit extends Component {
         <SecretFields
           fields={this.props.secret.getIn(['data', 'fields'])}
           onSubmit={this.onSubmit}
+          canUpdate={this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser())}
           showCopy
         />
       </div>

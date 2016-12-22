@@ -21,7 +21,7 @@ function SecretListItemOptions({ parentFolderId, secret }) {
       </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.MenuItem
-          onSelect={() => ShowSecretUIActions.showSecret({ secret, tab: 'details' })}
+          onSelect={() => ShowSecretUIActions.showSecret({ secret, tab: secret.type === 'folder' ? 'access' : 'details' })}
         >
           Show
         </Dropdown.MenuItem>
