@@ -1,0 +1,32 @@
+.page
+  flex: 1 1 auto
+  display: flex
+  flex-direction: column
+
+.page-header
+  flex: 0 0 50px
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  margin: 0 20px 20px
+  height: 50px
+  border-bottom: 1px solid rgba(51, 65, 73, .05)
+
+  .secret-list-refresh
+    margin-right: 10px
+    .icon
+      fill: $color-concrete
+
+  .secret-list-new
+    margin-right: 10px
+
+  .secret-list-new .dropdown-toggle .icon
+    fill: $color-concrete
+
+.page-content
+  display: flex
+  flex-direction: column
+  flex: 1 1 calc(100% - 50px)
+  overflow: auto
+  padding: 0 20px 20px

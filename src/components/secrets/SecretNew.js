@@ -43,13 +43,15 @@ class SecretNew extends Component {
   }
 
   render() {
+    const { isFolder } = this.props;
+
     return (
       <Modal
         show={this.props.shown}
         onClose={NewSecretUIActions.hideModal}
       >
         <Modal.Header
-          title={this.props.isFolder ? 'Add new folder' : 'Add new secret'}
+          title={isFolder ? 'Add new folder' : 'Add new secret'}
         />
 
         <Modal.Body>
@@ -57,9 +59,10 @@ class SecretNew extends Component {
             id="new-secret"
             onSubmit={this.onSubmit}
             disabled={false}
+            autoComplete="off"
           >
             <Input
-              label="Secret title"
+              label={isFolder ? 'Folder title' : 'Secret title'}
               name="title"
               value={this.props.title}
               type="text"
@@ -67,16 +70,21 @@ class SecretNew extends Component {
               autoSelect
               required
             />
-            <SecretFields
-              fields={this.props.data.fields}
-              onChange={NewSecretUIActions.changeField}
-            />
+            {
+              !isFolder && (
+                <SecretFields
+                  fields={this.props.data.fields}
+                  onChange={NewSecretUIActions.changeField}
+                />
+              )
+            }
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
           <Button
             type="reset"
+            buttonStyle="default"
             onClick={NewSecretUIActions.hideModal}
           >
             Cancel
@@ -85,7 +93,7 @@ class SecretNew extends Component {
             type="submit"
             onClick={this.onSubmit}
           >
-            Save
+            {isFolder ? 'Add folder' : 'Add secret'}
           </Button>
         </Modal.Footer>
       </Modal>

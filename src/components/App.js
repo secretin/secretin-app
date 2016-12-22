@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -11,9 +12,10 @@ import Layout from 'components/Layout';
 class App extends Component {
 
   static propTypes = {
+    savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   static getStores() {
@@ -26,24 +28,26 @@ class App extends Component {
   static getPropsFromStores() {
     const state = AppUIStore.getState();
     return {
+      savedUsername: state.get('savedUsername'),
       loading: state.get('loading'),
       connected: state.get('connected'),
-      error: state.get('error'),
+      errors: state.get('errors'),
       secrets: MetadataStore.getSecretsInFolder(),
     };
   }
 
   render() {
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
           {
             this.props.connected ? (
               <Layout />
             ) : (
               <UserConnect
+                savedUsername={this.props.savedUsername}
                 loading={this.props.loading}
-                error={this.props.error}
+                errors={this.props.errors}
               />
             )
           }

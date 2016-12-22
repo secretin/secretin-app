@@ -17,21 +17,18 @@ function SecretListContainer({ params, showAll }) {
   if (showAll) {
     const secrets = MetadataStore.getAllSecrets();
     return (
-      <div className="secret-list-container">
-        <SecretList secrets={secrets} showAll />
-      </div>
+      <SecretList secrets={secrets} showAll />
     );
   }
 
   const path = params.path ? params.path.split('/') : [];
   const folders = new Immutable.List(path);
-  const folder = folders.last();
-  const secrets = MetadataStore.getSecretsInFolder(folder);
+  const folderId = folders.last();
+  const folder = MetadataStore.getById(folderId);
+  const secrets = MetadataStore.getSecretsInFolder(folderId);
 
   return (
-    <div className="secret-list-container">
-      <SecretList folders={folders} secrets={secrets} />
-    </div>
+    <SecretList folder={folder} folders={folders} secrets={secrets} />
   );
 }
 SecretListContainer.propTypes = propTypes;

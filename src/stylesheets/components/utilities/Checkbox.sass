@@ -1,0 +1,28 @@
+.checkbox
+  display: block
+  position: relative
+  margin: 0 6px 0 2px
+  width: 24px
+  height: 16px
+  border-radius: 16px
+
+  &:after
+    content: ''
+    position: absolute
+    top: 2px
+    left: 2px
+    width: 12px
+    height: 12px
+    border-radius: 50%
+    background-color: white
+    transition: all .2s
+
+  &.checkbox--checked
+    background-color: $color-peter-river
+    &:after
+      margin-left: 8px
+
+  &.checkbox--unchecked
+    background-color: #C7C9CD
+    &:after
+      margin-left: 0

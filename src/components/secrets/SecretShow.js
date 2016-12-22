@@ -1,20 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import Immutable from 'immutable';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
 import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
+import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
 
 class SecretShow extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
+    errors: PropTypes.instanceOf(Immutable.Map),
     shown: PropTypes.bool,
     tab: PropTypes.string,
+    isUpdating: PropTypes.bool,
   }
 
   static getStores() {
@@ -27,8 +32,10 @@ class SecretShow extends Component {
     const state = ShowSecretUIStore.getState();
     return {
       secret: state.secret,
+      errors: state.errors,
       shown: !!state.secret,
       tab: state.tab,
+      isUpdating: state.isUpdating,
     };
   }
 
@@ -54,7 +61,9 @@ class SecretShow extends Component {
       >
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
-          {this.props.secret.title}
+          <span className="text" title={this.props.secret.title}>
+            {this.props.secret.title}
+          </span>
         </Modal.Header>
 
         <Modal.Body>
@@ -64,21 +73,31 @@ class SecretShow extends Component {
             onSelect={this.handleChangeTab}
           >
             <Tab eventKey="details" title="Details">
-              <SecretEdit secret={this.props.secret} />
+              <SecretEdit
+                isUpdating={this.props.isUpdating}
+                secret={this.props.secret}
+              />
             </Tab>
 
             <Tab eventKey="access" title="Who has access">
-              <pre>{JSON.stringify(this.props.secret.users, null, 2)}</pre>
-            </Tab>
-
-            <Tab eventKey="settings" title="Settings" disabled>
-              Tab 3 content
+              <SecretUserList
+                isUpdating={this.props.isUpdating}
+                errors={this.props.errors}
+                secret={this.props.secret}
+              />
             </Tab>
           </Tabs>
         </Modal.Body>
 
         <Modal.Footer>
-          Yo
+          <Button
+            type="reset"
+            buttonStyle="default"
+            onClick={ShowSecretUIActions.hideModal}
+            disabled={this.props.isUpdating}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     );

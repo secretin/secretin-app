@@ -6,6 +6,7 @@ import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
 
 import Icon from 'components/utilities/Icon';
+import Title from 'components/utilities/Title';
 
 const propTypes = {
   folders: PropTypes.instanceOf(Immutable.List),
@@ -16,17 +17,17 @@ const defaultProps = {
 };
 
 function SecretListBreadcrumb({ folders }) {
-  const breadcrumbURLs = folders.reduce((memo, folder) => (
-    memo.set(
-      folder,
-      buildSecretURL(
-        new Immutable.List([folder]),
-        memo.last()
-      )
-    )
-  ), new Immutable.OrderedMap());
+  const breadcrumbURLs = folders.reduce((memo, folderId) => (
+    memo.push({
+      folderId,
+      link: buildSecretURL(
+        new Immutable.List([folderId]),
+        memo.last() ? memo.last().link : undefined,
+      ),
+    })
+  ), new Immutable.List());
 
-  const breadcrumb = breadcrumbURLs.reduce((links, link, folderId) => {
+  const breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
     const folder = MetadataStore.getById(folderId);
     if (!folder) {
       return links;
@@ -34,11 +35,11 @@ function SecretListBreadcrumb({ folders }) {
 
     return links
       .push(
-        <div key={folder} className="secret-list-breadcrumb-item">
+        <div key={key} className="breadcrumb-item">
           <Link
             to={link}
-            className="secret-list-breadcrumb-link"
-            activeClassName="secret-list-breadcrumb-link--active"
+            className="breadcrumb-link"
+            activeClassName="breadcrumb-link--active"
             activeOnlyWhenExact
           >
             {folder.title}
@@ -46,26 +47,27 @@ function SecretListBreadcrumb({ folders }) {
         </div>
       )
       .push(
-        <Icon key={`${folder}-sep`} id="chevron-right" />
+        <Icon
+          key={`${key}-sep`}
+          id="chevron-right"
+          className="breadcrumb-item-separator"
+        />
       );
   }, new Immutable.List());
 
   return (
-    <div className="secret-list-breadcrumb">
+    <div className="breadcrumb">
       {
         breadcrumb
-          .unshift(<Icon key="home-sep" id="chevron-right" />)
           .unshift(
-            <div key="home" className="secret-list-breadcrumb-item">
-              <Link
-                to="/secrets/"
-                className="secret-list-breadcrumb-link"
-                activeClassName="secret-list-breadcrumb-link--active"
-                activeOnlyWhenExact
-              >
-                Home
-              </Link>
-            </div>
+            <Icon
+              key="home-sep"
+              id="chevron-right"
+              className="breadcrumb-item-separator"
+            />
+          )
+          .unshift(
+            <Title key="home" title="Home" icon="home" link="/secrets/" />
           )
       }
     </div>

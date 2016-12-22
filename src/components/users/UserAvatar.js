@@ -32,7 +32,10 @@ function getAvatarColor(fullName) {
 
 const propTypes = {
   user: PropTypes.instanceOf(User),
-  size: PropTypes.string,
+  size: PropTypes.oneOf([
+    'base',
+    'large',
+  ]),
 };
 
 const defaultProps = {
