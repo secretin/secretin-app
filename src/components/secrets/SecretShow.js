@@ -10,6 +10,7 @@ import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
 import Icon from 'components/utilities/Icon';
@@ -92,19 +93,26 @@ class SecretShow extends Component {
           >
             {this.props.secret.type !== 'folder' &&
               <Tab eventKey="details" title="Details">
-                <SecretEdit
-                  isUpdating={this.props.isUpdating}
-                  canUpdate={canUpdate}
-                />
+                {this.props.secret.type === 'windows' ?
+                  <WindowsSecretEdit
+                    isUpdating={this.props.isUpdating}
+                    secret={this.props.secret}
+                  />
+                  :
+                  <SecretEdit
+                    isUpdating={this.props.isUpdating}
+                    canUpdate={canUpdate}
+                  />}
               </Tab>}
 
-            <Tab eventKey="access" title="Who has access">
-              <SecretUserList
-                isUpdating={this.props.isUpdating}
-                errors={this.props.errors}
-                secret={this.props.secret}
-              />
-            </Tab>
+            {this.props.secret.type !== 'windows' &&
+              <Tab eventKey="access" title="Who has access">
+                <SecretUserList
+                  isUpdating={this.props.isUpdating}
+                  errors={this.props.errors}
+                  secret={this.props.secret}
+                />
+              </Tab>}
           </Tabs>
         </Modal.Body>
 
