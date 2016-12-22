@@ -106,8 +106,19 @@ class Input extends Component {
           {this.state.showPassword ? 'Hide' : 'Show'}
         </a>
       );
+    } else if (this.props.type === 'url') {
+      actions = actions.unshift(
+        <a
+          key="open"
+          href={this.props.value}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex="-1"
+        >
+          Open
+        </a>
+      );
     }
-
     if (this.props.showCopy) {
       actions = actions.unshift(
         <a

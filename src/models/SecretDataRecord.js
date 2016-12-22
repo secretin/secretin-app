@@ -41,6 +41,7 @@ class SecretDataRecord extends new Immutable.Record(defaultRecord) {
 SecretDataRecord.DEFAULT_FIELDS = new Immutable.List([
   new Immutable.Map({ label: 'login', type: 'text' }),
   new Immutable.Map({ label: 'password', type: 'password' }),
+  new Immutable.Map({ label: 'url', type: 'url' }),
 ]);
 
 export default SecretDataRecord;
