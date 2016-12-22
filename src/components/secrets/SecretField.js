@@ -11,6 +11,7 @@ class SecretField extends Component {
     field: PropTypes.instanceOf(SecretFieldRecord),
     showCopy: PropTypes.bool,
     onChange: PropTypes.func,
+    canUpdate: PropTypes.bool,
     onSubmit: PropTypes.func,
   }
 
@@ -78,7 +79,7 @@ class SecretField extends Component {
           !this.props.onChange && (
             <div className="secret-field-action">
               {
-                !this.state.editContent && (
+                !this.state.editContent && this.props.canUpdate && (
                   <Button
                     title="Edit"
                     buttonStyle="icon"

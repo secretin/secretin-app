@@ -66,11 +66,9 @@ class MetadataStore {
     );
   }
 
-  onCreateSecretUserRightsSuccess({ secret, user, rights }) {
+  onCreateSecretUserRightsSuccess({ metadata }) {
     this.setState(this.state
-      .updateIn(['metadata', secret.id, 'users'], users =>
-        users.push(user.set('rights', rights))
-      )
+      .set('metadata', metadata)
     );
   }
 

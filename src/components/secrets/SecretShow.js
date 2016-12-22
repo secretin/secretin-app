@@ -72,12 +72,16 @@ class SecretShow extends Component {
             activeKey={this.props.tab}
             onSelect={this.handleChangeTab}
           >
-            <Tab eventKey="details" title="Details">
-              <SecretEdit
-                isUpdating={this.props.isUpdating}
-                secret={this.props.secret}
-              />
-            </Tab>
+            {
+              this.props.secret.type !== 'folder' && (
+                <Tab eventKey="details" title="Details">
+                  <SecretEdit
+                    isUpdating={this.props.isUpdating}
+                    secret={this.props.secret}
+                  />
+                </Tab>
+              )
+            }
 
             <Tab eventKey="access" title="Who has access">
               <SecretUserList
