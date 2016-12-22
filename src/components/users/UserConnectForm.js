@@ -92,6 +92,7 @@ class UserConnect extends Component {
           disabled={this.props.loading}
           error={this.props.errors.get('username')}
           autoFocus
+          autoComplete
         />
         <Input
           name="password"
@@ -101,6 +102,7 @@ class UserConnect extends Component {
           onChange={this.handleChange}
           disabled={this.props.loading}
           error={this.props.errors.get('password')}
+          autoComplete
         />
         {
           this.props.errors.get('totp') &&

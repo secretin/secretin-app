@@ -22,6 +22,7 @@ class Input extends Component {
 
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
+    autoComplete: PropTypes.bool,
     showCopy: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
@@ -34,6 +35,7 @@ class Input extends Component {
     value: '',
     autoFocus: false,
     autoSelect: false,
+    autoComplete: false,
     showCopy: false,
     disabled: false,
     readOnly: false,
@@ -142,6 +144,7 @@ class Input extends Component {
           value={this.props.value}
           onChange={this.onChange}
           placeholder={this.props.placeholder}
+          autoComplete={this.props.autoComplete ? null : 'new-password'}
 
           autoFocus={this.props.autoFocus}
           disabled={this.props.disabled}

@@ -18,7 +18,7 @@ class Form extends Component {
 
   static defaultProps = {
     disabled: false,
-    autoComplete: null,
+    autoComplete: false,
     onSubmit: () => ({}),
   }
 
@@ -48,8 +48,14 @@ class Form extends Component {
         id={this.id}
         className={className}
         onSubmit={this.onSubmit}
-        autoComplete={this.props.autoComplete}
+        autoComplete={this.props.autoComplete ? null : 'new-password'}
       >
+        {
+          !this.props.autoComplete && [
+            <input name="autofill_trap_email" type="text" style={{ display: 'none' }} />,
+            <input name="autofill_trap_password" type="password" style={{ display: 'none' }} />,
+          ]
+        }
         <input type="submit" style={{ display: 'none' }} />
         {this.props.children}
       </form>
