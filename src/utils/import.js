@@ -35,6 +35,13 @@ function addSecret(child, hashedParent) {
         label: key,
         content: value,
       });
+    } else if (key === 'Url') {
+      secret.fields.push({
+        id: uuid.v4(),
+        type: 'url',
+        label: key,
+        content: value,
+      });
     } else if (!isEmpty(value)) {
       secret.fields.push({
         id: uuid.v4(),
