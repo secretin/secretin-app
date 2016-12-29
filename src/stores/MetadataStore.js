@@ -4,6 +4,7 @@ import makeImmutable from 'utils/makeImmutable';
 
 import AppUIActions from 'actions/AppUIActions';
 import MetadataActions from 'actions/MetadataActions';
+import AppUIStore from 'stores/AppUIStore';
 
 import Secret from 'models/Secret';
 
@@ -11,32 +12,84 @@ const MetadataState = new Record({
   metadata: new Immutable.Map(),
 });
 
+function buildSecrets(metadata) {
+  return Immutable.fromJS(metadata).map(
+    secret => Secret.createFromRaw(secret)
+  );
+}
+
 class MetadataStore {
   constructor() {
-    this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadata);
+    this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadataSuccess);
     this.bindActions(MetadataActions);
 
     this.state = new MetadataState();
   }
 
-  onLoadMetadata({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+  onLoadMetadataSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
-  onCreateSecretSuccess({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+  onCreateSecretSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
-  onDeleteSecretSuccess({ currentUser }) {
-    this.setState(
-      this.state
-        .set('metadata', Immutable.fromJS(currentUser.metadatas).map(secret => Secret.createFromRaw(secret)))
+  onDeleteSecretSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  onDeleteSecretFailure({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  // onAddSecretToFolder({ secret, folder }) {
+  //  // TODO: Do something while we add the secret to a folder
+  // }
+
+  onAddSecretToFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  onRemoveSecretFromCurrentFolderSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', buildSecrets(metadata))
+    );
+  }
+
+  onCreateSecretUserRightsSuccess({ metadata }) {
+    this.setState(this.state
+      .set('metadata', metadata)
+    );
+  }
+
+  onUpdateSecretUserRightsSuccess({ secret, user, rights }) {
+    this.setState(this.state
+      .updateIn(['metadata', secret.id, 'users'], users =>
+        users.map((userToUpdate) => {
+          if (userToUpdate.id === user.id) {
+            return userToUpdate.set('rights', rights);
+          }
+          return userToUpdate;
+        })
+      )
+    );
+  }
+
+  onDeleteSecretUserRightsSuccess({ secret, user }) {
+    this.setState(this.state
+      .updateIn(['metadata', secret.id, 'users'], users =>
+        users.filterNot(userToFilter => userToFilter.id === user.id)
+      )
     );
   }
 
@@ -48,21 +101,24 @@ class MetadataStore {
     return metadata.get(secretId);
   }
 
-  static getSecretsInFolder(folder) {
+  static getSecretsInFolder(folderId) {
     const { metadata } = this.getState();
-    if (!metadata) {
+    const currentUser = AppUIStore.getCurrentUser();
+    if (!currentUser || !metadata) {
       return new Immutable.Map();
     }
 
+    const userId = currentUser.username;
+
     return metadata.filter(metadatum => (
-      (!folder && metadatum.get('folders').isEmpty()) ||
-      (folder && metadatum.get('folders').has(folder))
+      (!folderId && metadatum.getIn(['users', userId, 'folders', 'ROOT'])) ||
+      (folderId && metadatum.getIn(['users', userId, 'folders', folderId]))
     ));
   }
 
   static getAllSecrets() {
     const { metadata } = this.getState();
-    return metadata || new Immutable.Map();
+    return metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map();
   }
 }
 

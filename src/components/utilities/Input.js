@@ -14,12 +14,15 @@ class Input extends Component {
     ]),
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    title: PropTypes.string,
     type: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    error: PropTypes.string,
 
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
+    autoComplete: PropTypes.bool,
     showCopy: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
@@ -32,6 +35,7 @@ class Input extends Component {
     value: '',
     autoFocus: false,
     autoSelect: false,
+    autoComplete: false,
     showCopy: false,
     disabled: false,
     readOnly: false,
@@ -45,7 +49,7 @@ class Input extends Component {
     this.onChange = this.onChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.onCopy = this.onCopy.bind(this);
-    this.id = uniqueId('input_');
+    this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
       showPassword: false,
     };
@@ -77,16 +81,23 @@ class Input extends Component {
     copyToClipboard(this.props.value, { debug: true });
   }
 
+  select() {
+    this.input.select();
+  }
+
   render() {
     const className = classNames(
       'input',
       `input--type-${this.props.type}`,
-      `input--size-${this.props.size}`
+      `input--size-${this.props.size}`,
+      {
+        'input--error': this.props.error,
+      }
     );
 
     let actions = this.props.actions;
     if (this.props.type === 'password') {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="show"
           onClick={this.onTogglePasswordShow}
@@ -95,10 +106,21 @@ class Input extends Component {
           {this.state.showPassword ? 'Hide' : 'Show'}
         </a>
       );
+    } else if (this.props.type === 'url') {
+      actions = actions.unshift(
+        <a
+          key="open"
+          href={this.props.value}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex="-1"
+        >
+          Open
+        </a>
+      );
     }
-
     if (this.props.showCopy) {
-      actions = this.props.actions.unshift(
+      actions = actions.unshift(
         <a
           key="copy"
           onClick={this.onCopy}
@@ -110,7 +132,7 @@ class Input extends Component {
     }
 
     return (
-      <div htmlFor={this.id} className={className}>
+      <div className={className}>
         {
           this.props.label && (
             <label htmlFor={this.id}>
@@ -127,17 +149,25 @@ class Input extends Component {
         <input
           id={this.id}
           ref={(input) => { this.input = input; }}
-          className={className}
-          name={this.props.name}
+          name={this.id}
+          title={this.props.title}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
           onChange={this.onChange}
           placeholder={this.props.placeholder}
+          autoComplete={this.props.autoComplete ? null : 'new-password'}
 
           autoFocus={this.props.autoFocus}
           disabled={this.props.disabled}
           readOnly={this.props.readOnly}
         />
+        {
+          this.props.error && (
+            <span className="input-error">
+              { this.props.error }
+            </span>
+          )
+        }
       </div>
     );
   }

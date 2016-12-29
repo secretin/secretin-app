@@ -1,33 +1,40 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
+import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
-import Input from 'components/utilities/Input';
-import Button from 'components/utilities/Button';
+import UserConnectForm from 'components/users/UserConnectForm';
+import UserConnectShortPass from 'components/users/UserConnectShortPass';
 
 class UserConnect extends Component {
 
   static propTypes = {
+    savedUsername: PropTypes.string,
     loading: PropTypes.bool,
-    error: PropTypes.bool,
+    errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor(props) {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleSignup = this.toggleSignup.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.hideShortpass = this.hideShortpass.bind(this);
 
     this.state = {
-      username: 'Charley',
-      password: 'test',
+      signup: false,
+      username: '',
+      password: '',
+      showShortpass: secretin.canITryShortLogin(),
     };
   }
 
-  componentDidMount() {
-    if (this.state.username && this.state.password) {
-      this.onSubmit();
-    }
+  componentWillReceiveProps() {
+    this.setState({
+      showShortpass: secretin.canITryShortLogin(),
+    });
   }
 
   onSubmit(e) {
@@ -35,9 +42,23 @@ class UserConnect extends Component {
       e.preventDefault();
     }
 
-    AppUIActions.loginUser({
-      username: this.state.username,
-      password: this.state.password,
+    if (this.state.signup) {
+      AppUIActions.createUser({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    } else {
+      AppUIActions.loginUser({
+        username: this.state.username,
+        password: this.state.password,
+        token: this.state.token,
+      });
+    }
+  }
+
+  toggleSignup({ checked }) {
+    this.setState({
+      signup: checked,
     });
   }
 
@@ -47,45 +68,31 @@ class UserConnect extends Component {
     });
   }
 
+  hideShortpass() {
+    this.setState({
+      showShortpass: false
+    });
+  }
+
   render() {
     return (
-      <form
-        disabled={this.props.loading}
-        onSubmit={this.onSubmit}
-      >
-        <Input
-          name="username"
-          type="text"
-          value={this.state.username}
-          onChange={this.handleChange}
-          autoFocus
-          disabled={this.props.loading}
-          placeholder="Username"
-        />
-        <Input
-          name="password"
-          type="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          disabled={this.props.loading}
-          placeholder="Password"
-        />
-
+      <div className="user-connect">
         {
-          this.props.error && (
-            <div>
-              Invalid username or password
-            </div>
+          this.state.showShortpass ? (
+            <UserConnectShortPass
+              savedUsername={this.props.savedUsername}
+              loading={this.props.loading}
+              error={this.props.errors.get('shortlogin')}
+              onCancel={this.hideShortpass}
+            />
+          ) : (
+            <UserConnectForm
+              loading={this.props.loading}
+              errors={this.props.errors}
+            />
           )
         }
-
-        <Button
-          type="submit"
-          disabled={this.props.loading}
-        >
-          Login
-        </Button>
-      </form>
+      </div>
     );
   }
 }

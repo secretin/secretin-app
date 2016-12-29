@@ -1,4 +1,4 @@
-.secret-list-breadcrumb
+.breadcrumb
   flex: 1 1 auto
   display: flex
   flex-direction: row
@@ -6,23 +6,27 @@
   height: 24px
   font-size: 18px
 
-.secret-list-breadcrumb .icon
+.breadcrumb-item-separator
   display: block
 
-.secret-list-breadcrumb .icon:last-of-type
+.breadcrumb-item-separator:last-of-type
   display: none
 
-.secret-list-breadcrumb-link
-  display: inline-block
+.breadcrumb-link
+  display: flex
+  flex-direction: row
+  align-items: center
   color: #304249
   text-decoration: none
+  .icon
+    margin-right: 4px
 
-.secret-list-breadcrumb-link:hover
+.breadcrumb-link:hover
   text-decoration: underline
 
-.secret-list-breadcrumb-link--active
+.breadcrumb-link--active
   color: inherit
   cursor: default
 
-.secret-list-breadcrumb-link--active:hover
+.breadcrumb-link--active:hover
   text-decoration: none

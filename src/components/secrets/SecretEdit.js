@@ -4,6 +4,9 @@ import Secret from 'models/Secret';
 
 import SecretFields from 'components/secrets/SecretFields';
 
+import MetadataActions from 'actions/MetadataActions';
+import AppUIStore from 'stores/AppUIStore';
+
 class SecretEdit extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
@@ -15,8 +18,18 @@ class SecretEdit extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit({ field }) {
+    const newSecret = this.props.secret.updateIn(['data', 'fields'], fields =>
+      fields.set(
+        fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
+        field
+      )
+    );
+
+    MetadataActions.updateSecret({
+      secret: this.props.secret,
+      data: newSecret.data,
+    });
   }
 
   render() {
@@ -25,15 +38,14 @@ class SecretEdit extends Component {
     }
 
     return (
-      <form
-        className="secret-edit"
-        onSubmit={this.onSubmit}
-      >
+      <div className="secret-edit">
         <SecretFields
           fields={this.props.secret.getIn(['data', 'fields'])}
+          onSubmit={this.onSubmit}
+          canUpdate={this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser())}
           showCopy
         />
-      </form>
+      </div>
     );
   }
 }

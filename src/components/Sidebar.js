@@ -28,25 +28,31 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        Secret-In.me
+        <Link to="/">
+          Secret-In.me
+        </Link>
       </div>
       <div className="sidebar-content">
         <ul className="sidebar-menu">
           <SidebarMenuLink to="/secrets/" activeOnlyWhenExact>
-            <Icon id="home" size="small" />
+            <Icon id="home" size="base" />
             Home
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/all/">
-            <Icon id="apps" size="small" />
+            <Icon id="apps" size="base" />
             All
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/recent/">
-            <Icon id="history" size="small" />
+            <Icon id="history" size="base" />
             Recent
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/shared/">
-            <Icon id="people" size="small" />
+            <Icon id="people" size="base" />
             Shared
+          </SidebarMenuLink>
+          <SidebarMenuLink to="/options/">
+            <Icon id="gear" size="base" />
+            Options
           </SidebarMenuLink>
         </ul>
       </div>

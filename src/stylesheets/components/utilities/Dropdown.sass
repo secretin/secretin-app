@@ -4,9 +4,13 @@
   display: inline-block
   vertical-align: middle
 
-.dropdown.open .dropdown-menu
-  visibility: visible
-  opacity: 1
+  &.open .dropdown-menu
+    visibility: visible
+    opacity: 1
+
+  &.disabled .dropdown-toggle
+    cursor: not-allowed
+    opacity: .4
 
 .dropdown-toggle
   position: relative
@@ -35,7 +39,7 @@
   padding: 5px 0
   background: white
   box-shadow: 0 0 0 1px rgba(0,0,0,.1),0 2px 6px 0 rgba(0,0,0,.1)
-  border-radius: 4px
+  border-radius: 2px
 
 .dropdown-menu-left
   left: 0
@@ -66,7 +70,7 @@
   text-decoration: none
 
 .dropdown-menu-item.disabled a
-  cursor: default
+  cursor: not-allowed
   opacity: .4
 
 .dropdown-menu-item.disabled a:hover,

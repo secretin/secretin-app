@@ -10,14 +10,13 @@ const defaultRecord = {
   title: null,
   lastModifiedBy: null,
   lastModifiedAt: null,
-  users: new Immutable.List(),
-  folders: new Immutable.List(),
+  users: new Immutable.Map(),
   data: null,
 };
 
-const CAN_SHARE = new Immutable.List([2]);
-const CAN_WRITE = CAN_SHARE.push(1);
-const CAN_READ = CAN_WRITE.push(0);
+const CAN_SHARE = 2;
+const CAN_WRITE = 1;
+const CAN_READ = 0;
 
 class Secret extends new Immutable.Record(defaultRecord) {
   getIcon() {
@@ -35,19 +34,19 @@ class Secret extends new Immutable.Record(defaultRecord) {
   }
 
   accessRightForUser(user) {
-    return this.users.find(secretUser => secretUser.id === user.username).get('rights');
+    return this.users.get(user.username).get('rights');
   }
 
   canBeReadBy(user) {
-    return CAN_READ.includes(this.accessRightForUser(user));
+    return this.accessRightForUser(user) >= CAN_READ;
   }
 
   canBeUpdatedBy(user) {
-    return CAN_WRITE.includes(this.accessRightForUser(user));
+    return this.accessRightForUser(user) >= CAN_WRITE;
   }
 
   canBeSharedBy(user) {
-    return CAN_SHARE.includes(this.accessRightForUser(user));
+    return this.accessRightForUser(user) >= CAN_SHARE;
   }
 
   static createFromRaw(rawData) {
@@ -57,7 +56,7 @@ class Secret extends new Immutable.Record(defaultRecord) {
           case 'users':
             return value.map(
               user => User.createFromRaw(user)
-            ).toList();
+            );
           case 'data':
             return SecretDataRecord.createFromRaw(value);
           case 'lastModifiedAt':
