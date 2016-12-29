@@ -12,11 +12,11 @@ This repository contains the default client implementation.
 # Install
 
 ```
-npm install
-npm start
+yarn install
+yarn start
 ```
 There is a dependency on secretin-lib, which is not available yet in npm.
 See instructions for install here :
 https://github.com/secretin/secretin-lib/README.md#install
 
-then, use `npm link` to link the library.
+then, use `yarn link` to link the library.
