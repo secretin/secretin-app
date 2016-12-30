@@ -1,5 +1,5 @@
 # Secretin
-![Jacques Secrétin](http://www.echo62.com/images/sportif/sportif48.jpg)
+<img src="http://www.newmedia-fr.info/databank/photo_articles/jacquessecretin.jpg" alt="Jacques Secrétin" width="200"/>
 
 Open source secret manager with groups management based on WebCryptoAPI http://www.w3.org/TR/WebCryptoAPI/
 
@@ -15,8 +15,3 @@ This repository contains the default client implementation.
 yarn install
 yarn start
 ```
-There is a dependency on secretin-lib, which is not available yet in npm.
-See instructions for install here :
-https://github.com/secretin/secretin-lib/README.md#install
-
-then, use `yarn link` to link the library.
