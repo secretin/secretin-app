@@ -1,0 +1,33 @@
+$spinner-offset: 187
+$spinner-duration: 1.4s
+
+@keyframes rotator
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(270deg)
+
+@keyframes dash
+  0%
+    stroke-dashoffset: $spinner-offset
+  50%
+    stroke-dashoffset: $spinner-offset/4
+    transform: rotate(135deg)
+  100%
+    stroke-dashoffset: $spinner-offset
+    transform: rotate(450deg)
+
+.spinner
+  display: block
+  width: 120px
+  height: 120px
+
+.spinner-svg
+  animation: rotator $spinner-duration linear infinite
+
+.spinner-svg-path
+  stroke: currentColor
+  stroke-dasharray: $spinner-offset
+  stroke-dashoffset: 0
+  transform-origin: center
+  animation: dash $spinner-duration ease-in-out infinite

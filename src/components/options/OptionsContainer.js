@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
+import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
 import Button from 'components/utilities/Button';
@@ -31,27 +31,9 @@ class OptionsContainer extends Component {
     };
   }
 
-  constructor(props) {
-    super(props);
-    this.handleChangeKeepass = this.handleChangeKeepass.bind(this);
-
-    this.state = {
-      keepass: ''
-    };
-  }
-
-  handleChangeKeepass(e) {
-    const reader = new FileReader();
-    reader.readAsText(e.target.files[0]);
-    reader.onload = (f) => {
-      this.setState({
-        keepass: f.target.result,
-      });
-    };
-  }
-
   render() {
-    const options = this.props.options;
+    const { options } = this.props;
+
     return (
       <div className="page">
         <div className="page-header">
@@ -88,10 +70,18 @@ class OptionsContainer extends Component {
           </div>
           <div className="options-section">
             <h3 className="options-section-title">
-              Import
+              Imports
             </h3>
             <div className="options-section-item">
-              Keepass :
+              <ImportKeepassShow />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={OptionsActions.showImportKeepass}
+              >
+                Import from Keepass
+              </Button>
+              {/* Keepass :
               <input
                 type="file"
                 id="input"
@@ -106,7 +96,7 @@ class OptionsContainer extends Component {
                 }}
               >
                 Import
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

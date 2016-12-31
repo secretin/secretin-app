@@ -14,6 +14,9 @@ class OptionsActions {
       'activateShortLoginFailure',
       'deactivateShortLoginSuccess',
       'deactivateShortLoginFailure',
+      'showImportKeepass',
+      'hideImportKeepass',
+      'importKeepassProgress',
       'importKeepassSuccess',
       'importKeepassFailure',
       'hideQRCode',
@@ -86,15 +89,23 @@ class OptionsActions {
     return this.deactivateTotp();
   }
 
-  importKeepass(keepass) {
-    parseKeepass(keepass)
-      .then(() => {
-        this.importKeepassSuccess();
-      })
-      .catch(() => {
-        this.importKeepassFailure();
-      });
-    return true;
+  importKeepass({ file }) {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = readedFile => (
+      parseKeepass(
+          readedFile.target.result,
+          (importStatus, importTotal) => this.importKeepassProgress({ importStatus, importTotal })
+        )
+        .then(() => {
+          this.importKeepassSuccess();
+        })
+        .catch((error) => {
+          this.importKeepassFailure({ error });
+        })
+    );
+
+    return reader;
   }
 
   toggleShortLogin({ checked }) {
