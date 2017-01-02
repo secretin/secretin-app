@@ -21,7 +21,7 @@ function createWindow() {
       const url = request.url.split('/static/')[1];
       callback({ path: path.join(__dirname, 'build/static', url) });
     } else if (request.url.endsWith('/index.html')) {
-      callback({ path: request.url.substring(prefix.length + 2) });
+      callback({ path: request.url.substring(prefix.length + 3) });
     } else {
       callback({ path: path.join(__dirname, 'build/index.html') });
     }
@@ -33,7 +33,7 @@ function createWindow() {
     height: 800,
   });
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/build/index.html`);
+  win.loadURL('file://./build/index.html');
 
   // Open the DevTools.
   // win.webContents.openDevTools();

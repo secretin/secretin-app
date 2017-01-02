@@ -46,7 +46,7 @@
     "build": "yarn run build-css && NODE_PATH=./src  react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
-    "electron": "yarn run build && electron-packager ./ --overwrite",
+    "electron": "yarn run build && electron-packager ./ --overwrite --version=1.4.13",
     "lint": "eslint src/",
     "test": "yarn run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
