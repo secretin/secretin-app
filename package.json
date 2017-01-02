@@ -24,7 +24,6 @@
     "alt-utils": "1.0.0",
     "classnames": "2.2.5",
     "copy-to-clipboard": "3.0.5",
-    "electron": "^1.4.13",
     "immutable": "3.8.1",
     "lodash": "4.17.2",
     "moment": "2.17.1",
@@ -54,5 +53,9 @@
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
+  },
+  "peerDependencies": {
+    "electron": "^1.4.13",
+    "electron-packager": "^8.4.0"
   }
 }
