@@ -9,9 +9,6 @@ This repository contains the default client implementation.
 * For the windows native app, see https://github.com/secretin/secretin-windows
 * For the default server implementation, see https://github.com/secretin/secretin-server
 
-# Install
+Please read our wiki for installation guide : https://github.com/secretin/secretin-app/wiki
 
-```
-yarn install
-yarn start
-```
+Don't hesitate to open issues !
