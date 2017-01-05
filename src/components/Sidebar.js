@@ -42,14 +42,6 @@ function Sidebar() {
             <Icon id="apps" size="base" />
             All
           </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/recent/">
-            <Icon id="history" size="base" />
-            Recent
-          </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/shared/">
-            <Icon id="people" size="base" />
-            Shared
-          </SidebarMenuLink>
           <SidebarMenuLink to="/options/">
             <Icon id="gear" size="base" />
             Options

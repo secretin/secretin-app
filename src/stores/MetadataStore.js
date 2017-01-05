@@ -68,7 +68,7 @@ class MetadataStore {
 
   onCreateSecretUserRightsSuccess({ metadata }) {
     this.setState(this.state
-      .set('metadata', metadata)
+      .set('metadata', buildSecrets(metadata))
     );
   }
 
