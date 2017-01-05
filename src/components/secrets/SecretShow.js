@@ -73,22 +73,25 @@ class SecretShow extends Component {
             activeKey={this.props.tab}
             onSelect={this.handleChangeTab}
           >
-            <Tab eventKey="details" title="Details">
-              {
-                this.props.secret.type === 'windows' ?
-                  <WindowsSecretEdit
-                    isUpdating={this.props.isUpdating}
-                    secret={this.props.secret}
-                  />
-                  :
-                  <SecretEdit
-                    isUpdating={this.props.isUpdating}
-                    secret={this.props.secret}
-                  />
-              }
-            </Tab>
             {
-              this.props.secret.type !== 'windows' ?
+              this.props.secret.type !== 'folder' &&
+                <Tab eventKey="details" title="Details">
+                  {
+                    this.props.secret.type === 'windows' ?
+                      <WindowsSecretEdit
+                        isUpdating={this.props.isUpdating}
+                        secret={this.props.secret}
+                      />
+                    :
+                      <SecretEdit
+                        isUpdating={this.props.isUpdating}
+                        secret={this.props.secret}
+                      />
+                  }
+                </Tab>
+            }
+            {
+              this.props.secret.type !== 'windows' &&
                 <Tab eventKey="access" title="Who has access">
                   <SecretUserList
                     isUpdating={this.props.isUpdating}
@@ -96,8 +99,6 @@ class SecretShow extends Component {
                     secret={this.props.secret}
                   />
                 </Tab>
-                :
-                false
             }
           </Tabs>
         </Modal.Body>

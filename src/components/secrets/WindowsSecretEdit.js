@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+import Immutable from 'immutable';
 import copyToClipboard from 'copy-to-clipboard';
 
 import Secret from 'models/Secret';
@@ -39,6 +40,9 @@ class WindowsSecretEdit extends Component {
   }
 
   render() {
+    if (!this.props.secret.data) {
+      return <pre>Loading...</pre>;
+    }
     return (
       <div className="secret-edit">
         <Select
@@ -51,7 +55,7 @@ class WindowsSecretEdit extends Component {
             ])).toList()
           }
           onChange={this.handleChange}
-          actions={[]}
+          actions={new Immutable.List([])}
         />
         <Button
           onClick={this.handleClick}

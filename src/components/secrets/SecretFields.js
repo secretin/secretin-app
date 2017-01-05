@@ -7,6 +7,7 @@ class SecretFields extends Component {
   static propTypes = {
     fields: PropTypes.instanceOf(Immutable.List),
     showCopy: PropTypes.bool,
+    canUpdate: PropTypes.bool,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
   }
@@ -27,6 +28,7 @@ class SecretFields extends Component {
             <SecretField
               key={field.id}
               field={field}
+              canUpdate={this.props.canUpdate}
               showCopy={this.props.showCopy}
               onChange={this.props.onChange}
               onSubmit={this.props.onSubmit}

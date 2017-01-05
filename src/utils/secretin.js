@@ -1,7 +1,9 @@
 // eslint-disable-next-line
 import Secretin from 'secretin';
 
-const secretin = new Secretin(Secretin.API.Server, 'https://api.secret-in.me');
+const serverURI = process.env.REACT_APP_API_SECRETIN ? process.env.REACT_APP_API_SECRETIN : 'http://devapi.secret-in.me:3000';
+
+const secretin = new Secretin(Secretin.API.Server, serverURI);
 
 export const Errors = {
   ...Secretin.Errors,

@@ -48,8 +48,7 @@ class SecretUserList extends Component {
 
   render() {
     const currentUser = AppUIStore.getCurrentUser();
-    const canShare = this.props.secret.canBeUpdatedBy(currentUser);
-
+    const canShare = this.props.secret.canBeSharedBy(currentUser);
     return (
       <div className="secret-users">
         <div className="secret-users-list">
@@ -71,11 +70,14 @@ class SecretUserList extends Component {
             ).toArray()
           }
         </div>
-
-        <SecretUserListNew
-          secret={this.props.secret}
-          errors={this.props.errors}
-        />
+        {
+          canShare && (
+            <SecretUserListNew
+              secret={this.props.secret}
+              errors={this.props.errors}
+            />
+          )
+        }
       </div>
     );
   }

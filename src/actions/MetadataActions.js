@@ -86,10 +86,13 @@ class MetadataActions {
 
   createSecretUserRights({ secret, user, rights }) {
     return secretin
-      .shareSecret(secret.id, user.username, secret.type, rights)
-      .then(() => (
-        this.createSecretUserRightsSuccess({ secret, user, rights })
-      ))
+      .shareSecret(secret.id, user.username, rights)
+      .then(() => secretin.refreshUser())
+      .then(() => {
+        this.loadMetadataSuccess({
+          metadata: secretin.currentUser.metadatas,
+        });
+      })
       .catch((error) => {
         if (error instanceof FriendNotFoundError) {
           return this.createSecretUserRightsFailure({
@@ -105,7 +108,7 @@ class MetadataActions {
 
   updateSecretUserRights({ secret, user, rights }) {
     return secretin
-      .shareSecret(secret.id, user.username, secret.type, rights)
+      .shareSecret(secret.id, user.username, rights)
       .then(() => (
         this.updateSecretUserRightsSuccess({ secret, user, rights })
       ))
