@@ -43,7 +43,6 @@ class SecretEdit extends Component {
           fields={this.props.secret.getIn(['data', 'fields'])}
           onSubmit={this.onSubmit}
           canUpdate={this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser())}
-          showCopy
         />
       </div>
     );

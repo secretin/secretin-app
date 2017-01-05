@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
+import copyToClipboard from 'copy-to-clipboard';
+import { Utils } from 'secretin';
 
 import SecretFieldRecord from 'models/SecretFieldRecord';
 
@@ -9,14 +12,9 @@ import Button from 'components/utilities/Button';
 class SecretField extends Component {
   static propTypes = {
     field: PropTypes.instanceOf(SecretFieldRecord),
-    showCopy: PropTypes.bool,
     onChange: PropTypes.func,
     canUpdate: PropTypes.bool,
     onSubmit: PropTypes.func,
-  }
-
-  static defaultProps = {
-    showCopy: false,
   }
 
   constructor(props) {
@@ -24,6 +22,8 @@ class SecretField extends Component {
 
     this.onEdit = this.onEdit.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onCopy = this.onCopy.bind(this);
+    this.onGenerate = this.onGenerate.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
@@ -49,6 +49,21 @@ class SecretField extends Component {
     });
   }
 
+  onCopy() {
+    copyToClipboard(this.state.value, { debug: true });
+  }
+
+  onGenerate() {
+    this.setState({
+      value: '',
+    });
+    setTimeout(() => {
+      this.setState({
+        value: Utils.PasswordGenerator.generatePassword()
+      });
+    }, 300);
+  }
+
   handleChange({ value }) {
     const params = {
       field: this.props.field,
@@ -62,6 +77,19 @@ class SecretField extends Component {
   }
 
   render() {
+    const actions = [];
+    if (this.props.canUpdate) {
+      actions.push(
+        <a
+          key="edit"
+          onClick={this.state.editContent ? this.onSave : this.onEdit}
+          tabIndex="-1"
+        >
+          {this.state.editContent ? 'Save' : 'Edit'}
+        </a>
+      );
+    }
+
     return (
       <div className="secret-field">
         <Input
@@ -71,32 +99,37 @@ class SecretField extends Component {
           value={this.state.value}
           onChange={this.handleChange}
           type={this.props.field.type}
-          showCopy={this.props.showCopy}
           readOnly={!this.state.editContent && !this.props.onChange}
+          actions={new Immutable.List(actions)}
         />
 
         {
           !this.props.onChange && (
             <div className="secret-field-action">
               {
-                !this.state.editContent && this.props.canUpdate && (
-                  <Button
-                    title="Edit"
-                    buttonStyle="icon"
-                    onClick={this.onEdit}
-                  >
-                    <Icon id="edit" size="small" />
-                  </Button>
+                this.state.editContent ? (
+                  <div>
+                    {
+                      this.props.field.type === 'password' && (
+                        <Button
+                          title="Generate password"
+                          buttonStyle="icon"
+                          onClick={this.onGenerate}
+                        >
+                          <Icon id="generate" size="small" />
+                        </Button>
+                      )
+                    }
+                  </div>
                 )
-              }
-              {
-                this.state.editContent && (
+                :
+                (
                   <Button
-                    title="Save"
+                    title="Copy"
                     buttonStyle="icon"
-                    onClick={this.onSave}
+                    onClick={this.onCopy}
                   >
-                    <Icon id="save" size="small" />
+                    <Icon id="copy" size="small" />
                   </Button>
                 )
               }
