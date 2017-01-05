@@ -17,6 +17,8 @@ class OptionsActions {
       'deactivateShortLoginFailure',
       'hideQRCode',
       'hideShortLogin',
+      'changeDelaySuccess',
+      'changeDelayFailure',
     );
   }
 
@@ -89,6 +91,17 @@ class OptionsActions {
     }
 
     return this.deactivateShortLogin();
+  }
+
+  changeDelay(delay) {
+    secretin.editOption('timeToClose', delay)
+      .then(() => {
+        this.changeDelaySuccess(secretin.currentUser.options.timeToClose);
+      })
+      .catch(() => {
+        this.changeDelayFailure();
+      });
+    return true;
   }
 }
 

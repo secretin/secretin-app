@@ -15,7 +15,8 @@ class AppUIActions {
       'createUserFailure',
       'loginUserSuccess',
       'loginUserFailure',
-      'appReady'
+      'appReady',
+      'disconnectUser'
     );
   }
 

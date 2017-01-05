@@ -109,6 +109,12 @@ class OptionsStore {
       }));
   }
 
+  onChangeDelaySuccess(delay) {
+    this.setState(this.state
+      .set('options', this.state.options.set('timeToClose', delay))
+    );
+  }
+
   static getOptions() {
     return this.getState().get('options');
   }
