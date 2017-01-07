@@ -47,6 +47,7 @@ class ShowSecretUIStore {
       this.state.merge({
         secret,
         tab: tab || 'details',
+        errors: new Immutable.Map(),
       })
     );
   }
@@ -54,12 +55,14 @@ class ShowSecretUIStore {
   onShowSecretSuccess({ secret }) {
     this.setState(this.state
       .set('secret', secret)
+      .set('errors', new Immutable.Map())
     );
   }
 
   onHideModal() {
     this.setState(this.state
       .set('secret', null)
+      .set('errors', new Immutable.Map())
     );
   }
 
@@ -85,6 +88,7 @@ class ShowSecretUIStore {
         )
       ))
       .set('isUpdating', false)
+      .set('errors', new Immutable.Map())
     );
   }
 
