@@ -16,8 +16,12 @@ class AppUIActions {
       'loginUserSuccess',
       'loginUserFailure',
       'appReady',
-      'disconnectUser'
     );
+  }
+
+  disconnectUser() {
+    secretin.currentUser.disconnect();
+    return true;
   }
 
   createUser({ username, password }) {

@@ -20,27 +20,6 @@ class AppUIStore {
     this.state = new AppUIState({
       savedUsername: secretin.getSavedUsername(),
     });
-
-    this.disconnectingEvent = null;
-
-    window.addEventListener('focus', () => { this.cameBack(); });
-    window.addEventListener('blur', () => { this.left(); });
-  }
-
-  cameBack() {
-    clearTimeout(this.disconnectingEvent);
-    return true;
-  }
-
-  left() {
-    clearTimeout(this.disconnectingEvent);
-    if (secretin.currentUser.options) {
-      const delay = secretin.currentUser.options.timeToClose * 60 * 1000;
-      if (delay > 0) {
-        this.disconnectingEvent = setTimeout(this.disconnectUser.bind(this), delay);
-      }
-    }
-    return true;
   }
 
   onCreateUser() {
@@ -51,8 +30,7 @@ class AppUIStore {
     );
   }
 
-  disconnectUser() {
-    secretin.currentUser.disconnect();
+  onDisconnectUser() {
     this.setState(
       this.state.merge({
         savedUsername: secretin.getSavedUsername(),

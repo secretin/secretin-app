@@ -96,7 +96,7 @@ class OptionsActions {
   changeDelay(delay) {
     secretin.editOption('timeToClose', delay)
       .then(() => {
-        this.changeDelaySuccess(secretin.currentUser.options.timeToClose);
+        this.changeDelaySuccess({ timeToClose: secretin.currentUser.options.timeToClose });
       })
       .catch(() => {
         this.changeDelayFailure();
