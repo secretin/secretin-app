@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
+import copyToClipboard from 'copy-to-clipboard';
+import { Utils } from 'secretin';
 
 import SecretFieldRecord from 'models/SecretFieldRecord';
 
@@ -9,44 +12,28 @@ import Button from 'components/utilities/Button';
 class SecretField extends Component {
   static propTypes = {
     field: PropTypes.instanceOf(SecretFieldRecord),
-    showCopy: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: React.PropTypes.func,
+    isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
-    onSubmit: PropTypes.func,
-  }
-
-  static defaultProps = {
-    showCopy: false,
   }
 
   constructor(props) {
     super(props);
 
-    this.onEdit = this.onEdit.bind(this);
-    this.onSave = this.onSave.bind(this);
+    this.onCopy = this.onCopy.bind(this);
+    this.onGenerate = this.onGenerate.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      value: props.field.content,
-      editContent: false,
-    };
   }
 
-  onEdit() {
-    this.setState(
-      { editContent: true },
-      this.input.select
-    );
+  onCopy() {
+    copyToClipboard(this.props.field.content, { debug: true });
   }
 
-  onSave() {
-    this.props.onSubmit({
-      field: this.props.field.set('content', this.state.value),
-    });
-
-    this.setState({
-      editContent: false,
-    });
+  onGenerate() {
+    this.handleChange({ value: '' });
+    setTimeout(() => {
+      this.handleChange({ value: Utils.PasswordGenerator.generatePassword() });
+    }, 100);
   }
 
   handleChange({ value }) {
@@ -55,54 +42,63 @@ class SecretField extends Component {
       value,
     };
 
-    if (this.props.onChange) {
-      this.props.onChange(params);
-    }
-    this.setState(params);
+    this.props.onChange(params);
   }
 
   render() {
+    const actions = [];
+    if (!this.props.isNew) {
+      if (this.props.field.type === 'url') {
+        actions.push(
+          <a
+            key="open"
+            href={this.props.field.content}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex="-1"
+          >
+            Open
+          </a>
+        );
+      }
+
+      actions.push(
+        <a
+          key="copy"
+          onClick={this.onCopy}
+          tabIndex="-1"
+        >
+          Copy
+        </a>
+      );
+    }
+
     return (
       <div className="secret-field">
         <Input
           ref={(ref) => { this.input = ref; }}
           label={this.props.field.label}
           name={this.props.field.label}
-          value={this.state.value}
+          value={this.props.field.content}
           onChange={this.handleChange}
           type={this.props.field.type}
-          showCopy={this.props.showCopy}
-          readOnly={!this.state.editContent && !this.props.onChange}
+          readOnly={!this.props.canUpdate}
+          actions={new Immutable.List(actions)}
         />
-
-        {
-          !this.props.onChange && (
-            <div className="secret-field-action">
-              {
-                !this.state.editContent && this.props.canUpdate && (
-                  <Button
-                    title="Edit"
-                    buttonStyle="icon"
-                    onClick={this.onEdit}
-                  >
-                    <Icon id="edit" size="small" />
-                  </Button>
-                )
-              }
-              {
-                this.state.editContent && (
-                  <Button
-                    title="Save"
-                    buttonStyle="icon"
-                    onClick={this.onSave}
-                  >
-                    <Icon id="save" size="small" />
-                  </Button>
-                )
-              }
-            </div>
-          )
-        }
+        <div className="secret-field-action">
+          {
+            this.props.field.type === 'password' && this.props.canUpdate && (
+              <Button
+                title="Generate password"
+                buttonStyle="icon"
+                onClick={this.onGenerate}
+                tabIndex="-1"
+              >
+                <Icon id="generate" size="small" />
+              </Button>
+            )
+          }
+        </div>
       </div>
     );
   }
