@@ -71,6 +71,14 @@ class AppUIStore {
     );
   }
 
+  onShortLogin() {
+    this.setState(
+      this.state.merge({
+        loading: true,
+      })
+    );
+  }
+
   onLoginUserSuccess({ currentUser }) {
     this.setState(
       this.state.merge({
