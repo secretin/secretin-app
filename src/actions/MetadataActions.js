@@ -89,7 +89,7 @@ class MetadataActions {
       .shareSecret(secret.id, user.username, rights)
       .then(() => secretin.refreshUser())
       .then(() => {
-        this.loadMetadataSuccess({
+        this.createSecretUserRightsSuccess({
           metadata: secretin.currentUser.metadatas,
         });
       })
