@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import classNames from 'classnames';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
 
@@ -10,12 +9,8 @@ const propTypes = {
 };
 
 function SecretListItemWindows({ secret }) {
-  const className = classNames(
-    'secret-list-item',
-  );
-
   return (
-    <tr className={className}>
+    <tr className="secret-list-item">
       <td className="secret-list-item-column--title">
         <a
           onClick={() => ShowSecretUIActions.showSecret({ secret })}
