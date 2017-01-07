@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash'
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -6,6 +7,7 @@ import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
+import Button from 'components/utilities/Button';
 
 import OptionsActions from 'actions/OptionsActions';
 
@@ -26,6 +28,25 @@ class OptionsContainer extends Component {
   static getPropsFromStores() {
     return {
       options: OptionsStore.getOptions(),
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleChangeKeepass = this.handleChangeKeepass.bind(this);
+
+    this.state = {
+      keepass: ''
+    };
+  }
+
+  handleChangeKeepass(e) {
+    const reader = new FileReader();
+    reader.readAsText(e.target.files[0]);
+    reader.onload = (f) => {
+      this.setState({
+        keepass: f.target.result,
+      });
     };
   }
 
@@ -65,8 +86,29 @@ class OptionsContainer extends Component {
               </Checkbox>
             </div>
           </div>
-
-
+          <div className="options-section">
+            <h3 className="options-section-title">
+              Import
+            </h3>
+            <div className="options-section-item">
+              Keepass :
+              <input
+                type="file"
+                id="input"
+                onChange={this.handleChangeKeepass}
+              />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                disabled={isEmpty(this.state.keepass)}
+                onClick={() => {
+                  OptionsActions.importKeepass(this.state.keepass);
+                }}
+              >
+                Import
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );

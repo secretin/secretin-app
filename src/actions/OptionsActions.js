@@ -1,12 +1,11 @@
 import alt from 'utils/alt';
 import secretin from 'utils/secretin';
+import { parseKeepass } from 'utils/import';
 import uuid from 'uuid';
 
 class OptionsActions {
   constructor() {
     this.generateActions(
-      'verifyTotpSuccess',
-      'verifyTotpFailure',
       'deactivateTotpSuccess',
       'deactivateTotpFailure',
       'activateTotpSuccess',
@@ -15,6 +14,8 @@ class OptionsActions {
       'activateShortLoginFailure',
       'deactivateShortLoginSuccess',
       'deactivateShortLoginFailure',
+      'importKeepassSuccess',
+      'importKeepassFailure',
       'hideQRCode',
       'hideShortLogin',
     );
@@ -31,8 +32,9 @@ class OptionsActions {
     return false;
   }
 
-  activateTotp({ seed }) {
-    secretin.activateTotp(seed)
+  activateTotp({ seed, token }) {
+    secretin.api.testTotp(seed.b32, token)
+      .then(() => secretin.activateTotp(seed))
       .then(() => {
         this.activateTotpSuccess();
       })
@@ -40,17 +42,6 @@ class OptionsActions {
         this.activateTotpFailure();
       });
     return true;
-  }
-
-  verifyTotp({ seed, token }) {
-    secretin.api.testTotp(seed.b32, token)
-      .then(() => {
-        this.verifyTotpSuccess();
-      })
-      .catch(() => {
-        this.verifyTotpFailure();
-      });
-    return token;
   }
 
   activateShortLogin({ shortpass }) {
@@ -81,6 +72,17 @@ class OptionsActions {
     }
 
     return this.deactivateTotp();
+  }
+
+  importKeepass(keepass) {
+    parseKeepass(keepass)
+      .then(() => {
+        this.importKeepassSuccess();
+      })
+      .catch(() => {
+        this.importKeepassFailure();
+      });
+    return true;
   }
 
   toggleShortLogin({ checked }) {
