@@ -11,23 +11,12 @@ const EditSecretUIState = new Record({
   data: null,
 });
 
-const {
-  SHOW_SECRET_SUCCESS,
-  HIDE_MODAL,
-}
-= ShowSecretUIActions;
-
-const {
-  UPDATE_SECRET_SUCCESS,
-}
-= MetadataActions;
-
 class EditSecretUIStore {
   constructor() {
     this.bindActions(EditSecretUIActions);
-    this.bindAction(SHOW_SECRET_SUCCESS, this.onUpdateSecret);
-    this.bindAction(HIDE_MODAL, this.onHideModal);
-    this.bindAction(UPDATE_SECRET_SUCCESS, this.onUpdateData);
+    this.bindAction(ShowSecretUIActions.SHOW_SECRET_SUCCESS, this.onUpdateSecret);
+    this.bindAction(ShowSecretUIActions.HIDE_MODAL, this.onHideModal);
+    this.bindAction(MetadataActions.UPDATE_SECRET_SUCCESS, this.onUpdateData);
 
     this.state = new EditSecretUIState();
   }
@@ -51,9 +40,11 @@ class EditSecretUIStore {
   }
 
   onHideModal() {
-    this.setState(this.state
-      .set('isEditing', false)
-      .set('data', null)
+    this.setState(
+      this.state.merge({
+        isEditing: false,
+        data: null,
+      })
     );
   }
 
