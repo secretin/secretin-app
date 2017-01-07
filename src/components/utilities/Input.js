@@ -137,20 +137,13 @@ class Input extends Component {
         />
         {
           this.props.type === 'password' && (
-            <div
-              style={{
-                float: 'right',
-                marginTop: '-43px',
-                marginRight: '10px',
-                opacity: '0.5',
-              }}
-            >
+            <div className={this.state.showPassword ? 'eye-show' : 'eye-hide'}>
               <Button
                 title="Show"
                 buttonStyle="icon"
                 onClick={this.onTogglePasswordShow}
               >
-                <Icon id={this.state.showPassword ? 'hide' : 'show'} size="small" />
+                <Icon id="eye" size="small" />
               </Button>
             </div>
           )
