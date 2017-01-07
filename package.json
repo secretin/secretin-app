@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://secret-in.me",
+  "main": "electron.js",
   "devDependencies": {
     "babel-eslint": "7.1.1",
+    "electron": "^1.4.13",
+    "electron-packager": "^8.4.0",
     "eslint": "3.12.2",
     "eslint-config-airbnb": "13.0.0",
     "eslint-import-resolver-webpack": "0.8.0",
@@ -35,7 +38,7 @@
     "react-dom": "15.4.1",
     "react-overlays": "0.6.10",
     "react-router": "4.0.0-alpha.6",
-    "secretin": "^1.0.1",
+    "secretin": "1.*.*",
     "url-join": "1.1.0",
     "uuid": "3.0.1"
   },
@@ -45,6 +48,7 @@
     "build": "yarn run build-css && NODE_PATH=./src  react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
+    "electron": "yarn run build && electron-packager ./ --overwrite --version=1.4.13",
     "lint": "eslint src/",
     "test": "yarn run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
