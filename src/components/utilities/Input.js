@@ -90,20 +90,7 @@ class Input extends Component {
       }
     );
 
-    let actions = this.props.actions;
-    if (this.props.type === 'url') {
-      actions = actions.unshift(
-        <a
-          key="open"
-          href={this.props.value}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex="-1"
-        >
-          Open
-        </a>
-      );
-    }
+    const actions = this.props.actions;
 
     return (
       <div className={className}>
@@ -142,6 +129,7 @@ class Input extends Component {
                 title="Show"
                 buttonStyle="icon"
                 onClick={this.onTogglePasswordShow}
+                tabIndex="-1"
               >
                 <Icon id="eye" size="small" />
               </Button>

@@ -74,6 +74,8 @@ class SecretNew extends Component {
                 <SecretFields
                   fields={this.props.data.fields}
                   onChange={NewSecretUIActions.changeField}
+                  isNew
+                  canUpdate
                 />
               )
             }

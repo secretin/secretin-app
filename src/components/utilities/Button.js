@@ -20,6 +20,7 @@ class Button extends Component {
       PropTypes.node,
       PropTypes.string,
     ]),
+    tabIndex: PropTypes.string,
   }
 
   static defaultProps = {
@@ -59,6 +60,7 @@ class Button extends Component {
         form={this.props.form}
         onClick={this.handleClick}
         disabled={this.props.disabled}
+        tabIndex={this.props.tabIndex}
       >
         {this.props.children}
       </button>

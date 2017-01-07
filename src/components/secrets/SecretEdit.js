@@ -1,52 +1,43 @@
 import React, { Component, PropTypes } from 'react';
+import connectToStores from 'alt-utils/lib/connectToStores';
 
-import Secret from 'models/Secret';
+import SecretDataRecord from 'models/SecretDataRecord';
 
+import EditSecretUIActions from 'actions/EditSecretUIActions';
+import EditSecretUIStore from 'stores/EditSecretUIStore';
 import SecretFields from 'components/secrets/SecretFields';
-
-import MetadataActions from 'actions/MetadataActions';
-import AppUIStore from 'stores/AppUIStore';
 
 class SecretEdit extends Component {
   static propTypes = {
-    secret: PropTypes.instanceOf(Secret),
+    data: PropTypes.instanceOf(SecretDataRecord),
+    canUpdate: PropTypes.bool,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
+  static getStores() {
+    return [
+      EditSecretUIStore,
+    ];
   }
 
-  onSubmit({ field }) {
-    const newSecret = this.props.secret.updateIn(['data', 'fields'], fields =>
-      fields.set(
-        fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
-        field
-      )
-    );
-
-    MetadataActions.updateSecret({
-      secret: this.props.secret,
-      data: newSecret.data,
-    });
+  static getPropsFromStores() {
+    return { data: EditSecretUIStore.getState().get('data') };
   }
 
   render() {
-    if (!this.props.secret.data) {
+    if (!this.props.data) {
       return <pre>Loading...</pre>;
     }
 
     return (
       <div className="secret-edit">
         <SecretFields
-          fields={this.props.secret.getIn(['data', 'fields'])}
-          onSubmit={this.onSubmit}
-          canUpdate={this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser())}
+          fields={this.props.data.get('fields')}
+          onChange={this.props.canUpdate ? EditSecretUIActions.changeField : () => {}}
+          canUpdate={this.props.canUpdate}
         />
       </div>
     );
   }
 }
 
-export default SecretEdit;
+export default connectToStores(SecretEdit);

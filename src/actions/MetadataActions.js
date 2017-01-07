@@ -65,7 +65,14 @@ class MetadataActions {
   }
 
   updateSecret({ secret, data }) {
-    return secretin.editSecret(secret.id, data);
+    return secretin.editSecret(secret.id, data)
+      .then(() => {
+        this.updateSecretSuccess({ data });
+      })
+      .catch((error) => {
+        this.updateSecretFailure({ error });
+        throw error;
+      });
   }
 
   deleteSecret({ secret }) {

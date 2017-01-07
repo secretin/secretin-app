@@ -12,56 +12,28 @@ import Button from 'components/utilities/Button';
 class SecretField extends Component {
   static propTypes = {
     field: PropTypes.instanceOf(SecretFieldRecord),
-    onChange: PropTypes.func,
+    onChange: React.PropTypes.func,
+    isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
-    onSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props);
 
-    this.onEdit = this.onEdit.bind(this);
-    this.onSave = this.onSave.bind(this);
     this.onCopy = this.onCopy.bind(this);
     this.onGenerate = this.onGenerate.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      value: props.field.content,
-      editContent: false,
-    };
-  }
-
-  onEdit() {
-    this.setState(
-      { editContent: true },
-      this.input.select
-    );
-  }
-
-  onSave() {
-    this.props.onSubmit({
-      field: this.props.field.set('content', this.state.value),
-    });
-
-    this.setState({
-      editContent: false,
-    });
   }
 
   onCopy() {
-    copyToClipboard(this.state.value, { debug: true });
+    copyToClipboard(this.props.field.content, { debug: true });
   }
 
   onGenerate() {
-    this.setState({
-      value: '',
-    });
+    this.handleChange({ value: '' });
     setTimeout(() => {
-      this.setState({
-        value: Utils.PasswordGenerator.generatePassword()
-      });
-    }, 300);
+      this.handleChange({ value: Utils.PasswordGenerator.generatePassword() });
+    }, 100);
   }
 
   handleChange({ value }) {
@@ -70,22 +42,33 @@ class SecretField extends Component {
       value,
     };
 
-    if (this.props.onChange) {
-      this.props.onChange(params);
-    }
-    this.setState(params);
+    this.props.onChange(params);
   }
 
   render() {
     const actions = [];
-    if (this.props.canUpdate) {
+    if (!this.props.isNew) {
+      if (this.props.field.type === 'url') {
+        actions.push(
+          <a
+            key="open"
+            href={this.props.field.content}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex="-1"
+          >
+            Open
+          </a>
+        );
+      }
+
       actions.push(
         <a
-          key="edit"
-          onClick={this.state.editContent ? this.onSave : this.onEdit}
+          key="copy"
+          onClick={this.onCopy}
           tabIndex="-1"
         >
-          {this.state.editContent ? 'Save' : 'Edit'}
+          Copy
         </a>
       );
     }
@@ -96,46 +79,26 @@ class SecretField extends Component {
           ref={(ref) => { this.input = ref; }}
           label={this.props.field.label}
           name={this.props.field.label}
-          value={this.state.value}
+          value={this.props.field.content}
           onChange={this.handleChange}
           type={this.props.field.type}
-          readOnly={!this.state.editContent && !this.props.onChange}
+          readOnly={!this.props.canUpdate}
           actions={new Immutable.List(actions)}
         />
-
-        {
-          !this.props.onChange && (
-            <div className="secret-field-action">
-              {
-                this.state.editContent ? (
-                  <div>
-                    {
-                      this.props.field.type === 'password' && (
-                        <Button
-                          title="Generate password"
-                          buttonStyle="icon"
-                          onClick={this.onGenerate}
-                        >
-                          <Icon id="generate" size="small" />
-                        </Button>
-                      )
-                    }
-                  </div>
-                )
-                :
-                (
-                  <Button
-                    title="Copy"
-                    buttonStyle="icon"
-                    onClick={this.onCopy}
-                  >
-                    <Icon id="copy" size="small" />
-                  </Button>
-                )
-              }
-            </div>
-          )
-        }
+        <div className="secret-field-action">
+          {
+            this.props.field.type === 'password' && this.props.canUpdate && (
+              <Button
+                title="Generate password"
+                buttonStyle="icon"
+                onClick={this.onGenerate}
+                tabIndex="-1"
+              >
+                <Icon id="generate" size="small" />
+              </Button>
+            )
+          }
+        </div>
       </div>
     );
   }
