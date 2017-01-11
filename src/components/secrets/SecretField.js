@@ -32,7 +32,7 @@ class SecretField extends Component {
   onGenerate() {
     this.handleChange({ value: '' });
     setTimeout(() => {
-      this.handleChange({ value: Utils.PasswordGenerator.generatePassword() });
+      this.handleChange({ value: Utils.PasswordGenerator.generatePassword({ length: 32 }) });
     }, 100);
   }
 
