@@ -19,7 +19,12 @@ class AppUIActions {
     );
   }
 
-  createUser({ username, password }) {
+  createUser({ username, password, confirmPassword }) {
+    if (password !== confirmPassword) {
+      return setTimeout(() => this.createUserFailure({
+        error: { confirmPassword: 'Passwords mismatch' },
+      }), 100);
+    }
     secretin
       .newUser(username, password)
       .then(currentUser => this.createUserSuccess({ currentUser }))

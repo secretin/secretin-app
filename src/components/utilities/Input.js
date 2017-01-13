@@ -124,14 +124,14 @@ class Input extends Component {
         />
         {
           this.props.type === 'password' && (
-            <div className={this.state.showPassword ? 'eye-show' : 'eye-hide'}>
+            <div className="eye">
               <Button
                 title="Show"
                 buttonStyle="icon"
                 onClick={this.onTogglePasswordShow}
                 tabIndex="-1"
               >
-                <Icon id="eye" size="small" />
+                <Icon id={this.state.showPassword ? 'show' : 'hide'} size="small" />
               </Button>
             </div>
           )

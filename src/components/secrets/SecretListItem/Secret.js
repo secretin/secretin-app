@@ -14,7 +14,7 @@ const propTypes = {
   secret: PropTypes.any,
   parentFolderId: PropTypes.string,
   isDragging: PropTypes.bool,
-  connectDragSource: PropTypes.func.isRequired,
+  connectDragSource: PropTypes.func.isRequired
 };
 
 function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragSource }) {

@@ -4,12 +4,16 @@ import { DragDropContext } from 'react-dnd';
 import { escapeRegExp } from 'lodash';
 import Immutable from 'immutable';
 
+
+import secretin from 'utils/secretin';
 import Secret from 'models/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListRefresh from 'components/secrets/SecretListRefresh';
 import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
+import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
+
 import Button from 'components/utilities/Button';
 import Title from 'components/utilities/Title';
 
@@ -23,6 +27,8 @@ class SecretList extends Component {
     secrets: PropTypes.instanceOf(Immutable.Map),
     searchQuery: PropTypes.string,
     showAll: PropTypes.bool,
+    showMine: PropTypes.bool,
+    showShared: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -30,6 +36,8 @@ class SecretList extends Component {
     secrets: new Immutable.Map(),
     searchQuery: '',
     showAll: false,
+    showMine: false,
+    showShared: false,
   }
 
   constructor(props) {
@@ -52,9 +60,31 @@ class SecretList extends Component {
       'i'
     );
 
-    const secrets = this.props.secrets
-      .filter(secret => fuzzyRegexp.test(secret.title))
-      .sortBy(secret => secret.get('title').toLowerCase());
+    const special = this.props.showAll || this.props.showMine || this.props.showShared;
+
+    let secrets = this.props.secrets
+      .filter(secret => fuzzyRegexp.test(secret.title));
+
+    let folders = new Immutable.Map();
+
+    if (special) {
+      secrets.forEach((secret) => {
+        const foldersSeq = secret.getIn(['users', secretin.currentUser.username, 'folders']).entrySeq();
+        foldersSeq.forEach((folder) => {
+          folders = folders.setIn([folder[0], 'secrets', secret.id], secret);
+          if (folder[0] === 'ROOT') {
+            folders = folders.setIn([folder[0], 'name'], '');
+            folders = folders.setIn([folder[0], 'root'], true);
+          } else {
+            folders = folders.setIn([folder[0], 'name'], folder[1].get('name'));
+          }
+        });
+      });
+
+      folders = folders.sortBy(folder => folder.get('name').toLowerCase()).sortBy(folder => !folder.has('root'));
+    } else {
+      secrets = secrets.sortBy(secret => secret.get('title').toLowerCase());
+    }
 
     return (
       <table className="secret-list-content-table">
@@ -72,17 +102,24 @@ class SecretList extends Component {
             <th className="secret-list-item-column--actions" />
           </tr>
         </thead>
-        <tbody className="secret-list-content-table-body">
-          {
-            secrets.map(secret => (
-              <SecretListItem
-                key={secret.id}
-                secret={secret}
-                folders={this.props.folders}
-              />
+        {
+          special ?
+            folders.map((folder, id) => (
+              <SecretListFolderInfo key={id} folder={folder} />
             )).toArray()
-          }
-        </tbody>
+          :
+            <tbody className="secret-list-content-table-body">
+              {
+                secrets.map(secret => (
+                  <SecretListItem
+                    key={secret.id}
+                    secret={secret}
+                    folders={this.props.folders}
+                  />
+                )).toArray()
+              }
+            </tbody>
+        }
       </table>
     );
   }
@@ -93,47 +130,82 @@ class SecretList extends Component {
       folderId = this.props.folder.id;
     }
 
+    if (!this.props.showShared) {
+      return (
+        <div className="secret-list-placeholder">
+          <h1 className="secret-list-placeholder-title">
+            You don&apos;t have any secrets, yet
+          </h1>
+          <p className="secret-list-placeholder-text">
+            Start adding some now
+          </p>
+          <div className="secret-list-placeholder-actions">
+            <Button
+              onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
+            >
+              New folder
+            </Button>
+            <Button
+              onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
+            >
+              New secret
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="secret-list-placeholder">
         <h1 className="secret-list-placeholder-title">
-          {"You don't have any secrets, yet"}
+          Nobody shared secret with you yet
         </h1>
-        <p className="secret-list-placeholder-text">
-          Start adding some now
-        </p>
-        <div className="secret-list-placeholder-actions">
-          <Button
-            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
-          >
-            New folder
-          </Button>
-          <Button
-            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
-          >
-            New secret
-          </Button>
-        </div>
       </div>
     );
   }
 
   render() {
+    let icon;
+    let title;
+    let link;
+    let special = false;
+    if (this.props.showAll) {
+      icon = 'apps';
+      title = 'All';
+      link = '/secrets/all/';
+      special = true;
+    } else if (this.props.showMine) {
+      icon = 'user';
+      title = 'My secrets';
+      link = '/secrets/mine/';
+      special = true;
+    } else if (this.props.showShared) {
+      icon = 'people';
+      title = 'Shared secrets';
+      link = '/secrets/shared/';
+      special = true;
+    }
     return (
       <div className="page">
         <div className="page-header">
           {
-            this.props.showAll ?
+            special ?
               <div className="breadcrumb">
-                <Title icon="apps" title="All" link="/secrets/all/" />
+                <Title icon={icon} title={title} link={link} />
               </div> :
               <SecretListBreadcrumb folders={this.props.folders} />
           }
           <SecretListRefresh />
-          <SecretListNew folder={this.props.folder} writable={!this.props.showAll} />
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
         <div className="page-content">
+          <div className="page-content-actions">
+            {
+              !this.props.showAll && !this.props.showMine && !this.props.showShared &&
+                <SecretListNew folder={this.props.folder} />
+            }
+          </div>
           {
             this.props.secrets.isEmpty() ? this.renderPlaceholder() : this.renderList()
           }

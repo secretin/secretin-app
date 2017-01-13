@@ -61,17 +61,17 @@ class SecretField extends Component {
           </a>
         );
       }
-
-      actions.push(
-        <a
-          key="copy"
-          onClick={this.onCopy}
-          tabIndex="-1"
-        >
-          Copy
-        </a>
-      );
     }
+
+    actions.push(
+      <a
+        key="copy"
+        onClick={this.onCopy}
+        tabIndex="-1"
+      >
+        Copy
+      </a>
+    );
 
     return (
       <div className="secret-field">

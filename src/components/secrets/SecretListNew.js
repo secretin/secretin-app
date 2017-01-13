@@ -4,15 +4,14 @@ import Secret from 'models/Secret';
 import AppUIStore from 'stores/AppUIStore';
 import NewSecretUIActions from 'actions/NewSecretUIActions';
 import SecretNew from 'components/secrets/SecretNew';
-import Dropdown from 'components/utilities/Dropdown';
 import Icon from 'components/utilities/Icon';
+import Button from 'components/utilities/Button';
 
 const propTypes = {
   folder: PropTypes.instanceOf(Secret),
-  writable: PropTypes.bool,
 };
 
-function SecretListNew({ folder, writable }) {
+function SecretListNew({ folder }) {
   let folderId = null;
   let canWrite = true;
   if (folder) {
@@ -24,30 +23,24 @@ function SecretListNew({ folder, writable }) {
   return (
     <div className="secret-list-new">
       <SecretNew />
-      <Dropdown
-        id="new-secret"
-        disabled={!canWrite || !writable}
-        pullRight
+      <Button
+        title="Add secret"
+        buttonStyle="icon"
+        disabled={!canWrite}
+        onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
       >
-        <Dropdown.Toggle
-          title={!canWrite ? "Your don't have write access" : null}
-        >
-          <Icon id="add-box" />
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          <Dropdown.MenuItem
-            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
-          >
-            Create new folder
-          </Dropdown.MenuItem>
-          <Dropdown.MenuItem
-            onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
-          >
-            Create new secret
-          </Dropdown.MenuItem>
-        </Dropdown.Menu>
-      </Dropdown>
+        <Icon id="add-secret" />
+        Add secret
+      </Button>
+      <Button
+        title="Add secret"
+        buttonStyle="icon"
+        disabled={!canWrite}
+        onClick={() => NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
+      >
+        <Icon id="add-folder" />
+        Create folder
+      </Button>
     </div>
   );
 }

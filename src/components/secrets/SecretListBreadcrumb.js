@@ -4,6 +4,7 @@ import Link from 'react-router/Link';
 
 import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
+import secretin from 'utils/secretin';
 
 import Icon from 'components/utilities/Icon';
 import Title from 'components/utilities/Title';
@@ -67,7 +68,7 @@ function SecretListBreadcrumb({ folders }) {
             />
           )
           .unshift(
-            <Title key="home" title="Home" icon="home" link="/secrets/" />
+            <Title key="home" title={secretin.currentUser.username} icon="home" link="/secrets/" />
           )
       }
     </div>
