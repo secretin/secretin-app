@@ -73,25 +73,23 @@ class SecretList extends Component {
     if (filtered) {
       const allFolders = MetadataStore.getAllFolders();
       secrets.forEach((secret) => {
-        const foldersSeq = secret.getIn(['users', currentUser.username, 'folders']).entrySeq();
-        foldersSeq.forEach((folder) => {
-          folders = folders.setIn([folder[0], 'secrets', secret.id], secret);
-          if (folder[0] === 'ROOT') {
-            folders = folders.setIn([folder[0], 'name'], '');
-            folders = folders.setIn([folder[0], 'root'], true);
-          } else {
-            let root = false;
-            let breadcrumb = Immutable.List();
-            let currentFolder = folder;
-            while (!root) {
-              root = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).has('ROOT');
-              breadcrumb = breadcrumb.unshift(currentFolder[0]);
-              currentFolder = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).entrySeq().first();
-            }
-            folders = folders.setIn([folder[0], 'name'], breadcrumb.join('/'));
-            folders = folders.setIn([folder[0], 'breadcrumb'], breadcrumb);
+        const folderSeq = secret.getIn(['users', currentUser.username, 'folders']).entrySeq().first();
+        folders = folders.setIn([folderSeq[0], 'secrets', secret.id], secret);
+        if (folderSeq[0] === 'ROOT') {
+          folders = folders.setIn([folderSeq[0], 'name'], '');
+          folders = folders.setIn([folderSeq[0], 'root'], true);
+        } else {
+          let root = false;
+          let breadcrumb = Immutable.List();
+          let currentFolder = folderSeq;
+          while (!root) {
+            root = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).has('ROOT');
+            breadcrumb = breadcrumb.unshift(currentFolder[0]);
+            currentFolder = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).entrySeq().first();
           }
-        });
+          folders = folders.setIn([folderSeq[0], 'name'], breadcrumb.join('/'));
+          folders = folders.setIn([folderSeq[0], 'breadcrumb'], breadcrumb);
+        }
       });
 
       folders = folders.sortBy(folder => folder.get('name').toLowerCase()).sortBy(folder => !folder.has('root'));
