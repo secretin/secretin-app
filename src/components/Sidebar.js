@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/Link';
 
-import secretin from 'utils/secretin';
+import AppUIStore from 'stores/AppUIStore';
 import Icon from 'components/utilities/Icon';
 
 function SidebarMenuLink({ children, ...props }) {
@@ -26,6 +26,7 @@ SidebarMenuLink.propTypes = {
 };
 
 function Sidebar() {
+  const currentUser = AppUIStore.getCurrentUser();
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -37,7 +38,7 @@ function Sidebar() {
         <ul className="sidebar-menu">
           <SidebarMenuLink to="/secrets/" activeOnlyWhenExact>
             <Icon id="home" size="base" />
-            {secretin.currentUser.username}
+            {currentUser.username}
           </SidebarMenuLink>
           <div className="sidebar-separator">
             <div />

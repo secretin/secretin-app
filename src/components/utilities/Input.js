@@ -124,7 +124,7 @@ class Input extends Component {
         />
         {
           this.props.type === 'password' && (
-            <div className="eye">
+            <div className="input--password-show">
               <Button
                 title="Show"
                 buttonStyle="icon"

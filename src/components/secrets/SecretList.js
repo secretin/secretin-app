@@ -5,7 +5,7 @@ import { escapeRegExp } from 'lodash';
 import Immutable from 'immutable';
 
 
-import secretin from 'utils/secretin';
+import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListRefresh from 'components/secrets/SecretListRefresh';
@@ -60,16 +60,18 @@ class SecretList extends Component {
       'i'
     );
 
-    const special = this.props.showAll || this.props.showMine || this.props.showShared;
+    const filtered = this.props.showAll || this.props.showMine || this.props.showShared;
 
     let secrets = this.props.secrets
       .filter(secret => fuzzyRegexp.test(secret.title));
 
     let folders = new Immutable.Map();
 
-    if (special) {
+    const currentUser = AppUIStore.getCurrentUser();
+
+    if (filtered) {
       secrets.forEach((secret) => {
-        const foldersSeq = secret.getIn(['users', secretin.currentUser.username, 'folders']).entrySeq();
+        const foldersSeq = secret.getIn(['users', currentUser.username, 'folders']).entrySeq();
         foldersSeq.forEach((folder) => {
           folders = folders.setIn([folder[0], 'secrets', secret.id], secret);
           if (folder[0] === 'ROOT') {
@@ -103,7 +105,7 @@ class SecretList extends Component {
           </tr>
         </thead>
         {
-          special ?
+          filtered ?
             folders.map((folder, id) => (
               <SecretListFolderInfo key={id} folder={folder} />
             )).toArray()
@@ -168,28 +170,28 @@ class SecretList extends Component {
     let icon;
     let title;
     let link;
-    let special = false;
+    let filtered = false;
     if (this.props.showAll) {
       icon = 'apps';
       title = 'All';
       link = '/secrets/all/';
-      special = true;
+      filtered = true;
     } else if (this.props.showMine) {
       icon = 'user';
       title = 'My secrets';
       link = '/secrets/mine/';
-      special = true;
+      filtered = true;
     } else if (this.props.showShared) {
       icon = 'people';
       title = 'Shared secrets';
       link = '/secrets/shared/';
-      special = true;
+      filtered = true;
     }
     return (
       <div className="page">
         <div className="page-header">
           {
-            special ?
+            filtered ?
               <div className="breadcrumb">
                 <Title icon={icon} title={title} link={link} />
               </div> :
