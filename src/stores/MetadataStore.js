@@ -117,6 +117,11 @@ class MetadataStore {
     ));
   }
 
+  static getAllFolders() {
+    const { metadata } = this.getState();
+    return metadata.filter(secret => secret.type === 'folder') || new Immutable.Map();
+  }
+
   static getAllSecrets() {
     const { metadata } = this.getState();
     return metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map();

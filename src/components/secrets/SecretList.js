@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 
 
 import AppUIStore from 'stores/AppUIStore';
+import MetadataStore from 'stores/MetadataStore';
 import Secret from 'models/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListRefresh from 'components/secrets/SecretListRefresh';
@@ -70,6 +71,7 @@ class SecretList extends Component {
     const currentUser = AppUIStore.getCurrentUser();
 
     if (filtered) {
+      const allFolders = MetadataStore.getAllFolders();
       secrets.forEach((secret) => {
         const foldersSeq = secret.getIn(['users', currentUser.username, 'folders']).entrySeq();
         foldersSeq.forEach((folder) => {
@@ -78,7 +80,16 @@ class SecretList extends Component {
             folders = folders.setIn([folder[0], 'name'], '');
             folders = folders.setIn([folder[0], 'root'], true);
           } else {
-            folders = folders.setIn([folder[0], 'name'], folder[1].get('name'));
+            let root = false;
+            let breadcrumb = Immutable.List();
+            let currentFolder = folder;
+            while (!root) {
+              root = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).has('ROOT');
+              breadcrumb = breadcrumb.unshift(currentFolder[0]);
+              currentFolder = allFolders.getIn([currentFolder[0], 'users', currentUser.username, 'folders']).entrySeq().first();
+            }
+            folders = folders.setIn([folder[0], 'name'], breadcrumb.join('/'));
+            folders = folders.setIn([folder[0], 'breadcrumb'], breadcrumb);
           }
         });
       });

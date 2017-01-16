@@ -11,13 +11,15 @@ import Title from 'components/utilities/Title';
 
 const propTypes = {
   folders: PropTypes.instanceOf(Immutable.List),
+  withTitle: PropTypes.bool,
 };
 
 const defaultProps = {
   folders: new Immutable.List(),
+  withTitle: true,
 };
 
-function SecretListBreadcrumb({ folders }) {
+function SecretListBreadcrumb({ folders, withTitle }) {
   const breadcrumbURLs = folders.reduce((memo, folderId) => (
     memo.push({
       folderId,
@@ -28,7 +30,7 @@ function SecretListBreadcrumb({ folders }) {
     })
   ), new Immutable.List());
 
-  const breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
+  let breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
     const folder = MetadataStore.getById(folderId);
     if (!folder) {
       return links;
@@ -57,22 +59,22 @@ function SecretListBreadcrumb({ folders }) {
   }, new Immutable.List());
 
   const currentUser = AppUIStore.getCurrentUser();
+  if (withTitle) {
+    breadcrumb = breadcrumb.unshift(
+      <Icon
+        key="home-sep"
+        id="chevron-right"
+        className="breadcrumb-item-separator"
+      />
+    )
+    .unshift(
+      <Title key="home" title={currentUser.username} icon="home" link="/secrets/" />
+    );
+  }
 
   return (
     <div className="breadcrumb">
-      {
-        breadcrumb
-          .unshift(
-            <Icon
-              key="home-sep"
-              id="chevron-right"
-              className="breadcrumb-item-separator"
-            />
-          )
-          .unshift(
-            <Title key="home" title={currentUser.username} icon="home" link="/secrets/" />
-          )
-      }
+      {breadcrumb}
     </div>
   );
 }

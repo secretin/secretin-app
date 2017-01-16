@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import SecretListItemFolderSecret from 'components/secrets/SecretListItem/Secret';
+import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 
 const propTypes = {
   folder: PropTypes.any,
@@ -13,7 +14,7 @@ function SecretListFolderInfo({ folder }) {
         !folder.has('root') &&
           <tr className="secret-list-folder">
             <td colSpan="4" className="secret-list-folder-info">
-              {folder.get('name')}
+              <SecretListBreadcrumb folders={folder.get('breadcrumb')} withTitle={false} />
             </td>
           </tr>
       }
