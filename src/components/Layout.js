@@ -24,6 +24,14 @@ function Layout() {
                   pattern="/secrets/all"
                   render={() => <SecretListContainer {...matchProps} showAll />}
                 />
+                <Match
+                  pattern="/secrets/mine"
+                  render={() => <SecretListContainer {...matchProps} showMine />}
+                />
+                <Match
+                  pattern="/secrets/shared"
+                  render={() => <SecretListContainer {...matchProps} showShared />}
+                />
                 <Miss
                   render={() => <SecretListContainer {...matchProps} />}
                 />
@@ -31,7 +39,7 @@ function Layout() {
             )}
           />
           <Match
-            pattern="/options/"
+            pattern="/settings/"
             render={() => <OptionsContainer />}
           />
           <Miss

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/Link';
 
+import AppUIStore from 'stores/AppUIStore';
 import Icon from 'components/utilities/Icon';
 
 function SidebarMenuLink({ children, ...props }) {
@@ -25,6 +26,7 @@ SidebarMenuLink.propTypes = {
 };
 
 function Sidebar() {
+  const currentUser = AppUIStore.getCurrentUser();
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -36,23 +38,29 @@ function Sidebar() {
         <ul className="sidebar-menu">
           <SidebarMenuLink to="/secrets/" activeOnlyWhenExact>
             <Icon id="home" size="base" />
-            Home
+            {currentUser.username}
           </SidebarMenuLink>
+          <div className="sidebar-separator">
+            <div />
+          </div>
           <SidebarMenuLink to="/secrets/all/">
             <Icon id="apps" size="base" />
             All
           </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/recent/">
-            <Icon id="history" size="base" />
-            Recent
+          <SidebarMenuLink to="/secrets/mine" activeOnlyWhenExact>
+            <Icon id="user" size="base" />
+            My secrets
           </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/shared/">
+          <SidebarMenuLink to="/secrets/shared" activeOnlyWhenExact>
             <Icon id="people" size="base" />
-            Shared
+            Shared secrets
           </SidebarMenuLink>
-          <SidebarMenuLink to="/options/">
+          <div className="sidebar-separator">
+            <div />
+          </div>
+          <SidebarMenuLink to="/settings/">
             <Icon id="gear" size="base" />
-            Options
+            Settings
           </SidebarMenuLink>
         </ul>
       </div>

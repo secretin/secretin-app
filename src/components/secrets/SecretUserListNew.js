@@ -59,11 +59,19 @@ class SecretUserListNew extends Component {
       ),
       acceptLabel: 'Share the secret',
       cancelLabel: 'Cancel',
-      onAccept: () => MetadataActions.createSecretUserRights({
-        secret: this.props.secret,
-        user: this.state.user,
-        rights: this.state.user.rights,
-      }),
+      onAccept: () => {
+        MetadataActions.createSecretUserRights({
+          secret: this.props.secret,
+          user: this.state.user,
+          rights: this.state.user.rights,
+        });
+        this.setState({
+          user: User.createFromRaw({
+            username: '',
+            rights: 0,
+          })
+        });
+      },
       onCancel: () => ({}),
     });
   }

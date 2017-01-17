@@ -19,67 +19,86 @@ class AppUIActions {
     );
   }
 
-  createUser({ username, password }) {
-    secretin
-      .newUser(username, password)
-      .then(currentUser => this.createUserSuccess({ currentUser }))
-      .catch((error) => {
-        if (error instanceof UsernameAlreadyExistsError) {
-          return this.createUserFailure({
-            error: { username: 'User already exists' },
+  createUser({ username, password, confirmPassword }) {
+    return (dispatch) => {
+      dispatch();
+      if (password !== confirmPassword) {
+        setTimeout(() => this.createUserFailure({
+          error: { confirmPassword: 'Passwords mismatch' },
+        }), 100);
+      } else {
+        secretin
+          .newUser(username, password)
+          .then(currentUser => this.createUserSuccess({ currentUser }))
+          .catch((error) => {
+            if (error instanceof UsernameAlreadyExistsError) {
+              return this.createUserFailure({
+                error: { username: 'User already exists' },
+              });
+            }
+            throw error;
           });
-        }
-        throw error;
-      });
-    return { username };
+      }
+    };
   }
 
   loginUser({ username, password, token }) {
-    secretin
-      .loginUser(username, password, token)
-      .then(currentUser => (
-        this.loginUserSuccess({
-          currentUser,
-          metadata: currentUser.metadatas,
-        })
-      ))
-      .catch((error) => {
-        if (error instanceof UserNotFoundError) {
-          return this.loginUserFailure({
-            error: { username: 'User not found' },
-          });
-        } else if (error instanceof InvalidPasswordError) {
-          if (token) {
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .loginUser(username, password, token)
+        .then(currentUser => (
+          this.loginUserSuccess({
+            currentUser,
+            metadata: currentUser.metadatas,
+          })
+        ))
+        .catch((error) => {
+          if (error instanceof UserNotFoundError) {
             return this.loginUserFailure({
-              error: { totp: 'Token', password: 'Invalid password', token: 'or invalid token' },
+              error: { username: 'User not found' },
+            });
+          } else if (error instanceof InvalidPasswordError) {
+            if (token) {
+              return this.loginUserFailure({
+                error: { totp: 'Token', password: 'Invalid password', token: 'or invalid token' },
+              });
+            }
+            return this.loginUserFailure({
+              error: { password: 'Invalid password' },
+            });
+          } else if (error instanceof NeedTOTPTokenError) {
+            return this.loginUserFailure({
+              error: { totp: 'Token' },
             });
           }
-          return this.loginUserFailure({
-            error: { password: 'Invalid password' },
-          });
-        } else if (error instanceof NeedTOTPTokenError) {
-          return this.loginUserFailure({
-            error: { totp: 'Token' },
-          });
-        }
-        throw error;
-      });
-    return { username };
+          throw error;
+        });
+    };
   }
 
   shortLogin({ shortpass }) {
-    secretin
-      .shortLogin(shortpass)
-      .then((currentUser) => {
-        this.loginUserSuccess({
-          currentUser,
-          metadata: currentUser.metadatas,
-        });
-      })
-      .catch(() => this.loginUserFailure({
-        error: { shortlogin: 'Invalid shortpass' },
-      }));
-    return true;
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .shortLogin(shortpass)
+        .then((currentUser) => {
+          this.loginUserSuccess({
+            currentUser,
+            metadata: currentUser.metadatas,
+          });
+        })
+        .catch(() => this.loginUserFailure({
+          error: { shortlogin: 'Invalid shortpass' },
+        }));
+    };
+  }
+
+  disableShortLogin() {
+    return (dispatch) => {
+      dispatch();
+      secretin.deactivateShortLogin();
+    };
   }
 }
 

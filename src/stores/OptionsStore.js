@@ -11,6 +11,7 @@ const OptionsState = new Record({
   errors: new Immutable.Map(),
   showQRCode: false,
   showShortLogin: false,
+  loading: false,
 });
 
 class OptionsStore {
@@ -31,6 +32,18 @@ class OptionsStore {
     );
   }
 
+  onActivateTotp() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
+  onActivateShortLogin() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
   onToggleTotp(showQRCode) {
     this.setState(this.state
       .set('showQRCode', showQRCode)
@@ -43,10 +56,11 @@ class OptionsStore {
     );
   }
 
-  onActivateTotpFailure() {
+  onActivateTotpFailure({ error }) {
     this.setState(
       this.state.merge({
-        errors: new Immutable.Map({ totp: 'An error occured' }),
+        errors: new Immutable.Map({ totp: error }),
+        loading: false,
       }));
   }
 
@@ -54,6 +68,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
+        loading: false,
         errors: new Immutable.Map(),
       }));
   }
@@ -62,6 +77,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
       })
     );
@@ -71,6 +87,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('totp', true),
       }));
@@ -92,6 +109,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
       }));

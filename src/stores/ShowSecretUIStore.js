@@ -15,6 +15,9 @@ const ShowSecretUIState = new Record({
 });
 
 const {
+  UPDATE_SECRET,
+  UPDATE_SECRET_SUCCESS,
+  UPDATE_SECRET_FAILURE,
   CREATE_SECRET_USER_RIGHTS,
   UPDATE_SECRET_USER_RIGHTS,
   DELETE_SECRET_USER_RIGHTS,
@@ -29,9 +32,13 @@ const {
 class ShowSecretUIStore {
   constructor() {
     this.bindActions(ShowSecretUIActions);
+    this.bindAction(UPDATE_SECRET, this.onUpdateSecret);
+    this.bindAction(CREATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(CREATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(UPDATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(DELETE_SECRET_USER_RIGHTS, this.onUpdateSecret);
+    this.bindAction(UPDATE_SECRET_SUCCESS, this.onUpdateSecretSuccess);
+    this.bindAction(UPDATE_SECRET_FAILURE, this.onUpdateSecretFailure);
     this.bindAction(CREATE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
     this.bindAction(UPDATE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
     this.bindAction(DELETE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
@@ -47,6 +54,7 @@ class ShowSecretUIStore {
       this.state.merge({
         secret,
         tab: tab || 'details',
+        errors: new Immutable.Map(),
       })
     );
   }
@@ -54,12 +62,14 @@ class ShowSecretUIStore {
   onShowSecretSuccess({ secret }) {
     this.setState(this.state
       .set('secret', secret)
+      .set('errors', new Immutable.Map())
     );
   }
 
   onHideModal() {
     this.setState(this.state
       .set('secret', null)
+      .set('errors', new Immutable.Map())
     );
   }
 
@@ -85,6 +95,7 @@ class ShowSecretUIStore {
         )
       ))
       .set('isUpdating', false)
+      .set('errors', new Immutable.Map())
     );
   }
 

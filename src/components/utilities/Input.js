@@ -2,7 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { uniqueId } from 'lodash';
 import classNames from 'classnames';
-import copyToClipboard from 'copy-to-clipboard';
+
+import Icon from 'components/utilities/Icon';
+import Button from 'components/utilities/Button';
 
 class Input extends Component {
   static propTypes = {
@@ -22,7 +24,7 @@ class Input extends Component {
 
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
-    showCopy: PropTypes.bool,
+    autoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
     actions: PropTypes.instanceOf(Immutable.List),
@@ -34,7 +36,7 @@ class Input extends Component {
     value: '',
     autoFocus: false,
     autoSelect: false,
-    showCopy: false,
+    autoComplete: false,
     disabled: false,
     readOnly: false,
     actions: new Immutable.List(),
@@ -46,8 +48,7 @@ class Input extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
-    this.onCopy = this.onCopy.bind(this);
-    this.id = uniqueId('input_');
+    this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
       showPassword: false,
     };
@@ -75,10 +76,6 @@ class Input extends Component {
     });
   }
 
-  onCopy() {
-    copyToClipboard(this.props.value, { debug: true });
-  }
-
   select() {
     this.input.select();
   }
@@ -93,30 +90,7 @@ class Input extends Component {
       }
     );
 
-    let actions = this.props.actions;
-    if (this.props.type === 'password') {
-      actions = actions.unshift(
-        <a
-          key="show"
-          onClick={this.onTogglePasswordShow}
-          tabIndex="-1"
-        >
-          {this.state.showPassword ? 'Hide' : 'Show'}
-        </a>
-      );
-    }
-
-    if (this.props.showCopy) {
-      actions = actions.unshift(
-        <a
-          key="copy"
-          onClick={this.onCopy}
-          tabIndex="-1"
-        >
-          Copy
-        </a>
-      );
-    }
+    const actions = this.props.actions;
 
     return (
       <div className={className}>
@@ -136,17 +110,32 @@ class Input extends Component {
         <input
           id={this.id}
           ref={(input) => { this.input = input; }}
-          name={this.props.name}
+          name={this.id}
           title={this.props.title}
           type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
           value={this.props.value}
           onChange={this.onChange}
           placeholder={this.props.placeholder}
+          autoComplete={this.props.autoComplete ? null : 'new-password'}
 
           autoFocus={this.props.autoFocus}
           disabled={this.props.disabled}
           readOnly={this.props.readOnly}
         />
+        {
+          this.props.type === 'password' && (
+            <div className="input--password-show">
+              <Button
+                title="Show"
+                buttonStyle="icon"
+                onClick={this.onTogglePasswordShow}
+                tabIndex="-1"
+              >
+                <Icon id={this.state.showPassword ? 'show' : 'hide'} size="small" />
+              </Button>
+            </div>
+          )
+        }
         {
           this.props.error && (
             <span className="input-error">

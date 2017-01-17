@@ -15,3 +15,5 @@ src/index.css
 # misc
 .DS_Store
 npm-debug.log
+
+secretin-app*

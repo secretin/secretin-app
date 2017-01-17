@@ -4,6 +4,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import MetadataActions from 'actions/MetadataActions';
 import NewSecretUIActions from 'actions/NewSecretUIActions';
 import NewSecretUIStore from 'stores/NewSecretUIStore';
+import AppUIStore from 'stores/AppUIStore';
 
 import SecretDataRecord from 'models/SecretDataRecord';
 import SecretFields from 'components/secrets/SecretFields';
@@ -44,6 +45,7 @@ class SecretNew extends Component {
 
   render() {
     const { isFolder } = this.props;
+
     return (
       <Modal
         show={this.props.shown}
@@ -73,6 +75,8 @@ class SecretNew extends Component {
                 <SecretFields
                   fields={this.props.data.fields}
                   onChange={NewSecretUIActions.changeField}
+                  isNew
+                  canUpdate
                 />
               )
             }
@@ -90,6 +94,7 @@ class SecretNew extends Component {
           <Button
             type="submit"
             onClick={this.onSubmit}
+            disabled={AppUIStore.isLoading()}
           >
             {isFolder ? 'Add folder' : 'Add secret'}
           </Button>

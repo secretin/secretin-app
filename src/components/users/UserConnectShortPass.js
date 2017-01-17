@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import Form from 'components/utilities/Form';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
+import { confirm } from 'components/utilities/Confirm';
 
 import AppUIActions from 'actions/AppUIActions';
 
@@ -20,6 +21,7 @@ class UserConnectShortPass extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDisable = this.handleDisable.bind(this);
 
     this.state = {
       shortpass: '',
@@ -34,6 +36,24 @@ class UserConnectShortPass extends Component {
 
   handleSubmit() {
     AppUIActions.shortLogin({ shortpass: this.state.shortpass });
+  }
+
+  handleDisable() {
+    confirm({
+      title: 'Are you sure?',
+      text: (
+        <span>
+          This will disable your short pass login access.
+        </span>
+      ),
+      acceptLabel: 'Disable short pass',
+      cancelLabel: 'Cancel',
+      onAccept: () => {
+        AppUIActions.disableShortLogin();
+        return this.props.onCancel();
+      },
+      onCancel: () => ({}),
+    });
   }
 
   render() {
@@ -70,10 +90,11 @@ class UserConnectShortPass extends Component {
         </Button>
 
         <a
+          className="user-connect-more"
           tabIndex={-1}
-          onClick={this.props.onCancel}
+          onClick={this.handleDisable}
         >
-          This is not me
+          Use another account
         </a>
       </Form>
     );
