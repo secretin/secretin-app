@@ -26,12 +26,25 @@ function SecretListItemFolder(props) {
   const currentUser = AppUIStore.getCurrentUser();
   const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
 
+  const folderRights = secret.getIn(['users', currentUser.username, 'rights']);
   const className = classNames(
     'secret-list-item',
     {
       'secret-list-item--is-dragging': isDragging,
-      'secret-list-item--is-over': isOver,
+      'secret-list-item--is-over': (isOver && folderRights > 0),
+      'secret-list-item--is-forbidden': (isOver && folderRights === 0),
     }
+  );
+
+  const link = (
+    <div>
+      <Link to={buildSecretURL(folders.push(secret.id))}>
+        <Icon id={secret.getIcon()} size="base" />
+        <span className="text" title={secret.title}>
+          {secret.title}
+        </span>
+      </Link>
+    </div>
   );
 
   return (
@@ -39,16 +52,12 @@ function SecretListItemFolder(props) {
       <tr className={className}>
         <td className="secret-list-item-column secret-list-item-column--title">
           {
-            connectDragSource(
-              <div>
-                <Link to={buildSecretURL(folders.push(secret.id))}>
-                  <Icon id={secret.getIcon()} size="base" />
-                  <span className="text" title={secret.title}>
-                    {secret.title}
-                  </span>
-                </Link>
-              </div>
-            )
+            (folderRights > 0) ?
+              connectDragSource(
+                link
+              )
+            :
+            link
           }
         </td>
         <td className="secret-list-item-column secret-list-item-column--last-modified">
@@ -83,10 +92,14 @@ const itemSource = {
 const itemTarget = {
   drop(props, monitor) {
     const { secret } = monitor.getItem();
-    MetadataActions.addSecretToFolder({
-      secret,
-      folder: props.secret,
-    });
+    const currentUser = AppUIStore.getCurrentUser();
+    const folderRights = props.secret.getIn(['users', currentUser.username, 'rights']);
+    if (folderRights > 0) {
+      MetadataActions.addSecretToFolder({
+        secret,
+        folder: props.secret,
+      });
+    }
   },
 
   canDrop(props, monitor) {
