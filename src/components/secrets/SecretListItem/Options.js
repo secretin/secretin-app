@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import AppUIStore from 'stores/AppUIStore';
+import MetadataStore from 'stores/MetadataStore';
 import MetadataActions from 'actions/MetadataActions';
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
 
@@ -14,6 +15,7 @@ const propTypes = {
 
 function SecretListItemOptions({ parentFolderId, secret }) {
   const currentUser = AppUIStore.getCurrentUser();
+  const folder = MetadataStore.getById(parentFolderId);
   const canShare = secret.canBeSharedBy(currentUser);
   if (!canShare && secret.type === 'folder') {
     return null;
@@ -52,7 +54,7 @@ function SecretListItemOptions({ parentFolderId, secret }) {
                       currentFolderId: parentFolderId,
                     })}
                   >
-                    Remove from this folder
+                    Remove from&nbsp;<b>{folder.title}</b>
                   </Dropdown.MenuItem>
               }
 
