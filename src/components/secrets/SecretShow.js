@@ -3,7 +3,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
-import EditSecretUIActions from 'actions/EditSecretUIActions';
+import MetadataActions from 'actions/MetadataActions';
 import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import EditSecretUIStore from 'stores/EditSecretUIStore';
 import AppUIStore from 'stores/AppUIStore';
@@ -57,7 +57,7 @@ class SecretShow extends Component {
   }
 
   handleClick() {
-    EditSecretUIActions.save({
+    MetadataActions.updateSecret({
       secret: this.props.secret,
       data: EditSecretUIStore.getState().get('data'),
     });

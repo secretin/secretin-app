@@ -8,10 +8,10 @@ import OptionsActions from 'actions/OptionsActions';
 
 const OptionsState = new Record({
   options: new Immutable.Map(),
-  totpIsVerified: false,
   errors: new Immutable.Map(),
   showQRCode: false,
   showShortLogin: false,
+  loading: false,
 });
 
 class OptionsStore {
@@ -32,6 +32,18 @@ class OptionsStore {
     );
   }
 
+  onActivateTotp() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
+  onActivateShortLogin() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
   onToggleTotp(showQRCode) {
     this.setState(this.state
       .set('showQRCode', showQRCode)
@@ -44,19 +56,11 @@ class OptionsStore {
     );
   }
 
-  onVerifyTotpSuccess() {
+  onActivateTotpFailure({ error }) {
     this.setState(
       this.state.merge({
-        totpIsVerified: true,
-        errors: new Immutable.Map(),
-      }));
-  }
-
-  onVerifyTotpFailure() {
-    this.setState(
-      this.state.merge({
-        totpIsVerified: false,
-        errors: new Immutable.Map({ totp: 'An error occured' }),
+        errors: new Immutable.Map({ totp: error }),
+        loading: false,
       }));
   }
 
@@ -64,7 +68,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
+        loading: false,
         errors: new Immutable.Map(),
       }));
   }
@@ -73,6 +77,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
       })
     );
@@ -82,7 +87,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('totp', true),
       }));
@@ -104,6 +109,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
       }));

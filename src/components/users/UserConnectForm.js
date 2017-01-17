@@ -7,7 +7,6 @@ import AppUIActions from 'actions/AppUIActions';
 
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
-import Checkbox from 'components/utilities/Checkbox';
 import Button from 'components/utilities/Button';
 
 class UserConnect extends Component {
@@ -28,6 +27,7 @@ class UserConnect extends Component {
       signup: false,
       username: '',
       password: '',
+      confirmPassword: '',
       showShortpass: secretin.canITryShortLogin(),
     };
   }
@@ -47,6 +47,7 @@ class UserConnect extends Component {
       AppUIActions.createUser({
         username: this.state.username,
         password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
       });
     } else {
       AppUIActions.loginUser({
@@ -57,7 +58,7 @@ class UserConnect extends Component {
     }
   }
 
-  toggleSignup({ checked }) {
+  toggleSignup(checked) {
     this.setState({
       signup: checked,
     });
@@ -70,6 +71,7 @@ class UserConnect extends Component {
   }
 
   render() {
+    const status = this.state.signup ? 'Sign up' : 'Sign in';
     return (
       <Form
         className="user-connect-form"
@@ -79,7 +81,7 @@ class UserConnect extends Component {
         <h2 className="user-connect-title">
           Secret-in.me
           <small>
-            { this.state.signup ? 'Register' : 'Connect' }
+            {status}
           </small>
         </h2>
 
@@ -117,13 +119,18 @@ class UserConnect extends Component {
               autoFocus
             />
         }
-
-        <Checkbox
-          checked={this.state.signup}
-          onChange={this.toggleSignup}
-        >
-          Create an account
-        </Checkbox>
+        {
+          this.state.signup &&
+          <Input
+            name="confirmPassword"
+            label="Confirm password"
+            type="password"
+            value={this.state.confirmPassword}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+            error={this.props.errors.get('confirmPassword')}
+          />
+        }
 
         <Button
           type="submit"
@@ -133,8 +140,33 @@ class UserConnect extends Component {
             isEmpty(this.state.password)
           }
         >
-          { this.state.signup ? 'Register' : 'Connect' }
+          {status}
         </Button>
+        <div className="user-connect-create">
+          <span>
+            {this.state.signup ?
+              <span>
+                I already have an account,&nbsp;
+                <a
+                  onClick={() => { this.toggleSignup(!this.state.signup); }}
+                  tabIndex="-1"
+                >
+                  sign in
+                </a>
+              </span>
+            :
+              <span>
+                I don&apos;t have an account,&nbsp;
+                <a
+                  onClick={() => { this.toggleSignup(!this.state.signup); }}
+                  tabIndex="-1"
+                >
+                  create one
+                </a>
+              </span>
+            }
+          </span>
+        </div>
       </Form>
     );
   }

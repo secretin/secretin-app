@@ -29,13 +29,16 @@ class MetadataActions {
   }
 
   loadMetadata() {
-    return secretin
-      .refreshUser()
-      .then(() => {
-        this.loadMetadataSuccess({
-          metadata: secretin.currentUser.metadatas,
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .refreshUser()
+        .then(() => {
+          this.loadMetadataSuccess({
+            metadata: secretin.currentUser.metadatas,
+          });
         });
-      });
+    };
   }
 
   createSecret({ title, data, folder, isFolder } = { isFolder: false }) {
@@ -46,135 +49,160 @@ class MetadataActions {
       promise = secretin.addSecret(title, data.toJS());
     }
 
-    return promise
-      .then((id) => {
-        if (folder) {
-          return secretin.addSecretToFolder(id, folder);
-        }
-        return id;
-      })
-      .then(() => (
-        this.createSecretSuccess({
-          metadata: secretin.currentUser.metadatas,
+    return (dispatch) => {
+      dispatch();
+
+      promise
+        .then((id) => {
+          if (folder) {
+            return secretin.addSecretToFolder(id, folder);
+          }
+          return id;
         })
-      ))
-      .catch((error) => {
-        this.createSecretFailure({ error });
-        throw error;
-      });
+        .then(() => (
+          this.createSecretSuccess({
+            metadata: secretin.currentUser.metadatas,
+          })
+        ))
+        .catch((error) => {
+          this.createSecretFailure({ error });
+          throw error;
+        });
+    };
   }
 
   updateSecret({ secret, data }) {
-    return secretin.editSecret(secret.id, data)
-      .then(() => {
-        this.updateSecretSuccess({ data });
-      })
-      .catch((error) => {
-        this.updateSecretFailure({ error });
-        throw error;
-      });
+    return (dispatch) => {
+      dispatch();
+      secretin.editSecret(secret.id, data)
+        .then(() => {
+          this.updateSecretSuccess({ data });
+        })
+        .catch((error) => {
+          this.updateSecretFailure({ error });
+          throw error;
+        });
+    };
   }
 
   deleteSecret({ secret }) {
-    return secretin
-      .deleteSecret(secret.id)
-      .catch((error) => {
-        this.deleteSecretFailure({
-          metadata: secretin.currentUser.metadatas,
-        });
-        throw error;
-      })
-      .then(() => (
-        this.deleteSecretSuccess({
-          metadata: secretin.currentUser.metadatas,
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .deleteSecret(secret.id)
+        .catch((error) => {
+          this.deleteSecretFailure({
+            metadata: secretin.currentUser.metadatas,
+          });
+          throw error;
         })
-      ));
+        .then(() => (
+          this.deleteSecretSuccess({
+            metadata: secretin.currentUser.metadatas,
+          })
+        ));
+    };
   }
 
   createSecretUserRights({ secret, user, rights }) {
-    return secretin
-      .shareSecret(secret.id, user.username, rights)
-      .then(() => secretin.refreshUser())
-      .then(() => {
-        this.createSecretUserRightsSuccess({
-          metadata: secretin.currentUser.metadatas,
-        });
-      })
-      .catch((error) => {
-        if (error instanceof FriendNotFoundError) {
-          return this.createSecretUserRightsFailure({
-            error: { username: 'User not found' },
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .shareSecret(secret.id, user.username, rights)
+        .then(() => secretin.refreshUser())
+        .then(() => {
+          this.createSecretUserRightsSuccess({
+            metadata: secretin.currentUser.metadatas,
           });
-        }
-        this.createSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
+        })
+        .catch((error) => {
+          if (error instanceof FriendNotFoundError) {
+            return this.createSecretUserRightsFailure({
+              error: { username: 'User not found' },
+            });
+          }
+          this.createSecretUserRightsFailure({
+            error: { unknown: 'Unknown error' },
+          });
+          throw error;
         });
-        throw error;
-      });
+    };
   }
 
   updateSecretUserRights({ secret, user, rights }) {
-    return secretin
-      .shareSecret(secret.id, user.username, rights)
-      .then(() => (
-        this.updateSecretUserRightsSuccess({ secret, user, rights })
-      ))
-      .catch((error) => {
-        this.updateSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .shareSecret(secret.id, user.username, rights)
+        .then(() => (
+          this.updateSecretUserRightsSuccess({ secret, user, rights })
+        ))
+        .catch((error) => {
+          this.updateSecretUserRightsFailure({
+            error: { unknown: 'Unknown error' },
+          });
+          throw error;
         });
-        throw error;
-      });
+    };
   }
 
   deleteSecretUserRights({ secret, user }) {
-    return secretin
-      .unshareSecret(secret.id, user.username)
-      .then(() => (
-        this.deleteSecretUserRightsSuccess({ secret, user })
-      ))
-      .catch((error) => {
-        this.deleteSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .unshareSecret(secret.id, user.username)
+        .then(() => (
+          this.deleteSecretUserRightsSuccess({ secret, user })
+        ))
+        .catch((error) => {
+          this.deleteSecretUserRightsFailure({
+            error: { unknown: 'Unknown error' },
+          });
+          throw error;
         });
-        throw error;
-      });
+    };
   }
 
   addSecretToFolder({ secret, folder }) {
-    return secretin
-      .addSecretToFolder(secret.id, folder.id)
-      .then(() => (
-        this.addSecretToFolderSuccess({
-          secret,
-          folder,
-          metadata: secretin.currentUser.metadatas,
-        })
-      ))
-      .catch((error) => {
-        this.addSecretToFolderFailure({
-          error: { unknown: 'Unknown error' },
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .addSecretToFolder(secret.id, folder.id)
+        .then(() => (
+          this.addSecretToFolderSuccess({
+            secret,
+            folder,
+            metadata: secretin.currentUser.metadatas,
+          })
+        ))
+        .catch((error) => {
+          this.addSecretToFolderFailure({
+            error: { unknown: 'Unknown error' },
+          });
+          throw error;
         });
-        throw error;
-      });
+    };
   }
 
   removeSecretFromCurrentFolder({ secret, currentFolderId }) {
-    return secretin
-      .removeSecretFromFolder(secret.id, currentFolderId)
-      .then(() => (
-        this.removeSecretFromCurrentFolderSuccess({
-          secret,
-          currentFolderId,
-          metadata: secretin.currentUser.metadatas,
-        })
-      ))
-      .catch((error) => {
-        this.removeSecretFromCurrentFolderFailure({
-          error: { unknown: 'Unknown error' },
+    return (dispatch) => {
+      dispatch();
+      secretin
+        .removeSecretFromFolder(secret.id, currentFolderId)
+        .then(() => (
+          this.removeSecretFromCurrentFolderSuccess({
+            secret,
+            currentFolderId,
+            metadata: secretin.currentUser.metadatas,
+          })
+        ))
+        .catch((error) => {
+          this.removeSecretFromCurrentFolderFailure({
+            error: { unknown: 'Unknown error' },
+          });
+          throw error;
         });
-        throw error;
-      });
+    };
   }
 }
 

@@ -5,8 +5,6 @@ import uuid from 'uuid';
 class OptionsActions {
   constructor() {
     this.generateActions(
-      'verifyTotpSuccess',
-      'verifyTotpFailure',
       'deactivateTotpSuccess',
       'deactivateTotpFailure',
       'activateTotpSuccess',
@@ -21,58 +19,60 @@ class OptionsActions {
   }
 
   deactivateTotp() {
-    secretin.deactivateTotp()
-      .then(() => {
-        this.deactivateTotpSuccess();
-      })
-      .catch(() => {
-        this.deactivateTotpFailure();
-      });
-    return false;
+    return (dispatch) => {
+      dispatch();
+      secretin.deactivateTotp()
+        .then(() => {
+          this.deactivateTotpSuccess();
+        })
+        .catch(() => {
+          this.deactivateTotpFailure();
+        });
+    };
   }
 
-  activateTotp({ seed }) {
-    secretin.activateTotp(seed)
-      .then(() => {
-        this.activateTotpSuccess();
-      })
-      .catch(() => {
-        this.activateTotpFailure();
-      });
-    return true;
-  }
-
-  verifyTotp({ seed, token }) {
-    secretin.api.testTotp(seed.b32, token)
-      .then(() => {
-        this.verifyTotpSuccess();
-      })
-      .catch(() => {
-        this.verifyTotpFailure();
-      });
-    return token;
+  activateTotp({ seed, token }) {
+    return (dispatch) => {
+      dispatch();
+      secretin.api.testTotp(seed.b32, token)
+        .then(() => secretin.activateTotp(seed))
+        .then(() => {
+          this.activateTotpSuccess();
+        })
+        .catch((err) => {
+          if (err === 'Invalid couple') {
+            this.activateTotpFailure({ error: 'Synchronisation error' });
+          } else {
+            this.activateTotpFailure({ error: 'An error occured' });
+          }
+        });
+    };
   }
 
   activateShortLogin({ shortpass }) {
-    secretin.activateShortLogin(shortpass, uuid.v4())
-      .then(() => {
-        this.activateShortLoginSuccess();
-      })
-      .catch(() => {
-        this.activateShortLoginFailure();
-      });
-    return true;
+    return (dispatch) => {
+      dispatch();
+      secretin.activateShortLogin(shortpass, uuid.v4())
+        .then(() => {
+          this.activateShortLoginSuccess();
+        })
+        .catch(() => {
+          this.activateShortLoginFailure();
+        });
+    };
   }
 
   deactivateShortLogin() {
-    secretin.deactivateShortLogin()
-      .then(() => {
-        this.deactivateShortLoginSuccess();
-      })
-      .catch(() => {
-        this.deactivateShortLoginFailure();
-      });
-    return false;
+    return (dispatch) => {
+      dispatch();
+      secretin.deactivateShortLogin()
+        .then(() => {
+          this.deactivateShortLoginSuccess();
+        })
+        .catch(() => {
+          this.deactivateShortLoginFailure();
+        });
+    };
   }
 
   toggleTotp({ checked }) {
