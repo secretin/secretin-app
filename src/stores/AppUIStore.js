@@ -4,6 +4,7 @@ import secretin from 'utils/secretin';
 import makeImmutable from 'utils/makeImmutable';
 
 import AppUIActions from 'actions/AppUIActions';
+import MetadataActions from 'actions/MetadataActions';
 
 const AppUIState = new Record({
   savedUsername: '',
@@ -16,10 +17,29 @@ const AppUIState = new Record({
 class AppUIStore {
   constructor() {
     this.bindActions(AppUIActions);
+    this.bindAction(MetadataActions.CREATE_SECRET, this.loading);
+    this.bindAction(MetadataActions.CREATE_SECRET_SUCCESS, this.endLoading);
+    this.bindAction(MetadataActions.CREATE_SECRET_FAILURE, this.endLoading);
 
     this.state = new AppUIState({
       savedUsername: secretin.getSavedUsername(),
     });
+  }
+
+  loading() {
+    this.setState(
+      this.state.merge({
+        loading: true,
+      })
+    );
+  }
+
+  endLoading() {
+    this.setState(
+      this.state.merge({
+        loading: false,
+      })
+    );
   }
 
   onCreateUser() {
@@ -86,6 +106,10 @@ class AppUIStore {
         errors: new Immutable.Map(error),
       })
     );
+  }
+
+  static isLoading() {
+    return this.getState().get('loading');
   }
 
   static getCurrentUser() {

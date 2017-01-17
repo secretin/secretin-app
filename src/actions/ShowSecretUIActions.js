@@ -15,12 +15,15 @@ class ShowSecretUIActions {
 
   showSecret({ secret, tab }) {
     this.showModal({ secret, tab });
-    return secretin.getSecret(secret.id)
-                   .then((data) => {
-                     this.showSecretSuccess({
-                       secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
-                     });
-                   });
+    return (dispatch) => {
+      dispatch();
+      secretin.getSecret(secret.id)
+        .then((data) => {
+          this.showSecretSuccess({
+            secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
+          });
+        });
+    };
   }
 }
 

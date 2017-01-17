@@ -15,11 +15,13 @@ import OptionsActions from 'actions/OptionsActions';
 class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
     shown: false,
     errors: new Immutable.Map(),
+    loading: false,
   };
 
   static getStores() {
@@ -33,6 +35,7 @@ class QRCodeShow extends Component {
     return {
       errors: state.get('errors'),
       shown: state.get('showShortLogin'),
+      loading: state.get('loading'),
     };
   }
 
@@ -108,6 +111,7 @@ class QRCodeShow extends Component {
             type="button"
             buttonStyle="primary"
             onClick={this.handleSubmit}
+            disabled={this.props.loading}
           >
             Activate
           </Button>
