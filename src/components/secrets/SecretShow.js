@@ -3,7 +3,10 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
+import MetadataActions from 'actions/MetadataActions';
 import ShowSecretUIStore from 'stores/ShowSecretUIStore';
+import EditSecretUIStore from 'stores/EditSecretUIStore';
+import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
@@ -21,11 +24,13 @@ class SecretShow extends Component {
     shown: PropTypes.bool,
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
+    isEditing: PropTypes.bool,
   }
 
   static getStores() {
     return [
       ShowSecretUIStore,
+      EditSecretUIStore,
     ];
   }
 
@@ -37,6 +42,7 @@ class SecretShow extends Component {
       shown: !!state.secret,
       tab: state.tab,
       isUpdating: state.isUpdating,
+      isEditing: EditSecretUIStore.getState().get('isEditing')
     };
   }
 
@@ -44,16 +50,26 @@ class SecretShow extends Component {
     super(props);
 
     this.handleChangeTab = this.handleChangeTab.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChangeTab(tab) {
     ShowSecretUIActions.changeTab({ tab });
   }
 
+  handleClick() {
+    MetadataActions.updateSecret({
+      secret: this.props.secret,
+      data: EditSecretUIStore.getState().get('data'),
+    });
+  }
+
   render() {
     if (!this.props.secret) {
       return false;
     }
+
+    const canUpdate = this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser());
 
     return (
       <Modal
@@ -85,7 +101,7 @@ class SecretShow extends Component {
                     :
                       <SecretEdit
                         isUpdating={this.props.isUpdating}
-                        secret={this.props.secret}
+                        canUpdate={canUpdate}
                       />
                   }
                 </Tab>
@@ -112,6 +128,18 @@ class SecretShow extends Component {
           >
             Close
           </Button>
+          {
+            this.props.isEditing && (
+              <Button
+                type="submit"
+                buttonStyle="primary"
+                onClick={this.handleClick}
+                disabled={this.props.isUpdating}
+              >
+                Save
+              </Button>
+            )
+          }
         </Modal.Footer>
       </Modal>
     );

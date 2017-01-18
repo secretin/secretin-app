@@ -16,7 +16,10 @@ function SecretListItem({ secret, folders }) {
   } else if (secret.type === 'windows') {
     return <SecretListItemFolderWindows secret={secret} />;
   }
-  return <SecretListItemFolderSecret parentFolderId={folders.last()} secret={secret} />;
+  return (<SecretListItemFolderSecret
+    parentFolderId={folders.last()}
+    secret={secret}
+  />);
 }
 SecretListItem.propTypes = propTypes;
 

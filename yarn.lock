@@ -995,13 +995,9 @@ balanced-match@^0.4.1, balanced-match@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
-base64-js@1.1.2:
+base64-js@1.1.2, base64-js@^1.0.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.1.2.tgz#d6400cac1c4c660976d90d07a04351d89395f5e8"
-
-base64-js@^1.0.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
 
 batch@0.5.3:
   version "0.5.3"
@@ -5795,9 +5791,9 @@ sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
-secretin@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.0.1.tgz#e63d552e464cf4e6b481110c5fbc9693c16bcafc"
+secretin@1.*.*:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.0.3.tgz#3ae19055313f3061eb30a34b9c1ca949a0af973f"
 
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"

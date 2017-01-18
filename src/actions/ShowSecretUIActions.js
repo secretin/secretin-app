@@ -16,18 +16,21 @@ class ShowSecretUIActions {
 
   showSecret({ secret, tab }) {
     this.showModal({ secret, tab });
-    return secretin.getSecret(secret.id)
-      .then((data) => {
-        if (secret.type === 'windows') {
-          this.showSecretSuccess({
-            secret: secret.set('data', new Immutable.List(data)),
-          });
-        } else {
-          this.showSecretSuccess({
-            secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
-          });
-        }
-      });
+    return (dispatch) => {
+      dispatch();
+      secretin.getSecret(secret.id)
+        .then((data) => {
+          if (secret.type === 'windows') {
+            this.showSecretSuccess({
+              secret: secret.set('data', new Immutable.List(data)),
+            });
+          } else {
+            this.showSecretSuccess({
+              secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
+            });
+          }
+        });
+    };
   }
 }
 
