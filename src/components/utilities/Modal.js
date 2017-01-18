@@ -22,9 +22,13 @@ function Modal(props) {
       onBackdropClick={props.onClose}
     >
       <div className="modal-dialog">
-        <button className="modal-dialog-close" onClick={props.onClose}>
-          <Icon id="close" size="small" />
-        </button>
+        {
+          props.onClose && (
+            <button className="modal-dialog-close" onClick={props.onClose}>
+              <Icon id="close" size="small" />
+            </button>
+          )
+        }
 
         {props.children}
       </div>

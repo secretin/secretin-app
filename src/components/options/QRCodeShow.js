@@ -17,11 +17,13 @@ class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
     shown: false,
     errors: new Immutable.Map(),
+    loading: false,
   };
 
   static getStores() {
@@ -33,9 +35,9 @@ class QRCodeShow extends Component {
   static getPropsFromStores() {
     const state = OptionsStore.getState();
     return {
-      isVerified: state.get('totpIsVerified'),
       errors: state.get('errors'),
       shown: state.get('showQRCode'),
+      loading: state.get('loading'),
     };
   }
 
@@ -121,6 +123,7 @@ class QRCodeShow extends Component {
             type="button"
             buttonStyle="primary"
             onClick={this.handleSubmit}
+            disabled={this.props.loading}
           >
             Activate
           </Button>

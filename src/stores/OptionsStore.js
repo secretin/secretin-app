@@ -8,10 +8,20 @@ import OptionsActions from 'actions/OptionsActions';
 
 const OptionsState = new Record({
   options: new Immutable.Map(),
-  totpIsVerified: false,
   errors: new Immutable.Map(),
   showQRCode: false,
   showShortLogin: false,
+  loading: false,
+  import: Immutable.fromJS({
+    keepass: {
+      shown: false,
+      importing: false,
+      importStatus: 0,
+      importTotal: 0,
+      success: false,
+      errors: new Immutable.Map(),
+    },
+  }),
 });
 
 class OptionsStore {
@@ -32,6 +42,18 @@ class OptionsStore {
     );
   }
 
+  onActivateTotp() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
+  onActivateShortLogin() {
+    this.setState(this.state
+      .set('loading', true)
+    );
+  }
+
   onToggleTotp(showQRCode) {
     this.setState(this.state
       .set('showQRCode', showQRCode)
@@ -44,19 +66,62 @@ class OptionsStore {
     );
   }
 
-  onVerifyTotpSuccess() {
-    this.setState(
-      this.state.merge({
-        totpIsVerified: true,
-        errors: new Immutable.Map(),
-      }));
+  onShowImportKeepass() {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'shown'], true)
+      .setIn(['import', 'keepass', 'importing'], false)
+      .setIn(['import', 'keepass', 'success'], false)
+      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    );
   }
 
-  onVerifyTotpFailure() {
+  onHideImportKeepass() {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'shown'], false)
+      .setIn(['import', 'keepass', 'importing'], false)
+      .setIn(['import', 'keepass', 'success'], false)
+      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    );
+  }
+
+  onImportKeepass() {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'importing'], true)
+      .setIn(['import', 'keepass', 'success'], false)
+      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    );
+  }
+
+  onImportKeepassProgress({ importStatus, importTotal }) {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'importStatus'], importStatus)
+      .setIn(['import', 'keepass', 'importTotal'], importTotal)
+    );
+  }
+
+  onImportKeepassSuccess() {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'importing'], false)
+      .setIn(['import', 'keepass', 'success'], true)
+      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+      .setIn(['import', 'keepass', 'importStatus'], 0)
+      .setIn(['import', 'keepass', 'importTotal'], 0)
+    );
+  }
+
+  onImportKeepassFailure({ error }) {
+    this.setState(this.state
+      .setIn(['import', 'keepass', 'importing'], false)
+      .setIn(['import', 'keepass', 'success'], false)
+      .setIn(['import', 'keepass', 'errors'], new Immutable.Map(error))
+    );
+  }
+
+  onActivateTotpFailure({ error }) {
     this.setState(
       this.state.merge({
-        totpIsVerified: false,
-        errors: new Immutable.Map({ totp: 'An error occured' }),
+        errors: new Immutable.Map({ totp: error }),
+        loading: false,
       }));
   }
 
@@ -64,7 +129,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
+        loading: false,
         errors: new Immutable.Map(),
       }));
   }
@@ -73,6 +138,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
       })
     );
@@ -82,7 +148,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showQRCode: false,
-        totpIsVerified: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('totp', true),
       }));
@@ -104,6 +170,7 @@ class OptionsStore {
     this.setState(
       this.state.merge({
         showShortLogin: false,
+        loading: false,
         errors: new Immutable.Map(),
         options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
       }));

@@ -4,8 +4,10 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
+import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
+import Button from 'components/utilities/Button';
 
 import OptionsActions from 'actions/OptionsActions';
 
@@ -81,7 +83,8 @@ class OptionsContainer extends Component {
   }
 
   render() {
-    const options = this.props.options;
+    const { options } = this.props;
+
     return (
       <div className="page">
         <div className="page-header">
@@ -133,8 +136,37 @@ class OptionsContainer extends Component {
               </div>
             </div>
           </div>
-
-
+          <div className="options-section">
+            <h3 className="options-section-title">
+              Imports
+            </h3>
+            <div className="options-section-item">
+              <ImportKeepassShow />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={OptionsActions.showImportKeepass}
+              >
+                Import from Keepass
+              </Button>
+              {/* Keepass :
+              <input
+                type="file"
+                id="input"
+                onChange={this.handleChangeKeepass}
+              />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                disabled={isEmpty(this.state.keepass)}
+                onClick={() => {
+                  OptionsActions.importKeepass(this.state.keepass);
+                }}
+              >
+                Import
+              </Button> */}
+            </div>
+          </div>
         </div>
       </div>
     );
