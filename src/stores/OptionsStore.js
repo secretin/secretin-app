@@ -104,6 +104,8 @@ class OptionsStore {
       .setIn(['import', 'keepass', 'importing'], false)
       .setIn(['import', 'keepass', 'success'], true)
       .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+      .setIn(['import', 'keepass', 'importStatus'], 0)
+      .setIn(['import', 'keepass', 'importTotal'], 0)
     );
   }
 
