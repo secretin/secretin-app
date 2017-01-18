@@ -45,7 +45,7 @@ function addSecret(child, hashedParent) {
   for (let j = 0; j < strings.length; j += 1) {
     const key = strings[j].children[0].textContent;
     const value = strings[j].children[1].textContent;
-    if (key === 'Title') {
+    if (key.toLowerCase() === 'title') {
       title = value;
     } else if (key.toLowerCase() === 'password') {
       secret.fields[1].content = value;
