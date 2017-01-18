@@ -9,9 +9,12 @@ const SIZES = {
 class Icon extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    size: PropTypes.oneOf([
-      'small',
-      'base',
+    size: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.oneOf([
+        'small',
+        'base',
+      ]),
     ]),
     className: PropTypes.string,
   }
@@ -26,15 +29,17 @@ class Icon extends Component {
     const className = classNames(
       'icon',
       `icon--id-${id}`,
-      `icon--size-${size}`,
-      this.props.className
+      this.props.className,
+      {
+        [`icon--size-${size}`]: typeof size === 'string',
+      }
     );
 
     return (
       <svg
         className={className}
-        width={SIZES[size]}
-        height={SIZES[size]}
+        width={typeof size === 'string' ? SIZES[size] : size}
+        height={typeof size === 'string' ? SIZES[size] : size}
       >
         <use xlinkHref={`#${id}`} />
       </svg>

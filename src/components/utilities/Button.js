@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Link from 'react-router/Link';
 import classNames from 'classnames';
 
 class Button extends Component {
@@ -14,6 +15,7 @@ class Button extends Component {
       'primary',
       'icon',
     ]),
+    to: PropTypes.string,
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -50,6 +52,20 @@ class Button extends Component {
       `button--style-${this.props.buttonStyle}`,
       `button--size-${this.props.size}`,
     );
+
+    if (this.props.to) {
+      return (
+        <Link
+          className={className}
+          title={this.props.title}
+          onClick={this.handleClick}
+          to={this.props.to}
+          disabled={this.props.disabled}
+        >
+          {this.props.children}
+        </Link>
+      );
+    }
 
     return (
       <button
