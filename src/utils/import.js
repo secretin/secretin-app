@@ -19,29 +19,40 @@ function addSecret(child, hashedParent) {
   let title = '';
   const secret = {
     type: 'default',
-    fields: [],
+    fields: [
+      {
+        id: uuid.v4(),
+        type: 'text',
+        label: 'login',
+        content: '',
+      },
+      {
+        id: uuid.v4(),
+        type: 'password',
+        label: 'password',
+        content: '',
+      },
+      {
+        id: uuid.v4(),
+        type: 'url',
+        label: 'url',
+        content: '',
+      },
+    ],
   };
   const strings = child.querySelectorAll(':scope > String');
 
   for (let j = 0; j < strings.length; j += 1) {
     const key = strings[j].children[0].textContent;
     const value = strings[j].children[1].textContent;
-    if (key === 'Title') {
+    if (key.toLowerCase() === 'title') {
       title = value;
-    } else if (key === 'Password') {
-      secret.fields.push({
-        id: uuid.v4(),
-        type: 'password',
-        label: key,
-        content: value,
-      });
-    } else if (key === 'Url') {
-      secret.fields.push({
-        id: uuid.v4(),
-        type: 'url',
-        label: key,
-        content: value,
-      });
+    } else if (key.toLowerCase() === 'password') {
+      secret.fields[1].content = value;
+    } else if (key.toLowerCase() === 'url') {
+      secret.fields[2].content = value;
+    } else if (key.toLowerCase() === 'username') {
+      secret.fields[0].content = value;
     } else if (!isEmpty(value)) {
       secret.fields.push({
         id: uuid.v4(),
