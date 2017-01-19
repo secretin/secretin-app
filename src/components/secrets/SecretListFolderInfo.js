@@ -19,7 +19,7 @@ function SecretListFolderInfo({ folder }) {
           </tr>
       }
       {
-        folder.get('secrets').map(secret => (
+        folder.get('secrets').sortBy(secret => secret.get('title').toLowerCase()).map(secret => (
           <SecretListItemFolderSecret
             key={secret.id}
             secret={secret}
