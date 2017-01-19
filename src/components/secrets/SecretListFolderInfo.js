@@ -8,6 +8,7 @@ const propTypes = {
 };
 
 function SecretListFolderInfo({ folder }) {
+  const secrets = folder.get('secrets').sortBy(secret => secret.get('title').toLowerCase());
   return (
     <tbody className="secret-list-content-table-body">
       {
@@ -19,7 +20,7 @@ function SecretListFolderInfo({ folder }) {
           </tr>
       }
       {
-        folder.get('secrets').sortBy(secret => secret.get('title').toLowerCase()).map(secret => (
+        secrets.map(secret => (
           <SecretListItemFolderSecret
             key={secret.id}
             secret={secret}
