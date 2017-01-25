@@ -11,6 +11,8 @@ const OptionsState = new Record({
   errors: new Immutable.Map(),
   showQRCode: false,
   showShortLogin: false,
+  showRescueCodes: false,
+  rescueCodes: new Immutable.List(),
   loading: false,
   import: Immutable.fromJS({
     keepass: {
@@ -174,6 +176,24 @@ class OptionsStore {
         errors: new Immutable.Map(),
         options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
       }));
+  }
+
+  onShowRescueCodesSuccess({ rescueCodes }) {
+    this.setState(
+      this.state.merge({
+        rescueCodes: new Immutable.List(rescueCodes),
+        showRescueCodes: true,
+      })
+    );
+  }
+
+  onHideRescueCodes() {
+    this.setState(
+      this.state.merge({
+        rescueCodes: new Immutable.List(),
+        showRescueCodes: false,
+      })
+    );
   }
 
   static getOptions() {
