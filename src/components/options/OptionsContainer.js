@@ -5,6 +5,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
+import RescueCodes from 'components/options/RescueCodesShow';
 import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
@@ -62,6 +63,16 @@ class OptionsContainer extends Component {
               >
                 Activate two-factor authentication
               </Checkbox>
+              {options.get('totp') &&
+                <div style={{ marginLeft: '33px' }}>
+                  <RescueCodes />
+                  <a
+                    onClick={OptionsActions.showRescueCodes}
+                    tabIndex="-1"
+                  >
+                    Show rescue Codes
+                  </a>
+                </div>}
             </div>
 
             <div className="options-section-item">

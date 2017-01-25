@@ -22,7 +22,9 @@ class OptionsActions {
       'hideQRCode',
       'hideShortLogin',
       'changeDelaySuccess',
-      'changeDelayFailure'
+      'changeDelayFailure',
+      'showRescueCodesSuccess',
+      'hideRescueCodes',
     );
   }
 
@@ -113,6 +115,15 @@ class OptionsActions {
         });
 
     return reader;
+  }
+
+  showRescueCodes() {
+    return dispatch => {
+      dispatch();
+      secretin.getRescueCodes().then(rescueCodes => {
+        this.showRescueCodesSuccess({ rescueCodes });
+      });
+    };
   }
 
   toggleShortLogin({ checked }) {

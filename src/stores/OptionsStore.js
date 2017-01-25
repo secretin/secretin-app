@@ -10,6 +10,8 @@ const OptionsState = new Record({
   errors: new Immutable.Map(),
   showQRCode: false,
   showShortLogin: false,
+  showRescueCodes: false,
+  rescueCodes: new Immutable.List(),
   loading: false,
   import: Immutable.fromJS({
     keepass: {
@@ -171,6 +173,24 @@ class OptionsStore {
 
   onChangeDelaySuccess({ timeToClose }) {
     this.setState(this.state.setIn(['options', 'timeToClose'], timeToClose));
+  }
+
+  onShowRescueCodesSuccess({ rescueCodes }) {
+    this.setState(
+      this.state.merge({
+        rescueCodes: new Immutable.List(rescueCodes),
+        showRescueCodes: true,
+      })
+    );
+  }
+
+  onHideRescueCodes() {
+    this.setState(
+      this.state.merge({
+        rescueCodes: new Immutable.List(),
+        showRescueCodes: false,
+      })
+    );
   }
 
   static getOptions() {
