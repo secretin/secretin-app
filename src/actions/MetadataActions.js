@@ -44,7 +44,13 @@ class MetadataActions {
   createSecret({ title, data, folder, isFolder } = { isFolder: false }) {
     let promise;
     if (isFolder) {
-      promise = secretin.addFolder(title);
+      if (folder) {
+        promise = secretin.addFolder(title, folder);
+      } else {
+        promise = secretin.addFolder(title);
+      }
+    } else if (folder) {
+      promise = secretin.addSecret(title, data.toJS(), folder);
     } else {
       promise = secretin.addSecret(title, data.toJS());
     }
@@ -53,12 +59,6 @@ class MetadataActions {
       dispatch();
 
       promise
-        .then((id) => {
-          if (folder) {
-            return secretin.addSecretToFolder(id, folder);
-          }
-          return id;
-        })
         .then(() => (
           this.createSecretSuccess({
             metadata: secretin.currentUser.metadatas,
