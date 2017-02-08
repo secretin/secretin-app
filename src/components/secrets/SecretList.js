@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import { DragDropContext, DragLayer } from 'react-dnd';
 import { escapeRegExp } from 'lodash';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 
 
 import AppUIStore from 'stores/AppUIStore';
@@ -27,6 +28,7 @@ class SecretList extends Component {
     folders: PropTypes.instanceOf(Immutable.List),
     secrets: PropTypes.instanceOf(Immutable.Map),
     searchQuery: PropTypes.string,
+    isDragging: PropTypes.bool,
     showAll: PropTypes.bool,
     showMine: PropTypes.bool,
     showShared: PropTypes.bool,
@@ -56,6 +58,9 @@ class SecretList extends Component {
   }
 
   renderList() {
+    const className = classNames('secret-list-content-table', {
+      'secret-list-content-table--is-dragging': this.props.isDragging,
+    });
     const fuzzyRegexp = new RegExp(
       this.state.searchQuery.split('').map(c => escapeRegExp(c)).join('.*'),
       'i'
@@ -98,7 +103,7 @@ class SecretList extends Component {
     }
 
     return (
-      <table className="secret-list-content-table">
+      <table className={className}>
         <thead className="secret-list-content-table-header">
           <tr>
             <th className="secret-list-item-column--title" >
@@ -226,4 +231,12 @@ class SecretList extends Component {
   }
 }
 
-export default new DragDropContext(HTML5Backend)(SecretList);
+function layerCollect(monitor) {
+  return {
+    isDragging: monitor.isDragging()
+  };
+}
+
+export default new DragDropContext(HTML5Backend)(
+  DragLayer(layerCollect)(SecretList)
+);

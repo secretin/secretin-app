@@ -17,20 +17,25 @@ const propTypes = {
   secret: PropTypes.any,
   folders: PropTypes.instanceOf(Immutable.List),
   isDragging: PropTypes.bool,
+  canDrop: PropTypes.bool,
   isOver: PropTypes.bool,
   connectDragSource: PropTypes.func.isRequired,
 };
 
 function SecretListItemFolder(props) {
-  const { secret, folders, isDragging, isOver, connectDragSource, connectDropTarget } = props;
-  const currentUser = AppUIStore.getCurrentUser();
-  const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
+  const { secret, folders, isDragging, canDrop, isOver } = props;
+  const { connectDragSource, connectDropTarget } = props;
+
+  const { username: currentUserId } = AppUIStore.getCurrentUser();
+  const users = secret.users.toList().filterNot(user => user.id === currentUserId);
 
   const className = classNames(
     'secret-list-item',
     {
       'secret-list-item--is-dragging': isDragging,
       'secret-list-item--is-over': isOver,
+      'secret-list-item--can-drop': canDrop,
+      'secret-list-item--cant-drop': !canDrop,
     }
   );
 
@@ -81,17 +86,21 @@ const itemSource = {
 };
 
 const itemTarget = {
-  drop(props, monitor) {
+  drop({ secret: folder }, monitor) {
     const { secret } = monitor.getItem();
-    MetadataActions.addSecretToFolder({
-      secret,
-      folder: props.secret,
-    });
+    MetadataActions.addSecretToFolder({ secret, folder });
   },
 
-  canDrop(props, monitor) {
-    const { secret } = monitor.getItem();
-    return secret.id !== props.secret.id;
+  canDrop({ secret: targetSecret }, monitor) {
+    const { username: currentUserId } = AppUIStore.getCurrentUser();
+    const { secret: draggedSecret } = monitor.getItem();
+
+    return (
+      draggedSecret.getIn(['users', currentUserId, 'rights']) !== 0 &&
+      targetSecret.type === 'folder' &&
+      targetSecret.id !== draggedSecret.id &&
+      targetSecret.getIn(['users', currentUserId, 'rights']) !== 0
+    );
   },
 };
 
@@ -105,7 +114,8 @@ function itemSourceCollect(connect, monitor) {
 function itemTargetCollect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver() && monitor.canDrop(),
+    canDrop: monitor.canDrop(),
+    isOver: monitor.isOver(),
   };
 }
 
