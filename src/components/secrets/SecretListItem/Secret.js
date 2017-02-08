@@ -21,6 +21,7 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
   const currentUser = AppUIStore.getCurrentUser();
   const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
 
+  const secretRights = secret.getIn(['users', currentUser.username, 'rights']);
   const className = classNames(
     'secret-list-item',
     {
@@ -28,23 +29,30 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
     }
   );
 
+  const link = (
+    <div>
+      <a
+        onClick={() => ShowSecretUIActions.showSecret({ secret })}
+        tabIndex="-1"
+      >
+        <Icon id={secret.getIcon()} size="base" />
+        <span className="text" title={secret.title}>
+          {secret.title}
+        </span>
+      </a>
+    </div>
+  );
+
   return (
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
         {
-          connectDragSource(
-            <div>
-              <a
-                onClick={() => ShowSecretUIActions.showSecret({ secret })}
-                tabIndex="-1"
-              >
-                <Icon id={secret.getIcon()} size="base" />
-                <span className="text" title={secret.title}>
-                  {secret.title}
-                </span>
-              </a>
-            </div>
-          )
+          (secretRights > 0) ?
+            connectDragSource(
+              link
+            )
+          :
+            link
         }
       </td>
       <td className="secret-list-item-column secret-list-item-column--last-modified">
