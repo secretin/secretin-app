@@ -49,6 +49,7 @@
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
     "electron": "yarn run build && electron-packager ./ --platform=all --arch=x64 --asar --overwrite --version=1.4.13 --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
+    "dev-electron": "yarn run build && electron .",
     "lint": "eslint src/",
     "test": "yarn run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

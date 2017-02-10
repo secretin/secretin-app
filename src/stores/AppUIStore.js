@@ -10,6 +10,7 @@ const AppUIState = new Record({
   savedUsername: '',
   loading: false,
   connected: false,
+  online: true,
   errors: new Immutable.Map(),
   currentUser: null,
 });
@@ -38,6 +39,22 @@ class AppUIStore {
     this.setState(
       this.state.merge({
         loading: false,
+      })
+    );
+  }
+
+  onOffline() {
+    this.setState(
+      this.state.merge({
+        online: false,
+      })
+    );
+  }
+
+  onOnline() {
+    this.setState(
+      this.state.merge({
+        online: true,
       })
     );
   }
@@ -114,6 +131,10 @@ class AppUIStore {
 
   static getCurrentUser() {
     return this.getState().get('currentUser');
+  }
+
+  static isOnline() {
+    return this.getState().get('online');
   }
 }
 

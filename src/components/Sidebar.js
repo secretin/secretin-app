@@ -31,7 +31,13 @@ function Sidebar() {
     <div className="sidebar">
       <div className="sidebar-header">
         <Link to="/">
-          Secret-In.me
+          {
+            AppUIStore.isOnline()
+            ?
+              'Secret-In.me'
+            :
+              'Offline'
+          }
         </Link>
       </div>
       <div className="sidebar-content">
