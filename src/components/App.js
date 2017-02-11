@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
+import AppUIActions from 'actions/AppUIActions';
+
 import AppUIStore from 'stores/AppUIStore';
 import MetadataStore from 'stores/MetadataStore';
 
@@ -34,6 +36,10 @@ class App extends Component {
       errors: state.get('errors'),
       secrets: MetadataStore.getSecretsInFolder(),
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('connectionChange', AppUIActions.connectionChange);
   }
 
   render() {

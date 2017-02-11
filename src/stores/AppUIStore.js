@@ -43,18 +43,10 @@ class AppUIStore {
     );
   }
 
-  onOffline() {
+  onConnectionChange({ detail }) {
     this.setState(
       this.state.merge({
-        online: false,
-      })
-    );
-  }
-
-  onOnline() {
-    this.setState(
-      this.state.merge({
-        online: true,
+        online: (detail === 'online'),
       })
     );
   }

@@ -6,7 +6,6 @@ const {
   UserNotFoundError,
   InvalidPasswordError,
   NeedTOTPTokenError,
-  OfflineError,
 } = Errors;
 
 class AppUIActions {
@@ -17,7 +16,7 @@ class AppUIActions {
       'loginUserSuccess',
       'loginUserFailure',
       'appReady',
-      'online'
+      'connectionChange',
     );
   }
 
@@ -48,17 +47,10 @@ class AppUIActions {
     return (dispatch) => {
       dispatch();
       secretin.loginUser(username, password, token)
-        .then((currentUser) => {
-          this.loginUserSuccess({
-            currentUser,
-            metadata: currentUser.metadatas,
-          });
-          if (typeof window.process !== 'undefined') {
-            // Electron
-            return secretin.getDb();
-          }
-          return Promise.resolve();
-        })
+        .then(currentUser => this.loginUserSuccess({
+          currentUser,
+          metadata: currentUser.metadatas,
+        }))
         .catch((error) => {
           if (error instanceof UserNotFoundError) {
             return this.loginUserFailure({
@@ -77,19 +69,9 @@ class AppUIActions {
             return this.loginUserFailure({
               error: { totp: 'Token' },
             });
-          } else if (error instanceof OfflineError) {
-            return this.offline();
           }
           throw error;
         });
-    };
-  }
-
-  offline() {
-    return (dispatch) => {
-      dispatch();
-      secretin.testOnline()
-        .then(() => this.online());
     };
   }
 
