@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
@@ -39,7 +40,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('connectionChange', AppUIActions.connectionChange);
+    secretin.addEventListener('connectionChange', AppUIActions.connectionChange);
+  }
+
+  componentWillUnmount() {
+    secretin.removeEventListener('connectionChange', AppUIActions.connectionChange);
   }
 
   render() {
