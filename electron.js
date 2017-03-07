@@ -19,13 +19,13 @@ function createWindow() {
   protocol.interceptFileProtocol(prefix, (request, callback) => {
     if (request.url.indexOf('/static/') > -1) {
       const url = request.url.split('/static/')[1];
-      callback({ path: path.join(__dirname, 'build/static', url) });
+      callback({ path: path.join(__dirname, 'build/static', decodeURI(url)) });
     } else if (request.url.endsWith('/index.html')) {
       let addPrefix = 3;
       if (process.platform === 'win32') {
         addPrefix += 1;
       }
-      callback({ path: request.url.substring(prefix.length + addPrefix) });
+      callback({ path: decodeURI(request.url.substring(prefix.length + addPrefix)) });
     } else {
       callback({ path: path.join(__dirname, 'build/index.html') });
     }
