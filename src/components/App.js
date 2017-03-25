@@ -58,8 +58,10 @@ class App extends Component {
 
   onAppBlur() {
     clearTimeout(this.disconnectingEvent);
-    if (this.props.options) {
-      const delay = this.props.options.get('timeToClose') * 60 * 1000;
+    const { connected, options } = this.props;
+
+    if (connected && options) {
+      const delay = options.get('timeToClose') * 60 * 1000;
       if (delay > 0) {
         this.disconnectingEvent = setTimeout(AppUIActions.disconnectUser, delay);
       }

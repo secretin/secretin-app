@@ -19,7 +19,6 @@ class AppUIActions {
     );
   }
 
-
   disconnectUser() {
     return (dispatch) => {
       dispatch();
