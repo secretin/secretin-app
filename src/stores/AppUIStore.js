@@ -59,6 +59,18 @@ class AppUIStore {
     );
   }
 
+  onDisconnectUser() {
+    this.setState(
+      this.state.merge({
+        savedUsername: secretin.getSavedUsername(),
+        loading: false,
+        connected: false,
+        errors: new Immutable.Map(),
+        currentUser: null,
+      })
+    );
+  }
+
   onCreateUserSuccess({ currentUser }) {
     this.setState(
       this.state.merge({

@@ -20,6 +20,13 @@ class AppUIActions {
     );
   }
 
+  disconnectUser() {
+    return (dispatch) => {
+      dispatch();
+      secretin.currentUser.disconnect();
+    };
+  }
+
   createUser({ username, password, confirmPassword }) {
     return (dispatch) => {
       dispatch();
@@ -46,11 +53,19 @@ class AppUIActions {
   loginUser({ username, password, token }) {
     return (dispatch) => {
       dispatch();
-      secretin.loginUser(username, password, token)
-        .then(currentUser => this.loginUserSuccess({
-          currentUser,
-          metadata: currentUser.metadatas,
-        }))
+      secretin
+        .loginUser(username, password, token)
+        .then(currentUser => (
+          this.loginUserSuccess({
+            currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
+            metadata: currentUser.metadatas,
+          })
+        ))
         .catch((error) => {
           if (error instanceof UserNotFoundError) {
             return this.loginUserFailure({
@@ -83,6 +98,11 @@ class AppUIActions {
         .then((currentUser) => {
           this.loginUserSuccess({
             currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
             metadata: currentUser.metadatas,
           });
         })

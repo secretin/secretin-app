@@ -6,7 +6,9 @@ import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
+import AppUIActions from 'actions/AppUIActions';
 import AppUIStore from 'stores/AppUIStore';
+import OptionsStore from 'stores/OptionsStore';
 import MetadataStore from 'stores/MetadataStore';
 
 import UserConnect from 'components/users/UserConnect';
@@ -18,12 +20,14 @@ class App extends Component {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
+    options: PropTypes.instanceOf(Immutable.Map),
     errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   static getStores() {
     return [
       AppUIStore,
+      OptionsStore,
       MetadataStore,
     ];
   }
@@ -31,6 +35,7 @@ class App extends Component {
   static getPropsFromStores() {
     const state = AppUIStore.getState();
     return {
+      options: OptionsStore.getOptions(),
       savedUsername: state.get('savedUsername'),
       loading: state.get('loading'),
       connected: state.get('connected'),
@@ -45,6 +50,33 @@ class App extends Component {
 
   componentWillUnmount() {
     secretin.removeEventListener('connectionChange', AppUIActions.connectionChange);
+  }
+
+  constructor(props) {
+    super(props);
+    this.disconnectingEvent = null;
+
+    this.onAppFocus = this.onAppFocus.bind(this);
+    this.onAppBlur = this.onAppBlur.bind(this);
+
+    window.addEventListener('focus', this.onAppFocus);
+    window.addEventListener('blur', this.onAppBlur);
+  }
+
+  onAppFocus() {
+    clearTimeout(this.disconnectingEvent);
+  }
+
+  onAppBlur() {
+    clearTimeout(this.disconnectingEvent);
+    const { connected, options } = this.props;
+
+    if (connected && options) {
+      const delay = options.get('timeToClose') * 60 * 1000;
+      if (delay > 0) {
+        this.disconnectingEvent = setTimeout(AppUIActions.disconnectUser, delay);
+      }
+    }
   }
 
   render() {
