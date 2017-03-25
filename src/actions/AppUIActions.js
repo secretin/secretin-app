@@ -15,8 +15,15 @@ class AppUIActions {
       'createUserFailure',
       'loginUserSuccess',
       'loginUserFailure',
-      'appReady'
+      'appReady',
     );
+  }
+
+  disconnectUser() {
+    return (dispatch) => {
+      dispatch();
+      secretin.currentUser.disconnect();
+    };
   }
 
   createUser({ username, password, confirmPassword }) {
@@ -50,6 +57,11 @@ class AppUIActions {
         .then(currentUser => (
           this.loginUserSuccess({
             currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
             metadata: currentUser.metadatas,
           })
         ))
@@ -85,6 +97,11 @@ class AppUIActions {
         .then((currentUser) => {
           this.loginUserSuccess({
             currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
             metadata: currentUser.metadatas,
           });
         })

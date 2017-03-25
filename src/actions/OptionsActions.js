@@ -23,6 +23,8 @@ class OptionsActions {
       'hideShortLogin',
       'showRescueCodesSuccess',
       'hideRescueCodes',
+      'changeDelaySuccess',
+      'changeDelayFailure',
     );
   }
 
@@ -62,7 +64,7 @@ class OptionsActions {
       dispatch();
       secretin.activateShortLogin(shortpass, uuid.v4())
         .then(() => {
-          this.activateShortLoginSuccess();
+          this.activateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
         })
         .catch(() => {
           this.activateShortLoginFailure();
@@ -75,7 +77,7 @@ class OptionsActions {
       dispatch();
       secretin.deactivateShortLogin()
         .then(() => {
-          this.deactivateShortLoginSuccess();
+          this.deactivateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
         })
         .catch(() => {
           this.deactivateShortLoginFailure();
@@ -126,6 +128,22 @@ class OptionsActions {
     }
 
     return this.deactivateShortLogin();
+  }
+
+  toggleAutoLogout({ checked }) {
+    const delay = checked ? 30 : 0;
+    return this.changeTimeToClose({ timeToClose: delay });
+  }
+
+  changeTimeToClose({ timeToClose }) {
+    secretin.editOption('timeToClose', timeToClose)
+      .then(() => {
+        this.changeDelaySuccess({ timeToClose });
+      })
+      .catch(() => {
+        this.changeDelayFailure();
+      });
+    return true;
   }
 }
 

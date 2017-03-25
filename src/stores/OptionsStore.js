@@ -1,7 +1,6 @@
 import Immutable, { Record } from 'immutable';
 import alt from 'utils/alt';
 import makeImmutable from 'utils/makeImmutable';
-import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 import OptionsActions from 'actions/OptionsActions';
@@ -34,11 +33,7 @@ class OptionsStore {
     this.state = new OptionsState();
   }
 
-  onLoadOptions({ currentUser }) {
-    const options = currentUser.options;
-    options.totp = currentUser.totp;
-    options.shortLogin = secretin.canITryShortLogin();
-
+  onLoadOptions({ options }) {
     this.setState(this.state
       .set('options', new Immutable.Map(options))
     );
@@ -147,35 +142,43 @@ class OptionsStore {
   }
 
   onActivateTotpSuccess() {
-    this.setState(
-      this.state.merge({
+    this.setState(this.state
+      .merge({
         showQRCode: false,
         loading: false,
         errors: new Immutable.Map(),
-        options: this.state.options.set('totp', true),
-      }));
+      })
+      .setIn(['options', 'totp'], true)
+    );
   }
 
   onDeactivateTotpSuccess() {
     this.setState(this.state
-      .set('options', this.state.options.set('totp', false))
+      .setIn(['options', 'totp'], false)
     );
   }
 
-  onDeactivateShortLoginSuccess() {
+  onDeactivateShortLoginSuccess({ shortLogin }) {
     this.setState(this.state
-      .set('options', this.state.options.set('shortLogin', secretin.canITryShortLogin()))
+      .setIn(['options', 'shortLogin'], shortLogin)
     );
   }
 
-  onActivateShortLoginSuccess() {
-    this.setState(
-      this.state.merge({
+  onActivateShortLoginSuccess({ shortLogin }) {
+    this.setState(this.state
+      .merge({
         showShortLogin: false,
         loading: false,
         errors: new Immutable.Map(),
-        options: this.state.options.set('shortLogin', secretin.canITryShortLogin()),
-      }));
+      })
+      .setIn(['options', 'shortLogin'], shortLogin)
+    );
+  }
+
+  onChangeDelaySuccess({ timeToClose }) {
+    this.setState(this.state
+      .setIn(['options', 'timeToClose'], timeToClose)
+    );
   }
 
   onShowRescueCodesSuccess({ rescueCodes }) {
