@@ -58,6 +58,11 @@ class AppUIActions {
         .then(currentUser => (
           this.loginUserSuccess({
             currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
             metadata: currentUser.metadatas,
           })
         ))
@@ -93,6 +98,11 @@ class AppUIActions {
         .then((currentUser) => {
           this.loginUserSuccess({
             currentUser,
+            options: {
+              ...currentUser.options,
+              totp: currentUser.totp,
+              shortLogin: secretin.canITryShortLogin(),
+            },
             metadata: currentUser.metadatas,
           });
         })

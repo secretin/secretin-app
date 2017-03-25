@@ -62,7 +62,7 @@ class OptionsActions {
       dispatch();
       secretin.activateShortLogin(shortpass, uuid.v4())
         .then(() => {
-          this.activateShortLoginSuccess();
+          this.activateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
         })
         .catch(() => {
           this.activateShortLoginFailure();
@@ -75,7 +75,7 @@ class OptionsActions {
       dispatch();
       secretin.deactivateShortLogin()
         .then(() => {
-          this.deactivateShortLoginSuccess();
+          this.deactivateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
         })
         .catch(() => {
           this.deactivateShortLoginFailure();
