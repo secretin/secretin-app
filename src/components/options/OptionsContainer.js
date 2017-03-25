@@ -7,6 +7,7 @@ import QRCodeShow from 'components/options/QRCodeShow';
 import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
+import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
 import OptionsActions from 'actions/OptionsActions';
@@ -30,56 +31,10 @@ class OptionsContainer extends Component {
     };
   }
 
-  constructor(props) {
-    super(props);
-
-    this.handleChangeDelay = this.handleChangeDelay.bind(this);
-    this.handleClickMinus = this.handleClickMinus.bind(this);
-    this.handleClickPlus = this.handleClickPlus.bind(this);
-    this.confirmChangeDelay = this.confirmChangeDelay.bind(this);
-
-    this.confirmDelayTimeout = null;
-
-    this.state = {
-      delay: props.options.get('timeToClose') ? props.options.get('timeToClose') : 30,
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const newDelay = nextProps.options.get('timeToClose');
-    if (newDelay && newDelay !== this.state.delay) {
-      this.setState({
-        delay: newDelay,
-      });
-    }
-  }
-
-  handleChangeDelay(event) {
-    clearTimeout(this.confirmDelayTimeout);
-    this.setState({
-      delay: parseInt(event.target.value, 10),
+  onChangeTimeToClose({ value }) {
+    OptionsActions.changeTimeToClose({
+      timeToClose: parseInt(value, 10) || 0,
     });
-    this.confirmDelayTimeout = setTimeout(this.confirmChangeDelay, 800);
-  }
-
-  handleClickPlus() {
-    clearTimeout(this.confirmDelayTimeout);
-    this.setState({
-      delay: parseInt(this.state.delay, 10) + 1,
-    });
-    this.confirmDelayTimeout = setTimeout(this.confirmChangeDelay, 800);
-  }
-
-  handleClickMinus() {
-    clearTimeout(this.confirmDelayTimeout);
-    this.setState({
-      delay: parseInt(this.state.delay, 10) - 1,
-    });
-    this.confirmDelayTimeout = setTimeout(this.confirmChangeDelay, 800);
-  }
-
-  confirmChangeDelay() {
-    OptionsActions.changeDelay(this.state.delay);
   }
 
   render() {
@@ -120,20 +75,33 @@ class OptionsContainer extends Component {
             </div>
 
             <div className="options-section-item">
-              <p>Disconnecting delay : <b>{options.get('timeToClose')} min</b></p>
-              <div>
-                <button onClick={this.handleClickMinus}>-</button>
-                <input
-                  value={this.state.delay}
-                  onChange={this.handleChangeDelay}
-                  id="delay"
-                  type="range"
-                  min="0"
-                  max="60"
-                />
-                <button onClick={this.handleClickPlus}>+</button>
-                <p>{this.state.delay !== options.get('timeToClose') && this.state.delay}</p>
-              </div>
+              <Checkbox
+                checked={options.get('timeToClose') > 0}
+                onChange={OptionsActions.toggleAutoLogout}
+              >
+                Activate auto logout
+              </Checkbox>
+
+              {options.get('timeToClose') > 0 && (
+                <div className="options-section-subitem">
+                  {'Disconnect me after '}
+                  <Input
+                    name="timeToClose"
+                    label=""
+                    size="small"
+                    value={options.get('timeToClose')}
+                    onChange={this.onChangeTimeToClose}
+                    type="number"
+                    inputProps={{
+                      min: 0,
+                      max: 60,
+                      step: 5,
+                    }}
+                    debounce={800}
+                  />
+                  <b> min</b>
+                </div>
+              )}
             </div>
           </div>
           <div className="options-section">
@@ -149,22 +117,6 @@ class OptionsContainer extends Component {
               >
                 Import from Keepass
               </Button>
-              {/* Keepass :
-              <input
-                type="file"
-                id="input"
-                onChange={this.handleChangeKeepass}
-              />
-              <Button
-                type="button"
-                buttonStyle="primary"
-                disabled={isEmpty(this.state.keepass)}
-                onClick={() => {
-                  OptionsActions.importKeepass(this.state.keepass);
-                }}
-              >
-                Import
-              </Button> */}
             </div>
           </div>
         </div>

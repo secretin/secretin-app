@@ -118,10 +118,15 @@ class OptionsActions {
     return this.deactivateShortLogin();
   }
 
-  changeDelay(delay) {
-    secretin.editOption('timeToClose', delay)
+  toggleAutoLogout({ checked }) {
+    const delay = checked ? 30 : 0;
+    return this.changeTimeToClose({ timeToClose: delay });
+  }
+
+  changeTimeToClose({ timeToClose }) {
+    secretin.editOption('timeToClose', timeToClose)
       .then(() => {
-        this.changeDelaySuccess({ timeToClose: secretin.currentUser.options.timeToClose });
+        this.changeDelaySuccess({ timeToClose });
       })
       .catch(() => {
         this.changeDelayFailure();
