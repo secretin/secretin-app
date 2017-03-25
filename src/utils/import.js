@@ -75,6 +75,7 @@ function addSecret(child, hashedParent) {
 }
 
 function defaultProgress(status, total) {
+  // eslint-disable-next-line no-console
   console.log(`${status}/${total}`);
 }
 
