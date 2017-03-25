@@ -7,6 +7,7 @@ import QRCodeShow from 'components/options/QRCodeShow';
 import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
+import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
 import OptionsActions from 'actions/OptionsActions';
@@ -14,7 +15,6 @@ import OptionsActions from 'actions/OptionsActions';
 import OptionsStore from 'stores/OptionsStore';
 
 class OptionsContainer extends Component {
-
   static propTypes = {
     options: PropTypes.instanceOf(Immutable.Map),
   }
@@ -29,6 +29,12 @@ class OptionsContainer extends Component {
     return {
       options: OptionsStore.getOptions(),
     };
+  }
+
+  onChangeTimeToClose({ value }) {
+    OptionsActions.changeTimeToClose({
+      timeToClose: parseInt(value, 10) || 0,
+    });
   }
 
   render() {
@@ -67,6 +73,36 @@ class OptionsContainer extends Component {
                 Activate ShortLogin
               </Checkbox>
             </div>
+
+            <div className="options-section-item">
+              <Checkbox
+                checked={options.get('timeToClose') > 0}
+                onChange={OptionsActions.toggleAutoLogout}
+              >
+                Activate auto logout
+              </Checkbox>
+
+              {options.get('timeToClose') > 0 && (
+                <div className="options-section-subitem">
+                  {'Disconnect me after '}
+                  <Input
+                    name="timeToClose"
+                    label=""
+                    size="small"
+                    value={options.get('timeToClose')}
+                    onChange={this.onChangeTimeToClose}
+                    type="number"
+                    inputProps={{
+                      min: 0,
+                      max: 60,
+                      step: 5,
+                    }}
+                    debounce={800}
+                  />
+                  <b> min</b>
+                </div>
+              )}
+            </div>
           </div>
           <div className="options-section">
             <h3 className="options-section-title">
@@ -81,22 +117,6 @@ class OptionsContainer extends Component {
               >
                 Import from Keepass
               </Button>
-              {/* Keepass :
-              <input
-                type="file"
-                id="input"
-                onChange={this.handleChangeKeepass}
-              />
-              <Button
-                type="button"
-                buttonStyle="primary"
-                disabled={isEmpty(this.state.keepass)}
-                onClick={() => {
-                  OptionsActions.importKeepass(this.state.keepass);
-                }}
-              >
-                Import
-              </Button> */}
             </div>
           </div>
         </div>
