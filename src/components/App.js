@@ -5,9 +5,8 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 import AppUIActions from 'actions/AppUIActions';
 import AppUIStore from 'stores/AppUIStore';
+import OptionsStore from 'stores/OptionsStore';
 import MetadataStore from 'stores/MetadataStore';
-
-import secretin from 'utils/secretin';
 
 import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
@@ -18,12 +17,14 @@ class App extends Component {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
+    options: PropTypes.instanceOf(Immutable.Map),
     errors: PropTypes.instanceOf(Immutable.Map),
   }
 
   static getStores() {
     return [
       AppUIStore,
+      OptionsStore,
       MetadataStore,
     ];
   }
@@ -31,6 +32,7 @@ class App extends Component {
   static getPropsFromStores() {
     const state = AppUIStore.getState();
     return {
+      options: OptionsStore.getOptions(),
       savedUsername: state.get('savedUsername'),
       loading: state.get('loading'),
       connected: state.get('connected'),
@@ -43,21 +45,21 @@ class App extends Component {
     super(props);
     this.disconnectingEvent = null;
 
-    this.cameBack = this.cameBack.bind(this);
-    this.left = this.left.bind(this);
+    this.onAppFocus = this.onAppFocus.bind(this);
+    this.onAppBlur = this.onAppBlur.bind(this);
 
-    window.addEventListener('focus', this.cameBack);
-    window.addEventListener('blur', this.left);
+    window.addEventListener('focus', this.onAppFocus);
+    window.addEventListener('blur', this.onAppBlur);
   }
 
-  cameBack() {
+  onAppFocus() {
     clearTimeout(this.disconnectingEvent);
   }
 
-  left() {
+  onAppBlur() {
     clearTimeout(this.disconnectingEvent);
-    if (secretin.currentUser.options) {
-      const delay = secretin.currentUser.options.timeToClose * 60 * 1000;
+    if (this.props.options) {
+      const delay = this.props.options.get('timeToClose') * 60 * 1000;
       if (delay > 0) {
         this.disconnectingEvent = setTimeout(AppUIActions.disconnectUser, delay);
       }
