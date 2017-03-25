@@ -5,8 +5,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
-
-import AppUIActions from 'actions/AppUIActions';
 import AppUIStore from 'stores/AppUIStore';
 import OptionsStore from 'stores/OptionsStore';
 import MetadataStore from 'stores/MetadataStore';
@@ -44,14 +42,6 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    secretin.addEventListener('connectionChange', AppUIActions.connectionChange);
-  }
-
-  componentWillUnmount() {
-    secretin.removeEventListener('connectionChange', AppUIActions.connectionChange);
-  }
-
   constructor(props) {
     super(props);
     this.disconnectingEvent = null;
@@ -61,6 +51,14 @@ class App extends Component {
 
     window.addEventListener('focus', this.onAppFocus);
     window.addEventListener('blur', this.onAppBlur);
+  }
+
+  componentDidMount() {
+    secretin.addEventListener('connectionChange', AppUIActions.connectionChange);
+  }
+
+  componentWillUnmount() {
+    secretin.removeEventListener('connectionChange', AppUIActions.connectionChange);
   }
 
   onAppFocus() {
