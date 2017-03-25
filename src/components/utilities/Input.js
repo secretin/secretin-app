@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import { uniqueId } from 'lodash';
+import { uniqueId, debounce } from 'lodash';
 import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
@@ -29,6 +29,12 @@ class Input extends Component {
     readOnly: PropTypes.bool,
     actions: PropTypes.instanceOf(Immutable.List),
     size: PropTypes.string,
+    inputProps: PropTypes.shape({
+      min: PropTypes.number,
+      max: PropTypes.number,
+      step: PropTypes.number,
+    }),
+    debounce: PropTypes.number,
   }
 
   static defaultProps = {
@@ -41,15 +47,21 @@ class Input extends Component {
     readOnly: false,
     actions: new Immutable.List(),
     size: 'base',
+    debounce: 0,
   }
 
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
+    this.onChange = debounce(
+      this.onChange.bind(this),
+      props.debounce,
+    );
+    this.handleChange = this.handleChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
+      value: props.value,
       showPassword: false,
     };
   }
@@ -63,10 +75,20 @@ class Input extends Component {
     }
   }
 
-  onChange(e) {
+  componentWillReceiveProps({ value: newValue }) {
+    const { value: oldValue } = this.props;
+
+    if (newValue !== oldValue) {
+      this.setState({
+        value: newValue,
+      });
+    }
+  }
+
+  onChange({ value }) {
     this.props.onChange({
       name: this.props.name,
-      value: e.target.value,
+      value,
     });
   }
 
@@ -74,6 +96,12 @@ class Input extends Component {
     this.setState({
       showPassword: !this.state.showPassword,
     });
+  }
+
+  handleChange({ target }) {
+    const { value } = target;
+    this.onChange({ value });
+    this.setState({ value });
   }
 
   select() {
@@ -90,14 +118,26 @@ class Input extends Component {
       }
     );
 
-    const actions = this.props.actions;
+    const {
+      type,
+      title,
+      autoComplete,
+      autoFocus,
+      disabled,
+      error,
+      label,
+      placeholder,
+      readOnly,
+      actions,
+      inputProps,
+    } = this.props;
 
     return (
       <div className={className}>
         {
-          this.props.label && (
+          label && (
             <label htmlFor={this.id}>
-              {this.props.label}
+              {label}
               {
                 actions.size > 0 && (
                   <span className="input-label-actions">{actions}</span>
@@ -111,19 +151,20 @@ class Input extends Component {
           id={this.id}
           ref={(input) => { this.input = input; }}
           name={this.id}
-          title={this.props.title}
-          type={this.props.type === 'password' && this.state.showPassword ? 'text' : this.props.type}
-          value={this.props.value}
-          onChange={this.onChange}
-          placeholder={this.props.placeholder}
-          autoComplete={this.props.autoComplete ? null : 'new-password'}
+          title={title}
+          type={type === 'password' && this.state.showPassword ? 'text' : type}
+          value={this.state.value}
+          onChange={this.handleChange}
+          placeholder={placeholder}
+          autoComplete={autoComplete ? null : 'new-password'}
 
-          autoFocus={this.props.autoFocus}
-          disabled={this.props.disabled}
-          readOnly={this.props.readOnly}
+          autoFocus={autoFocus}
+          disabled={disabled}
+          readOnly={readOnly}
+          {...inputProps}
         />
         {
-          this.props.type === 'password' && (
+          type === 'password' && (
             <div className="input--password-show">
               <Button
                 title="Show"
@@ -137,9 +178,9 @@ class Input extends Component {
           )
         }
         {
-          this.props.error && (
+          error && (
             <span className="input-error">
-              { this.props.error }
+              { error }
             </span>
           )
         }
