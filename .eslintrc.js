@@ -27,6 +27,7 @@ module.exports = {
     'react/forbid-prop-types': 0,
     'react/no-unused-prop-types': 0,
     'react/no-unescaped-entities': 0,
+    'import/no-named-default': 0, // travis don't like this rule
 
     'import/no-extraneous-dependencies': 0,
     'react/no-array-index-key': 0,

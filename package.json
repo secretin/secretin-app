@@ -50,7 +50,7 @@
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
     "electron": "yarn run build && electron-packager ./ --overwrite --version=1.4.13",
-    "lint": "eslint src/",
+    "lint": "node_modules/.bin/eslint src/",
     "prettier": "prettier --print-width 80 --trailing-comma es5 --single-quote --write \"src/**/*.js\"",
     "test": "yarn run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
