@@ -22,14 +22,15 @@ class OptionsActions {
       'hideQRCode',
       'hideShortLogin',
       'changeDelaySuccess',
-      'changeDelayFailure',
+      'changeDelayFailure'
     );
   }
 
   deactivateTotp() {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
-      secretin.deactivateTotp()
+      secretin
+        .deactivateTotp()
         .then(() => {
           this.deactivateTotpSuccess();
         })
@@ -40,14 +41,15 @@ class OptionsActions {
   }
 
   activateTotp({ seed, token }) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
-      secretin.api.testTotp(seed.b32, token)
+      secretin.api
+        .testTotp(seed.b32, token)
         .then(() => secretin.activateTotp(seed))
         .then(() => {
           this.activateTotpSuccess();
         })
-        .catch((err) => {
+        .catch(err => {
           if (err === 'Invalid couple') {
             this.activateTotpFailure({ error: 'Synchronisation error' });
           } else {
@@ -58,11 +60,14 @@ class OptionsActions {
   }
 
   activateShortLogin({ shortpass }) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
-      secretin.activateShortLogin(shortpass, uuid.v4())
+      secretin
+        .activateShortLogin(shortpass, uuid.v4())
         .then(() => {
-          this.activateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
+          this.activateShortLoginSuccess({
+            shortLogin: secretin.canITryShortLogin(),
+          });
         })
         .catch(() => {
           this.activateShortLoginFailure();
@@ -71,11 +76,14 @@ class OptionsActions {
   }
 
   deactivateShortLogin() {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
-      secretin.deactivateShortLogin()
+      secretin
+        .deactivateShortLogin()
         .then(() => {
-          this.deactivateShortLoginSuccess({ shortLogin: secretin.canITryShortLogin() });
+          this.deactivateShortLoginSuccess({
+            shortLogin: secretin.canITryShortLogin(),
+          });
         })
         .catch(() => {
           this.deactivateShortLoginFailure();
@@ -94,18 +102,15 @@ class OptionsActions {
   importKeepass({ file }) {
     const reader = new FileReader();
     reader.readAsText(file);
-    reader.onload = readedFile => (
-      parseKeepass(
-          readedFile.target.result,
-          (importStatus, importTotal) => this.importKeepassProgress({ importStatus, importTotal })
-        )
+    reader.onload = readedFile =>
+      parseKeepass(readedFile.target.result, (importStatus, importTotal) =>
+        this.importKeepassProgress({ importStatus, importTotal }))
         .then(() => {
           this.importKeepassSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this.importKeepassFailure({ error });
-        })
-    );
+        });
 
     return reader;
   }
@@ -124,7 +129,8 @@ class OptionsActions {
   }
 
   changeTimeToClose({ timeToClose }) {
-    secretin.editOption('timeToClose', timeToClose)
+    secretin
+      .editOption('timeToClose', timeToClose)
       .then(() => {
         this.changeDelaySuccess({ timeToClose });
       })

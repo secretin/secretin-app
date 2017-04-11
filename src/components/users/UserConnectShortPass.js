@@ -80,10 +80,7 @@ class UserConnectShortPass extends Component {
         <Button
           type="button"
           buttonStyle="primary"
-          disabled={
-            this.props.loading ||
-            isEmpty(this.state.shortpass)
-          }
+          disabled={this.props.loading || isEmpty(this.state.shortpass)}
           onClick={this.handleSubmit}
         >
           Connect

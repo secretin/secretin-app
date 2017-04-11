@@ -39,12 +39,30 @@ class ShowSecretUIStore {
     this.bindAction(DELETE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(UPDATE_SECRET_SUCCESS, this.onUpdateSecretSuccess);
     this.bindAction(UPDATE_SECRET_FAILURE, this.onUpdateSecretFailure);
-    this.bindAction(CREATE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
-    this.bindAction(UPDATE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
-    this.bindAction(DELETE_SECRET_USER_RIGHTS_SUCCESS, this.onUpdateSecretSuccess);
-    this.bindAction(CREATE_SECRET_USER_RIGHTS_FAILURE, this.onUpdateSecretFailure);
-    this.bindAction(UPDATE_SECRET_USER_RIGHTS_FAILURE, this.onUpdateSecretFailure);
-    this.bindAction(DELETE_SECRET_USER_RIGHTS_FAILURE, this.onUpdateSecretFailure);
+    this.bindAction(
+      CREATE_SECRET_USER_RIGHTS_SUCCESS,
+      this.onUpdateSecretSuccess
+    );
+    this.bindAction(
+      UPDATE_SECRET_USER_RIGHTS_SUCCESS,
+      this.onUpdateSecretSuccess
+    );
+    this.bindAction(
+      DELETE_SECRET_USER_RIGHTS_SUCCESS,
+      this.onUpdateSecretSuccess
+    );
+    this.bindAction(
+      CREATE_SECRET_USER_RIGHTS_FAILURE,
+      this.onUpdateSecretFailure
+    );
+    this.bindAction(
+      UPDATE_SECRET_USER_RIGHTS_FAILURE,
+      this.onUpdateSecretFailure
+    );
+    this.bindAction(
+      DELETE_SECRET_USER_RIGHTS_FAILURE,
+      this.onUpdateSecretFailure
+    );
 
     this.state = new ShowSecretUIState();
   }
@@ -60,49 +78,45 @@ class ShowSecretUIStore {
   }
 
   onShowSecretSuccess({ secret }) {
-    this.setState(this.state
-      .set('secret', secret)
-      .set('errors', new Immutable.Map())
+    this.setState(
+      this.state.set('secret', secret).set('errors', new Immutable.Map())
     );
   }
 
   onHideModal() {
-    this.setState(this.state
-      .set('secret', null)
-      .set('errors', new Immutable.Map())
+    this.setState(
+      this.state.set('secret', null).set('errors', new Immutable.Map())
     );
   }
 
   onChangeTab({ tab }) {
-    this.setState(this.state
-      .set('tab', tab)
-    );
+    this.setState(this.state.set('tab', tab));
   }
 
   onUpdateSecret() {
-    this.setState(this.state
-      .set('errors', new Immutable.Map())
-      .set('isUpdating', true)
+    this.setState(
+      this.state.set('errors', new Immutable.Map()).set('isUpdating', true)
     );
   }
 
   onUpdateSecretSuccess() {
     this.waitFor(MetadataStore);
-    this.setState(this.state
-      .update('secret', secret => (
-        secret.merge(
-          MetadataStore.getById(this.state.secret.id).toMap().remove('data')
-        )
-      ))
-      .set('isUpdating', false)
-      .set('errors', new Immutable.Map())
+    this.setState(
+      this.state
+        .update('secret', secret =>
+          secret.merge(
+            MetadataStore.getById(this.state.secret.id).toMap().remove('data')
+          ))
+        .set('isUpdating', false)
+        .set('errors', new Immutable.Map())
     );
   }
 
   onUpdateSecretFailure({ error }) {
-    this.setState(this.state
-      .set('errors', new Immutable.Map(error))
-      .set('isUpdating', false)
+    this.setState(
+      this.state
+        .set('errors', new Immutable.Map(error))
+        .set('isUpdating', false)
     );
   }
 }

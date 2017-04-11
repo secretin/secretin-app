@@ -33,9 +33,7 @@ function SecretUserListItem(props) {
       <div className="secret-users-list-item-actions">
         <Select
           value={user.rights}
-          options={
-            UserRights.map(rights => [rights, userRightLabel(rights)])
-          }
+          options={UserRights.map(rights => [rights, userRightLabel(rights)])}
           size="small"
           disabled={disabled}
           title={disabledReason}

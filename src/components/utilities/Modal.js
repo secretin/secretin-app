@@ -5,13 +5,9 @@ import classNames from 'classnames';
 import Icon from 'components/utilities/Icon';
 
 function Modal(props) {
-  const className = classNames(
-    'modal',
-    props.className,
-    {
-      'modal--centered': props.centered,
-    }
-  );
+  const className = classNames('modal', props.className, {
+    'modal--centered': props.centered,
+  });
 
   return (
     <ReactOverlaysModal
@@ -22,13 +18,10 @@ function Modal(props) {
       onBackdropClick={props.onClose}
     >
       <div className="modal-dialog">
-        {
-          props.onClose && (
-            <button className="modal-dialog-close" onClick={props.onClose}>
-              <Icon id="close" size="small" />
-            </button>
-          )
-        }
+        {props.onClose &&
+          <button className="modal-dialog-close" onClick={props.onClose}>
+            <Icon id="close" size="small" />
+          </button>}
 
         {props.children}
       </div>
@@ -49,7 +42,6 @@ Modal.defaultProps = {
   centered: false,
 };
 
-
 Modal.Body = props => (
   <div className="modal-body">
     {props.children}
@@ -62,7 +54,6 @@ Modal.Body.propTypes = {
     PropTypes.string,
   ]),
 };
-
 
 Modal.Header = props => (
   <div className="modal-header">
@@ -80,7 +71,6 @@ Modal.Header.propTypes = {
   ]),
 };
 
-
 Modal.Footer = props => (
   <div className="modal-footer">
     {props.children}
@@ -93,6 +83,5 @@ Modal.Footer.propTypes = {
     PropTypes.string,
   ]),
 };
-
 
 export default Modal;

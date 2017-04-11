@@ -17,17 +17,18 @@ const propTypes = {
   connectDragSource: PropTypes.func.isRequired,
 };
 
-function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragSource }) {
+function SecretListItemSecret(
+  { secret, parentFolderId, isDragging, connectDragSource }
+) {
   const currentUser = AppUIStore.getCurrentUser();
-  const users = secret.users.toList().filterNot(user => user.id === currentUser.username);
+  const users = secret.users
+    .toList()
+    .filterNot(user => user.id === currentUser.username);
 
   const secretRights = secret.getIn(['users', currentUser.username, 'rights']);
-  const className = classNames(
-    'secret-list-item',
-    {
-      'secret-list-item--is-dragging': isDragging,
-    }
-  );
+  const className = classNames('secret-list-item', {
+    'secret-list-item--is-dragging': isDragging,
+  });
 
   const link = (
     <div>
@@ -46,31 +47,25 @@ function SecretListItemSecret({ secret, parentFolderId, isDragging, connectDragS
   return (
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {
-          (secretRights > 0) ?
-            connectDragSource(
-              link
-            )
-          :
-            link
-        }
+        {secretRights > 0 ? connectDragSource(link) : link}
       </td>
-      <td className="secret-list-item-column secret-list-item-column--last-modified">
+      <td
+        className="secret-list-item-column secret-list-item-column--last-modified"
+      >
         {secret.lastModifiedAt.fromNow()}
         {' - '}
         <span className="muted">{secret.lastModifiedBy}</span>
       </td>
-      <td className="secret-list-item-column secret-list-item-column--shared-with">
-        {
-          users.size > 0 ? (
-            <UserAvatars users={users} />
-          ) : (
-            '––'
-          )
-        }
+      <td
+        className="secret-list-item-column secret-list-item-column--shared-with"
+      >
+        {users.size > 0 ? <UserAvatars users={users} /> : '––'}
       </td>
       <td className="secret-list-item-column secret-list-item-column--actions">
-        <SecretListItemOptions parentFolderId={parentFolderId} secret={secret} />
+        <SecretListItemOptions
+          parentFolderId={parentFolderId}
+          secret={secret}
+        />
       </td>
     </tr>
   );
@@ -92,4 +87,6 @@ function collect(connect, monitor) {
   };
 }
 
-export default new DragSource('SecretListItem', cardSource, collect)(SecretListItemSecret);
+export default new DragSource('SecretListItem', cardSource, collect)(
+  SecretListItemSecret
+);

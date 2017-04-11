@@ -22,7 +22,7 @@ class SecretUserList extends Component {
     secret: PropTypes.instanceOf(Secret),
     errors: PropTypes.instanceOf(Immutable.Map),
     isUpdating: PropTypes.bool,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -52,32 +52,31 @@ class SecretUserList extends Component {
     return (
       <div className="secret-users">
         <div className="secret-users-list">
-          {
-            this.props.secret.users.map(user =>
+          {this.props.secret.users
+            .map(user => (
               <SecretUserListItem
                 key={user.id}
                 user={user}
-                disabled={!canShare || currentUser.username === user.id || this.props.isUpdating}
-                disabledReason={
-                  getDisabledReason(
-                    !canShare,
-                    currentUser.username === user.id
-                  )
+                disabled={
+                  !canShare ||
+                    currentUser.username === user.id ||
+                    this.props.isUpdating
                 }
+                disabledReason={getDisabledReason(
+                  !canShare,
+                  currentUser.username === user.id
+                )}
                 onChangeUserRights={this.onChangeUserRights}
                 onRemoveUserRights={this.onRemoveUserRights}
               />
-            ).toArray()
-          }
+            ))
+            .toArray()}
         </div>
-        {
-          canShare && (
-            <SecretUserListNew
-              secret={this.props.secret}
-              errors={this.props.errors}
-            />
-          )
-        }
+        {canShare &&
+          <SecretUserListNew
+            secret={this.props.secret}
+            errors={this.props.errors}
+          />}
       </div>
     );
   }

@@ -27,9 +27,7 @@ class QRCodeShow extends Component {
   };
 
   static getStores() {
-    return [
-      OptionsStore,
-    ];
+    return [OptionsStore];
   }
 
   static getPropsFromStores() {
@@ -49,7 +47,7 @@ class QRCodeShow extends Component {
 
     this.state = {
       seed: Secretin.Utils.generateSeed(),
-      token: ''
+      token: '',
     };
   }
 
@@ -57,7 +55,7 @@ class QRCodeShow extends Component {
     if (!nextProps.shown) {
       this.setState({
         seed: Secretin.Utils.generateSeed(),
-        token: ''
+        token: '',
       });
     }
   }
@@ -76,10 +74,7 @@ class QRCodeShow extends Component {
 
   render() {
     return (
-      <Modal
-        show={this.props.shown}
-        onClose={OptionsActions.hideQRCode}
-      >
+      <Modal show={this.props.shown} onClose={OptionsActions.hideQRCode}>
         <Modal.Header>
           <span className="text">
             Activate Two-Factor authentication
@@ -87,15 +82,13 @@ class QRCodeShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <Form
-            className="totp-form"
-            id="totp"
-            onSubmit={this.handleSubmit}
-          >
+          <Form className="totp-form" id="totp" onSubmit={this.handleSubmit}>
             <div className="totp-form-qrcode">
               <QRCode
                 className="totp-form-qrcode"
-                value={`otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`}
+                value={
+                  `otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`
+                }
                 size={256}
               />
             </div>

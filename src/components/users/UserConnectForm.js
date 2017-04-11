@@ -10,11 +10,10 @@ import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
 class UserConnect extends Component {
-
   static propTypes = {
     loading: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -106,21 +105,18 @@ class UserConnect extends Component {
           error={this.props.errors.get('password')}
           autoComplete
         />
-        {
-          this.props.errors.get('totp') &&
-            <Input
-              name="token"
-              label="Token"
-              type="text"
-              value={this.state.token}
-              onChange={this.handleChange}
-              disabled={this.props.loading}
-              error={this.props.errors.get('token')}
-              autoFocus
-            />
-        }
-        {
-          this.state.signup &&
+        {this.props.errors.get('totp') &&
+          <Input
+            name="token"
+            label="Token"
+            type="text"
+            value={this.state.token}
+            onChange={this.handleChange}
+            disabled={this.props.loading}
+            error={this.props.errors.get('token')}
+            autoFocus
+          />}
+        {this.state.signup &&
           <Input
             name="confirmPassword"
             label="Confirm password"
@@ -129,42 +125,43 @@ class UserConnect extends Component {
             onChange={this.handleChange}
             disabled={this.props.loading}
             error={this.props.errors.get('confirmPassword')}
-          />
-        }
+          />}
 
         <Button
           type="submit"
           disabled={
             this.props.loading ||
-            isEmpty(this.state.username) ||
-            isEmpty(this.state.password)
+              isEmpty(this.state.username) ||
+              isEmpty(this.state.password)
           }
         >
           {status}
         </Button>
         <div className="user-connect-create">
           <span>
-            {this.state.signup ?
-              <span>
-                I already have an account,&nbsp;
-                <a
-                  onClick={() => { this.toggleSignup(!this.state.signup); }}
-                  tabIndex="-1"
-                >
-                  sign in
-                </a>
-              </span>
-            :
-              <span>
-                I don&apos;t have an account,&nbsp;
-                <a
-                  onClick={() => { this.toggleSignup(!this.state.signup); }}
-                  tabIndex="-1"
-                >
-                  create one
-                </a>
-              </span>
-            }
+            {this.state.signup
+              ? <span>
+                  I already have an account,&nbsp;
+                  <a
+                    onClick={() => {
+                      this.toggleSignup(!this.state.signup);
+                    }}
+                    tabIndex="-1"
+                  >
+                    sign in
+                  </a>
+                </span>
+              : <span>
+                  I don't have an account,&nbsp;
+                  <a
+                    onClick={() => {
+                      this.toggleSignup(!this.state.signup);
+                    }}
+                    tabIndex="-1"
+                  >
+                    create one
+                  </a>
+                </span>}
           </span>
         </div>
       </Form>

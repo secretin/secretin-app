@@ -17,12 +17,10 @@ import OptionsStore from 'stores/OptionsStore';
 class OptionsContainer extends Component {
   static propTypes = {
     options: PropTypes.instanceOf(Immutable.Map),
-  }
+  };
 
   static getStores() {
-    return [
-      OptionsStore,
-    ];
+    return [OptionsStore];
   }
 
   static getPropsFromStores() {
@@ -82,7 +80,7 @@ class OptionsContainer extends Component {
                 Activate auto logout
               </Checkbox>
 
-              {options.get('timeToClose') > 0 && (
+              {options.get('timeToClose') > 0 &&
                 <div className="options-section-subitem">
                   {'Disconnect me after '}
                   <Input
@@ -100,8 +98,7 @@ class OptionsContainer extends Component {
                     debounce={800}
                   />
                   <b> min</b>
-                </div>
-              )}
+                </div>}
             </div>
           </div>
           <div className="options-section">

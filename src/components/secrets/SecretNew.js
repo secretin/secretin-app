@@ -20,12 +20,10 @@ class SecretNew extends Component {
     isFolder: PropTypes.bool,
     title: PropTypes.string,
     data: PropTypes.instanceOf(SecretDataRecord),
-  }
+  };
 
   static getStores() {
-    return [
-      NewSecretUIStore,
-    ];
+    return [NewSecretUIStore];
   }
 
   static getPropsFromStores() {
@@ -47,20 +45,11 @@ class SecretNew extends Component {
     const { isFolder } = this.props;
 
     return (
-      <Modal
-        show={this.props.shown}
-        onClose={NewSecretUIActions.hideModal}
-      >
-        <Modal.Header
-          title={isFolder ? 'Add new folder' : 'Add new secret'}
-        />
+      <Modal show={this.props.shown} onClose={NewSecretUIActions.hideModal}>
+        <Modal.Header title={isFolder ? 'Add new folder' : 'Add new secret'} />
 
         <Modal.Body>
-          <Form
-            id="new-secret"
-            onSubmit={this.onSubmit}
-            disabled={false}
-          >
+          <Form id="new-secret" onSubmit={this.onSubmit} disabled={false}>
             <Input
               label={isFolder ? 'Folder title' : 'Secret title'}
               name="title"
@@ -70,16 +59,13 @@ class SecretNew extends Component {
               autoSelect
               required
             />
-            {
-              !isFolder && (
-                <SecretFields
-                  fields={this.props.data.fields}
-                  onChange={NewSecretUIActions.changeField}
-                  isNew
-                  canUpdate
-                />
-              )
-            }
+            {!isFolder &&
+              <SecretFields
+                fields={this.props.data.fields}
+                onChange={NewSecretUIActions.changeField}
+                isNew
+                canUpdate
+              />}
           </Form>
         </Modal.Body>
 

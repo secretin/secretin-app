@@ -26,30 +26,26 @@ function Layout() {
                 />
                 <Match
                   pattern="/secrets/mine"
-                  render={() => <SecretListContainer {...matchProps} showMine />}
+                  render={() => (
+                    <SecretListContainer {...matchProps} showMine />
+                  )}
                 />
                 <Match
                   pattern="/secrets/shared"
-                  render={() => <SecretListContainer {...matchProps} showShared />}
+                  render={() => (
+                    <SecretListContainer {...matchProps} showShared />
+                  )}
                 />
-                <Miss
-                  render={() => <SecretListContainer {...matchProps} />}
-                />
+                <Miss render={() => <SecretListContainer {...matchProps} />} />
               </MatchGroup>
             )}
           />
-          <Match
-            pattern="/settings/"
-            render={() => <OptionsContainer />}
-          />
-          <Miss
-            render={() => <Redirect to="/secrets/" />}
-          />
+          <Match pattern="/settings/" render={() => <OptionsContainer />} />
+          <Miss render={() => <Redirect to="/secrets/" />} />
         </MatchGroup>
       </div>
     </div>
   );
 }
-
 
 export default Layout;
