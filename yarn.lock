@@ -1460,7 +1460,7 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-concat-stream@1.5.0:
+concat-stream@1.5.0, concat-stream@^1.4.6:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.5.0.tgz#53f7d43c51c5e43f81c8fdd03321c631be68d611"
   dependencies:
@@ -1468,7 +1468,7 @@ concat-stream@1.5.0:
     readable-stream "~2.0.0"
     typedarray "~0.0.5"
 
-concat-stream@^1.4.6, concat-stream@^1.5.2:
+concat-stream@^1.5.2:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.0.tgz#0aac662fd52be78964d5532f694784e70110acf7"
   dependencies:
@@ -1929,10 +1929,6 @@ dom-converter@~0.1:
 dom-helpers@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-2.4.0.tgz#9bb4b245f637367b1fa670274272aa28fe06c367"
-
-dom-helpers@^3.2.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.2.1.tgz#3203e07fed217bd1f424b019735582fc37b2825a"
 
 dom-serializer@0:
   version "0.1.0"
@@ -4626,13 +4622,9 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@4.1.1, object-assign@^4.1.0:
+object-assign@4.1.1, object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
-
-object-assign@^4.0.1:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
 
 object-keys@^1.0.10, object-keys@^1.0.8:
   version "1.0.11"
@@ -5415,21 +5407,12 @@ react-dom@15.4.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-overlays@0.6.10:
+react-overlays@0.6.10, react-overlays@^0.6.10:
   version "0.6.10"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.6.10.tgz#e7e52dad47f00a0fc784eb044428c3a9e874bfa3"
   dependencies:
     classnames "^2.2.5"
     dom-helpers "^2.4.0"
-    react-prop-types "^0.4.0"
-    warning "^3.0.0"
-
-react-overlays@^0.6.10:
-  version "0.6.12"
-  resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.6.12.tgz#a079c750cc429d7db4c7474a95b4b54033e255c3"
-  dependencies:
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
     react-prop-types "^0.4.0"
     warning "^3.0.0"
 
