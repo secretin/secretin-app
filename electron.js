@@ -14,18 +14,19 @@ const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let api = 'http://devapi.secret-in.me:3000';
 const prefix = 'file';
+process.argv.forEach((argv) => {
+  if (argv.startsWith('--secretin-api')) {
+    api = argv.substring(15);
+  }
+});
+
 function createWindow() {
   protocol.interceptFileProtocol(prefix, (request, callback) => {
     if (request.url.indexOf('/static/') > -1) {
       const url = request.url.split('/static/')[1];
       callback({ path: path.join(__dirname, 'build/static', decodeURI(url)) });
-    } else if (request.url.endsWith('/index.html')) {
-      let addPrefix = 3;
-      if (process.platform === 'win32') {
-        addPrefix += 1;
-      }
-      callback({ path: decodeURI(request.url.substring(prefix.length + addPrefix)) });
     } else {
       callback({ path: path.join(__dirname, 'build/index.html') });
     }
@@ -37,7 +38,7 @@ function createWindow() {
     height: 800,
   });
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/build/index.html`);
+  win.loadURL(`file://${__dirname}/build/index.html?api=${api}`);
 
   // Open the DevTools.
   // win.webContents.openDevTools();
@@ -48,6 +49,11 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  win.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    electron.shell.openExternal(url);
   });
 }
 
