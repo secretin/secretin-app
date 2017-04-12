@@ -12,21 +12,16 @@ import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
 
 class App extends Component {
-
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
     options: PropTypes.instanceOf(Immutable.Map),
     errors: PropTypes.instanceOf(Immutable.Map),
-  }
+  };
 
   static getStores() {
-    return [
-      AppUIStore,
-      OptionsStore,
-      MetadataStore,
-    ];
+    return [AppUIStore, OptionsStore, MetadataStore];
   }
 
   static getPropsFromStores() {
@@ -63,27 +58,25 @@ class App extends Component {
     if (connected && options) {
       const delay = options.get('timeToClose') * 60 * 1000;
       if (delay > 0) {
-        this.disconnectingEvent = setTimeout(AppUIActions.disconnectUser, delay);
+        this.disconnectingEvent = setTimeout(
+          AppUIActions.disconnectUser,
+          delay
+        );
       }
     }
   }
-
 
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-          {
-            this.props.connected ? (
-              <Layout />
-            ) : (
-              <UserConnect
+          {this.props.connected
+            ? <Layout />
+            : <UserConnect
                 savedUsername={this.props.savedUsername}
                 loading={this.props.loading}
                 errors={this.props.errors}
-              />
-            )
-          }
+              />}
         </div>
       </Router>
     );

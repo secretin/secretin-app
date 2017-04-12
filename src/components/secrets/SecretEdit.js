@@ -11,12 +11,10 @@ class SecretEdit extends Component {
   static propTypes = {
     data: PropTypes.instanceOf(SecretDataRecord),
     canUpdate: PropTypes.bool,
-  }
+  };
 
   static getStores() {
-    return [
-      EditSecretUIStore,
-    ];
+    return [EditSecretUIStore];
   }
 
   static getPropsFromStores() {
@@ -32,7 +30,9 @@ class SecretEdit extends Component {
       <div className="secret-edit">
         <SecretFields
           fields={this.props.data.get('fields')}
-          onChange={this.props.canUpdate ? EditSecretUIActions.changeField : () => {}}
+          onChange={
+            this.props.canUpdate ? EditSecretUIActions.changeField : () => {}
+          }
           canUpdate={this.props.canUpdate}
         />
       </div>

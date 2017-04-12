@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import SecretListItemFolderSecret from 'components/secrets/SecretListItem/Secret';
+import SecretListItemFolderSecret
+  from 'components/secrets/SecretListItem/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 
 const propTypes = {
@@ -8,25 +9,25 @@ const propTypes = {
 };
 
 function SecretListFolderInfo({ folder }) {
-  const secrets = folder.get('secrets').sortBy(secret => secret.get('title').toLowerCase());
+  const secrets = folder
+    .get('secrets')
+    .sortBy(secret => secret.get('title').toLowerCase());
   return (
     <tbody className="secret-list-content-table-body">
-      {
-        !folder.has('root') &&
-          <tr className="secret-list-folder">
-            <td colSpan="4" className="secret-list-folder-info">
-              <SecretListBreadcrumb folders={folder.get('breadcrumb')} withTitle={false} />
-            </td>
-          </tr>
-      }
-      {
-        secrets.map(secret => (
-          <SecretListItemFolderSecret
-            key={secret.id}
-            secret={secret}
-          />
-        )).toArray()
-      }
+      {!folder.has('root') &&
+        <tr className="secret-list-folder">
+          <td colSpan="4" className="secret-list-folder-info">
+            <SecretListBreadcrumb
+              folders={folder.get('breadcrumb')}
+              withTitle={false}
+            />
+          </td>
+        </tr>}
+      {secrets
+        .map(secret => (
+          <SecretListItemFolderSecret key={secret.id} secret={secret} />
+        ))
+        .toArray()}
     </tbody>
   );
 }

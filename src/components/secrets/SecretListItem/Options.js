@@ -26,46 +26,44 @@ function SecretListItemOptions({ parentFolderId, secret }) {
         <Icon id="more-vert" size="small" />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        {
-          secret.type !== 'folder' &&
+        {secret.type !== 'folder' &&
+          <Dropdown.MenuItem
+            onSelect={() =>
+              ShowSecretUIActions.showSecret({
+                secret,
+                tab: secret.type === 'folder' ? 'access' : 'details',
+              })}
+          >
+            Show
+          </Dropdown.MenuItem>}
+        {canShare &&
+          <div>
             <Dropdown.MenuItem
-              onSelect={() => ShowSecretUIActions.showSecret({ secret, tab: secret.type === 'folder' ? 'access' : 'details' })}
+              onSelect={() =>
+                ShowSecretUIActions.showSecret({ secret, tab: 'access' })}
             >
-              Show
+              Share
             </Dropdown.MenuItem>
-        }
-        {
-          canShare &&
-          (
-            <div>
+
+            <Dropdown.MenuItem divider />
+
+            {parentFolderId &&
               <Dropdown.MenuItem
-                onSelect={() => ShowSecretUIActions.showSecret({ secret, tab: 'access' })}
+                onSelect={() =>
+                  MetadataActions.removeSecretFromCurrentFolder({
+                    secret,
+                    currentFolderId: parentFolderId,
+                  })}
               >
-                Share
-              </Dropdown.MenuItem>
+                Remove from&nbsp;<b>{folder.title}</b>
+              </Dropdown.MenuItem>}
 
-              <Dropdown.MenuItem divider />
-
-              {
-                parentFolderId &&
-                  <Dropdown.MenuItem
-                    onSelect={() => MetadataActions.removeSecretFromCurrentFolder({
-                      secret,
-                      currentFolderId: parentFolderId,
-                    })}
-                  >
-                    Remove from&nbsp;<b>{folder.title}</b>
-                  </Dropdown.MenuItem>
-              }
-
-              <Dropdown.MenuItem
-                onSelect={() => MetadataActions.deleteSecret({ secret })}
-              >
-                Delete
-              </Dropdown.MenuItem>
-            </div>
-          )
-        }
+            <Dropdown.MenuItem
+              onSelect={() => MetadataActions.deleteSecret({ secret })}
+            >
+              Delete
+            </Dropdown.MenuItem>
+          </div>}
       </Dropdown.Menu>
     </Dropdown>
   );

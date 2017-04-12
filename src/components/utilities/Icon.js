@@ -11,18 +11,15 @@ class Icon extends Component {
     id: PropTypes.string.isRequired,
     size: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.oneOf([
-        'small',
-        'base',
-      ]),
+      PropTypes.oneOf(['small', 'base']),
     ]),
     className: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     size: 'base',
     className: '',
-  }
+  };
 
   render() {
     const { id, size } = this.props;

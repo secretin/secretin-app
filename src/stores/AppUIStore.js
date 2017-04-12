@@ -129,7 +129,4 @@ class AppUIStore {
   }
 }
 
-export default alt.createStore(
-  makeImmutable(AppUIStore),
-  'AppUIStore'
-);
+export default alt.createStore(makeImmutable(AppUIStore), 'AppUIStore');

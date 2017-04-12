@@ -15,7 +15,7 @@ class SecretUserListNew extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
     errors: PropTypes.instanceOf(Immutable.Map),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -69,7 +69,7 @@ class SecretUserListNew extends Component {
           user: User.createFromRaw({
             username: '',
             rights: 0,
-          })
+          }),
         });
       },
       onCancel: () => ({}),
@@ -92,9 +92,7 @@ class SecretUserListNew extends Component {
           value={this.state.user.rights}
           size="small"
           onChange={this.handleChange}
-          options={
-            UserRights.map(rights => [rights, userRightLabel(rights)])
-          }
+          options={UserRights.map(rights => [rights, userRightLabel(rights)])}
         />
         <Button
           buttonStyle="icon"

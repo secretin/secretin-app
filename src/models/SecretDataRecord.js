@@ -7,12 +7,10 @@ const defaultRecord = {
   fields: new Immutable.List(),
 };
 
-class SecretDataRecord extends new Immutable.Record(defaultRecord) {
-
+class SecretDataRecord extends (new Immutable.Record(defaultRecord)) {
   addNewField(params = new Immutable.Map()) {
     return this.update('fields', fields =>
-      fields.push(new SecretFieldRecord(params))
-    );
+      fields.push(new SecretFieldRecord(params)));
   }
 
   static createWithDefaultFields(defaultFieds) {
@@ -23,17 +21,16 @@ class SecretDataRecord extends new Immutable.Record(defaultRecord) {
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData)
-      .map((value, key) => {
-        switch (key) {
-          case 'fields':
-            return value.map(
-              field => SecretFieldRecord.createFromRaw(field)
-            ).toList();
-          default:
-            return value;
-        }
-      });
+    const raw = Immutable.fromJS(rawData).map((value, key) => {
+      switch (key) {
+        case 'fields':
+          return value
+            .map(field => SecretFieldRecord.createFromRaw(field))
+            .toList();
+        default:
+          return value;
+      }
+    });
     return new SecretDataRecord(raw);
   }
 }

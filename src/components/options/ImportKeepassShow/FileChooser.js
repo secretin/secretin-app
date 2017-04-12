@@ -4,12 +4,11 @@ import HTML5Backend, { NativeTypes } from 'react-dnd-html5-backend';
 
 import Icon from 'components/utilities/Icon';
 
-
 class FileChooser extends Component {
   static propTypes = {
     onFileChoosen: PropTypes.func,
     connectDropTarget: PropTypes.func,
-  }
+  };
   constructor(props) {
     super(props);
 
@@ -22,9 +21,7 @@ class FileChooser extends Component {
 
   render() {
     return this.props.connectDropTarget(
-      <div
-        className="import-drop-zone"
-      >
+      <div className="import-drop-zone">
         <Icon id="upload" size={120} />
         <div className="import-drop-zone-label">
           <input

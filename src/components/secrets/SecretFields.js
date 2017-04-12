@@ -9,7 +9,7 @@ class SecretFields extends Component {
     isNew: PropTypes.bool,
     onChange: React.PropTypes.func,
     canUpdate: PropTypes.bool,
-  }
+  };
 
   render() {
     if (!this.props.fields) {
@@ -18,17 +18,15 @@ class SecretFields extends Component {
 
     return (
       <div className="secret-fields">
-        {
-          this.props.fields.map(field =>
-            <SecretField
-              key={field.id}
-              field={field}
-              onChange={this.props.onChange}
-              isNew={this.props.isNew}
-              canUpdate={this.props.canUpdate}
-            />
-          )
-        }
+        {this.props.fields.map(field => (
+          <SecretField
+            key={field.id}
+            field={field}
+            onChange={this.props.onChange}
+            isNew={this.props.isNew}
+            canUpdate={this.props.canUpdate}
+          />
+        ))}
       </div>
     );
   }
