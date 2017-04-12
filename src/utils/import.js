@@ -64,14 +64,13 @@ function addSecret(child, hashedParent) {
   }
 
   let hashedTitle = '';
-  return secretin.addSecret(title, secret)
-    .then((rHashedTitle) => {
-      hashedTitle = rHashedTitle;
-      if (typeof hashedParent !== 'undefined') {
-        return secretin.addSecretToFolder(hashedTitle, hashedParent);
-      }
-      return Promise.resolve();
-    });
+  return secretin.addSecret(title, secret).then(rHashedTitle => {
+    hashedTitle = rHashedTitle;
+    if (typeof hashedParent !== 'undefined') {
+      return secretin.addSecretToFolder(hashedTitle, hashedParent);
+    }
+    return Promise.resolve();
+  });
 }
 
 function defaultProgress(status, total) {
@@ -82,30 +81,31 @@ function defaultProgress(status, total) {
 function addAndParseGroup(group, progress, hashedParent) {
   let hashedTitle = '';
   const title = group.getElementsByTagName('Name')[0].textContent;
-  return secretin.addFolder(title)
-    .then((rHashedTitle) => {
-      hashedTitle = rHashedTitle;
-      const entries = [].slice.call(group.querySelectorAll(':scope > Entry'));
-      const entryPromises = entries.reduce(
-        (promise, childEntry) =>
-          promise.then(() =>
-            addSecret(childEntry, hashedTitle)
-              .then(() => {
+  return (
+    secretin
+      .addFolder(title)
+      .then(rHashedTitle => {
+        hashedTitle = rHashedTitle;
+        const entries = [].slice.call(group.querySelectorAll(':scope > Entry'));
+        const entryPromises = entries.reduce(
+          (promise, childEntry) =>
+            promise.then(() =>
+              addSecret(childEntry, hashedTitle).then(() => {
                 progress.update();
-              })
-          )
-        , Promise.resolve()
-      );
-      return entryPromises;
-    })
-    .then(() => {
-      if (typeof hashedParent !== 'undefined') {
-        return secretin.addSecretToFolder(hashedTitle, hashedParent);
-      }
-      return Promise.resolve();
-    })
-    // eslint-disable-next-line
-    .then(() => parseGroup(group, progress, hashedTitle));
+              })),
+          Promise.resolve()
+        );
+        return entryPromises;
+      })
+      .then(() => {
+        if (typeof hashedParent !== 'undefined') {
+          return secretin.addSecretToFolder(hashedTitle, hashedParent);
+        }
+        return Promise.resolve();
+      })
+      // eslint-disable-next-line
+      .then(() => parseGroup(group, progress, hashedTitle))
+  );
 }
 
 function parseGroup(group, progress, hashedParent) {
@@ -115,26 +115,24 @@ function parseGroup(group, progress, hashedParent) {
     entryPromises = entries.reduce(
       (promise, childEntry) =>
         promise.then(() =>
-          addSecret(childEntry, hashedParent)
-          .then(() => {
+          addSecret(childEntry, hashedParent).then(() => {
             progress.update();
-          })
-        )
-      , Promise.resolve()
+          })),
+      Promise.resolve()
     );
   } else {
     entryPromises = Promise.resolve();
   }
 
-  return entryPromises
-    .then(() => {
-      const groups = [].slice.call(group.querySelectorAll(':scope > Group'));
-      return groups.reduce(
-        (promise, childGroup) =>
-          promise.then(() => addAndParseGroup(childGroup, progress, hashedParent))
-        , Promise.resolve()
-      );
-    });
+  return entryPromises.then(() => {
+    const groups = [].slice.call(group.querySelectorAll(':scope > Group'));
+    return groups.reduce(
+      (promise, childGroup) =>
+        promise.then(() =>
+          addAndParseGroup(childGroup, progress, hashedParent)),
+      Promise.resolve()
+    );
+  });
 }
 
 function count(group) {

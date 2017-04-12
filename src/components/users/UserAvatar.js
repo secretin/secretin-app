@@ -26,16 +26,15 @@ function getInitials(fullName) {
 }
 
 function getAvatarColor(fullName) {
-  const colorIndex = fullName.split('').reduce((sum, letter) => sum + letter.charCodeAt(), 0);
+  const colorIndex = fullName
+    .split('')
+    .reduce((sum, letter) => sum + letter.charCodeAt(), 0);
   return COLORS[colorIndex % COLORS.length];
 }
 
 const propTypes = {
   user: PropTypes.instanceOf(User),
-  size: PropTypes.oneOf([
-    'base',
-    'large',
-  ]),
+  size: PropTypes.oneOf(['base', 'large']),
 };
 
 const defaultProps = {
@@ -51,10 +50,7 @@ function UserAvatar({ user, size }) {
   );
 
   return (
-    <div
-      className={className}
-      title={user.username}
-    >
+    <div className={className} title={user.username}>
       {getInitials(user.username)}
     </div>
   );

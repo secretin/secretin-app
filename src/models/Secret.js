@@ -18,7 +18,7 @@ const CAN_SHARE = 2;
 const CAN_WRITE = 1;
 const CAN_READ = 0;
 
-class Secret extends new Immutable.Record(defaultRecord) {
+class Secret extends (new Immutable.Record(defaultRecord)) {
   getIcon() {
     switch (this.type) {
       case 'folder':
@@ -50,21 +50,18 @@ class Secret extends new Immutable.Record(defaultRecord) {
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData)
-      .map((value, key) => {
-        switch (key) {
-          case 'users':
-            return value.map(
-              user => User.createFromRaw(user)
-            );
-          case 'data':
-            return SecretDataRecord.createFromRaw(value);
-          case 'lastModifiedAt':
-            return moment(value);
-          default:
-            return value;
-        }
-      });
+    const raw = Immutable.fromJS(rawData).map((value, key) => {
+      switch (key) {
+        case 'users':
+          return value.map(user => User.createFromRaw(user));
+        case 'data':
+          return SecretDataRecord.createFromRaw(value);
+        case 'lastModifiedAt':
+          return moment(value);
+        default:
+          return value;
+      }
+    });
 
     return new Secret(raw);
   }

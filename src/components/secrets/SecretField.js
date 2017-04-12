@@ -15,7 +15,7 @@ class SecretField extends Component {
     onChange: React.PropTypes.func,
     isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -31,9 +31,14 @@ class SecretField extends Component {
 
   onGenerate() {
     this.handleChange({ value: '' });
-    setTimeout(() => {
-      this.handleChange({ value: Utils.PasswordGenerator.generatePassword() });
-    }, 100);
+    setTimeout(
+      () => {
+        this.handleChange({
+          value: Utils.PasswordGenerator.generatePassword(),
+        });
+      },
+      100
+    );
   }
 
   handleChange({ value }) {
@@ -64,11 +69,7 @@ class SecretField extends Component {
     }
 
     actions.push(
-      <a
-        key="copy"
-        onClick={this.onCopy}
-        tabIndex="-1"
-      >
+      <a key="copy" onClick={this.onCopy} tabIndex="-1">
         Copy
       </a>
     );
@@ -76,7 +77,9 @@ class SecretField extends Component {
     return (
       <div className="secret-field">
         <Input
-          ref={(ref) => { this.input = ref; }}
+          ref={ref => {
+            this.input = ref;
+          }}
           label={this.props.field.label}
           name={this.props.field.label}
           value={this.props.field.content}
@@ -86,18 +89,16 @@ class SecretField extends Component {
           actions={new Immutable.List(actions)}
         />
         <div className="secret-field-action">
-          {
-            this.props.field.type === 'password' && this.props.canUpdate && (
-              <Button
-                title="Generate password"
-                buttonStyle="icon"
-                onClick={this.onGenerate}
-                tabIndex="-1"
-              >
-                <Icon id="generate" size="small" />
-              </Button>
-            )
-          }
+          {this.props.field.type === 'password' &&
+            this.props.canUpdate &&
+            <Button
+              title="Generate password"
+              buttonStyle="icon"
+              onClick={this.onGenerate}
+              tabIndex="-1"
+            >
+              <Icon id="generate" size="small" />
+            </Button>}
         </div>
       </div>
     );

@@ -30,9 +30,7 @@ class ImportKeepassShow extends Component {
   };
 
   static getStores() {
-    return [
-      OptionsStore,
-    ];
+    return [OptionsStore];
   }
 
   static getPropsFromStores() {
@@ -66,7 +64,9 @@ class ImportKeepassShow extends Component {
     return (
       <Modal
         show={this.props.shown}
-        onClose={!this.props.importing ? OptionsActions.hideImportKeepass : undefined}
+        onClose={
+          !this.props.importing ? OptionsActions.hideImportKeepass : undefined
+        }
       >
         <Modal.Header>
           <span className="text">
@@ -75,38 +75,33 @@ class ImportKeepassShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          {
-            ((this.props.success || this.props.importing) && (
-              (this.props.success &&
-                <div className="import-progress">
-                  <Icon id="done" size={120} />
+          {((this.props.success || this.props.importing) &&
+            ((this.props.success &&
+              <div className="import-progress">
+                <Icon id="done" size={120} />
+                <div className="import-progress-title">
+                  Done!
+                </div>
+              </div>) ||
+              <div className="import-progress">
+                <Spinner />
+                {this.props.importTotal !== 0 &&
                   <div className="import-progress-title">
-                    Done!
-                  </div>
-                </div>
-              ) || (
-                <div className="import-progress">
-                  <Spinner />
-                  {
-                    this.props.importTotal !== 0 &&
-                      <div className="import-progress-title">
-                        Importing... {this.props.importStatus} / {this.props.importTotal}
-                      </div>
-                  }
-                </div>
-              )
-            )) || (
-              <FileChooser
-                onFileChoosen={this.handleFileChoosen}
-              />
-            )
-          }
+                    Importing...
+                    {' '}
+                    {this.props.importStatus}
+                    {' '}
+                    /
+                    {' '}
+                    {this.props.importTotal}
+                  </div>}
+              </div>)) ||
+            <FileChooser onFileChoosen={this.handleFileChoosen} />}
         </Modal.Body>
 
         <Modal.Footer>
-          {
-            this.props.success ? (
-              <Button
+          {this.props.success
+            ? <Button
                 buttonStyle="primary"
                 className="button button--style-default button--size-base"
                 to="/"
@@ -114,17 +109,14 @@ class ImportKeepassShow extends Component {
               >
                 Return to Home
               </Button>
-            ) : (
-              <Button
+            : <Button
                 type="reset"
                 buttonStyle="default"
                 onClick={OptionsActions.hideImportKeepass}
                 disabled={this.props.importing}
               >
                 Close
-              </Button>
-            )
-          }
+              </Button>}
         </Modal.Footer>
       </Modal>
     );
