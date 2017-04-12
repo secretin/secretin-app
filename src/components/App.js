@@ -49,11 +49,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    secretin.addEventListener('connectionChange', AppUIActions.connectionChange);
+    secretin.addEventListener(
+      'connectionChange',
+      AppUIActions.connectionChange
+    );
   }
 
   componentWillUnmount() {
-    secretin.removeEventListener('connectionChange', AppUIActions.connectionChange);
+    secretin.removeEventListener(
+      'connectionChange',
+      AppUIActions.connectionChange
+    );
   }
 
   onAppFocus() {

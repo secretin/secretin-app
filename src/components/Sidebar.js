@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/Link';
 
+import secretin from 'utils/secretin';
 import AppUIStore from 'stores/AppUIStore';
 import Icon from 'components/utilities/Icon';
 
@@ -30,14 +31,8 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <Link to="/">
-          {
-            AppUIStore.isOnline()
-            ?
-              'Secret-In.me'
-            :
-              'Offline'
-          }
+        <Link to="/" title={AppUIStore.isOnline() && secretin.api.db}>
+          {AppUIStore.isOnline() ? 'Secret-In.me' : 'Offline'}
         </Link>
       </div>
       <div className="sidebar-content">

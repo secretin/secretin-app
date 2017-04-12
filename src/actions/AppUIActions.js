@@ -16,7 +16,7 @@ class AppUIActions {
       'loginUserSuccess',
       'loginUserFailure',
       'appReady',
-      'connectionChange',
+      'connectionChange'
     );
   }
 
