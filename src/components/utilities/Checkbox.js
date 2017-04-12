@@ -13,12 +13,12 @@ class Checkbox extends Component {
     checked: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-  }
+  };
 
   static defaultProps = {
     checked: false,
     disabled: false,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -35,13 +35,10 @@ class Checkbox extends Component {
   }
 
   render() {
-    const checboxClassName = classNames(
-      'checkbox',
-      {
-        'checkbox--checked': this.props.checked,
-        'checkbox--unchecked': !this.props.checked,
-      }
-    );
+    const checboxClassName = classNames('checkbox', {
+      'checkbox--checked': this.props.checked,
+      'checkbox--unchecked': !this.props.checked,
+    });
 
     return (
       <div className="input input--type-checkbox">

@@ -48,18 +48,11 @@ class Confirm extends Component {
 
   render() {
     return (
-      <Modal
-        show
-        centered
-        onClose={this.promise.reject}
-      >
-        {
-          this.props.title && (
-            <Modal.Header>
-              {this.props.title}
-            </Modal.Header>
-          )
-        }
+      <Modal show centered onClose={this.promise.reject}>
+        {this.props.title &&
+          <Modal.Header>
+            {this.props.title}
+          </Modal.Header>}
 
         <Modal.Body>
           {this.props.text}
@@ -88,7 +81,9 @@ class Confirm extends Component {
 }
 
 export function confirm(confirmProps = {}) {
-  const comfirmElement = document.body.appendChild(document.createElement('div'));
+  const comfirmElement = document.body.appendChild(
+    document.createElement('div')
+  );
 
   // eslint-disable-next-line react/no-render-return-value
   const component = ReactDOM.render(

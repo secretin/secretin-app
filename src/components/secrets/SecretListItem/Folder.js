@@ -27,54 +27,50 @@ function SecretListItemFolder(props) {
   const { connectDragSource, connectDropTarget } = props;
 
   const { username: currentUserId } = AppUIStore.getCurrentUser();
-  const users = secret.users.toList().filterNot(user => user.id === currentUserId);
+  const users = secret.users
+    .toList()
+    .filterNot(user => user.id === currentUserId);
 
-  const className = classNames(
-    'secret-list-item',
-    {
-      'secret-list-item--is-dragging': isDragging,
-      'secret-list-item--is-over': isOver,
-      'secret-list-item--can-drop': canDrop,
-      'secret-list-item--cant-drop': !canDrop,
-    }
-  );
+  const className = classNames('secret-list-item', {
+    'secret-list-item--is-dragging': isDragging,
+    'secret-list-item--is-over': isOver,
+    'secret-list-item--can-drop': canDrop,
+    'secret-list-item--cant-drop': !canDrop,
+  });
 
-  return (
-    connectDropTarget(
-      <tr className={className}>
-        <td className="secret-list-item-column secret-list-item-column--title">
-          {
-            connectDragSource(
-              <div>
-                <Link to={buildSecretURL(folders.push(secret.id))}>
-                  <Icon id={secret.getIcon()} size="base" />
-                  <span className="text" title={secret.title}>
-                    {secret.title}
-                  </span>
-                </Link>
-              </div>
-            )
-          }
-        </td>
-        <td className="secret-list-item-column secret-list-item-column--last-modified">
-          {secret.lastModifiedAt.fromNow()}
-          {' - '}
-          <span className="muted">{secret.lastModifiedBy}</span>
-        </td>
-        <td className="secret-list-item-column secret-list-item-column--shared-with">
-          {
-            users.size > 0 ? (
-              <UserAvatars users={users} />
-            ) : (
-              '––'
-            )
-          }
-        </td>
-        <td className="secret-list-item-column secret-list-item-column--actions">
-          <SecretListItemOptions parentFolderId={folders.last()} secret={secret} />
-        </td>
-      </tr>
-    )
+  return connectDropTarget(
+    <tr className={className}>
+      <td className="secret-list-item-column secret-list-item-column--title">
+        {connectDragSource(
+          <div>
+            <Link to={buildSecretURL(folders.push(secret.id))}>
+              <Icon id={secret.getIcon()} size="base" />
+              <span className="text" title={secret.title}>
+                {secret.title}
+              </span>
+            </Link>
+          </div>
+        )}
+      </td>
+      <td
+        className="secret-list-item-column secret-list-item-column--last-modified"
+      >
+        {secret.lastModifiedAt.fromNow()}
+        {' - '}
+        <span className="muted">{secret.lastModifiedBy}</span>
+      </td>
+      <td
+        className="secret-list-item-column secret-list-item-column--shared-with"
+      >
+        {users.size > 0 ? <UserAvatars users={users} /> : '––'}
+      </td>
+      <td className="secret-list-item-column secret-list-item-column--actions">
+        <SecretListItemOptions
+          parentFolderId={folders.last()}
+          secret={secret}
+        />
+      </td>
+    </tr>
   );
 }
 SecretListItemFolder.propTypes = propTypes;
@@ -95,12 +91,10 @@ const itemTarget = {
     const { username: currentUserId } = AppUIStore.getCurrentUser();
     const { secret: draggedSecret } = monitor.getItem();
 
-    return (
-      draggedSecret.getIn(['users', currentUserId, 'rights']) !== 0 &&
+    return draggedSecret.getIn(['users', currentUserId, 'rights']) !== 0 &&
       targetSecret.type === 'folder' &&
       targetSecret.id !== draggedSecret.id &&
-      targetSecret.getIn(['users', currentUserId, 'rights']) !== 0
-    );
+      targetSecret.getIn(['users', currentUserId, 'rights']) !== 0;
   },
 };
 
@@ -119,7 +113,15 @@ function itemTargetCollect(connect, monitor) {
   };
 }
 
-const SecretListItemFolderSource = new DragSource('SecretListItem', itemSource, itemSourceCollect)(SecretListItemFolder);
-const SecretListItemFolderTarget = new DropTarget('SecretListItem', itemTarget, itemTargetCollect)(SecretListItemFolderSource);
+const SecretListItemFolderSource = new DragSource(
+  'SecretListItem',
+  itemSource,
+  itemSourceCollect
+)(SecretListItemFolder);
+const SecretListItemFolderTarget = new DropTarget(
+  'SecretListItem',
+  itemTarget,
+  itemTargetCollect
+)(SecretListItemFolderSource);
 
 export default SecretListItemFolderTarget;

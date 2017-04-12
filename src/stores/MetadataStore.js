@@ -14,41 +14,34 @@ const MetadataState = new Record({
 });
 
 function buildSecrets(metadata) {
-  return Immutable.fromJS(metadata).map(
-    secret => Secret.createFromRaw(secret)
-  );
+  return Immutable.fromJS(metadata).map(secret => Secret.createFromRaw(secret));
 }
 
 class MetadataStore {
   constructor() {
-    this.bindAction(AppUIActions.LOGIN_USER_SUCCESS, this.onLoadMetadataSuccess);
+    this.bindAction(
+      AppUIActions.LOGIN_USER_SUCCESS,
+      this.onLoadMetadataSuccess
+    );
     this.bindActions(MetadataActions);
 
     this.state = new MetadataState();
   }
 
   onLoadMetadataSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onCreateSecretSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onDeleteSecretSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onDeleteSecretFailure({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   // onAddSecretToFolder({ secret, folder }) {
@@ -56,41 +49,33 @@ class MetadataStore {
   // }
 
   onAddSecretToFolderSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onRemoveSecretFromCurrentFolderSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onCreateSecretUserRightsSuccess({ metadata }) {
-    this.setState(this.state
-      .set('metadata', buildSecrets(metadata))
-    );
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
   onUpdateSecretUserRightsSuccess({ secret, user, rights }) {
-    this.setState(this.state
-      .updateIn(['metadata', secret.id, 'users'], users =>
-        users.map((userToUpdate) => {
+    this.setState(
+      this.state.updateIn(['metadata', secret.id, 'users'], users =>
+        users.map(userToUpdate => {
           if (userToUpdate.id === user.id) {
             return userToUpdate.set('rights', rights);
           }
           return userToUpdate;
-        })
-      )
+        }))
     );
   }
 
   onDeleteSecretUserRightsSuccess({ secret, user }) {
-    this.setState(this.state
-      .updateIn(['metadata', secret.id, 'users'], users =>
-        users.filterNot(userToFilter => userToFilter.id === user.id)
-      )
+    this.setState(
+      this.state.updateIn(['metadata', secret.id, 'users'], users =>
+        users.filterNot(userToFilter => userToFilter.id === user.id))
     );
   }
 
@@ -111,36 +96,39 @@ class MetadataStore {
 
     const userId = currentUser.username;
 
-    return metadata.filter(metadatum => (
-      (!folderId && metadatum.getIn(['users', userId, 'folders', 'ROOT'])) ||
-      (folderId && metadatum.getIn(['users', userId, 'folders', folderId]))
-    ));
+    return metadata.filter(
+      metadatum =>
+        (!folderId && metadatum.getIn(['users', userId, 'folders', 'ROOT'])) ||
+        (folderId && metadatum.getIn(['users', userId, 'folders', folderId]))
+    );
   }
 
   static getAllFolders() {
     const { metadata } = this.getState();
-    return metadata.filter(secret => secret.type === 'folder') || new Immutable.Map();
+    return metadata.filter(secret => secret.type === 'folder') ||
+      new Immutable.Map();
   }
 
   static getAllSecrets() {
     const { metadata } = this.getState();
-    return metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map();
+    return metadata.filter(secret => secret.type !== 'folder') ||
+      new Immutable.Map();
   }
 
   static getMySecret() {
-    return this.getAllSecrets().filter(secret =>
-      secret.users.filter(user =>
-        user.username === secretin.currentUser.username)
-      .first().get('rights') === 2
+    return this.getAllSecrets().filter(
+      secret =>
+        secret.users
+          .filter(user => user.username === secretin.currentUser.username)
+          .first()
+          .get('rights') === 2
     ) || new Immutable.Map();
   }
 
   static getSharedSecret() {
-    return this.getAllSecrets().filter(secret => secret.users.size > 1) || new Immutable.Map();
+    return this.getAllSecrets().filter(secret => secret.users.size > 1) ||
+      new Immutable.Map();
   }
 }
 
-export default alt.createStore(
-  makeImmutable(MetadataStore),
-  'MetadataStore'
-);
+export default alt.createStore(makeImmutable(MetadataStore), 'MetadataStore');
