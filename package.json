@@ -20,7 +20,7 @@
     "node-sass": "^4.5.2",
     "raw-loader": "^0.5.1",
     "react-scripts": "^0.9.5",
-    "webpack": "^2.3.3"
+    "webpack": "1.14.0"
   },
   "dependencies": {
     "alt": "^0.18.6",
@@ -46,7 +46,7 @@
   "scripts": {
     "deploy": "scripts/deploy.sh",
     "start": "yarn run build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
-    "build": "yarn run build-css && NODE_PATH=./src react-scripts build",
+    "build": "yarn run build-css && NODE_PATH=./src node_modules/.bin/react-scripts build",
     "build-css": "node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node-sass src/stylesheets/application.sass src/index.css -w",
     "electron": "yarn run build && electron-packager ./ --overwrite --version=1.4.13",
