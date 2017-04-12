@@ -24,13 +24,10 @@ class SecretShow extends Component {
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
     isEditing: PropTypes.bool,
-  }
+  };
 
   static getStores() {
-    return [
-      ShowSecretUIStore,
-      EditSecretUIStore,
-    ];
+    return [ShowSecretUIStore, EditSecretUIStore];
   }
 
   static getPropsFromStores() {
@@ -41,7 +38,7 @@ class SecretShow extends Component {
       shown: !!state.secret,
       tab: state.tab,
       isUpdating: state.isUpdating,
-      isEditing: EditSecretUIStore.getState().get('isEditing')
+      isEditing: EditSecretUIStore.getState().get('isEditing'),
     };
   }
 
@@ -68,13 +65,12 @@ class SecretShow extends Component {
       return false;
     }
 
-    const canUpdate = this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser());
+    const canUpdate = this.props.secret.canBeUpdatedBy(
+      AppUIStore.getCurrentUser()
+    );
 
     return (
-      <Modal
-        show={this.props.shown}
-        onClose={ShowSecretUIActions.hideModal}
-      >
+      <Modal show={this.props.shown} onClose={ShowSecretUIActions.hideModal}>
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
           <span className="text" title={this.props.secret.title}>
@@ -88,16 +84,13 @@ class SecretShow extends Component {
             activeKey={this.props.tab}
             onSelect={this.handleChangeTab}
           >
-            {
-              this.props.secret.type !== 'folder' && (
-                <Tab eventKey="details" title="Details">
-                  <SecretEdit
-                    isUpdating={this.props.isUpdating}
-                    canUpdate={canUpdate}
-                  />
-                </Tab>
-              )
-            }
+            {this.props.secret.type !== 'folder' &&
+              <Tab eventKey="details" title="Details">
+                <SecretEdit
+                  isUpdating={this.props.isUpdating}
+                  canUpdate={canUpdate}
+                />
+              </Tab>}
 
             <Tab eventKey="access" title="Who has access">
               <SecretUserList
@@ -118,18 +111,15 @@ class SecretShow extends Component {
           >
             Close
           </Button>
-          {
-            this.props.isEditing && (
-              <Button
-                type="submit"
-                buttonStyle="primary"
-                onClick={this.handleClick}
-                disabled={this.props.isUpdating}
-              >
-                Save
-              </Button>
-            )
-          }
+          {this.props.isEditing &&
+            <Button
+              type="submit"
+              buttonStyle="primary"
+              onClick={this.handleClick}
+              disabled={this.props.isUpdating}
+            >
+              Save
+            </Button>}
         </Modal.Footer>
       </Modal>
     );

@@ -32,83 +32,79 @@ class OptionsStore {
   }
 
   onLoadOptions({ options }) {
-    this.setState(this.state
-      .set('options', new Immutable.Map(options))
-    );
+    this.setState(this.state.set('options', new Immutable.Map(options)));
   }
 
   onActivateTotp() {
-    this.setState(this.state
-      .set('loading', true)
-    );
+    this.setState(this.state.set('loading', true));
   }
 
   onActivateShortLogin() {
-    this.setState(this.state
-      .set('loading', true)
-    );
+    this.setState(this.state.set('loading', true));
   }
 
   onToggleTotp(showQRCode) {
-    this.setState(this.state
-      .set('showQRCode', showQRCode)
-    );
+    this.setState(this.state.set('showQRCode', showQRCode));
   }
 
   onToggleShortLogin(showShortLogin) {
-    this.setState(this.state
-      .set('showShortLogin', showShortLogin)
-    );
+    this.setState(this.state.set('showShortLogin', showShortLogin));
   }
 
   onShowImportKeepass() {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'shown'], true)
-      .setIn(['import', 'keepass', 'importing'], false)
-      .setIn(['import', 'keepass', 'success'], false)
-      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'shown'], true)
+        .setIn(['import', 'keepass', 'importing'], false)
+        .setIn(['import', 'keepass', 'success'], false)
+        .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
     );
   }
 
   onHideImportKeepass() {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'shown'], false)
-      .setIn(['import', 'keepass', 'importing'], false)
-      .setIn(['import', 'keepass', 'success'], false)
-      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'shown'], false)
+        .setIn(['import', 'keepass', 'importing'], false)
+        .setIn(['import', 'keepass', 'success'], false)
+        .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
     );
   }
 
   onImportKeepass() {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'importing'], true)
-      .setIn(['import', 'keepass', 'success'], false)
-      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'importing'], true)
+        .setIn(['import', 'keepass', 'success'], false)
+        .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
     );
   }
 
   onImportKeepassProgress({ importStatus, importTotal }) {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'importStatus'], importStatus)
-      .setIn(['import', 'keepass', 'importTotal'], importTotal)
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'importStatus'], importStatus)
+        .setIn(['import', 'keepass', 'importTotal'], importTotal)
     );
   }
 
   onImportKeepassSuccess() {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'importing'], false)
-      .setIn(['import', 'keepass', 'success'], true)
-      .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
-      .setIn(['import', 'keepass', 'importStatus'], 0)
-      .setIn(['import', 'keepass', 'importTotal'], 0)
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'importing'], false)
+        .setIn(['import', 'keepass', 'success'], true)
+        .setIn(['import', 'keepass', 'errors'], new Immutable.Map())
+        .setIn(['import', 'keepass', 'importStatus'], 0)
+        .setIn(['import', 'keepass', 'importTotal'], 0)
     );
   }
 
   onImportKeepassFailure({ error }) {
-    this.setState(this.state
-      .setIn(['import', 'keepass', 'importing'], false)
-      .setIn(['import', 'keepass', 'success'], false)
-      .setIn(['import', 'keepass', 'errors'], new Immutable.Map(error))
+    this.setState(
+      this.state
+        .setIn(['import', 'keepass', 'importing'], false)
+        .setIn(['import', 'keepass', 'success'], false)
+        .setIn(['import', 'keepass', 'errors'], new Immutable.Map(error))
     );
   }
 
@@ -117,7 +113,8 @@ class OptionsStore {
       this.state.merge({
         errors: new Immutable.Map({ totp: error }),
         loading: false,
-      }));
+      })
+    );
   }
 
   onHideQRCode() {
@@ -126,7 +123,8 @@ class OptionsStore {
         showQRCode: false,
         loading: false,
         errors: new Immutable.Map(),
-      }));
+      })
+    );
   }
 
   onHideShortLogin() {
@@ -140,52 +138,44 @@ class OptionsStore {
   }
 
   onActivateTotpSuccess() {
-    this.setState(this.state
-      .merge({
-        showQRCode: false,
-        loading: false,
-        errors: new Immutable.Map(),
-      })
-      .setIn(['options', 'totp'], true)
+    this.setState(
+      this.state
+        .merge({
+          showQRCode: false,
+          loading: false,
+          errors: new Immutable.Map(),
+        })
+        .setIn(['options', 'totp'], true)
     );
   }
 
   onDeactivateTotpSuccess() {
-    this.setState(this.state
-      .setIn(['options', 'totp'], false)
-    );
+    this.setState(this.state.setIn(['options', 'totp'], false));
   }
 
   onDeactivateShortLoginSuccess({ shortLogin }) {
-    this.setState(this.state
-      .setIn(['options', 'shortLogin'], shortLogin)
-    );
+    this.setState(this.state.setIn(['options', 'shortLogin'], shortLogin));
   }
 
   onActivateShortLoginSuccess({ shortLogin }) {
-    this.setState(this.state
-      .merge({
-        showShortLogin: false,
-        loading: false,
-        errors: new Immutable.Map(),
-      })
-      .setIn(['options', 'shortLogin'], shortLogin)
+    this.setState(
+      this.state
+        .merge({
+          showShortLogin: false,
+          loading: false,
+          errors: new Immutable.Map(),
+        })
+        .setIn(['options', 'shortLogin'], shortLogin)
     );
   }
 
   onChangeDelaySuccess({ timeToClose }) {
-    this.setState(this.state
-      .setIn(['options', 'timeToClose'], timeToClose)
-    );
+    this.setState(this.state.setIn(['options', 'timeToClose'], timeToClose));
   }
 
   static getOptions() {
     return this.getState().get('options');
   }
-
 }
 
-export default alt.createStore(
-  makeImmutable(OptionsStore),
-  'OptionsStore'
-);
+export default alt.createStore(makeImmutable(OptionsStore), 'OptionsStore');

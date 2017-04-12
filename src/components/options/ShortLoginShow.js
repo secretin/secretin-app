@@ -25,9 +25,7 @@ class QRCodeShow extends Component {
   };
 
   static getStores() {
-    return [
-      OptionsStore,
-    ];
+    return [OptionsStore];
   }
 
   static getPropsFromStores() {
@@ -72,10 +70,7 @@ class QRCodeShow extends Component {
 
   render() {
     return (
-      <Modal
-        show={this.props.shown}
-        onClose={OptionsActions.hideShortLogin}
-      >
+      <Modal show={this.props.shown} onClose={OptionsActions.hideShortLogin}>
         <Modal.Header>
           <span className="text">
             Trust this device
@@ -83,11 +78,7 @@ class QRCodeShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <Form
-            className="totp-form"
-            id="totp"
-            onSubmit={this.handleSubmit}
-          >
+          <Form className="totp-form" id="totp" onSubmit={this.handleSubmit}>
             <Input
               label="Shortpass"
               name="shortpass"

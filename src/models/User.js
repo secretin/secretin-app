@@ -27,14 +27,9 @@ export function userRightLabel(accessRights) {
   }
 }
 
-class User extends new Immutable.Record(defaultRecord) {
+class User extends (new Immutable.Record(defaultRecord)) {
   constructor(attributes = new Immutable.Map()) {
-    super(
-      attributes.set(
-        'id',
-        attributes.get('username', uuid.v4())
-      )
-    );
+    super(attributes.set('id', attributes.get('username', uuid.v4())));
   }
 
   isValid() {
@@ -42,15 +37,14 @@ class User extends new Immutable.Record(defaultRecord) {
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData)
-      .map((value, key) => {
-        switch (key) {
-          case 'folders':
-            return Immutable.fromJS(value);
-          default:
-            return value;
-        }
-      });
+    const raw = Immutable.fromJS(rawData).map((value, key) => {
+      switch (key) {
+        case 'folders':
+          return Immutable.fromJS(value);
+        default:
+          return value;
+      }
+    });
     return new User(raw);
   }
 }

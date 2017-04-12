@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Mousetrap from 'mousetrap';
 
 class SecretListSearch extends Component {
-
   static propTypes = {
     onChange: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -45,7 +44,9 @@ class SecretListSearch extends Component {
     return (
       <div className="input input--type-search input--size-small">
         <input
-          ref={(ref) => { this.searchInput = ref; }}
+          ref={ref => {
+            this.searchInput = ref;
+          }}
           type="search"
           placeholder="Search..."
           onChange={this.onChange}

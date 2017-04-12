@@ -21,24 +21,28 @@ class AppUIActions {
   }
 
   disconnectUser() {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
       secretin.currentUser.disconnect();
     };
   }
 
   createUser({ username, password, confirmPassword }) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
       if (password !== confirmPassword) {
-        setTimeout(() => this.createUserFailure({
-          error: { confirmPassword: 'Passwords mismatch' },
-        }), 100);
+        setTimeout(
+          () =>
+            this.createUserFailure({
+              error: { confirmPassword: 'Passwords mismatch' },
+            }),
+          100
+        );
       } else {
         secretin
           .newUser(username, password)
           .then(currentUser => this.createUserSuccess({ currentUser }))
-          .catch((error) => {
+          .catch(error => {
             if (error instanceof UsernameAlreadyExistsError) {
               return this.createUserFailure({
                 error: { username: 'User already exists' },
@@ -51,11 +55,11 @@ class AppUIActions {
   }
 
   loginUser({ username, password, token }) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
       secretin
         .loginUser(username, password, token)
-        .then(currentUser => (
+        .then(currentUser =>
           this.loginUserSuccess({
             currentUser,
             options: {
@@ -64,9 +68,8 @@ class AppUIActions {
               shortLogin: secretin.canITryShortLogin(),
             },
             metadata: currentUser.metadatas,
-          })
-        ))
-        .catch((error) => {
+          }))
+        .catch(error => {
           if (error instanceof UserNotFoundError) {
             return this.loginUserFailure({
               error: { username: 'User not found' },
@@ -74,7 +77,11 @@ class AppUIActions {
           } else if (error instanceof InvalidPasswordError) {
             if (token) {
               return this.loginUserFailure({
-                error: { totp: 'Token', password: 'Invalid password', token: 'or invalid token' },
+                error: {
+                  totp: 'Token',
+                  password: 'Invalid password',
+                  token: 'or invalid token',
+                },
               });
             }
             return this.loginUserFailure({
@@ -91,11 +98,11 @@ class AppUIActions {
   }
 
   shortLogin({ shortpass }) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
       secretin
         .shortLogin(shortpass)
-        .then((currentUser) => {
+        .then(currentUser => {
           this.loginUserSuccess({
             currentUser,
             options: {
@@ -106,14 +113,15 @@ class AppUIActions {
             metadata: currentUser.metadatas,
           });
         })
-        .catch(() => this.loginUserFailure({
-          error: { shortlogin: 'Invalid shortpass' },
-        }));
+        .catch(() =>
+          this.loginUserFailure({
+            error: { shortlogin: 'Invalid shortpass' },
+          }));
     };
   }
 
   disableShortLogin() {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
       secretin.deactivateShortLogin();
     };

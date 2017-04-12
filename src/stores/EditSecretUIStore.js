@@ -14,7 +14,10 @@ const EditSecretUIState = new Record({
 class EditSecretUIStore {
   constructor() {
     this.bindActions(EditSecretUIActions);
-    this.bindAction(ShowSecretUIActions.SHOW_SECRET_SUCCESS, this.onUpdateSecret);
+    this.bindAction(
+      ShowSecretUIActions.SHOW_SECRET_SUCCESS,
+      this.onUpdateSecret
+    );
     this.bindAction(ShowSecretUIActions.HIDE_MODAL, this.onHideModal);
     this.bindAction(MetadataActions.UPDATE_SECRET_SUCCESS, this.onUpdateData);
 
@@ -50,12 +53,13 @@ class EditSecretUIStore {
 
   onChangeField({ field, value }) {
     this.setState(
-      this.state.updateIn(['data', 'fields'], fields =>
-        fields.update(
-          fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
-          fieldToUpdate => fieldToUpdate.set('content', value)
-        )
-      ).set('isEditing', true)
+      this.state
+        .updateIn(['data', 'fields'], fields =>
+          fields.update(
+            fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
+            fieldToUpdate => fieldToUpdate.set('content', value)
+          ))
+        .set('isEditing', true)
     );
   }
 }

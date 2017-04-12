@@ -37,15 +37,11 @@ class NewSecretUIStore {
   }
 
   onHideModal() {
-    this.setState(
-      new NewSecretUIState()
-    );
+    this.setState(new NewSecretUIState());
   }
 
   onChangeTitle({ value }) {
-    this.setState(
-      this.state.set('title', value)
-    );
+    this.setState(this.state.set('title', value));
   }
 
   onChangeField({ field, value }) {
@@ -54,8 +50,7 @@ class NewSecretUIStore {
         fields.update(
           fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
           fieldToUpdate => fieldToUpdate.set('content', value)
-        )
-      )
+        ))
     );
   }
 }

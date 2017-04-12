@@ -35,7 +35,7 @@ class Input extends Component {
       step: PropTypes.number,
     }),
     debounce: PropTypes.number,
-  }
+  };
 
   static defaultProps = {
     type: 'text',
@@ -48,15 +48,12 @@ class Input extends Component {
     actions: new Immutable.List(),
     size: 'base',
     debounce: 0,
-  }
+  };
 
   constructor(props) {
     super(props);
 
-    this.onChange = debounce(
-      this.onChange.bind(this),
-      props.debounce,
-    );
+    this.onChange = debounce(this.onChange.bind(this), props.debounce);
     this.handleChange = this.handleChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
@@ -68,10 +65,7 @@ class Input extends Component {
 
   componentDidMount() {
     if (this.props.autoSelect) {
-      setTimeout(
-        () => this.input.select(),
-        0
-      );
+      setTimeout(() => this.input.select(), 0);
     }
   }
 
@@ -134,22 +128,18 @@ class Input extends Component {
 
     return (
       <div className={className}>
-        {
-          label && (
-            <label htmlFor={this.id}>
-              {label}
-              {
-                actions.size > 0 && (
-                  <span className="input-label-actions">{actions}</span>
-                )
-              }
-            </label>
-          )
-        }
+        {label &&
+          <label htmlFor={this.id}>
+            {label}
+            {actions.size > 0 &&
+              <span className="input-label-actions">{actions}</span>}
+          </label>}
 
         <input
           id={this.id}
-          ref={(input) => { this.input = input; }}
+          ref={input => {
+            this.input = input;
+          }}
           name={this.id}
           title={title}
           type={type === 'password' && this.state.showPassword ? 'text' : type}
@@ -157,33 +147,29 @@ class Input extends Component {
           onChange={this.handleChange}
           placeholder={placeholder}
           autoComplete={autoComplete ? null : 'new-password'}
-
           autoFocus={autoFocus}
           disabled={disabled}
           readOnly={readOnly}
           {...inputProps}
         />
-        {
-          type === 'password' && (
-            <div className="input--password-show">
-              <Button
-                title="Show"
-                buttonStyle="icon"
-                onClick={this.onTogglePasswordShow}
-                tabIndex="-1"
-              >
-                <Icon id={this.state.showPassword ? 'show' : 'hide'} size="small" />
-              </Button>
-            </div>
-          )
-        }
-        {
-          error && (
-            <span className="input-error">
-              { error }
-            </span>
-          )
-        }
+        {type === 'password' &&
+          <div className="input--password-show">
+            <Button
+              title="Show"
+              buttonStyle="icon"
+              onClick={this.onTogglePasswordShow}
+              tabIndex="-1"
+            >
+              <Icon
+                id={this.state.showPassword ? 'show' : 'hide'}
+                size="small"
+              />
+            </Button>
+          </div>}
+        {error &&
+          <span className="input-error">
+            {error}
+          </span>}
       </div>
     );
   }

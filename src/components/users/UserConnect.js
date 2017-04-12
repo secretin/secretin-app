@@ -8,12 +8,11 @@ import UserConnectForm from 'components/users/UserConnectForm';
 import UserConnectShortPass from 'components/users/UserConnectShortPass';
 
 class UserConnect extends Component {
-
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -70,28 +69,24 @@ class UserConnect extends Component {
 
   hideShortpass() {
     this.setState({
-      showShortpass: false
+      showShortpass: false,
     });
   }
 
   render() {
     return (
       <div className="user-connect">
-        {
-          this.state.showShortpass ? (
-            <UserConnectShortPass
+        {this.state.showShortpass
+          ? <UserConnectShortPass
               savedUsername={this.props.savedUsername}
               loading={this.props.loading}
               error={this.props.errors.get('shortlogin')}
               onCancel={this.hideShortpass}
             />
-          ) : (
-            <UserConnectForm
+          : <UserConnectForm
               loading={this.props.loading}
               errors={this.props.errors}
-            />
-          )
-        }
+            />}
       </div>
     );
   }

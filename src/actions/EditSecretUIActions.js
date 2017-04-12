@@ -2,9 +2,7 @@ import alt from 'utils/alt';
 
 class EditSecretUIActions {
   constructor() {
-    this.generateActions(
-      'changeField'
-    );
+    this.generateActions('changeField');
   }
 }
 

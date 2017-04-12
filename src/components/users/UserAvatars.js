@@ -14,22 +14,13 @@ const defaultProps = {
 };
 
 function UserAvatars({ users, size }) {
-  const className = classNames(
-    'user-avatars',
-    `user-avatars--size-${size}`,
-  );
+  const className = classNames('user-avatars', `user-avatars--size-${size}`);
 
   return (
     <div className={className}>
-      {
-        users.map(user => (
-          <UserAvatar
-            key={user.id}
-            user={user}
-            size={size}
-          />
-        )).toArray()
-      }
+      {users
+        .map(user => <UserAvatar key={user.id} user={user} size={size} />)
+        .toArray()}
     </div>
   );
 }
