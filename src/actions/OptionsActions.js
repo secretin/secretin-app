@@ -118,12 +118,11 @@ class OptionsActions {
   }
 
   showRescueCodes() {
-    return (dispatch) => {
+    return dispatch => {
       dispatch();
-      secretin.getRescueCodes()
-        .then((rescueCodes) => {
-          this.showRescueCodesSuccess({ rescueCodes });
-        });
+      secretin.getRescueCodes().then(rescueCodes => {
+        this.showRescueCodesSuccess({ rescueCodes });
+      });
     };
   }
 

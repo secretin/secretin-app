@@ -22,9 +22,7 @@ class QRCodeShow extends Component {
   };
 
   static getStores() {
-    return [
-      OptionsStore,
-    ];
+    return [OptionsStore];
   }
 
   static getPropsFromStores() {
@@ -37,10 +35,7 @@ class QRCodeShow extends Component {
 
   render() {
     return (
-      <Modal
-        show={this.props.shown}
-        onClose={OptionsActions.hideRescueCodes}
-      >
+      <Modal show={this.props.shown} onClose={OptionsActions.hideRescueCodes}>
         <Modal.Header>
           <span className="text">
             Rescue codes
@@ -48,11 +43,11 @@ class QRCodeShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          {
-            this.props.rescueCodes.map((rescueCode, i) => (
+          {this.props.rescueCodes
+            .map((rescueCode, i) => (
               <span key={i} className="rescue-code">{rescueCode}</span>
-            )).toArray()
-          }
+            ))
+            .toArray()}
         </Modal.Body>
 
         <Modal.Footer>

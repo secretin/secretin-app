@@ -61,18 +61,16 @@ class OptionsContainer extends Component {
               >
                 Activate two-factor authentication
               </Checkbox>
-              {
-                options.get('totp') &&
-                  <div style={{ marginLeft: '33px' }}>
-                    <RescueCodes />
-                    <a
-                      onClick={() => { OptionsActions.showRescueCodes(); }}
-                      tabIndex="-1"
-                    >
-                      Show rescue Codes
-                    </a>
-                  </div>
-              }
+              {options.get('totp') &&
+                <div style={{ marginLeft: '33px' }}>
+                  <RescueCodes />
+                  <a
+                    onClick={OptionsActions.showRescueCodes}
+                    tabIndex="-1"
+                  >
+                    Show rescue Codes
+                  </a>
+                </div>}
             </div>
 
             <div className="options-section-item">
