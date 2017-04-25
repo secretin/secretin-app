@@ -14,7 +14,7 @@ const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-let api = process.env.REACT_APP_API_SECRETIN ? process.env.REACT_APP_API_SECRETIN : 'http://devapi.secret-in.me:3000';
+let api = process.env.REACT_APP_API_SECRETIN || 'http://devapi.secret-in.me:3000'
 const prefix = 'file';
 process.argv.forEach((argv) => {
   if (argv.startsWith('--secretin-api')) {

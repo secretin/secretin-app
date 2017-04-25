@@ -8,10 +8,8 @@ let api = serverURI;
 
 if (typeof window.process !== 'undefined') {
   // Electron
-  const search = location.search;
-  if (search.length > 5) {
-    api = location.search.substring(5);
-  }
+  const params = new URLSearchParams(location.search);
+  api = params.get('api');
 }
 
 const secretin = new Secretin(Secretin.API.Server, api);
