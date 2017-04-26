@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import Router from 'react-router/BrowserRouter';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 import AppUIStore from 'stores/AppUIStore';
@@ -45,6 +46,20 @@ class App extends Component {
 
     window.addEventListener('focus', this.onAppFocus);
     window.addEventListener('blur', this.onAppBlur);
+  }
+
+  componentDidMount() {
+    secretin.addEventListener(
+      'connectionChange',
+      AppUIActions.connectionChange
+    );
+  }
+
+  componentWillUnmount() {
+    secretin.removeEventListener(
+      'connectionChange',
+      AppUIActions.connectionChange
+    );
   }
 
   onAppFocus() {

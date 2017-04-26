@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
+import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import ImportKeepassShow from 'components/options/ImportKeepassShow';
@@ -57,6 +58,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.get('totp')}
                 onChange={OptionsActions.toggleTotp}
+                disabled={!AppUIStore.isOnline()}
               >
                 Activate two-factor authentication
               </Checkbox>
@@ -67,6 +69,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.get('shortLogin')}
                 onChange={OptionsActions.toggleShortLogin}
+                disabled={!AppUIStore.isOnline()}
               >
                 Activate ShortLogin
               </Checkbox>
@@ -76,6 +79,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.get('timeToClose') > 0}
                 onChange={OptionsActions.toggleAutoLogout}
+                disabled={!AppUIStore.isOnline()}
               >
                 Activate auto logout
               </Checkbox>
@@ -96,6 +100,7 @@ class OptionsContainer extends Component {
                       step: 5,
                     }}
                     debounce={800}
+                    disabled={!AppUIStore.isOnline()}
                   />
                   <b> min</b>
                 </div>}
@@ -111,6 +116,7 @@ class OptionsContainer extends Component {
                 type="button"
                 buttonStyle="primary"
                 onClick={OptionsActions.showImportKeepass}
+                disabled={!AppUIStore.isOnline()}
               >
                 Import from Keepass
               </Button>

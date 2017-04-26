@@ -41,6 +41,7 @@ function SecretListItemOptions({ parentFolderId, secret }) {
             <Dropdown.MenuItem
               onSelect={() =>
                 ShowSecretUIActions.showSecret({ secret, tab: 'access' })}
+              disabled={!AppUIStore.isOnline()}
             >
               Share
             </Dropdown.MenuItem>
@@ -60,6 +61,7 @@ function SecretListItemOptions({ parentFolderId, secret }) {
 
             <Dropdown.MenuItem
               onSelect={() => MetadataActions.deleteSecret({ secret })}
+              disabled={!AppUIStore.isOnline()}
             >
               Delete
             </Dropdown.MenuItem>
