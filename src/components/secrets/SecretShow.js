@@ -66,9 +66,15 @@ class SecretShow extends Component {
       return false;
     }
 
+    const { username: currentUserId } = AppUIStore.getCurrentUser();
+    const users = this.props.secret.users
+      .toList()
+      .filterNot(user => user.id === currentUserId);
+
     const canUpdate = this.props.secret.canBeUpdatedBy(
       AppUIStore.getCurrentUser()
-    );
+    ) &&
+      (AppUIStore.isOnline() || users.size === 0);
 
     return (
       <Modal show={this.props.shown} onClose={ShowSecretUIActions.hideModal}>

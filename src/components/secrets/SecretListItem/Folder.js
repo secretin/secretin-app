@@ -26,10 +26,11 @@ function SecretListItemFolder(props) {
   const { secret, folders, isDragging, canDrop, isOver } = props;
   const { connectDragSource, connectDropTarget } = props;
 
-  const { username: currentUserId } = AppUIStore.getCurrentUser();
+  const currentUser = AppUIStore.getCurrentUser();
+  const secretRights = secret.getIn(['users', currentUser.username, 'rights']);
   const users = secret.users
     .toList()
-    .filterNot(user => user.id === currentUserId);
+    .filterNot(user => user.id === currentUser.username);
 
   const className = classNames('secret-list-item', {
     'secret-list-item--is-dragging': isDragging,
@@ -38,19 +39,23 @@ function SecretListItemFolder(props) {
     'secret-list-item--cant-drop': !canDrop,
   });
 
+  const link = (
+    <div>
+      <Link to={buildSecretURL(folders.push(secret.id))}>
+        <Icon id={secret.getIcon()} size="base" />
+        <span className="text" title={secret.title}>
+          {secret.title}
+        </span>
+      </Link>
+    </div>
+  );
+
   return connectDropTarget(
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {connectDragSource(
-          <div>
-            <Link to={buildSecretURL(folders.push(secret.id))}>
-              <Icon id={secret.getIcon()} size="base" />
-              <span className="text" title={secret.title}>
-                {secret.title}
-              </span>
-            </Link>
-          </div>
-        )}
+        {secretRights > 0 && (AppUIStore.isOnline() || users.size === 0)
+          ? connectDragSource(link)
+          : link}
       </td>
       <td
         className="secret-list-item-column secret-list-item-column--last-modified"

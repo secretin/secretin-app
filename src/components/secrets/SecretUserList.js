@@ -48,7 +48,8 @@ class SecretUserList extends Component {
 
   render() {
     const currentUser = AppUIStore.getCurrentUser();
-    const canShare = this.props.secret.canBeSharedBy(currentUser);
+    const canShare = this.props.secret.canBeSharedBy(currentUser) &&
+      AppUIStore.isOnline();
     return (
       <div className="secret-users">
         <div className="secret-users-list">

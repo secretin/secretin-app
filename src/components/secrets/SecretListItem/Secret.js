@@ -47,7 +47,9 @@ function SecretListItemSecret(
   return (
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {secretRights > 0 ? connectDragSource(link) : link}
+        {secretRights > 0 && (AppUIStore.isOnline() || users.size === 0)
+          ? connectDragSource(link)
+          : link}
       </td>
       <td
         className="secret-list-item-column secret-list-item-column--last-modified"
