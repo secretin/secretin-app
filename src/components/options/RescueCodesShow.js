@@ -13,7 +13,7 @@ import OptionsStore from 'stores/OptionsStore';
 import OptionsActions from 'actions/OptionsActions';
 
 function getFile({ username, rescueCodes }) {
-  const codes = rescueCodes.map((code, i) => `${i+1}. ${code}`).toArray();
+  const codes = rescueCodes.map((code, i) => `${i + 1}. ${code}`).toArray();
   const content = [
     'SAVE YOUR BACKUP CODES',
     'Keep these backup codes somewhere safe but accessible.',
@@ -26,7 +26,7 @@ function getFile({ username, rescueCodes }) {
     `* Need new codes? Go to ${document.location.href}`,
   ].join('\n');
 
-  return new Blob([content], {type: 'text/plain;charset=utf-8;'});
+  return new Blob([content], { type: 'text/plain;charset=utf-8;' });
 }
 
 class QRCodeShow extends Component {
@@ -71,7 +71,9 @@ class QRCodeShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <h3>You should view and download your recovery codes and keep them safe.</h3>
+          <h3>
+            You should view and download your recovery codes and keep them safe.
+          </h3>
           <p>
             If you lose access to your secure token and your code generator, a recovery code is the only way to recover your account.
           </p>
@@ -80,7 +82,9 @@ class QRCodeShow extends Component {
           </pre>
           <p>
             <a
-              href={window.URL.createObjectURL(getFile({ username, rescueCodes }))}
+              href={window.URL.createObjectURL(
+                getFile({ username, rescueCodes })
+              )}
               download={`Backup-codes-${username}@secretin.txt`}
             >
               Download my codes

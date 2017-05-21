@@ -24,7 +24,7 @@ class OptionsActions {
       'changeDelaySuccess',
       'changeDelayFailure',
       'showRescueCodesSuccess',
-      'hideRescueCodes',
+      'hideRescueCodes'
     );
   }
 
@@ -120,6 +120,14 @@ class OptionsActions {
   showRescueCodes() {
     return dispatch => {
       dispatch();
+      // eslint-disable-next-line no-alert
+      if (
+        !window.confirm(
+          'Be careful, this will replace your previously generated codes. Continue?'
+        )
+      ) {
+        return;
+      }
       secretin.getRescueCodes().then(rescueCodes => {
         this.showRescueCodesSuccess({ rescueCodes });
       });

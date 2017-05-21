@@ -61,7 +61,7 @@ class QRCodeShow extends Component {
   }
 
   handleChange(e) {
-    const token = e.value.slice(0, 6);
+    const token = e.value.replace(/\s+/g, '').slice(0, 6);
 
     this.setState({
       token,
@@ -93,8 +93,11 @@ class QRCodeShow extends Component {
               />
             </div>
             <Input
-              placeholder="6-digit code"
               name="token"
+              inputProps={{
+                maxLength: 6,
+              }}
+              placeholder="6-digit code"
               value={this.state.token}
               onChange={this.handleChange}
               onSubmit={this.handleSubmit}
