@@ -25,22 +25,24 @@ function SecretListNew({ folder }) {
       <SecretNew />
       <Button
         title="Add secret"
-        buttonStyle="icon"
+        buttonStyle="primary"
+        size="small"
         disabled={!canWrite}
         onClick={() =>
           NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
       >
-        <Icon id="add-secret" />
+        <Icon id="add-secret" size="small" />
         Add secret
       </Button>
       <Button
         title="Add secret"
-        buttonStyle="icon"
+        buttonStyle="primary"
+        size="small"
         disabled={!canWrite}
         onClick={() =>
           NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
       >
-        <Icon id="add-folder" />
+        <Icon id="add-folder" size="small" />
         Create folder
       </Button>
     </div>

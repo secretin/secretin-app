@@ -41,9 +41,7 @@ function Sidebar() {
             <Icon id="home" size="base" />
             {currentUser.username}
           </SidebarMenuLink>
-          <div className="sidebar-separator">
-            <div />
-          </div>
+          <div className="sidebar-separator" />
           <SidebarMenuLink to="/secrets/all/">
             <Icon id="apps" size="base" />
             All
@@ -56,9 +54,7 @@ function Sidebar() {
             <Icon id="people" size="base" />
             Shared secrets
           </SidebarMenuLink>
-          <div className="sidebar-separator">
-            <div />
-          </div>
+          <div className="sidebar-separator" />
           <SidebarMenuLink to="/settings/">
             <Icon id="gear" size="base" />
             Settings
