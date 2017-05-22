@@ -241,12 +241,12 @@ class SecretList extends Component {
         </div>
 
         <div className="page-content">
-          <div className="page-content-actions">
-            {!this.props.showAll &&
-              !this.props.showMine &&
-              !this.props.showShared &&
-              <SecretListNew folder={this.props.folder} />}
-          </div>
+          {!this.props.showAll &&
+            !this.props.showMine &&
+            !this.props.showShared &&
+            <div className="page-content-actions">
+              <SecretListNew folder={this.props.folder} />
+            </div>}
           {this.props.secrets.isEmpty()
             ? this.renderPlaceholder()
             : this.renderList()}

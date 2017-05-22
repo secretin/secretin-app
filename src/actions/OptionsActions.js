@@ -22,7 +22,9 @@ class OptionsActions {
       'hideQRCode',
       'hideShortLogin',
       'changeDelaySuccess',
-      'changeDelayFailure'
+      'changeDelayFailure',
+      'showRescueCodesSuccess',
+      'hideRescueCodes'
     );
   }
 
@@ -113,6 +115,23 @@ class OptionsActions {
         });
 
     return reader;
+  }
+
+  showRescueCodes() {
+    return dispatch => {
+      dispatch();
+      // eslint-disable-next-line no-alert
+      if (
+        !window.confirm(
+          'Be careful, this will replace your previously generated codes. Continue?'
+        )
+      ) {
+        return;
+      }
+      secretin.getRescueCodes().then(rescueCodes => {
+        this.showRescueCodesSuccess({ rescueCodes });
+      });
+    };
   }
 
   toggleShortLogin({ checked }) {
