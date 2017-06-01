@@ -5819,9 +5819,9 @@ sax@^1.2.1, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
-secretin@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.6.0.tgz#4b114e36727bdc1333d0264c6aa4676ec05cf145"
+secretin@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.6.2.tgz#230fb21738fb706939502595570302230e9bf860"
 
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
