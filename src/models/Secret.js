@@ -28,6 +28,8 @@ class Secret extends (new Immutable.Record(defaultRecord)) {
         return 'folder';
       case 'secret':
         return 'description';
+      case 'windows':
+        return 'windows';
       default:
         return 'description';
     }

@@ -1,5 +1,6 @@
 import alt from 'utils/alt';
 import secretin from 'utils/secretin';
+import Immutable from 'immutable';
 
 import SecretDataRecord from 'models/SecretDataRecord';
 
@@ -18,9 +19,15 @@ class ShowSecretUIActions {
     return dispatch => {
       dispatch();
       secretin.getSecret(secret.id).then(data => {
-        this.showSecretSuccess({
-          secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
-        });
+        if (secret.type === 'windows') {
+          this.showSecretSuccess({
+            secret: secret.set('data', new Immutable.List(data)),
+          });
+        } else {
+          this.showSecretSuccess({
+            secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
+          });
+        }
       });
     };
   }
