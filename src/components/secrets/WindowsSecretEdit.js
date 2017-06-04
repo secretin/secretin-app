@@ -1,66 +1,62 @@
 import React, { Component, PropTypes } from 'react';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import moment from 'moment';
 import copyToClipboard from 'copy-to-clipboard';
 
-import Secret from 'models/Secret';
-
+import SecretDataRecord from 'models/SecretDataRecord';
+import EditSecretUIStore from 'stores/EditSecretUIStore';
 import Select from 'components/utilities/Select';
 import Button from 'components/utilities/Button';
 
 class WindowsSecretEdit extends Component {
   static propTypes = {
-    secret: PropTypes.instanceOf(Secret),
+    data: PropTypes.instanceOf(SecretDataRecord),
+    canUpdate: PropTypes.bool,
+  };
+
+  static getStores() {
+    return [EditSecretUIStore];
   }
 
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    if (this.props.secret.data) {
-      this.state = {
-        windowsPassword: this.props.secret.data.last().value,
-      };
-    } else {
-      this.state = {
-        windowsPassword: '',
-      };
-    }
+  static getPropsFromStores() {
+    return { data: EditSecretUIStore.getState().get('data') };
   }
 
-  handleChange({ value }) {
-    this.setState({
-      windowsPassword: value,
-    });
-  }
-
-  handleClick() {
-    copyToClipboard(this.state.windowsPassword, { debug: true });
-  }
+  handleClick = () => {
+    copyToClipboard(this.select.getValue(), { debug: true });
+  };
 
   render() {
+    if (!this.props.data) {
+      return <pre>Loading...</pre>;
+    }
+
+    const options = this.props.data.fields
+      .sortBy(password => password.date)
+      .reverse()
+      .map(password => [
+        password.content,
+        moment(password.date).format('dddd DD MMMM YYYY'),
+      ])
+      .toList();
+
     return (
       <div className="secret-edit">
-        <Select
-          label="Passwords"
-          value={this.state.windowsPassword}
-          options={
-            this.props.secret.data.reverse().map(password => ([
-              password.value,
-              `${moment(password.date).format('dddd DD MMMM YYYY')}`,
-            ])).toList()
-          }
-          onChange={this.handleChange}
-          actions={[]}
-        />
-        <Button
-          onClick={this.handleClick}
-        >
-          Copy
-        </Button>
+        <div className="secret-field">
+          <Select
+            label="Passwords"
+            ref={ref => {
+              this.select = ref;
+            }}
+            options={options}
+          />
+          <Button onClick={this.handleClick}>
+            Copy
+          </Button>
+        </div>
       </div>
     );
   }
 }
 
-export default WindowsSecretEdit;
+export default connectToStores(WindowsSecretEdit);

@@ -3,6 +3,7 @@ import uuid from 'uuid';
 
 const defaultRecord = {
   id: null,
+  date: null,
   type: 'text',
   label: '',
   content: '',
@@ -14,7 +15,16 @@ class SecretFieldRecord extends (new Immutable.Record(defaultRecord)) {
   }
 
   static createFromRaw(rawData) {
-    return new SecretFieldRecord(Immutable.fromJS(rawData));
+    const raw = Immutable.fromJS(rawData)
+      .mapKeys(key => {
+        switch (key) {
+          case 'value':
+            return 'content';
+          default:
+            return key;
+        }
+      });
+    return new SecretFieldRecord(raw);
   }
 }
 

@@ -96,7 +96,6 @@ class SecretShow extends Component {
                 {this.props.secret.type === 'windows' ?
                   <WindowsSecretEdit
                     isUpdating={this.props.isUpdating}
-                    secret={this.props.secret}
                   />
                   :
                   <SecretEdit
