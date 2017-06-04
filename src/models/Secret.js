@@ -29,7 +29,7 @@ class Secret extends (new Immutable.Record(defaultRecord)) {
       case 'secret':
         return 'description';
       case 'windows':
-        return 'description';
+        return 'windows';
       default:
         return 'description';
     }
@@ -49,6 +49,10 @@ class Secret extends (new Immutable.Record(defaultRecord)) {
 
   canBeSharedBy(user) {
     return this.accessRightForUser(user) >= CAN_SHARE;
+  }
+
+  canBeDeleted() {
+    return this.type !== 'windows';
   }
 
   static createFromRaw(rawData) {
