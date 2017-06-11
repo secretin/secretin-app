@@ -10,8 +10,10 @@ import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
+import Flash from 'components/utilities/Flash';
 import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
@@ -85,6 +87,10 @@ class SecretShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
+          {this.props.secret.type === 'windows' &&
+            <Flash type="info">
+              This secret is used for your Windows domain authentication. It cannot be deleted.
+            </Flash>}
           <Tabs
             id="secret-tabs"
             activeKey={this.props.tab}
@@ -92,19 +98,25 @@ class SecretShow extends Component {
           >
             {this.props.secret.type !== 'folder' &&
               <Tab eventKey="details" title="Details">
-                <SecretEdit
-                  isUpdating={this.props.isUpdating}
-                  canUpdate={canUpdate}
-                />
+                {this.props.secret.type === 'windows' ?
+                  <WindowsSecretEdit
+                    isUpdating={this.props.isUpdating}
+                  />
+                  :
+                  <SecretEdit
+                    isUpdating={this.props.isUpdating}
+                    canUpdate={canUpdate}
+                  />}
               </Tab>}
 
-            <Tab eventKey="access" title="Who has access">
-              <SecretUserList
-                isUpdating={this.props.isUpdating}
-                errors={this.props.errors}
-                secret={this.props.secret}
-              />
-            </Tab>
+            {this.props.secret.type !== 'windows' &&
+              <Tab eventKey="access" title="Who has access">
+                <SecretUserList
+                  isUpdating={this.props.isUpdating}
+                  errors={this.props.errors}
+                  secret={this.props.secret}
+                />
+              </Tab>}
           </Tabs>
         </Modal.Body>
 

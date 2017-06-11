@@ -18,8 +18,9 @@ class ShowSecretUIActions {
     return dispatch => {
       dispatch();
       secretin.getSecret(secret.id).then(data => {
+        const raw = !data.fields ? { fields: data } : data;
         this.showSecretSuccess({
-          secret: secret.set('data', SecretDataRecord.createFromRaw(data)),
+          secret: secret.set('data', SecretDataRecord.createFromRaw(raw))
         });
       });
     };

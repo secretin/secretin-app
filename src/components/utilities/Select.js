@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import { uniqueId } from 'lodash';
+import { uniqueId, noop } from 'lodash';
 import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
@@ -11,12 +11,12 @@ class Select extends Component {
     label: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
-      PropTypes.string,
+      PropTypes.string
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     options: PropTypes.instanceOf(Immutable.List),
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     disabled: PropTypes.bool,
     size: PropTypes.string,
     actions: PropTypes.instanceOf(Immutable.List),
@@ -25,21 +25,24 @@ class Select extends Component {
   static defaultProps = {
     disabled: false,
     size: 'base',
+    onChange: noop,
+    actions: new Immutable.List(),
   };
 
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
     this.id = uniqueId('input_');
   }
 
-  onChange(e) {
+  onChange = ({ target }) => {
     this.props.onChange({
       name: this.props.name,
-      value: e.target.value,
+      value: target.value,
     });
-  }
+  };
+
+  getValue = () => this.select.value;
 
   render() {
     const className = classNames(
@@ -58,16 +61,19 @@ class Select extends Component {
           </label>}
         <div className="input--type-select--input">
           <select
+            ref={ref => {
+              this.select = ref;
+            }}
             value={this.props.value}
             disabled={this.props.disabled}
             title={this.props.title}
             onChange={this.onChange}
           >
-            {this.props.options.map(option => (
+            {this.props.options.map(option =>
               <option key={option[0]} value={option[0]}>
                 {option[1]}
               </option>
-            ))}
+            )}
           </select>
           <Icon id="arrow-down" />
         </div>
