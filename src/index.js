@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'components/App';
+import registerServiceWorker from 'registerServiceWorker';
 
 // eslint-disable-next-line
 import './index.css';
@@ -8,6 +9,7 @@ import './index.css';
 const rootEl = document.getElementById('root');
 
 ReactDOM.render(<App />, rootEl);
+registerServiceWorker();
 
 if (module.hot) {
   module.hot.accept('components/App', () => {
