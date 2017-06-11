@@ -9,7 +9,11 @@ module.exports = {
     'airbnb',
     'prettier',
     'prettier/flowtype',
-    'prettier/react'
+    'prettier/react',
+  ],
+
+  plugins: [
+    'prettier',
   ],
 
   env: {
@@ -21,6 +25,11 @@ module.exports = {
   },
 
   rules: {
+    'prettier/prettier': ['error', {
+      'printWidth': 80,
+      'singleQuote': true,
+      'trailingComma': 'es5',
+    }],
     'class-methods-use-this': 0,
     'react/jsx-filename-extension': 0,
     'react/require-default-props': 0,
@@ -32,13 +41,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'react/no-array-index-key': 0,
     'import/extensions': [2, 'always', { 'js': 'never' }],
-    'comma-dangle': ['error', {
-      'arrays': 'only-multiline',
-      'objects': 'only-multiline',
-      'imports': 'only-multiline',
-      'exports': 'only-multiline',
-      'functions': 'ignore'
-    }],
   },
 
   settings: {
