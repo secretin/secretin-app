@@ -13,6 +13,7 @@ const AppUIState = new Record({
   online: true,
   errors: new Immutable.Map(),
   currentUser: null,
+  status: null,
 });
 
 class AppUIStore {
@@ -88,6 +89,7 @@ class AppUIStore {
         loading: false,
         connected: false,
         errors: new Immutable.Map(error),
+        status: null,
       })
     );
   }
@@ -108,12 +110,17 @@ class AppUIStore {
     );
   }
 
+  onLoginUserProgress({ status }) {
+    this.setState(this.state.set('status', status));
+  }
+
   onLoginUserSuccess({ currentUser }) {
     this.setState(
       this.state.merge({
         loading: false,
         connected: true,
         errors: new Immutable.Map(),
+        status: null,
         currentUser,
       })
     );
@@ -125,6 +132,7 @@ class AppUIStore {
         loading: false,
         connected: false,
         errors: new Immutable.Map(error),
+        status: null,
       })
     );
   }

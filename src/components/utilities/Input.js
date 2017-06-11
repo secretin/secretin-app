@@ -136,37 +136,41 @@ class Input extends Component {
               <span className="input-label-actions">{actions}</span>}
           </label>}
 
-        <input
-          id={this.id}
-          ref={input => {
-            this.input = input;
-          }}
-          name={this.id}
-          title={title}
-          type={type === 'password' && this.state.showPassword ? 'text' : type}
-          value={this.state.value}
-          onChange={this.handleChange}
-          placeholder={placeholder}
-          autoComplete={autoComplete ? null : 'new-password'}
-          autoFocus={autoFocus}
-          disabled={disabled}
-          readOnly={readOnly}
-          {...inputProps}
-        />
-        {type === 'password' &&
-          <div className="input--password-show">
-            <Button
-              title="Show"
-              buttonStyle="icon"
-              onClick={this.onTogglePasswordShow}
-              tabIndex="-1"
-            >
-              <Icon
-                id={this.state.showPassword ? 'show' : 'hide'}
-                size="small"
-              />
-            </Button>
-          </div>}
+        <div className="input--wrapper">
+          <input
+            id={this.id}
+            ref={input => {
+              this.input = input;
+            }}
+            name={this.id}
+            title={title}
+            type={
+              type === 'password' && this.state.showPassword ? 'text' : type
+            }
+            value={this.state.value}
+            onChange={this.handleChange}
+            placeholder={placeholder}
+            autoComplete={autoComplete ? null : 'new-password'}
+            autoFocus={autoFocus}
+            disabled={disabled}
+            readOnly={readOnly}
+            {...inputProps}
+          />
+          {type === 'password' &&
+            <div className="input--password-show">
+              <Button
+                title="Show"
+                buttonStyle="icon"
+                onClick={this.onTogglePasswordShow}
+                tabIndex="-1"
+              >
+                <Icon
+                  id={this.state.showPassword ? 'show' : 'hide'}
+                  size="small"
+                />
+              </Button>
+            </div>}
+        </div>
         {error &&
           <span className="input-error">
             {error}

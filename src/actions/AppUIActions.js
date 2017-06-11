@@ -58,7 +58,7 @@ class AppUIActions {
     return dispatch => {
       dispatch();
       secretin
-        .loginUser(username, password, token)
+        .loginUser(username, password, token, this.loginUserProgress)
         .then(currentUser =>
           this.loginUserSuccess({
             currentUser,
@@ -98,11 +98,19 @@ class AppUIActions {
     };
   }
 
+  loginUserProgress(status) {
+    const { message, state, total } = status;
+
+    return {
+      status: { message, state, total },
+    };
+  }
+
   shortLogin({ shortpass }) {
     return dispatch => {
       dispatch();
       secretin
-        .shortLogin(shortpass)
+        .shortLogin(shortpass, this.loginUserProgress)
         .then(currentUser => {
           this.loginUserSuccess({
             currentUser,
