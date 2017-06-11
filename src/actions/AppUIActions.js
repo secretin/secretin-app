@@ -101,8 +101,16 @@ class AppUIActions {
   loginUserProgress(status) {
     const { message, state, total } = status;
 
-    return {
-      status: { message, state, total },
+    return dispatch => {
+      switch (status.constructor.name) {
+        case 'PasswordDerivationStatus':
+        case 'GetDerivationStatus':
+          return;
+        default:
+          dispatch({
+            status: { message, state, total },
+          });
+      }
     };
   }
 
