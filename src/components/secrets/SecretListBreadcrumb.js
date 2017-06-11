@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import Link from 'react-router/Link';
+import NavLink from 'react-router-dom/NavLink';
 
 import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
@@ -42,14 +42,14 @@ function SecretListBreadcrumb({ folders, withTitle }) {
     return links
       .push(
         <div key={key} className="breadcrumb-item">
-          <Link
+          <NavLink
             to={link}
             className="breadcrumb-link"
             activeClassName="breadcrumb-link--active"
-            activeOnlyWhenExact
+            exact
           >
             {folder.title}
-          </Link>
+          </NavLink>
         </div>
       )
       .push(

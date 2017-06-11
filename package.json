@@ -36,7 +36,7 @@
     "react-dnd-html5-backend": "2.1.2",
     "react-dom": "^15.5.4",
     "react-overlays": "^0.7.0",
-    "react-router": "4.0.0-alpha.6",
+    "react-router-dom": "^4.1.1",
     "secretin": "^1.6.2",
     "url-join": "^2.0.0",
     "uuid": "^3.0.1"
