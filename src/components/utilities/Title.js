@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
-import Link from 'react-router/Link';
+import React from 'react';
+import PropTypes from 'prop-types';
+import NavLink from 'react-router-dom/NavLink';
 import Icon from 'components/utilities/Icon';
 
 const propTypes = {
@@ -17,15 +18,15 @@ const defaultProps = {
 function Title({ icon, title, link }) {
   return (
     <div className="breadcrumb-item">
-      <Link
+      <NavLink
         to={link}
         className="breadcrumb-link"
         activeClassName="breadcrumb-link--active"
-        activeOnlyWhenExact
+        exact
       >
         <Icon id={icon} size="base" />
         {title}
-      </Link>
+      </NavLink>
     </div>
   );
 }

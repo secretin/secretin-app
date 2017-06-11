@@ -1,9 +1,7 @@
 import alt from 'utils/alt';
 import secretin, { Errors } from 'utils/secretin';
 
-const {
-  FriendNotFoundError,
-} = Errors;
+const { FriendNotFoundError } = Errors;
 
 class MetadataActions {
   constructor() {
@@ -60,7 +58,8 @@ class MetadataActions {
         .then(() =>
           this.createSecretSuccess({
             metadata: secretin.currentUser.metadatas,
-          }))
+          })
+        )
         .catch(error => {
           this.createSecretFailure({ error });
           throw error;
@@ -97,7 +96,8 @@ class MetadataActions {
         .then(() =>
           this.deleteSecretSuccess({
             metadata: secretin.currentUser.metadatas,
-          }));
+          })
+        );
     };
   }
 
@@ -132,7 +132,8 @@ class MetadataActions {
       secretin
         .shareSecret(secret.id, user.username, rights)
         .then(() =>
-          this.updateSecretUserRightsSuccess({ secret, user, rights }))
+          this.updateSecretUserRightsSuccess({ secret, user, rights })
+        )
         .catch(error => {
           this.updateSecretUserRightsFailure({
             error: { unknown: 'Unknown error' },
@@ -167,7 +168,8 @@ class MetadataActions {
             secret,
             folder,
             metadata: secretin.currentUser.metadatas,
-          }))
+          })
+        )
         .catch(error => {
           this.addSecretToFolderFailure({
             error: { unknown: 'Unknown error' },
@@ -187,7 +189,8 @@ class MetadataActions {
             secret,
             currentFolderId,
             metadata: secretin.currentUser.metadatas,
-          }))
+          })
+        )
         .catch(error => {
           this.removeSecretFromCurrentFolderFailure({
             error: { unknown: 'Unknown error' },

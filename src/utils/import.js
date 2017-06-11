@@ -92,7 +92,8 @@ function addAndParseGroup(group, progress, hashedParent) {
             promise.then(() =>
               addSecret(childEntry, hashedTitle).then(() => {
                 progress.update();
-              })),
+              })
+            ),
           Promise.resolve()
         );
         return entryPromises;
@@ -117,7 +118,8 @@ function parseGroup(group, progress, hashedParent) {
         promise.then(() =>
           addSecret(childEntry, hashedParent).then(() => {
             progress.update();
-          })),
+          })
+        ),
       Promise.resolve()
     );
   } else {
@@ -129,7 +131,8 @@ function parseGroup(group, progress, hashedParent) {
     return groups.reduce(
       (promise, childGroup) =>
         promise.then(() =>
-          addAndParseGroup(childGroup, progress, hashedParent)),
+          addAndParseGroup(childGroup, progress, hashedParent)
+        ),
       Promise.resolve()
     );
   });

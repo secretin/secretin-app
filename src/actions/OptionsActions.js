@@ -106,7 +106,8 @@ class OptionsActions {
     reader.readAsText(file);
     reader.onload = readedFile =>
       parseKeepass(readedFile.target.result, (importStatus, importTotal) =>
-        this.importKeepassProgress({ importStatus, importTotal }))
+        this.importKeepassProgress({ importStatus, importTotal })
+      )
         .then(() => {
           this.importKeepassSuccess();
         })

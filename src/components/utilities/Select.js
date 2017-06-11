@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { uniqueId, noop } from 'lodash';
 import classNames from 'classnames';
@@ -11,7 +12,7 @@ class Select extends Component {
     label: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
-      PropTypes.string
+      PropTypes.string,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,

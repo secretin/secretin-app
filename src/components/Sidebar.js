@@ -1,5 +1,7 @@
-import React, { PropTypes } from 'react';
-import Link from 'react-router/Link';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Link from 'react-router-dom/Link';
+import NavLink from 'react-router-dom/NavLink';
 
 import secretin from 'utils/secretin';
 import AppUIStore from 'stores/AppUIStore';
@@ -8,13 +10,13 @@ import Icon from 'components/utilities/Icon';
 function SidebarMenuLink({ children, ...props }) {
   return (
     <li className="sidebar-menu-item">
-      <Link
+      <NavLink
         className="sidebar-menu-link"
         activeClassName="sidebar-menu-link--active"
         {...props}
       >
         {children}
-      </Link>
+      </NavLink>
     </li>
   );
 }
@@ -37,7 +39,7 @@ function Sidebar() {
       </div>
       <div className="sidebar-content">
         <ul className="sidebar-menu">
-          <SidebarMenuLink to="/secrets/" activeOnlyWhenExact>
+          <SidebarMenuLink to="/secrets/" exact>
             <Icon id="home" size="base" />
             {currentUser.username}
           </SidebarMenuLink>
@@ -46,11 +48,11 @@ function Sidebar() {
             <Icon id="apps" size="base" />
             All
           </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/mine" activeOnlyWhenExact>
+          <SidebarMenuLink to="/secrets/mine" exact>
             <Icon id="user" size="base" />
             My secrets
           </SidebarMenuLink>
-          <SidebarMenuLink to="/secrets/shared" activeOnlyWhenExact>
+          <SidebarMenuLink to="/secrets/shared" exact>
             <Icon id="people" size="base" />
             Shared secrets
           </SidebarMenuLink>

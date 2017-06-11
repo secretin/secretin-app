@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import Link from 'react-router/Link';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Link from 'react-router-dom/Link';
 import classNames from 'classnames';
 
 class Button extends Component {

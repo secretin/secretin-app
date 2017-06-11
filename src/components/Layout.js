@@ -1,8 +1,7 @@
 import React from 'react';
-import MatchGroup from 'react-router/MatchGroup';
-import Match from 'react-router/Match';
-import Miss from 'react-router/Miss';
-import Redirect from 'react-router/Redirect';
+import Switch from 'react-router-dom/Switch';
+import Route from 'react-router-dom/Route';
+import Redirect from 'react-router-dom/Redirect';
 
 import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
@@ -15,34 +14,26 @@ function Layout() {
       <SecretShow />
       <Sidebar />
       <div className="layout-pane">
-        <MatchGroup>
-          <Match
-            pattern="/secrets/:path*"
-            render={matchProps => (
-              <MatchGroup>
-                <Match
-                  pattern="/secrets/all"
-                  render={() => <SecretListContainer {...matchProps} showAll />}
-                />
-                <Match
-                  pattern="/secrets/mine"
-                  render={() => (
-                    <SecretListContainer {...matchProps} showMine />
-                  )}
-                />
-                <Match
-                  pattern="/secrets/shared"
-                  render={() => (
-                    <SecretListContainer {...matchProps} showShared />
-                  )}
-                />
-                <Miss render={() => <SecretListContainer {...matchProps} />} />
-              </MatchGroup>
-            )}
+        <Switch>
+          <Route
+            path="/secrets/all"
+            render={props => <SecretListContainer {...props} showAll />}
           />
-          <Match pattern="/settings/" render={() => <OptionsContainer />} />
-          <Miss render={() => <Redirect to="/secrets/" />} />
-        </MatchGroup>
+          <Route
+            path="/secrets/mine"
+            render={props => <SecretListContainer {...props} showMine />}
+          />
+          <Route
+            path="/secrets/shared"
+            render={props => <SecretListContainer {...props} showShared />}
+          />
+          <Route
+            path="/secrets/:path*"
+            render={props => <SecretListContainer {...props} />}
+          />
+          <Route path="/settings/" component={OptionsContainer} />
+          <Redirect to="/secrets/" />
+        </Switch>
       </div>
     </div>
   );

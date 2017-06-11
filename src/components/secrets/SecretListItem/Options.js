@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import AppUIStore from 'stores/AppUIStore';
 import MetadataStore from 'stores/MetadataStore';
@@ -13,7 +14,7 @@ class SecretListItemOptions extends Component {
   static propTypes = {
     secret: PropTypes.any,
     parentFolderId: PropTypes.string,
-  }
+  };
 
   handleShow = () => {
     const { secret } = this.props;
@@ -42,7 +43,8 @@ class SecretListItemOptions extends Component {
       title: <span>Delete <b>{secret.title}</b>?</span>,
       text: (
         <span>
-          You are about to <b>delete</b> the secret <b>{secret.title}</b>. This action is definitive and can't be recovered.
+          You are about to <b>delete</b> the secret <b>{secret.title}</b>. This
+          action is definitive and can't be recovered.
         </span>
       ),
       acceptLabel: 'Delete the secret',

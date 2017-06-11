@@ -68,7 +68,8 @@ class AppUIActions {
               shortLogin: secretin.canITryShortLogin(),
             },
             metadata: currentUser.metadatas,
-          }))
+          })
+        )
         .catch(error => {
           if (error instanceof UserNotFoundError) {
             return this.loginUserFailure({
@@ -116,7 +117,8 @@ class AppUIActions {
         .catch(() =>
           this.loginUserFailure({
             error: { shortlogin: 'Invalid shortpass' },
-          }));
+          })
+        );
     };
   }
 

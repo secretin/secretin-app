@@ -8,7 +8,7 @@ let api = serverURI;
 
 if (typeof window.process !== 'undefined') {
   // Electron
-  const params = new URLSearchParams(location.search);
+  const params = new URLSearchParams(window.location.search);
   api = params.get('api');
 }
 

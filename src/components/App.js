@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import Router from 'react-router/BrowserRouter';
+import { BrowserRouter as Router } from 'react-router-dom';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import secretin from 'utils/secretin';
 

@@ -106,7 +106,8 @@ class ShowSecretUIStore {
         .update('secret', secret =>
           secret.merge(
             MetadataStore.getById(this.state.secret.id).toMap().remove('data')
-          ))
+          )
+        )
         .set('isUpdating', false)
         .set('errors', new Immutable.Map())
     );

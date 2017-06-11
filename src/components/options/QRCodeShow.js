@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-// eslint-disable-next-line
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Secretin from 'secretin';
 import QRCode from 'qrcode.react';
 import connectToStores from 'alt-utils/lib/connectToStores';
@@ -86,9 +86,8 @@ class QRCodeShow extends Component {
             <div className="totp-form-qrcode">
               <QRCode
                 className="totp-form-qrcode"
-                value={
-                  `otpauth://totp/Secret-in.me?secret=${this.state.seed.b32}`
-                }
+                value={`otpauth://totp/Secret-in.me?secret=${this.state.seed
+                  .b32}`}
                 size={256}
               />
             </div>

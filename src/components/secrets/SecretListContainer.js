@@ -1,11 +1,16 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
 import MetadataStore from 'stores/MetadataStore';
 import SecretList from 'components/secrets/SecretList';
 
 const propTypes = {
-  params: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      secrets: PropTypes.string,
+    }),
+  }),
   showAll: PropTypes.bool,
   showMine: PropTypes.bool,
   showShared: PropTypes.bool,
@@ -13,9 +18,16 @@ const propTypes = {
 
 const defaultProps = {
   showAll: false,
+  showMine: false,
+  showShared: false,
 };
 
-function SecretListContainer({ params, showAll, showMine, showShared }) {
+function SecretListContainer({
+  match: { params },
+  showAll,
+  showMine,
+  showShared,
+}) {
   if (showAll) {
     const secrets = MetadataStore.getAllSecrets();
     return <SecretList secrets={secrets} showAll />;

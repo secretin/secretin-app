@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import classNames from 'classnames';
 
@@ -17,9 +18,12 @@ const propTypes = {
   connectDragSource: PropTypes.func.isRequired,
 };
 
-function SecretListItemSecret(
-  { secret, parentFolderId, isDragging, connectDragSource }
-) {
+function SecretListItemSecret({
+  secret,
+  parentFolderId,
+  isDragging,
+  connectDragSource,
+}) {
   const currentUser = AppUIStore.getCurrentUser();
   const users = secret.users
     .toList()
@@ -51,16 +55,12 @@ function SecretListItemSecret(
           ? connectDragSource(link)
           : link}
       </td>
-      <td
-        className="secret-list-item-column secret-list-item-column--last-modified"
-      >
+      <td className="secret-list-item-column secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
         <span className="muted">{secret.lastModifiedBy}</span>
       </td>
-      <td
-        className="secret-list-item-column secret-list-item-column--shared-with"
-      >
+      <td className="secret-list-item-column secret-list-item-column--shared-with">
         {users.size > 0 ? <UserAvatars users={users} /> : '––'}
       </td>
       <td className="secret-list-item-column secret-list-item-column--actions">

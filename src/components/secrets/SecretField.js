@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
@@ -12,7 +13,7 @@ import Button from 'components/utilities/Button';
 class SecretField extends Component {
   static propTypes = {
     field: PropTypes.instanceOf(SecretFieldRecord),
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
     isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
   };
@@ -31,14 +32,11 @@ class SecretField extends Component {
 
   onGenerate() {
     this.handleChange({ value: '' });
-    setTimeout(
-      () => {
-        this.handleChange({
-          value: Utils.PasswordGenerator.generatePassword(),
-        });
-      },
-      100
-    );
+    setTimeout(() => {
+      this.handleChange({
+        value: Utils.PasswordGenerator.generatePassword(),
+      });
+    }, 100);
   }
 
   handleChange({ value }) {

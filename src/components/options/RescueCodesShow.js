@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-// eslint-disable-next-line
-import Secretin from 'secretin';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 import moment from 'moment';
@@ -75,7 +74,8 @@ class QRCodeShow extends Component {
             You should view and download your recovery codes and keep them safe.
           </h3>
           <p>
-            If you lose access to your secure token and your code generator, a recovery code is the only way to recover your account.
+            If you lose access to your secure token and your code generator, a
+            recovery code is the only way to recover your account.
           </p>
           <pre>
             {rescueCodes.join(' ')}

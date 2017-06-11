@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import BootstrapTabs from 'react-bootstrap/lib/Tabs';
 import BootstrapTab from 'react-bootstrap/lib/Tab';
 
@@ -9,11 +10,10 @@ const propTypes = {
   ]),
 };
 
-const Tabs = props => (
+const Tabs = props =>
   <BootstrapTabs className="tabs" animation={false} {...props}>
     {props.children}
-  </BootstrapTabs>
-);
+  </BootstrapTabs>;
 Tabs.propTypes = propTypes;
 
 const Tab = BootstrapTab;

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import Immutable from 'immutable';
 import secretin from 'utils/secretin';
@@ -131,8 +132,8 @@ class UserConnect extends Component {
           type="submit"
           disabled={
             this.props.loading ||
-              isEmpty(this.state.username) ||
-              isEmpty(this.state.password)
+            isEmpty(this.state.username) ||
+            isEmpty(this.state.password)
           }
         >
           {status}

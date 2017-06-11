@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import Link from 'react-router/Link';
+import NavLink from 'react-router-dom/NavLink';
 
 import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
@@ -32,36 +33,33 @@ function SecretListBreadcrumb({ folders, withTitle }) {
     new Immutable.List()
   );
 
-  let breadcrumb = breadcrumbURLs.reduce(
-    (links, { folderId, link }, key) => {
-      const folder = MetadataStore.getById(folderId);
-      if (!folder) {
-        return links;
-      }
+  let breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
+    const folder = MetadataStore.getById(folderId);
+    if (!folder) {
+      return links;
+    }
 
-      return links
-        .push(
-          <div key={key} className="breadcrumb-item">
-            <Link
-              to={link}
-              className="breadcrumb-link"
-              activeClassName="breadcrumb-link--active"
-              activeOnlyWhenExact
-            >
-              {folder.title}
-            </Link>
-          </div>
-        )
-        .push(
-          <Icon
-            key={`${key}-sep`}
-            id="chevron-right"
-            className="breadcrumb-item-separator"
-          />
-        );
-    },
-    new Immutable.List()
-  );
+    return links
+      .push(
+        <div key={key} className="breadcrumb-item">
+          <NavLink
+            to={link}
+            className="breadcrumb-link"
+            activeClassName="breadcrumb-link--active"
+            exact
+          >
+            {folder.title}
+          </NavLink>
+        </div>
+      )
+      .push(
+        <Icon
+          key={`${key}-sep`}
+          id="chevron-right"
+          className="breadcrumb-item-separator"
+        />
+      );
+  }, new Immutable.List());
 
   const currentUser = AppUIStore.getCurrentUser();
   if (withTitle) {
