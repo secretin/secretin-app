@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
 import SecretField from 'components/secrets/SecretField';
@@ -7,7 +8,7 @@ class SecretFields extends Component {
   static propTypes = {
     fields: PropTypes.instanceOf(Immutable.List),
     isNew: PropTypes.bool,
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
     canUpdate: PropTypes.bool,
   };
 

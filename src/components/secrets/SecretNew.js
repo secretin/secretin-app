@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 import MetadataActions from 'actions/MetadataActions';

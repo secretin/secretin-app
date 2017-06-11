@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactOverlaysModal from 'react-overlays/lib/Modal';
 import classNames from 'classnames';
 
