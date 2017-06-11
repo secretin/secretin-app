@@ -1,5 +1,7 @@
 import alt from 'utils/alt';
-import secretin, { Errors } from 'utils/secretin';
+import secretin, { Statuses, Errors } from 'utils/secretin';
+
+const { PasswordDerivationStatus, GetDerivationStatus } = Statuses;
 
 const {
   UsernameAlreadyExistsError,
@@ -102,9 +104,9 @@ class AppUIActions {
     const { message, state, total } = status;
 
     return dispatch => {
-      switch (status.constructor.name) {
-        case 'PasswordDerivationStatus':
-        case 'GetDerivationStatus':
+      switch (status.constructor) {
+        case PasswordDerivationStatus:
+        case GetDerivationStatus:
           return;
         default:
           dispatch({
