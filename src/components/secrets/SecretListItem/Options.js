@@ -44,7 +44,7 @@ class SecretListItemOptions extends Component {
       text: (
         <span>
           You are about to <b>delete</b> the secret <b>{secret.title}</b>. This
-          action is definitive and can't be recovered.
+          action is definitive and can&apos;t be recovered.
         </span>
       ),
       acceptLabel: 'Delete the secret',

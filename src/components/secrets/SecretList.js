@@ -170,7 +170,7 @@ class SecretList extends Component {
       return (
         <div className="secret-list-placeholder">
           <h1 className="secret-list-placeholder-title">
-            You don't have any secrets, yet
+            You don&apos;t have any secrets, yet
           </h1>
           <p className="secret-list-placeholder-text">
             Start adding some now

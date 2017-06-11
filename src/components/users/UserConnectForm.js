@@ -153,7 +153,7 @@ class UserConnect extends Component {
                   </a>
                 </span>
               : <span>
-                  I don't have an account,&nbsp;
+                  I don&apos;t have an account,&nbsp;
                   <a
                     onClick={() => {
                       this.toggleSignup(!this.state.signup);
