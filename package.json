@@ -9,18 +9,17 @@
     "electron": "^1.4.13",
     "electron-packager": "^8.4.0",
     "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb": "^15.0.1",
     "eslint-config-prettier": "^1.6.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-flowtype": "^2.30.4",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^6.10.3",
     "gh-pages": "^0.12.0",
     "node-sass": "^4.5.2",
     "raw-loader": "^0.5.1",
-    "react-scripts": "^0.9.5",
-    "webpack": "1.14.0"
+    "react-scripts": "1.0.7"
   },
   "dependencies": {
     "alt": "^0.18.6",
