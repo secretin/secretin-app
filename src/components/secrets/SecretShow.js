@@ -72,9 +72,8 @@ class SecretShow extends Component {
       .toList()
       .filterNot(user => user.id === currentUserId);
 
-    const canUpdate = this.props.secret.canBeUpdatedBy(
-      AppUIStore.getCurrentUser()
-    ) &&
+    const canUpdate =
+      this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser()) &&
       (AppUIStore.isOnline() || users.size === 0);
 
     return (
@@ -89,7 +88,8 @@ class SecretShow extends Component {
         <Modal.Body>
           {this.props.secret.type === 'windows' &&
             <Flash type="info">
-              This secret is used for your Windows domain authentication. It cannot be deleted.
+              This secret is used for your Windows domain authentication. It
+              cannot be deleted.
             </Flash>}
           <Tabs
             id="secret-tabs"
@@ -98,15 +98,12 @@ class SecretShow extends Component {
           >
             {this.props.secret.type !== 'folder' &&
               <Tab eventKey="details" title="Details">
-                {this.props.secret.type === 'windows' ?
-                  <WindowsSecretEdit
-                    isUpdating={this.props.isUpdating}
-                  />
-                  :
-                  <SecretEdit
-                    isUpdating={this.props.isUpdating}
-                    canUpdate={canUpdate}
-                  />}
+                {this.props.secret.type === 'windows'
+                  ? <WindowsSecretEdit isUpdating={this.props.isUpdating} />
+                  : <SecretEdit
+                      isUpdating={this.props.isUpdating}
+                      canUpdate={canUpdate}
+                    />}
               </Tab>}
 
             {this.props.secret.type !== 'windows' &&

@@ -58,7 +58,8 @@ class EditSecretUIStore {
           fields.update(
             fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
             fieldToUpdate => fieldToUpdate.set('content', value)
-          ))
+          )
+        )
         .set('isEditing', true)
     );
   }

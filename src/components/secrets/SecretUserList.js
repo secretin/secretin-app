@@ -48,20 +48,20 @@ class SecretUserList extends Component {
 
   render() {
     const currentUser = AppUIStore.getCurrentUser();
-    const canShare = this.props.secret.canBeSharedBy(currentUser) &&
-      AppUIStore.isOnline();
+    const canShare =
+      this.props.secret.canBeSharedBy(currentUser) && AppUIStore.isOnline();
     return (
       <div className="secret-users">
         <div className="secret-users-list">
           {this.props.secret.users
-            .map(user => (
+            .map(user =>
               <SecretUserListItem
                 key={user.id}
                 user={user}
                 disabled={
                   !canShare ||
-                    currentUser.username === user.id ||
-                    this.props.isUpdating
+                  currentUser.username === user.id ||
+                  this.props.isUpdating
                 }
                 disabledReason={getDisabledReason(
                   !canShare,
@@ -70,7 +70,7 @@ class SecretUserList extends Component {
                 onChangeUserRights={this.onChangeUserRights}
                 onRemoveUserRights={this.onRemoveUserRights}
               />
-            ))
+            )
             .toArray()}
         </div>
         {canShare &&

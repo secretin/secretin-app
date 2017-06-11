@@ -50,7 +50,8 @@ class NewSecretUIStore {
         fields.update(
           fields.findIndex(fieldToUpdate => fieldToUpdate.id === field.id),
           fieldToUpdate => fieldToUpdate.set('content', value)
-        ))
+        )
+      )
     );
   }
 }

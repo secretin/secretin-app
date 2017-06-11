@@ -10,7 +10,8 @@ const defaultRecord = {
 class SecretDataRecord extends (new Immutable.Record(defaultRecord)) {
   addNewField(params = new Immutable.Map()) {
     return this.update('fields', fields =>
-      fields.push(new SecretFieldRecord(params)));
+      fields.push(new SecretFieldRecord(params))
+    );
   }
 
   static createWithDefaultFields(defaultFieds) {

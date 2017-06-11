@@ -18,7 +18,7 @@ function Layout() {
         <MatchGroup>
           <Match
             pattern="/secrets/:path*"
-            render={matchProps => (
+            render={matchProps =>
               <MatchGroup>
                 <Match
                   pattern="/secrets/all"
@@ -26,19 +26,16 @@ function Layout() {
                 />
                 <Match
                   pattern="/secrets/mine"
-                  render={() => (
-                    <SecretListContainer {...matchProps} showMine />
-                  )}
+                  render={() =>
+                    <SecretListContainer {...matchProps} showMine />}
                 />
                 <Match
                   pattern="/secrets/shared"
-                  render={() => (
-                    <SecretListContainer {...matchProps} showShared />
-                  )}
+                  render={() =>
+                    <SecretListContainer {...matchProps} showShared />}
                 />
                 <Miss render={() => <SecretListContainer {...matchProps} />} />
-              </MatchGroup>
-            )}
+              </MatchGroup>}
           />
           <Match pattern="/settings/" render={() => <OptionsContainer />} />
           <Miss render={() => <Redirect to="/secrets/" />} />

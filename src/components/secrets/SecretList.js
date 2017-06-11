@@ -64,12 +64,12 @@ class SecretList extends Component {
       'i'
     );
 
-    const filtered = this.props.showAll ||
-      this.props.showMine ||
-      this.props.showShared;
+    const filtered =
+      this.props.showAll || this.props.showMine || this.props.showShared;
 
     let secrets = this.props.secrets.filter(secret =>
-      fuzzyRegexp.test(secret.title));
+      fuzzyRegexp.test(secret.title)
+    );
 
     let folders = new Immutable.Map();
 
@@ -140,19 +140,19 @@ class SecretList extends Component {
         </thead>
         {filtered
           ? folders
-              .map((folder, id) => (
+              .map((folder, id) =>
                 <SecretListFolderInfo key={id} folder={folder} />
-              ))
+              )
               .toArray()
           : <tbody className="secret-list-content-table-body">
               {secrets
-                .map(secret => (
+                .map(secret =>
                   <SecretListItem
                     key={secret.id}
                     secret={secret}
                     folders={this.props.folders}
                   />
-                ))
+                )
                 .toArray()}
             </tbody>}
       </table>

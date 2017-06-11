@@ -31,14 +31,11 @@ class SecretField extends Component {
 
   onGenerate() {
     this.handleChange({ value: '' });
-    setTimeout(
-      () => {
-        this.handleChange({
-          value: Utils.PasswordGenerator.generatePassword(),
-        });
-      },
-      100
-    );
+    setTimeout(() => {
+      this.handleChange({
+        value: Utils.PasswordGenerator.generatePassword(),
+      });
+    }, 100);
   }
 
   handleChange({ value }) {

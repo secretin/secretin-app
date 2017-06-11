@@ -42,11 +42,10 @@ Modal.defaultProps = {
   centered: false,
 };
 
-Modal.Body = props => (
+Modal.Body = props =>
   <div className="modal-body">
     {props.children}
-  </div>
-);
+  </div>;
 Modal.Body.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -55,13 +54,12 @@ Modal.Body.propTypes = {
   ]),
 };
 
-Modal.Header = props => (
+Modal.Header = props =>
   <div className="modal-header">
     <h2 className="modal-header-title">
       {props.title || props.children}
     </h2>
-  </div>
-);
+  </div>;
 Modal.Header.propTypes = {
   title: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -71,11 +69,10 @@ Modal.Header.propTypes = {
   ]),
 };
 
-Modal.Footer = props => (
+Modal.Footer = props =>
   <div className="modal-footer">
     {props.children}
-  </div>
-);
+  </div>;
 Modal.Footer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

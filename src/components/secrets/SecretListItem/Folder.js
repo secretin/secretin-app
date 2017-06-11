@@ -57,16 +57,12 @@ function SecretListItemFolder(props) {
           ? connectDragSource(link)
           : link}
       </td>
-      <td
-        className="secret-list-item-column secret-list-item-column--last-modified"
-      >
+      <td className="secret-list-item-column secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
         <span className="muted">{secret.lastModifiedBy}</span>
       </td>
-      <td
-        className="secret-list-item-column secret-list-item-column--shared-with"
-      >
+      <td className="secret-list-item-column secret-list-item-column--shared-with">
         {users.size > 0 ? <UserAvatars users={users} /> : '––'}
       </td>
       <td className="secret-list-item-column secret-list-item-column--actions">
@@ -96,10 +92,12 @@ const itemTarget = {
     const { username: currentUserId } = AppUIStore.getCurrentUser();
     const { secret: draggedSecret } = monitor.getItem();
 
-    return draggedSecret.getIn(['users', currentUserId, 'rights']) !== 0 &&
+    return (
+      draggedSecret.getIn(['users', currentUserId, 'rights']) !== 0 &&
       targetSecret.type === 'folder' &&
       targetSecret.id !== draggedSecret.id &&
-      targetSecret.getIn(['users', currentUserId, 'rights']) !== 0;
+      targetSecret.getIn(['users', currentUserId, 'rights']) !== 0
+    );
   },
 };
 

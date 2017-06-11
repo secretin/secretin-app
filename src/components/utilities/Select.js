@@ -11,7 +11,7 @@ class Select extends Component {
     label: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
-      PropTypes.string
+      PropTypes.string,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,

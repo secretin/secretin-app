@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import SecretListItemFolderSecret
-  from 'components/secrets/SecretListItem/Secret';
+import SecretListItemFolderSecret from 'components/secrets/SecretListItem/Secret';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 
 const propTypes = {
@@ -24,9 +23,9 @@ function SecretListFolderInfo({ folder }) {
           </td>
         </tr>}
       {secrets
-        .map(secret => (
+        .map(secret =>
           <SecretListItemFolderSecret key={secret.id} secret={secret} />
-        ))
+        )
         .toArray()}
     </tbody>
   );

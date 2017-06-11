@@ -15,15 +15,14 @@ class SecretFieldRecord extends (new Immutable.Record(defaultRecord)) {
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData)
-      .mapKeys(key => {
-        switch (key) {
-          case 'value':
-            return 'content';
-          default:
-            return key;
-        }
-      });
+    const raw = Immutable.fromJS(rawData).mapKeys(key => {
+      switch (key) {
+        case 'value':
+          return 'content';
+        default:
+          return key;
+      }
+    });
     return new SecretFieldRecord(raw);
   }
 }

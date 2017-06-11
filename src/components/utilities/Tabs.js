@@ -9,11 +9,10 @@ const propTypes = {
   ]),
 };
 
-const Tabs = props => (
+const Tabs = props =>
   <BootstrapTabs className="tabs" animation={false} {...props}>
     {props.children}
-  </BootstrapTabs>
-);
+  </BootstrapTabs>;
 Tabs.propTypes = propTypes;
 
 const Tab = BootstrapTab;
