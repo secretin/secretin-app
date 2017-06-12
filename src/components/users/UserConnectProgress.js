@@ -26,7 +26,8 @@ class UserConnectProgress extends Component {
 
     if (
       nextStatus.message !== currentStatus.message ||
-      Math.floor(nextStatus.state / 20) !== Math.floor(currentStatus.state / 20)
+      Math.floor(nextStatus.state / 100) !==
+        Math.floor(currentStatus.state / 100)
     ) {
       this.setState(state => {
         return {

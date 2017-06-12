@@ -1,7 +1,7 @@
 import alt from 'utils/alt';
 import secretin, { Statuses, Errors } from 'utils/secretin';
 
-const { PasswordDerivationStatus, GetDerivationStatus } = Statuses;
+const { DecryptMetadataStatus, DecryptUserOptionsStatus } = Statuses;
 
 const {
   UsernameAlreadyExistsError,
@@ -105,13 +105,22 @@ class AppUIActions {
 
     return dispatch => {
       switch (status.constructor) {
-        case PasswordDerivationStatus:
-        case GetDerivationStatus:
-          return;
-        default:
-          dispatch({
+        case DecryptMetadataStatus:
+          return dispatch({
             status: { message, state, total },
           });
+        case DecryptUserOptionsStatus:
+          return dispatch({
+            status: {
+              message,
+              state,
+              total,
+            },
+            connected: true,
+            currentUser: secretin.currentUser,
+          });
+        default:
+          return;
       }
     };
   }

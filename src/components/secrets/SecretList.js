@@ -15,6 +15,7 @@ import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
+import UserConnectProgress from 'components/users/UserConnectProgress';
 
 import Button from 'components/utilities/Button';
 import Title from 'components/utilities/Title';
@@ -248,9 +249,13 @@ class SecretList extends Component {
             <div className="page-content-actions">
               <SecretListNew folder={this.props.folder} />
             </div>}
-          {this.props.secrets.isEmpty()
-            ? this.renderPlaceholder()
-            : this.renderList()}
+          {AppUIStore.isLoading()
+            ? <UserConnectProgress
+                status={AppUIStore.getState().get('status')}
+              />
+            : this.props.secrets.isEmpty()
+              ? this.renderPlaceholder()
+              : this.renderList()}
         </div>
       </div>
     );
