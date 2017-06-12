@@ -242,21 +242,19 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        <div className="page-content">
-          {!this.props.showAll &&
-            !this.props.showMine &&
-            !this.props.showShared &&
-            <div className="page-content-actions">
-              <SecretListNew folder={this.props.folder} />
+        {AppUIStore.isLoading()
+          ? <UserConnectProgress status={AppUIStore.getState().get('status')} />
+          : <div className="page-content">
+              {!this.props.showAll &&
+                !this.props.showMine &&
+                !this.props.showShared &&
+                <div className="page-content-actions">
+                  <SecretListNew folder={this.props.folder} />
+                </div>}
+              {this.props.secrets.isEmpty()
+                ? this.renderPlaceholder()
+                : this.renderList()}
             </div>}
-          {AppUIStore.isLoading()
-            ? <UserConnectProgress
-                status={AppUIStore.getState().get('status')}
-              />
-            : this.props.secrets.isEmpty()
-              ? this.renderPlaceholder()
-              : this.renderList()}
-        </div>
       </div>
     );
   }
