@@ -101,21 +101,13 @@ class AppUIActions {
   }
 
   loginUserProgress(status) {
-    const { message, state, total } = status;
-
     return dispatch => {
       switch (status.constructor) {
         case DecryptMetadataStatus:
-          return dispatch({
-            status: { message, state, total },
-          });
+          return dispatch({ status });
         case DecryptUserOptionsStatus:
           return dispatch({
-            status: {
-              message,
-              state,
-              total,
-            },
+            status,
             connected: true,
             currentUser: secretin.currentUser,
           });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { sample } from 'lodash';
+import { Statuses } from 'utils/secretin';
 
-import loadingMessages from 'utils/loadingMessages';
+const { DecryptMetadataStatus } = Statuses;
 
 class UserConnectProgress extends Component {
   static propTypes = {
@@ -17,22 +17,20 @@ class UserConnectProgress extends Component {
     super(props);
 
     this.state = {
-      message: sample(loadingMessages),
+      message: '',
     };
   }
 
   componentWillReceiveProps({ status: nextStatus }) {
     const { status: currentStatus } = this.props;
 
-    if (
-      nextStatus.message !== currentStatus.message ||
-      Math.floor(nextStatus.state / 100) !==
-        Math.floor(currentStatus.state / 100)
-    ) {
-      this.setState(state => {
-        return {
-          message: sample(loadingMessages),
-        };
+    const nextMessage = nextStatus instanceof DecryptMetadataStatus
+      ? 'Loading your secrets...'
+      : nextStatus.message;
+
+    if (nextMessage !== currentStatus.message) {
+      this.setState({
+        message: nextMessage,
       });
     }
   }
