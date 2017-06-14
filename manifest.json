@@ -1,0 +1,8 @@
+{
+  "short_name": "Secret-in.me",
+  "name": "Secret-in.me - Open source secret manager with sharing capability",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#3498db",
+  "background_color": "#fafafa"
+}
