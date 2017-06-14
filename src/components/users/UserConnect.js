@@ -7,7 +7,6 @@ import AppUIActions from 'actions/AppUIActions';
 
 import UserConnectForm from './UserConnectForm';
 import UserConnectShortPass from './UserConnectShortPass';
-import UserConnectProgress from './UserConnectProgress';
 
 class UserConnect extends Component {
   static propTypes = {
@@ -81,20 +80,18 @@ class UserConnect extends Component {
   }
 
   render() {
-    const { savedUsername, loading, errors, status } = this.props;
+    const { savedUsername, loading, errors } = this.props;
 
     return (
       <div className="user-connect">
-        {status
-          ? <UserConnectProgress status={status} />
-          : this.state.showShortpass
-            ? <UserConnectShortPass
-                savedUsername={savedUsername}
-                loading={loading}
-                error={errors.get('shortlogin')}
-                onCancel={this.hideShortpass}
-              />
-            : <UserConnectForm loading={loading} errors={errors} />}
+        {this.state.showShortpass
+          ? <UserConnectShortPass
+              savedUsername={savedUsername}
+              loading={loading}
+              error={errors.get('shortlogin')}
+              onCancel={this.hideShortpass}
+            />
+          : <UserConnectForm loading={loading} errors={errors} />}
       </div>
     );
   }
