@@ -13,4 +13,4 @@ echo "Pre-deploy tasks..."
 cp build/index.html build/404.html
 
 echo "Deploying..."
-gh-pages -d build
+./node_modules/gh-pages/bin/gh-pages -d build
