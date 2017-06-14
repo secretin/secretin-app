@@ -110,8 +110,8 @@ class AppUIStore {
     );
   }
 
-  onLoginUserProgress({ status, connected, currentUser }) {
-    if (connected) {
+  onLoginUserProgress({ status, currentUser }) {
+    if (currentUser) {
       this.setState(
         this.state.merge({
           status,

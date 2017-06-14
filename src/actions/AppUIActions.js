@@ -108,7 +108,6 @@ class AppUIActions {
         case DecryptUserOptionsStatus:
           return dispatch({
             status,
-            connected: true,
             currentUser: secretin.currentUser,
           });
         default:
