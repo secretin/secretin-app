@@ -5,14 +5,20 @@ import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 
-import UserConnectForm from 'components/users/UserConnectForm';
-import UserConnectShortPass from 'components/users/UserConnectShortPass';
+import UserConnectForm from './UserConnectForm';
+import UserConnectShortPass from './UserConnectShortPass';
+import UserConnectProgress from './UserConnectProgress';
 
 class UserConnect extends Component {
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     errors: PropTypes.instanceOf(Immutable.Map),
+    status: PropTypes.shape({
+      message: PropTypes.string,
+      state: PropTypes.number,
+      total: PropTypes.number,
+    }),
   };
 
   constructor(props) {
@@ -75,19 +81,20 @@ class UserConnect extends Component {
   }
 
   render() {
+    const { savedUsername, loading, errors, status } = this.props;
+
     return (
       <div className="user-connect">
-        {this.state.showShortpass
-          ? <UserConnectShortPass
-              savedUsername={this.props.savedUsername}
-              loading={this.props.loading}
-              error={this.props.errors.get('shortlogin')}
-              onCancel={this.hideShortpass}
-            />
-          : <UserConnectForm
-              loading={this.props.loading}
-              errors={this.props.errors}
-            />}
+        {status
+          ? <UserConnectProgress status={status} />
+          : this.state.showShortpass
+            ? <UserConnectShortPass
+                savedUsername={savedUsername}
+                loading={loading}
+                error={errors.get('shortlogin')}
+                onCancel={this.hideShortpass}
+              />
+            : <UserConnectForm loading={loading} errors={errors} />}
       </div>
     );
   }

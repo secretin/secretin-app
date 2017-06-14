@@ -43,11 +43,14 @@ Modal.defaultProps = {
   centered: false,
 };
 
-Modal.Body = props =>
-  <div className="modal-body">
-    {props.children}
-  </div>;
-Modal.Body.propTypes = {
+function ModalBody(props) {
+  return (
+    <div className="modal-body">
+      {props.children}
+    </div>
+  );
+}
+ModalBody.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -55,13 +58,16 @@ Modal.Body.propTypes = {
   ]),
 };
 
-Modal.Header = props =>
-  <div className="modal-header">
-    <h2 className="modal-header-title">
-      {props.title || props.children}
-    </h2>
-  </div>;
-Modal.Header.propTypes = {
+function ModalHeader(props) {
+  return (
+    <div className="modal-header">
+      <h2 className="modal-header-title">
+        {props.title || props.children}
+      </h2>
+    </div>
+  );
+}
+ModalHeader.propTypes = {
   title: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -70,16 +76,23 @@ Modal.Header.propTypes = {
   ]),
 };
 
-Modal.Footer = props =>
-  <div className="modal-footer">
-    {props.children}
-  </div>;
-Modal.Footer.propTypes = {
+function ModalFooter(props) {
+  return (
+    <div className="modal-footer">
+      {props.children}
+    </div>
+  );
+}
+ModalFooter.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
     PropTypes.string,
   ]),
 };
+
+Modal.Body = ModalBody;
+Modal.Header = ModalHeader;
+Modal.Footer = ModalFooter;
 
 export default Modal;

@@ -1,5 +1,7 @@
 import alt from 'utils/alt';
-import secretin, { Errors } from 'utils/secretin';
+import secretin, { Statuses, Errors } from 'utils/secretin';
+
+const { DecryptMetadataStatus, DecryptUserOptionsStatus } = Statuses;
 
 const {
   UsernameAlreadyExistsError,
@@ -58,7 +60,7 @@ class AppUIActions {
     return dispatch => {
       dispatch();
       secretin
-        .loginUser(username, password, token)
+        .loginUser(username, password, token, this.loginUserProgress)
         .then(currentUser =>
           this.loginUserSuccess({
             currentUser,
@@ -98,11 +100,27 @@ class AppUIActions {
     };
   }
 
+  loginUserProgress(status) {
+    return dispatch => {
+      switch (status.constructor) {
+        case DecryptMetadataStatus:
+          return dispatch({ status });
+        case DecryptUserOptionsStatus:
+          return dispatch({
+            status,
+            currentUser: secretin.currentUser,
+          });
+        default:
+          return;
+      }
+    };
+  }
+
   shortLogin({ shortpass }) {
     return dispatch => {
       dispatch();
       secretin
-        .shortLogin(shortpass)
+        .shortLogin(shortpass, this.loginUserProgress)
         .then(currentUser => {
           this.loginUserSuccess({
             currentUser,

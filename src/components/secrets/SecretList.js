@@ -15,6 +15,7 @@ import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
+import UserConnectProgress from 'components/users/UserConnectProgress';
 
 import Button from 'components/utilities/Button';
 import Title from 'components/utilities/Title';
@@ -170,7 +171,7 @@ class SecretList extends Component {
       return (
         <div className="secret-list-placeholder">
           <h1 className="secret-list-placeholder-title">
-            You don't have any secrets, yet
+            You don&apos;t have any secrets, yet
           </h1>
           <p className="secret-list-placeholder-text">
             Start adding some now
@@ -241,17 +242,19 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        <div className="page-content">
-          {!this.props.showAll &&
-            !this.props.showMine &&
-            !this.props.showShared &&
-            <div className="page-content-actions">
-              <SecretListNew folder={this.props.folder} />
+        {AppUIStore.isLoading()
+          ? <UserConnectProgress status={AppUIStore.getState().get('status')} />
+          : <div className="page-content">
+              {!this.props.showAll &&
+                !this.props.showMine &&
+                !this.props.showShared &&
+                <div className="page-content-actions">
+                  <SecretListNew folder={this.props.folder} />
+                </div>}
+              {this.props.secrets.isEmpty()
+                ? this.renderPlaceholder()
+                : this.renderList()}
             </div>}
-          {this.props.secrets.isEmpty()
-            ? this.renderPlaceholder()
-            : this.renderList()}
-        </div>
       </div>
     );
   }

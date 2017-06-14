@@ -14,6 +14,10 @@ if (typeof window.process !== 'undefined') {
 
 const secretin = new Secretin(Secretin.API.Server, api);
 
+export const Statuses = {
+  ...Secretin.Statuses,
+};
+
 export const Errors = {
   ...Secretin.Errors,
 };

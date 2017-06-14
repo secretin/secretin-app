@@ -6142,9 +6142,9 @@ schema-utils@^0.x:
   dependencies:
     ajv "^5.0.0"
 
-secretin@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.6.2.tgz#230fb21738fb706939502595570302230e9bf860"
+secretin@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/secretin/-/secretin-1.6.3.tgz#8d8f60b9e0e0982ef11bc73cb333d779be99f9be"
 
 select-hose@^2.0.0:
   version "2.0.0"

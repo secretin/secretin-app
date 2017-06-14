@@ -20,6 +20,11 @@ class App extends Component {
     connected: PropTypes.bool,
     options: PropTypes.instanceOf(Immutable.Map),
     errors: PropTypes.instanceOf(Immutable.Map),
+    status: PropTypes.shape({
+      message: PropTypes.string,
+      statue: PropTypes.number,
+      total: PropTypes.number,
+    }),
   };
 
   static getStores() {
@@ -27,14 +32,21 @@ class App extends Component {
   }
 
   static getPropsFromStores() {
-    const state = AppUIStore.getState();
+    const {
+      savedUsername,
+      loading,
+      errors,
+      connected,
+      status,
+    } = AppUIStore.getState();
     return {
-      options: OptionsStore.getOptions(),
-      savedUsername: state.get('savedUsername'),
-      loading: state.get('loading'),
-      connected: state.get('connected'),
-      errors: state.get('errors'),
       secrets: MetadataStore.getSecretsInFolder(),
+      options: OptionsStore.getOptions(),
+      savedUsername,
+      loading,
+      connected,
+      errors,
+      status,
     };
   }
 
@@ -92,6 +104,7 @@ class App extends Component {
                 savedUsername={this.props.savedUsername}
                 loading={this.props.loading}
                 errors={this.props.errors}
+                status={this.props.status}
               />}
         </div>
       </Router>
