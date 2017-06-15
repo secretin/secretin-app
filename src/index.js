@@ -9,7 +9,9 @@ import './index.css';
 const rootEl = document.getElementById('root');
 
 ReactDOM.render(<App />, rootEl);
-registerServiceWorker();
+if (typeof window.process === 'undefined') {
+  registerServiceWorker();
+}
 
 if (module.hot) {
   module.hot.accept('components/App', () => {
