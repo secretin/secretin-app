@@ -242,7 +242,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {AppUIStore.isLoading()
+        {AppUIStore.isLoading() && AppUIStore.getState().get('status') !== null
           ? <UserConnectProgress status={AppUIStore.getState().get('status')} />
           : <div className="page-content">
               {!this.props.showAll &&
