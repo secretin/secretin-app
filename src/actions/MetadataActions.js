@@ -11,6 +11,8 @@ class MetadataActions {
       'createSecretFailure',
       'updateSecretSuccess',
       'updateSecretFailure',
+      'renameSecretSuccess',
+      'renameSecretFailure',
       'deleteSecretSuccess',
       'deleteSecretFailure',
       'createSecretUserRightsSuccess',
@@ -73,10 +75,29 @@ class MetadataActions {
       secretin
         .editSecret(secret.id, data)
         .then(() => {
-          this.updateSecretSuccess({ data });
+          this.updateSecretSuccess({
+            metadata: secretin.currentUser.metadatas,
+          });
         })
         .catch(error => {
           this.updateSecretFailure({ error });
+          throw error;
+        });
+    };
+  }
+
+  renameSecret({ secret, newTitle }) {
+    return dispatch => {
+      dispatch();
+      secretin
+        .renameSecret(secret.id, newTitle)
+        .then(() => {
+          this.renameSecretSuccess({
+            metadata: secretin.currentUser.metadatas,
+          });
+        })
+        .catch(error => {
+          this.renameSecretFailure({ error });
           throw error;
         });
     };

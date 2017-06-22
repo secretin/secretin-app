@@ -13,6 +13,7 @@ import Secret from 'models/Secret';
 import SecretEdit from 'components/secrets/SecretEdit';
 import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
+import SecretEditableTitle from 'components/secrets/SecretEditableTitle';
 import Modal from 'components/utilities/Modal';
 import Flash from 'components/utilities/Flash';
 import Icon from 'components/utilities/Icon';
@@ -26,6 +27,7 @@ class SecretShow extends Component {
     shown: PropTypes.bool,
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
+    isMetadataUpdating: PropTypes.bool,
     isEditing: PropTypes.bool,
   };
 
@@ -81,9 +83,11 @@ class SecretShow extends Component {
       <Modal show={this.props.shown} onClose={ShowSecretUIActions.hideModal}>
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
-          <span className="text" title={this.props.secret.title}>
-            {this.props.secret.title}
-          </span>
+          <SecretEditableTitle
+            secret={this.props.secret}
+            canUpdate={canUpdate}
+            isUpdating={this.props.isUpdating}
+          />
         </Modal.Header>
 
         <Modal.Body>
