@@ -91,7 +91,7 @@ class SecretShow extends Component {
             value={this.state.title}
             onChange={this.handleChange}
             type="text"
-            readOnly={this.props.isMetadataUpdating}
+            readOnly={this.props.isUpdating}
           />
           <Button
             title="Apply"
