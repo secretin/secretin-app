@@ -11,7 +11,19 @@ This repository contains the default client implementation.
 
 Installation guide on wiki or behinf : https://github.com/secretin/secretin-app/wiki
 
-Don't hesitate to open issues !
+Don't hesitate to open issues or feature requests !
+
+## Use it ##
+
+Go to https://secret-in.me and enjoy the application.
+
+To use the heavy application download the latest release : https://github.com/secretin/secretin-app/releases/latest
+
+BE CAREFUL, YOU HAVE TO SPECIFY THE API TO CONNECT OTHERWISE IT'S DEFAULTLY BINDED TO DEV ENVIRONMENT WHICH IS WIPED REALLY OFTEN.
+
+Under linux `secretin-app --secretin-api=https://api.secret-in.me`
+Under Windows, create a shortcut like this
+<img src="https://img4.hostingpics.net/pics/287125Capture.png"/>
 
 ## Build yourself
 ### Installing yarn
