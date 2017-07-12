@@ -7,7 +7,6 @@ import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import RescueCodesShow from 'components/options/RescueCodesShow';
-import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
 import Input from 'components/utilities/Input';
@@ -121,18 +120,10 @@ class OptionsContainer extends Component {
           </div>
           <div className="options-section">
             <h3 className="options-section-title">
-              Imports
+              Password generation
             </h3>
             <div className="options-section-item">
-              <ImportKeepassShow />
-              <Button
-                type="button"
-                buttonStyle="primary"
-                onClick={OptionsActions.showImportKeepass}
-                disabled={!AppUIStore.isOnline()}
-              >
-                Import from Keepass
-              </Button>
+              SOON BY @dqms
             </div>
           </div>
         </div>
