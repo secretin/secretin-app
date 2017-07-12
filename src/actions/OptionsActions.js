@@ -1,6 +1,5 @@
 import alt from 'utils/alt';
 import secretin from 'utils/secretin';
-import { parseKeepass } from 'utils/import';
 import uuid from 'uuid';
 
 class OptionsActions {
@@ -14,11 +13,6 @@ class OptionsActions {
       'activateShortLoginFailure',
       'deactivateShortLoginSuccess',
       'deactivateShortLoginFailure',
-      'showImportKeepass',
-      'hideImportKeepass',
-      'importKeepassProgress',
-      'importKeepassSuccess',
-      'importKeepassFailure',
       'hideQRCode',
       'hideShortLogin',
       'changeDelaySuccess',
@@ -99,23 +93,6 @@ class OptionsActions {
     }
 
     return this.deactivateTotp();
-  }
-
-  importKeepass({ file }) {
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = readedFile =>
-      parseKeepass(readedFile.target.result, (importStatus, importTotal) =>
-        this.importKeepassProgress({ importStatus, importTotal })
-      )
-        .then(() => {
-          this.importKeepassSuccess();
-        })
-        .catch(error => {
-          this.importKeepassFailure({ error });
-        });
-
-    return reader;
   }
 
   showRescueCodes() {

@@ -7,6 +7,7 @@ import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
 import SecretListContainer from 'components/secrets/SecretListContainer';
 import OptionsContainer from 'components/options/OptionsContainer';
+import ImportContainer from 'components/Import';
 
 function Layout() {
   return (
@@ -32,6 +33,7 @@ function Layout() {
             render={props => <SecretListContainer {...props} />}
           />
           <Route path="/settings/" component={OptionsContainer} />
+          <Route path="/import/" component={ImportContainer} />
           <Redirect to="/secrets/" />
         </Switch>
       </div>
