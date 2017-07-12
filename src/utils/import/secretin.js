@@ -17,9 +17,7 @@ export function detect(file) {
 }
 
 export function parse(db, { username, password }, progress = defaultProgress) {
-  return secretin.importDb(username, password, db, function(status) {
-    progress(status.state, status.total);
-  });
+  return secretin.importDb(username, password, db, progress);
 }
 
 export function needSpecial() {

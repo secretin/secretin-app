@@ -41,8 +41,11 @@ class ImportActions {
     return dispatch => {
       dispatch();
       Import[type]
-        .parse(file, special.toJS(), (importStatus, importTotal) =>
-          this.importProgress({ importStatus, importTotal })
+        .parse(file, special.toJS(), status =>
+          this.importProgress({
+            importStatus: status.state,
+            importTotal: status.total,
+          })
         )
         .then(() => {
           this.importSuccess();

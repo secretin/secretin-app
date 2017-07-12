@@ -11,7 +11,7 @@ class InternalProgressBar {
 
   update() {
     this.status += 1;
-    this.func(this.status, this.total);
+    this.func({ state: this.status, total: this.total });
   }
 }
 
