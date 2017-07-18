@@ -17,20 +17,18 @@ export function detect(file) {
 }
 
 export function parse(db, { username, password }, progress = defaultProgress) {
-  return secretin.importDb(username, password, db, progress);
+  return secretin.importDb(username.value, password.value, db, progress);
 }
 
-export function needSpecial() {
-  return {
-    username: '',
-    password: '',
-  };
-}
+export const mandatoryFields = {
+  username: { type: 'text', name: 'username', value: '' },
+  password: { type: 'password', name: 'password', value: '' },
+};
 
 const secretinDB = {
   parse,
   detect,
-  needSpecial,
+  mandatoryFields,
 };
 
 export default secretinDB;

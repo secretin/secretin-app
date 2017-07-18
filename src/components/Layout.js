@@ -7,7 +7,7 @@ import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
 import SecretListContainer from 'components/secrets/SecretListContainer';
 import OptionsContainer from 'components/options/OptionsContainer';
-import ImportContainer from 'components/Import';
+import ImportContainer from 'components/import/ImportContainer';
 
 function Layout() {
   return (

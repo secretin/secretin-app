@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import NavLink from 'react-router-dom/NavLink';
+import moment from 'moment';
 
 import secretin from 'utils/secretin';
 import AppUIStore from 'stores/AppUIStore';
@@ -47,7 +48,7 @@ SidebarMenuLink.propTypes = {
 function exportDb() {
   secretin.getDb().then(db => {
     download(
-      `Secret-in_${secretin.currentUser.username}_${Date.now()}.json`,
+      `Secret-in_${secretin.currentUser.username}_${moment.format()}.json`,
       db
     );
   });

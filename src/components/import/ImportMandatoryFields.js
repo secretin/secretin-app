@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import ImportStore from 'stores/ImportStore';
-import SpecialField from './SpecialField';
+import ImportMandatoryField from './ImportMandatoryField';
 
 import ImportActions from 'actions/ImportActions';
 
-class ImportSpecial extends Component {
+class ImportersMandatoryFields extends Component {
   static propTypes = {
-    special: PropTypes.instanceOf(Immutable.Map),
+    mandatoryFields: PropTypes.instanceOf(Immutable.Map),
   };
 
   static getStores() {
@@ -20,20 +20,19 @@ class ImportSpecial extends Component {
     const state = ImportStore.getState();
 
     return {
-      special: state.get('special'),
+      mandatoryFields: state.get('mandatoryFields'),
     };
   }
 
   render() {
-    const keys = Object.keys(this.props.special.toJS());
+    const keys = Object.keys(this.props.mandatoryFields.toJS());
     const inputs = [];
     keys.forEach(key => {
       inputs.push(
-        <SpecialField
+        <ImportMandatoryField
           key={key}
-          name={key}
-          value={this.props.special.get(key)}
-          onChange={ImportActions.changeSpecial}
+          field={this.props.mandatoryFields.get(key)}
+          onChange={ImportActions.changeMandatoryField}
         />
       );
     });
@@ -45,4 +44,4 @@ class ImportSpecial extends Component {
   }
 }
 
-export default connectToStores(ImportSpecial);
+export default connectToStores(ImportersMandatoryFields);

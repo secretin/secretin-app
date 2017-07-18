@@ -1,35 +1,31 @@
+import { findKey } from 'lodash';
+
 import alt from 'utils/alt';
-import Import from 'utils/import';
+import importers from 'utils/importers';
 
 class ImportActions {
   constructor() {
     this.generateActions(
-      'importProgress',
-      'importSuccess',
-      'importFailure',
+      'importSecretsProgress',
+      'importSecretsSuccess',
+      'importSecretsFailure',
       'detectTypeSuccess',
       'detectTypeFailure',
       'defaultStore',
-      'changeSpecial'
+      'changeMandatoryField'
     );
   }
 
   detectType({ file }) {
     const reader = new FileReader();
     reader.readAsText(file);
-    reader.onload = readedFile => {
-      const file = readedFile.target.result;
-      let importType = '';
-      const importTypes = Object.keys(Import);
-      for (let i = 0; i < importTypes.length; i++) {
-        if (Import[importTypes[i]].detect(file)) {
-          importType = importTypes[i];
-          break;
-        }
-      }
-      if (importType !== '') {
-        const special = Import[importType].needSpecial();
-        this.detectTypeSuccess({ file, importType, special });
+    reader.onload = ({ target }) => {
+      const file = target.result;
+      const importType = findKey(importers, importer => importer.detect(file));
+
+      if (typeof importType !== 'undefined') {
+        const mandatoryFields = importers[importType].mandatoryFields;
+        this.detectTypeSuccess({ file, importType, mandatoryFields });
       } else {
         this.detectTypeFailure({ error: 'Invalid type' });
       }
@@ -37,21 +33,24 @@ class ImportActions {
     return reader;
   }
 
-  importSecrets({ file, type, special }) {
+  importSecrets({ file, type, mandatoryFields }) {
     return dispatch => {
       dispatch();
-      Import[type]
-        .parse(file, special.toJS(), status =>
-          this.importProgress({
-            importStatus: status.state,
-            importTotal: status.total,
-          })
+      importers[type]
+        .parse(
+          file,
+          mandatoryFields.toJS(),
+          ({ state: importStatus, total: importTotal }) =>
+            this.importSecretsProgress({
+              importStatus,
+              importTotal,
+            })
         )
         .then(() => {
-          this.importSuccess();
+          this.importSecretsSuccess();
         })
         .catch(error => {
-          this.importFailure({ error });
+          this.importSecretsFailure({ error });
         });
     };
   }

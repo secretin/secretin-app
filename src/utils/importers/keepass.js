@@ -159,7 +159,7 @@ export function detect(file) {
   return isKeepass;
 }
 
-export function parse(xml, special, progress = defaultProgress) {
+export function parse(xml, mandatoryField, progress = defaultProgress) {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xml, 'application/xml');
   const root = xmlDoc.getElementsByTagName('Root')[0].children[0];
@@ -167,14 +167,12 @@ export function parse(xml, special, progress = defaultProgress) {
   return parseGroup(root, currentProgress);
 }
 
-export function needSpecial() {
-  return {};
-}
+export const mandatoryFields = {};
 
 const keepass = {
   parse,
   detect,
-  needSpecial,
+  mandatoryFields,
 };
 
 export default keepass;
