@@ -12,7 +12,7 @@ const ImportState = new Record({
   success: false,
   file: '',
   error: '',
-  special: new Immutable.Map(),
+  mandatoryFields: new Immutable.Map(),
 });
 
 class ImportStore {
@@ -36,23 +36,23 @@ class ImportStore {
       this.state.merge({
         error,
         importType: '',
-        special: new Immutable.Map(),
+        mandatoryFields: new Immutable.Map(),
       })
     );
   }
 
-  onDetectTypeSuccess({ file, importType, special }) {
+  onDetectTypeSuccess({ file, importType, mandatoryFields }) {
     this.setState(
       this.state.merge({
         importType,
         error: '',
         file,
-        special: new Immutable.Map(special),
+        mandatoryFields: Immutable.fromJS(mandatoryFields),
       })
     );
   }
 
-  onImportProgress({ importStatus, importTotal }) {
+  onImportSecretsProgress({ importStatus, importTotal }) {
     this.setState(
       this.state.merge({
         importStatus,
@@ -62,7 +62,7 @@ class ImportStore {
     );
   }
 
-  onImportSuccess() {
+  onImportSecretsSuccess() {
     this.setState(
       this.state.merge({
         importing: false,
@@ -71,19 +71,19 @@ class ImportStore {
         error: '',
         importStatus: 0,
         importTotal: 0,
-        special: new Immutable.Map(),
+        mandatoryFields: new Immutable.Map(),
       })
     );
   }
 
-  onImportFailure({ error }) {
+  onImportSecretsFailure({ error }) {
     this.setState(
       this.state.merge({
         importing: false,
         success: false,
         importType: '',
         error: error,
-        special: new Immutable.Map(),
+        mandatoryFields: new Immutable.Map(),
       })
     );
   }
@@ -92,8 +92,10 @@ class ImportStore {
     this.setState(new ImportState());
   }
 
-  onChangeSpecial({ name, value }) {
-    this.setState(this.state.setIn(['special', name], value));
+  onChangeMandatoryField({ field, value }) {
+    this.setState(
+      this.state.setIn(['mandatoryFields', field.get('name'), 'value'], value)
+    );
   }
 }
 

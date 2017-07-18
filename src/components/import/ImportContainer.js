@@ -12,8 +12,8 @@ import ImportStore from 'stores/ImportStore';
 import ImportActions from 'actions/ImportActions';
 import MetadataActions from 'actions/MetadataActions';
 
-import FileChooser from './FileChooser';
-import ImportSpecial from './Special';
+import ImportFileChooser from './ImportFileChooser';
+import ImportMandatoryFields from './ImportMandatoryFields';
 
 class ImportContainer extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ class ImportContainer extends Component {
     success: PropTypes.bool,
     file: PropTypes.string,
     error: PropTypes.string,
-    special: PropTypes.instanceOf(Immutable.Map),
+    mandatoryFields: PropTypes.instanceOf(Immutable.Map),
   };
 
   static getStores() {
@@ -42,7 +42,7 @@ class ImportContainer extends Component {
       importTotal: state.get('importTotal'),
       success: state.get('success'),
       file: state.get('file'),
-      special: state.get('special'),
+      mandatoryFields: state.get('mandatoryFields'),
     };
   }
 
@@ -60,7 +60,7 @@ class ImportContainer extends Component {
   handleStartParsing() {
     ImportActions.importSecrets({
       file: this.props.file,
-      special: this.props.special,
+      mandatoryFields: this.props.mandatoryFields,
       type: this.props.importType,
     });
   }
@@ -94,19 +94,16 @@ class ImportContainer extends Component {
                 <Spinner />
                 {this.props.importTotal !== 0 &&
                   <div className="import-progress-title">
-                    Importing...
-                    {' '}
-                    {this.props.importStatus}
-                    {' '}
-                    /
-                    {' '}
-                    {this.props.importTotal}
+                    {`Importing... ${this.props.importStatus} / ${this.props
+                      .importTotal}`}
                   </div>}
               </div>)) ||
-            <FileChooser onFileChoosen={this.handleFileChoosen} />}
+            <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
           {this.props.error !== '' && <span>{this.props.error}</span>}
-          {this.props.special.size > 0 &&
-            <ImportSpecial special={this.props.special} />}
+          {this.props.mandatoryFields.size > 0 &&
+            <ImportMandatoryFields
+              mandatoryFields={this.props.mandatoryFields}
+            />}
           {this.props.importType !== '' &&
             <Button
               buttonStyle="primary"

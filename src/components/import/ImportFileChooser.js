@@ -5,7 +5,7 @@ import HTML5Backend, { NativeTypes } from 'react-dnd-html5-backend';
 
 import Icon from 'components/utilities/Icon';
 
-class FileChooser extends Component {
+class ImportFileChooser extends Component {
   static propTypes = {
     onFileChoosen: PropTypes.func,
     connectDropTarget: PropTypes.func,
@@ -52,10 +52,10 @@ function itemTargetCollect(connect, monitor) {
   };
 }
 
-const FileChooserTarget = new DropTarget(
+const ImportFileChooserTarget = new DropTarget(
   NativeTypes.FILE,
   itemTarget,
   itemTargetCollect
-)(FileChooser);
+)(ImportFileChooser);
 
-export default new DragDropContext(HTML5Backend)(FileChooserTarget);
+export default new DragDropContext(HTML5Backend)(ImportFileChooserTarget);

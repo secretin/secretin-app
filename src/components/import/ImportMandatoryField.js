@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import Input from 'components/utilities/Input';
 
-class SpecialField extends Component {
+class ImportMandatoryField extends Component {
   static propTypes = {
-    name: PropTypes.string,
-    value: PropTypes.string,
+    field: PropTypes.instanceOf(Immutable.Map),
     onChange: PropTypes.func,
   };
 
@@ -16,7 +16,7 @@ class SpecialField extends Component {
 
   handleChange({ value }) {
     const params = {
-      name: this.props.name,
+      field: this.props.field,
       value,
     };
 
@@ -29,14 +29,14 @@ class SpecialField extends Component {
         ref={ref => {
           this.input = ref;
         }}
-        label={this.props.name}
-        name={this.props.name}
-        value={this.props.value}
+        label={this.props.field.get('name')}
+        name={this.props.field.get('name')}
+        value={this.props.field.get('value')}
         onChange={this.handleChange}
-        type="password"
+        type={this.props.field.get('type')}
       />
     );
   }
 }
 
-export default SpecialField;
+export default ImportMandatoryField;
