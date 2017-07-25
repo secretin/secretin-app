@@ -65,13 +65,22 @@ class ImportContainer extends Component {
     });
   }
 
-  render() {
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.success !== true || nextProps.success !== this.props.success
+    );
+  }
+
+  componentDidUpdate() {
     if (this.props.success) {
       MetadataActions.loadMetadata();
       setTimeout(function() {
         ImportActions.defaultStore();
       }, 1500);
     }
+  }
+
+  render() {
     return (
       <div className="page">
         <div className="page-header">
@@ -81,14 +90,14 @@ class ImportContainer extends Component {
         </div>
 
         <div className="page-content options">
-          <span>Supported type are <i>secret-in</i>, <i>keepass</i></span>
+          <span>
+            Supported type are <i>secret-in</i>, <i>keepass</i>
+          </span>
           {((this.props.success || this.props.importing) &&
             ((this.props.success &&
               <div className="import-progress">
                 <Icon id="done" size={120} />
-                <div className="import-progress-title">
-                  Done!
-                </div>
+                <div className="import-progress-title">Done!</div>
               </div>) ||
               <div className="import-progress">
                 <Spinner />
@@ -99,7 +108,10 @@ class ImportContainer extends Component {
                   </div>}
               </div>)) ||
             <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
-          {this.props.error !== '' && <span>{this.props.error}</span>}
+          {this.props.error !== '' &&
+            <span>
+              {this.props.error}
+            </span>}
           {this.props.mandatoryFields.size > 0 &&
             <ImportMandatoryFields
               mandatoryFields={this.props.mandatoryFields}
