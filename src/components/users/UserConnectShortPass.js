@@ -42,11 +42,7 @@ class UserConnectShortPass extends Component {
   handleDisable() {
     confirm({
       title: 'Are you sure?',
-      text: (
-        <span>
-          This will disable your short pass login access.
-        </span>
-      ),
+      text: <span>This will disable your short pass login access.</span>,
       acceptLabel: 'Disable short pass',
       cancelLabel: 'Cancel',
       onAccept: () => {

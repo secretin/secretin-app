@@ -80,9 +80,7 @@ class UserConnect extends Component {
       >
         <h2 className="user-connect-title">
           Secret-in.me
-          <small>
-            {status}
-          </small>
+          <small>{status}</small>
         </h2>
 
         <Input

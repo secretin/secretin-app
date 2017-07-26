@@ -31,9 +31,7 @@ class FileChooser extends Component {
             type="file"
             onChange={this.handleFileInputChange}
           />
-          <label htmlFor="import-drop-zone-input">
-            Choose a file
-          </label>
+          <label htmlFor="import-drop-zone-input">Choose a file</label>
           <span> or drag it here.</span>
         </div>
       </div>

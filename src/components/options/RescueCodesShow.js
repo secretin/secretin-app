@@ -64,9 +64,7 @@ class QRCodeShow extends Component {
     return (
       <Modal show={this.props.shown} onClose={OptionsActions.hideRescueCodes}>
         <Modal.Header>
-          <span className="text">
-            Rescue codes
-          </span>
+          <span className="text">Rescue codes</span>
         </Modal.Header>
 
         <Modal.Body>

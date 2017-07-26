@@ -51,9 +51,7 @@ class OptionsContainer extends Component {
 
         <div className="page-content options">
           <div className="options-section">
-            <h3 className="options-section-title">
-              Security
-            </h3>
+            <h3 className="options-section-title">Security</h3>
 
             <div className="options-section-item">
               <QRCodeShow />
@@ -120,9 +118,7 @@ class OptionsContainer extends Component {
             </div>
           </div>
           <div className="options-section">
-            <h3 className="options-section-title">
-              Imports
-            </h3>
+            <h3 className="options-section-title">Imports</h3>
             <div className="options-section-item">
               <ImportKeepassShow />
               <Button

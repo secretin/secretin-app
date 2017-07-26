@@ -128,9 +128,7 @@ class SecretList extends Component {
       <table className={className}>
         <thead className="secret-list-content-table-header">
           <tr>
-            <th className="secret-list-item-column--title">
-              Title
-            </th>
+            <th className="secret-list-item-column--title">Title</th>
             <th className="secret-list-item-column--last-modified">
               Last modified
             </th>
@@ -173,9 +171,7 @@ class SecretList extends Component {
           <h1 className="secret-list-placeholder-title">
             You don&apos;t have any secrets, yet
           </h1>
-          <p className="secret-list-placeholder-text">
-            Start adding some now
-          </p>
+          <p className="secret-list-placeholder-text">Start adding some now</p>
           <div className="secret-list-placeholder-actions">
             <Button
               onClick={() =>

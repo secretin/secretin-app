@@ -40,7 +40,11 @@ class SecretListItemOptions extends Component {
   handleDelete = () => {
     const { secret } = this.props;
     confirm({
-      title: <span>Delete <b>{secret.title}</b>?</span>,
+      title: (
+        <span>
+          Delete <b>{secret.title}</b>?
+        </span>
+      ),
       text: (
         <span>
           You are about to <b>delete</b> the secret <b>{secret.title}</b>. This

@@ -76,9 +76,7 @@ class QRCodeShow extends Component {
     return (
       <Modal show={this.props.shown} onClose={OptionsActions.hideQRCode}>
         <Modal.Header>
-          <span className="text">
-            Activate Two-Factor authentication
-          </span>
+          <span className="text">Activate Two-Factor authentication</span>
         </Modal.Header>
 
         <Modal.Body>
