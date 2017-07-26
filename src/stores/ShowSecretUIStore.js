@@ -18,6 +18,9 @@ const {
   UPDATE_SECRET,
   UPDATE_SECRET_SUCCESS,
   UPDATE_SECRET_FAILURE,
+  RENAME_SECRET,
+  RENAME_SECRET_SUCCESS,
+  RENAME_SECRET_FAILURE,
   CREATE_SECRET_USER_RIGHTS,
   UPDATE_SECRET_USER_RIGHTS,
   DELETE_SECRET_USER_RIGHTS,
@@ -33,12 +36,15 @@ class ShowSecretUIStore {
   constructor() {
     this.bindActions(ShowSecretUIActions);
     this.bindAction(UPDATE_SECRET, this.onUpdateSecret);
+    this.bindAction(RENAME_SECRET, this.onUpdateSecret);
     this.bindAction(CREATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(CREATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(UPDATE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(DELETE_SECRET_USER_RIGHTS, this.onUpdateSecret);
     this.bindAction(UPDATE_SECRET_SUCCESS, this.onUpdateSecretSuccess);
     this.bindAction(UPDATE_SECRET_FAILURE, this.onUpdateSecretFailure);
+    this.bindAction(RENAME_SECRET_SUCCESS, this.onUpdateSecretSuccess);
+    this.bindAction(RENAME_SECRET_FAILURE, this.onUpdateSecretFailure);
     this.bindAction(
       CREATE_SECRET_USER_RIGHTS_SUCCESS,
       this.onUpdateSecretSuccess
@@ -103,10 +109,16 @@ class ShowSecretUIStore {
     this.waitFor(MetadataStore);
     this.setState(
       this.state
-        .update('secret', secret =>
-          secret.merge(
-            MetadataStore.getById(this.state.secret.id).toMap().remove('data')
-          )
+        .update(
+          'secret',
+          secret =>
+            secret
+              ? secret.merge(
+                  MetadataStore.getById(this.state.secret.id)
+                    .toMap()
+                    .remove('data')
+                )
+              : null
         )
         .set('isUpdating', false)
         .set('errors', new Immutable.Map())

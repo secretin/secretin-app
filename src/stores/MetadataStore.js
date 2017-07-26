@@ -60,6 +60,14 @@ class MetadataStore {
     this.setState(this.state.set('metadata', buildSecrets(metadata)));
   }
 
+  onUpdateSecretSuccess({ metadata }) {
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
+  }
+
+  onRenameSecretSuccess({ metadata }) {
+    this.setState(this.state.set('metadata', buildSecrets(metadata)));
+  }
+
   onUpdateSecretUserRightsSuccess({ secret, user, rights }) {
     this.setState(
       this.state.updateIn(['metadata', secret.id, 'users'], users =>
