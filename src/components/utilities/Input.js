@@ -133,7 +133,9 @@ class Input extends Component {
           <label htmlFor={this.id}>
             {label}
             {actions.size > 0 &&
-              <span className="input-label-actions">{actions}</span>}
+              <span className="input-label-actions">
+                {actions}
+              </span>}
           </label>}
 
         <div className="input--wrapper">

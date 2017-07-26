@@ -24,9 +24,10 @@ class UserConnectProgress extends Component {
   componentWillReceiveProps({ status: nextStatus }) {
     const { status: currentStatus } = this.props;
 
-    const nextMessage = nextStatus instanceof DecryptMetadataStatus
-      ? 'Loading your secrets...'
-      : nextStatus.message;
+    const nextMessage =
+      nextStatus instanceof DecryptMetadataStatus
+        ? 'Loading your secrets...'
+        : nextStatus.message;
 
     if (nextMessage !== currentStatus.message) {
       this.setState({

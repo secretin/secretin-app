@@ -71,9 +71,7 @@ class QRCodeShow extends Component {
     return (
       <Modal show={this.props.shown} onClose={OptionsActions.hideShortLogin}>
         <Modal.Header>
-          <span className="text">
-            Trust this device
-          </span>
+          <span className="text">Trust this device</span>
         </Modal.Header>
 
         <Modal.Body>

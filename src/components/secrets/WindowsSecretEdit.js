@@ -51,9 +51,7 @@ class WindowsSecretEdit extends Component {
             }}
             options={options}
           />
-          <Button onClick={this.handleClick}>
-            Copy
-          </Button>
+          <Button onClick={this.handleClick}>Copy</Button>
         </div>
       </div>
     );

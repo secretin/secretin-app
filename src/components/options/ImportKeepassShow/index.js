@@ -70,9 +70,7 @@ class ImportKeepassShow extends Component {
         }
       >
         <Modal.Header>
-          <span className="text">
-            Import from Keepass
-          </span>
+          <span className="text">Import from Keepass</span>
         </Modal.Header>
 
         <Modal.Body>
@@ -80,20 +78,13 @@ class ImportKeepassShow extends Component {
             ((this.props.success &&
               <div className="import-progress">
                 <Icon id="done" size={120} />
-                <div className="import-progress-title">
-                  Done!
-                </div>
+                <div className="import-progress-title">Done!</div>
               </div>) ||
               <div className="import-progress">
                 <Spinner />
                 {this.props.importTotal !== 0 &&
                   <div className="import-progress-title">
-                    Importing...
-                    {' '}
-                    {this.props.importStatus}
-                    {' '}
-                    /
-                    {' '}
+                    Importing... {this.props.importStatus} /{' '}
                     {this.props.importTotal}
                   </div>}
               </div>)) ||
