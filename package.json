@@ -37,7 +37,7 @@
     "react-dom": "^15.5.4",
     "react-overlays": "^0.7.0",
     "react-router-dom": "^4.1.1",
-    "secretin": "^1.7.0",
+    "secretin": "^1.8.1",
     "url-join": "^2.0.0",
     "uuid": "^3.0.1"
   },
