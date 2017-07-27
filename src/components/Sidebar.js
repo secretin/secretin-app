@@ -46,7 +46,7 @@ SidebarMenuLink.propTypes = {
 };
 
 function exportDb() {
-  secretin.getDb().then(db => {
+  secretin.exportDb().then(db => {
     download(
       `Secret-in_${secretin.currentUser.username}_${moment().format()}.json`,
       db
