@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import { BrowserRouter as Router } from 'react-router-dom';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import secretin from 'utils/secretin';
+import Secretin from 'secretin';
 
 import AppUIActions from 'actions/AppUIActions';
 import AppUIStore from 'stores/AppUIStore';
@@ -106,6 +107,9 @@ class App extends Component {
                 errors={this.props.errors}
                 status={this.props.status}
               />}
+          <span className="secretin-version">
+            secretin-lib v{Secretin.version}
+          </span>
         </div>
       </Router>
     );
