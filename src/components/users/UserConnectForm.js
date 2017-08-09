@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import secretin from 'utils/secretin';
 
 import AppUIActions from 'actions/AppUIActions';
+import AppUIStore from 'stores/AppUIStore';
 
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
@@ -78,7 +79,10 @@ class UserConnect extends Component {
         disabled={this.props.loading}
         onSubmit={this.onSubmit}
       >
-        <h2 className="user-connect-title">
+        <h2
+          className="user-connect-title"
+          title={AppUIStore.isOnline() && secretin.api.db}
+        >
           Secret-in.me
           <small>{status}</small>
         </h2>
