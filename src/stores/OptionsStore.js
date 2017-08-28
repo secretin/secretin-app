@@ -12,6 +12,7 @@ const OptionsState = new Record({
   showShortLogin: false,
   showRescueCodes: false,
   newPass: new Immutable.Map({
+    shown: false,
     newPass1: '',
     newPass2: '',
     error: '',
@@ -187,6 +188,28 @@ class OptionsStore {
 
   onChangeNewPass2(newPass2) {
     this.setState(this.state.setIn(['newPass', 'newPass2'], newPass2.value));
+  }
+
+  onShowChangePassword() {
+    this.setState(
+      this.state
+        .setIn(['newPass', 'newPass1'], '')
+        .setIn(['newPass', 'newPass2'], '')
+        .setIn(['newPass', 'error'], '')
+        .setIn(['newPass', 'loading'], false)
+        .setIn(['newPass', 'shown'], true)
+    );
+  }
+
+  onHideChangePassword() {
+    this.setState(
+      this.state
+        .setIn(['newPass', 'newPass1'], '')
+        .setIn(['newPass', 'newPass2'], '')
+        .setIn(['newPass', 'error'], '')
+        .setIn(['newPass', 'loading'], false)
+        .setIn(['newPass', 'shown'], false)
+    );
   }
 
   onChangePassword() {

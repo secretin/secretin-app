@@ -8,6 +8,7 @@ import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import RescueCodesShow from 'components/options/RescueCodesShow';
 import ImportKeepassShow from 'components/options/ImportKeepassShow';
+import ChangePasswordShow from 'components/options/ChangePasswordShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
 import Input from 'components/utilities/Input';
@@ -30,14 +31,7 @@ class OptionsContainer extends Component {
   static getPropsFromStores() {
     return {
       options: OptionsStore.getOptions(),
-      newPass: OptionsStore.getNewPass(),
     };
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.onChangePassword = this.onChangePassword.bind(this);
   }
 
   onChangeTimeToClose({ value }) {
@@ -46,15 +40,8 @@ class OptionsContainer extends Component {
     });
   }
 
-  onChangePassword() {
-    OptionsActions.changePassword({
-      newPass: this.props.newPass.toJS().newPass1,
-    });
-  }
-
   render() {
     const { options } = this.props;
-    const { newPass1, newPass2, loading } = this.props.newPass.toJS();
     return (
       <div className="page">
         <div className="page-header">
@@ -133,35 +120,15 @@ class OptionsContainer extends Component {
           </div>
           <div className="options-section">
             <div className="options-section-item">
-              <div className="options-section-item-changepass">
-                <Input
-                  name="newPass1"
-                  label="Change master password"
-                  value={newPass1}
-                  onChange={OptionsActions.changeNewPass1}
-                  type="password"
-                  disabled={loading || !AppUIStore.isOnline()}
-                />
-                {newPass1.length > 0 &&
-                  <Input
-                    name="newPass2"
-                    label="Retype"
-                    value={newPass2}
-                    onChange={OptionsActions.changeNewPass2}
-                    type="password"
-                    disabled={loading || !AppUIStore.isOnline()}
-                  />}
-              </div>
-              {newPass1.length > 0 &&
-                newPass1 === newPass2 &&
-                <Button
-                  type="button"
-                  buttonStyle="primary"
-                  onClick={this.onChangePassword}
-                  disabled={loading || !AppUIStore.isOnline()}
-                >
-                  Change master password
-                </Button>}
+              <ChangePasswordShow />
+              <Button
+                type="button"
+                buttonStyle="primary"
+                onClick={OptionsActions.showChangePassword}
+                disabled={!AppUIStore.isOnline()}
+              >
+                Change master password
+              </Button>
             </div>
           </div>
           <div className="options-section">

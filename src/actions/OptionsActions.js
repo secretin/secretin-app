@@ -16,6 +16,8 @@ class OptionsActions {
       'deactivateShortLoginFailure',
       'showImportKeepass',
       'hideImportKeepass',
+      'showChangePassword',
+      'hideChangePassword',
       'importKeepassProgress',
       'importKeepassSuccess',
       'importKeepassFailure',
