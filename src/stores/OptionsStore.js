@@ -11,6 +11,12 @@ const OptionsState = new Record({
   showQRCode: false,
   showShortLogin: false,
   showRescueCodes: false,
+  newPass: new Immutable.Map({
+    newPass1: '',
+    newPass2: '',
+    error: '',
+    loading: false,
+  }),
   rescueCodes: new Immutable.List(),
   loading: false,
   import: Immutable.fromJS({
@@ -175,6 +181,40 @@ class OptionsStore {
     this.setState(this.state.setIn(['options', 'timeToClose'], timeToClose));
   }
 
+  onChangeNewPass1(newPass1) {
+    this.setState(this.state.setIn(['newPass', 'newPass1'], newPass1.value));
+  }
+
+  onChangeNewPass2(newPass2) {
+    this.setState(this.state.setIn(['newPass', 'newPass2'], newPass2.value));
+  }
+
+  onChangePassword() {
+    this.setState(
+      this.state
+        .setIn(['newPass', 'loading'], true)
+        .setIn(['newPass', 'error'], '')
+    );
+  }
+
+  onChangePasswordSuccess() {
+    this.setState(
+      this.state
+        .setIn(['newPass', 'newPass1'], '')
+        .setIn(['newPass', 'newPass2'], '')
+        .setIn(['newPass', 'error'], '')
+        .setIn(['newPass', 'loading'], false)
+    );
+  }
+
+  onChangePasswordFailure() {
+    this.setState(
+      this.state
+        .setIn(['newPass', 'error'], 'Password change failed')
+        .setIn(['newPass', 'loading'], false)
+    );
+  }
+
   onShowRescueCodesSuccess({ rescueCodes }) {
     this.setState(
       this.state.merge({
@@ -195,6 +235,10 @@ class OptionsStore {
 
   static getOptions() {
     return this.getState().get('options');
+  }
+
+  static getNewPass() {
+    return this.getState().get('newPass');
   }
 }
 
