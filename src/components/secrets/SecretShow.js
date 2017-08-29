@@ -4,6 +4,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import Immutable from 'immutable';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
+import HistorySecretUIActions from 'actions/HistorySecretUIActions';
 import MetadataActions from 'actions/MetadataActions';
 import ShowSecretUIStore from 'stores/ShowSecretUIStore';
 import EditSecretUIStore from 'stores/EditSecretUIStore';
@@ -11,6 +12,7 @@ import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretHistory from 'components/secrets/SecretHistory';
 import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
 import SecretEditableTitle from 'components/secrets/SecretEditableTitle';
@@ -55,6 +57,9 @@ class SecretShow extends Component {
   }
 
   handleChangeTab(tab) {
+    if (tab.toString() === 'history') {
+      HistorySecretUIActions.loadHistory({ secret: this.props.secret });
+    }
     ShowSecretUIActions.changeTab({ tab });
   }
 
@@ -118,6 +123,11 @@ class SecretShow extends Component {
                   errors={this.props.errors}
                   secret={this.props.secret}
                 />
+              </Tab>}
+
+            {this.props.secret.type !== 'folder' &&
+              <Tab eventKey="history" title="History">
+                <SecretHistory canUpdate={canUpdate} />
               </Tab>}
           </Tabs>
         </Modal.Body>
