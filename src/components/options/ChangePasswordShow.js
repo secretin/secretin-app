@@ -90,15 +90,24 @@ class ChangePasswordShow extends Component {
             disabled={this.props.loading}
           />
           {this.props.newPass1.length > 0 &&
-            <Input
-              name="newPass2"
-              label="Retype"
-              value={this.props.newPass2}
-              onChange={OptionsActions.changeNewPass2}
-              type="password"
-              disabled={this.props.loading}
-            />}
-          {this.state.success && <div>Success</div>}
+            <span className="options-changepassword">
+              <Input
+                name="newPass2"
+                label="Retype"
+                value={this.props.newPass2}
+                onChange={OptionsActions.changeNewPass2}
+                type="password"
+                disabled={this.props.loading}
+              />
+            </span>}
+          <div className="options-changepassword-infos">
+            {!this.state.success &&
+              this.props.newPass1.length > 0 &&
+              this.props.newPass1 !== this.props.newPass2 &&
+              'Passwords mismatch'}
+            {this.state.success && 'Success'}
+            {this.props.error !== '' && this.props.error}
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
@@ -110,12 +119,11 @@ class ChangePasswordShow extends Component {
             Close
           </Button>
           {this.props.newPass1.length > 0 &&
-            this.props.newPass1 === this.props.newPass2 &&
             <Button
               type="button"
               buttonStyle="primary"
               onClick={this.handleChangePassword}
-              disabled={this.props.loading}
+              disabled={this.props.newPass1 !== this.props.newPass2}
             >
               Change it
             </Button>}

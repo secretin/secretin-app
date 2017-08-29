@@ -123,7 +123,7 @@ class OptionsContainer extends Component {
               <ChangePasswordShow />
               <Button
                 type="button"
-                buttonStyle="primary"
+                buttonStyle="warning"
                 onClick={OptionsActions.showChangePassword}
                 disabled={!AppUIStore.isOnline()}
               >
