@@ -77,6 +77,7 @@ class MetadataActions {
         .then(() => {
           this.updateSecretSuccess({
             metadata: secretin.currentUser.metadatas,
+            data,
           });
         })
         .catch(error => {
