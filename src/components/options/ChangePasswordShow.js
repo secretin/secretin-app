@@ -62,11 +62,10 @@ class ChangePasswordShow extends Component {
       this.setState({
         success: true,
       });
-      setTimeout(() => {
-        this.setState({
-          success: false,
-        });
-      }, 1000);
+    } else {
+      this.setState({
+        success: false,
+      });
     }
   }
 
@@ -80,35 +79,38 @@ class ChangePasswordShow extends Component {
           <span className="text">Change master password</span>
         </Modal.Header>
 
-        <Modal.Body>
-          <Input
-            name="newPass1"
-            label="New password"
-            value={this.props.newPass1}
-            onChange={OptionsActions.changeNewPass1}
-            type="password"
-            disabled={this.props.loading}
-          />
-          {this.props.newPass1.length > 0 &&
-            <span className="options-changepassword">
+        {!this.state.success
+          ? <Modal.Body>
               <Input
-                name="newPass2"
-                label="Retype"
-                value={this.props.newPass2}
-                onChange={OptionsActions.changeNewPass2}
+                name="newPass1"
+                label="New password"
+                value={this.props.newPass1}
+                onChange={OptionsActions.changeNewPass1}
                 type="password"
                 disabled={this.props.loading}
               />
-            </span>}
-          <div className="options-changepassword-infos">
-            {!this.state.success &&
-              this.props.newPass1.length > 0 &&
-              this.props.newPass1 !== this.props.newPass2 &&
-              'Passwords mismatch'}
-            {this.state.success && 'Success'}
-            {this.props.error !== '' && this.props.error}
-          </div>
-        </Modal.Body>
+              {this.props.newPass1.length > 0 &&
+                <span className="options-changepassword">
+                  <Input
+                    name="newPass2"
+                    label="Retype"
+                    value={this.props.newPass2}
+                    onChange={OptionsActions.changeNewPass2}
+                    type="password"
+                    disabled={this.props.loading}
+                  />
+                </span>}
+              <div className="options-changepassword-infos">
+                {this.props.error === '' &&
+                  this.props.newPass1.length > 0 &&
+                  this.props.newPass1 !== this.props.newPass2 &&
+                  'Passwords mismatch'}
+                {this.props.error !== '' && this.props.error}
+              </div>
+            </Modal.Body>
+          : <Modal.Body>
+              <div className="options-changepassword-success">Success</div>
+            </Modal.Body>}
 
         <Modal.Footer>
           <Button
