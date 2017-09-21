@@ -7,7 +7,6 @@ import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import RescueCodesShow from 'components/options/RescueCodesShow';
-import ImportKeepassShow from 'components/options/ImportKeepassShow';
 import ChangePasswordShow from 'components/options/ChangePasswordShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
@@ -128,20 +127,6 @@ class OptionsContainer extends Component {
                 disabled={!AppUIStore.isOnline()}
               >
                 Change master password
-              </Button>
-            </div>
-          </div>
-          <div className="options-section">
-            <h3 className="options-section-title">Imports</h3>
-            <div className="options-section-item">
-              <ImportKeepassShow />
-              <Button
-                type="button"
-                buttonStyle="primary"
-                onClick={OptionsActions.showImportKeepass}
-                disabled={!AppUIStore.isOnline()}
-              >
-                Import from Keepass
               </Button>
             </div>
           </div>
