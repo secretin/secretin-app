@@ -11,7 +11,13 @@ class Button extends Component {
     form: PropTypes.string,
     disabled: PropTypes.bool,
     size: PropTypes.string,
-    buttonStyle: PropTypes.oneOf(['default', 'primary', 'icon']),
+    buttonStyle: PropTypes.oneOf([
+      'default',
+      'primary',
+      'icon',
+      'success',
+      'warning',
+    ]),
     to: PropTypes.string,
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([

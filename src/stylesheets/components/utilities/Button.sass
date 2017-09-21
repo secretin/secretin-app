@@ -40,8 +40,17 @@
   background-color: $color-peter-river
   color: white
 
+.button--style-warning
+  @extend .button--style-primary
+  background-color: $color-pomegranate
+
+.button--style-success
+  @extend .button--style-primary
+  background-color: $color-nephritis
+
 .button--style-default,
-.button--style-primary
+.button--style-primary,
+.button--style-warning
   &.button--size-base
     .icon
       margin-left: -12px

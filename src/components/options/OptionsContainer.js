@@ -7,6 +7,7 @@ import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import RescueCodesShow from 'components/options/RescueCodesShow';
+import ChangePasswordShow from 'components/options/ChangePasswordShow';
 import Title from 'components/utilities/Title';
 import Checkbox from 'components/utilities/Checkbox';
 import Input from 'components/utilities/Input';
@@ -19,6 +20,7 @@ import OptionsStore from 'stores/OptionsStore';
 class OptionsContainer extends Component {
   static propTypes = {
     options: PropTypes.instanceOf(Immutable.Map),
+    newPass: PropTypes.instanceOf(Immutable.Map),
   };
 
   static getStores() {
@@ -39,7 +41,6 @@ class OptionsContainer extends Component {
 
   render() {
     const { options } = this.props;
-
     return (
       <div className="page">
         <div className="page-header">
@@ -117,8 +118,17 @@ class OptionsContainer extends Component {
             </div>
           </div>
           <div className="options-section">
-            <h3 className="options-section-title">Password generation</h3>
-            <div className="options-section-item">SOON BY @dqms</div>
+            <div className="options-section-item">
+              <ChangePasswordShow />
+              <Button
+                type="button"
+                buttonStyle="warning"
+                onClick={OptionsActions.showChangePassword}
+                disabled={!AppUIStore.isOnline()}
+              >
+                Change master password
+              </Button>
+            </div>
           </div>
         </div>
       </div>

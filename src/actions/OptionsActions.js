@@ -13,12 +13,23 @@ class OptionsActions {
       'activateShortLoginFailure',
       'deactivateShortLoginSuccess',
       'deactivateShortLoginFailure',
+      'showImportKeepass',
+      'hideImportKeepass',
+      'showChangePassword',
+      'hideChangePassword',
+      'importKeepassProgress',
+      'importKeepassSuccess',
+      'importKeepassFailure',
       'hideQRCode',
       'hideShortLogin',
       'changeDelaySuccess',
       'changeDelayFailure',
       'showRescueCodesSuccess',
-      'hideRescueCodes'
+      'hideRescueCodes',
+      'changeNewPass1',
+      'changeNewPass2',
+      'changePasswordSuccess',
+      'changePasswordFailure'
     );
   }
 
@@ -83,6 +94,20 @@ class OptionsActions {
         })
         .catch(() => {
           this.deactivateShortLoginFailure();
+        });
+    };
+  }
+
+  changePassword({ newPass }) {
+    return dispatch => {
+      dispatch();
+      secretin
+        .changePassword(newPass)
+        .then(() => {
+          this.changePasswordSuccess();
+        })
+        .catch(() => {
+          this.changePasswordFailure();
         });
     };
   }
