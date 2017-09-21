@@ -11,7 +11,7 @@ class InternalProgressBar {
 
   update() {
     this.status += 1;
-    this.func(this.status, this.total);
+    this.func({ state: this.status, total: this.total });
   }
 }
 
@@ -147,7 +147,19 @@ function count(group) {
   return nb;
 }
 
-export function parseKeepass(xml, progress = defaultProgress) {
+export function detect(file) {
+  const parser = new DOMParser();
+  let isKeepass = false;
+  try {
+    const xmlDoc = parser.parseFromString(file, 'application/xml');
+    isKeepass = xmlDoc.getElementsByTagName('KeePassFile').length === 1;
+  } catch (e) {
+    isKeepass = false;
+  }
+  return isKeepass;
+}
+
+export function parse(xml, mandatoryField, progress = defaultProgress) {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xml, 'application/xml');
   const root = xmlDoc.getElementsByTagName('Root')[0].children[0];
@@ -155,8 +167,12 @@ export function parseKeepass(xml, progress = defaultProgress) {
   return parseGroup(root, currentProgress);
 }
 
-const Import = {
-  parseKeepass,
+export const mandatoryFields = {};
+
+const keepass = {
+  parse,
+  detect,
+  mandatoryFields,
 };
 
-export default Import;
+export default keepass;

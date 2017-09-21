@@ -2,10 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import NavLink from 'react-router-dom/NavLink';
+import moment from 'moment';
 
 import secretin from 'utils/secretin';
 import AppUIStore from 'stores/AppUIStore';
 import Icon from 'components/utilities/Icon';
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute(
+    'href',
+    `data:application/json;charset=utf-8,${encodeURIComponent(text)}`
+  );
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 
 function SidebarMenuLink({ children, ...props }) {
   return (
@@ -27,6 +44,15 @@ SidebarMenuLink.propTypes = {
     PropTypes.string,
   ]),
 };
+
+function exportDb() {
+  secretin.exportDb().then(db => {
+    download(
+      `Secret-in_${secretin.currentUser.username}_${moment().format()}.json`,
+      db
+    );
+  });
+}
 
 function Sidebar() {
   const currentUser = AppUIStore.getCurrentUser();
@@ -60,6 +86,17 @@ function Sidebar() {
           <SidebarMenuLink to="/settings/">
             <Icon id="gear" size="base" />
             Settings
+          </SidebarMenuLink>
+          <div className="sidebar-separator" />
+          <li className="sidebar-menu-item">
+            <a className="sidebar-menu-link" onClick={exportDb}>
+              <Icon id="export" size="base" />
+              Export secrets
+            </a>
+          </li>
+          <SidebarMenuLink to="/import/">
+            <Icon id="import" size="base" />
+            Import secrets
           </SidebarMenuLink>
         </ul>
       </div>
