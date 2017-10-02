@@ -1,4 +1,5 @@
 import Secretin from 'secretin';
+import { SecretinBrowserAdapter } from 'secretin/dist/adapters/browser';
 
 const serverURI = process.env.REACT_APP_API_SECRETIN
   ? process.env.REACT_APP_API_SECRETIN
@@ -12,7 +13,7 @@ if (typeof window.process !== 'undefined') {
   api = params.get('api');
 }
 
-const secretin = new Secretin(Secretin.API.Server, api);
+const secretin = new Secretin(SecretinBrowserAdapter, Secretin.API.Server, api);
 
 export const Statuses = {
   ...Secretin.Statuses,
