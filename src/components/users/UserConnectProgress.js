@@ -26,7 +26,7 @@ class UserConnectProgress extends Component {
 
     const nextMessage =
       nextStatus instanceof DecryptMetadataStatus
-        ? 'Loading your secrets...'
+        ? 'Updating your secrets...'
         : nextStatus.message;
 
     if (nextMessage !== currentStatus.message) {
