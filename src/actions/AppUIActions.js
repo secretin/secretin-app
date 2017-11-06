@@ -5,6 +5,7 @@ const {
   DecryptMetadataStatus,
   EndDecryptMetadataStatus,
   DecryptUserOptionsStatus,
+  DecryptMetadataCacheStatus,
 } = Statuses;
 
 const {
@@ -108,6 +109,8 @@ class AppUIActions {
     return dispatch => {
       const currentUser = secretin.currentUser;
       switch (status.constructor) {
+        case DecryptMetadataCacheStatus:
+          return dispatch({ status });
         case DecryptMetadataStatus:
           return dispatch({ status });
         case DecryptUserOptionsStatus:

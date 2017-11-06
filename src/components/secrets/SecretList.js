@@ -13,10 +13,7 @@ import SecretListNew from 'components/secrets/SecretListNew';
 import SecretListSearch from 'components/secrets/SecretListSearch';
 import UserConnectProgress from 'components/users/UserConnectProgress';
 
-import Button from 'components/utilities/Button';
 import Title from 'components/utilities/Title';
-
-import NewSecretUIActions from 'actions/NewSecretUIActions';
 
 class SecretList extends Component {
   static propTypes = {
@@ -51,52 +48,6 @@ class SecretList extends Component {
 
   onSearch(searchQuery) {
     this.setState({ searchQuery });
-  }
-
-  renderPlaceholder() {
-    let folderId = null;
-    if (this.props.folder) {
-      folderId = this.props.folder.id;
-    }
-
-    if (!this.props.showShared) {
-      return (
-        <div className="secret-list-placeholder">
-          <h1 className="secret-list-placeholder-title">
-            You don&apos;t have any secrets, yet
-          </h1>
-          <p className="secret-list-placeholder-text">Start adding some now</p>
-          <div className="secret-list-placeholder-actions">
-            <Button
-              onClick={() =>
-                NewSecretUIActions.showModal({
-                  folder: folderId,
-                  isFolder: true,
-                })}
-            >
-              New folder
-            </Button>
-            <Button
-              onClick={() =>
-                NewSecretUIActions.showModal({
-                  folder: folderId,
-                  isFolder: false,
-                })}
-            >
-              New secret
-            </Button>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="secret-list-placeholder">
-        <h1 className="secret-list-placeholder-title">
-          Nobody shared secret with you yet
-        </h1>
-      </div>
-    );
   }
 
   render() {
@@ -141,20 +92,16 @@ class SecretList extends Component {
             <div className="page-content-actions">
               <SecretListNew folder={this.props.folder} />
             </div>}
-          {this.props.secrets.isEmpty()
-            ? this.renderPlaceholder()
-            : <SecretListContent
-                filtered={
-                  this.props.showAll ||
-                  this.props.showMine ||
-                  this.props.showShared
-                }
-                secrets={this.props.secrets}
-                folders={this.props.folders}
-                isDragging={this.props.isDragging}
-                searchQuery={this.state.searchQuery}
-                endDecrypt={AppUIStore.getState().get('status') === null}
-              />}
+          <SecretListContent
+            filtered={
+              this.props.showAll || this.props.showMine || this.props.showShared
+            }
+            secrets={this.props.secrets}
+            folders={this.props.folders}
+            isDragging={this.props.isDragging}
+            searchQuery={this.state.searchQuery}
+            endDecrypt={AppUIStore.getState().get('status') === null}
+          />
         </div>
       </div>
     );
