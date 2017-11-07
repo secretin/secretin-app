@@ -141,7 +141,7 @@ class AppUIActions {
     return dispatch => {
       dispatch();
       secretin
-        .shortLogin(shortpass, this.loginUserProgress, true)
+        .shortLogin(shortpass, this.loginUserProgress, false)
         .then(currentUser => {
           this.loginUserSuccess({
             currentUser,
