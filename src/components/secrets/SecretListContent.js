@@ -52,6 +52,9 @@ class SecretListContent extends Component {
           .getIn(['users', currentUser.username, 'folders'])
           .entrySeq()
           .first();
+        if (folderSeq.length === 0) {
+          folderSeq.push('ROOT');
+        }
         filteredFolders = filteredFolders.setIn(
           [folderSeq[0], 'secrets', secret.id],
           secret
