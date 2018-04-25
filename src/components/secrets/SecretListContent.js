@@ -48,10 +48,13 @@ class SecretListContent extends Component {
     if (this.props.filtered) {
       const allFolders = MetadataStore.getAllFolders();
       filteredSecrets.forEach(secret => {
-        const folderSeq = secret
+        let folderSeq = secret
           .getIn(['users', currentUser.username, 'folders'])
           .entrySeq()
           .first();
+        if (typeof folderSeq === 'undefined') {
+          folderSeq = ['ROOT'];
+        }
         filteredFolders = filteredFolders.setIn(
           [folderSeq[0], 'secrets', secret.id],
           secret
