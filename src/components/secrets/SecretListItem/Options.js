@@ -91,7 +91,7 @@ class SecretListItemOptions extends Component {
 
               {parentFolderId &&
                 <Dropdown.MenuItem onSelect={this.handleMoveToParent}>
-                  Remove from <b>{folder.title}</b>
+                  Remove from&nbsp;<b>{folder.title}</b>
                 </Dropdown.MenuItem>}
 
               {secret.canBeDeleted() &&
