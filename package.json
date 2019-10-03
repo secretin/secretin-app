@@ -55,5 +55,8 @@
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
+  },
+  "resolutions": {
+    "electron-download": "4.1.0"
   }
 }
