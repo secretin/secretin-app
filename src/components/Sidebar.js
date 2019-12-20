@@ -12,7 +12,7 @@ function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute(
     'href',
-    `data:application/json;charset=utf-8,${encodeURIComponent(text)}`,
+    `data:application/json;charset=utf-8,${encodeURIComponent(text)}`
   );
   element.setAttribute('download', filename);
 
@@ -49,7 +49,7 @@ function exportDb() {
   secretin.exportDb().then(db => {
     download(
       `Secret-in_${secretin.currentUser.username}_${moment().format()}.json`,
-      db,
+      db
     );
   });
 }
