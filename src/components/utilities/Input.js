@@ -51,19 +51,6 @@ class Input extends Component {
     debounce: 0,
   };
 
-  // If props.value changes, the new value should override state.value
-  static getDerivedStateFromProps(nextProps) {
-    const { value: oldValue } = this.props;
-    const { value: newValue } = nextProps;
-
-    if (newValue !== oldValue) {
-      return {
-        value: newValue,
-      };
-    }
-    return null;
-  }
-
   constructor(props) {
     super(props);
 
@@ -72,7 +59,6 @@ class Input extends Component {
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
-      value: props.value,
       showPassword: false,
     };
   }
@@ -99,7 +85,6 @@ class Input extends Component {
   handleChange({ target }) {
     const { value } = target;
     this.onChange({ value });
-    this.setState({ value });
   }
 
   select() {
@@ -152,7 +137,7 @@ class Input extends Component {
             type={
               type === 'password' && this.state.showPassword ? 'text' : type
             }
-            value={this.state.value}
+            value={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
             autoComplete={autoComplete ? null : 'new-password'}
