@@ -13,27 +13,23 @@ class UserConnectProgress extends Component {
     }),
   };
 
+  static getDerivedStateFromProps({ status: nextStatus }) {
+    const nextMessage =
+      nextStatus instanceof DecryptMetadataStatus
+        ? 'Updating your secrets...'
+        : nextStatus.message;
+
+    return {
+      message: nextMessage,
+    };
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       message: '',
     };
-  }
-
-  componentWillReceiveProps({ status: nextStatus }) {
-    const { status: currentStatus } = this.props;
-
-    const nextMessage =
-      nextStatus instanceof DecryptMetadataStatus
-        ? 'Updating your secrets...'
-        : nextStatus.message;
-
-    if (nextMessage !== currentStatus.message) {
-      this.setState({
-        message: nextMessage,
-      });
-    }
   }
 
   render() {

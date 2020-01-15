@@ -33,12 +33,6 @@ class UserConnect extends Component {
     };
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      showShortpass: secretin.canITryShortLogin(),
-    });
-  }
-
   onSubmit(e) {
     if (e) {
       e.preventDefault();

@@ -39,6 +39,16 @@ class QRCodeShow extends Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.shown) {
+      return {
+        seed: Secretin.Utils.generateSeed(),
+        token: '',
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
@@ -49,15 +59,6 @@ class QRCodeShow extends Component {
       seed: Secretin.Utils.generateSeed(),
       token: '',
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.shown) {
-      this.setState({
-        seed: Secretin.Utils.generateSeed(),
-        token: '',
-      });
-    }
   }
 
   handleChange(e) {

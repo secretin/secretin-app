@@ -17,6 +17,7 @@ const OptionsState = new Record({
     newPass2: '',
     error: '',
     loading: false,
+    status: 'initial', // 3 possible states : initial, success, failure
   }),
   rescueCodes: new Immutable.List(),
   loading: false,
@@ -160,6 +161,7 @@ class OptionsStore {
         .setIn(['newPass', 'newPass2'], '')
         .setIn(['newPass', 'error'], '')
         .setIn(['newPass', 'loading'], false)
+        .setIn(['newPass', 'status'], 'success')
     );
   }
 
@@ -168,6 +170,7 @@ class OptionsStore {
       this.state
         .setIn(['newPass', 'error'], 'Password change failed')
         .setIn(['newPass', 'loading'], false)
+        .setIn(['newPass', 'status'], 'failure')
     );
   }
 

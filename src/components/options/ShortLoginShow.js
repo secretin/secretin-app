@@ -36,6 +36,15 @@ class QRCodeShow extends Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.shown) {
+      return {
+        shortpass: '',
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
@@ -45,14 +54,6 @@ class QRCodeShow extends Component {
     this.state = {
       shortpass: '',
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.shown) {
-      this.setState({
-        shortpass: '',
-      });
-    }
   }
 
   handleChange({ name, value }) {

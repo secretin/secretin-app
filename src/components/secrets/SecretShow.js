@@ -84,9 +84,19 @@ class SecretShow extends Component {
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
           <SecretEditableTitle
-            secret={this.props.secret}
+            title={this.props.secret.title}
             canUpdate={canUpdate}
             isUpdating={this.props.isUpdating}
+            onSubmit={newTitle => {
+              if (newTitle !== this.props.secret.title) {
+                setTimeout(() => {
+                  MetadataActions.renameSecret({
+                    secret: this.props.secret,
+                    newTitle,
+                  });
+                });
+              }
+            }}
           />
         </Modal.Header>
 

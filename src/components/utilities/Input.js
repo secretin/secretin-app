@@ -59,7 +59,6 @@ class Input extends Component {
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
-      value: props.value,
       showPassword: false,
     };
   }
@@ -67,16 +66,6 @@ class Input extends Component {
   componentDidMount() {
     if (this.props.autoSelect) {
       setTimeout(() => this.input.select(), 0);
-    }
-  }
-
-  componentWillReceiveProps({ value: newValue }) {
-    const { value: oldValue } = this.props;
-
-    if (newValue !== oldValue) {
-      this.setState({
-        value: newValue,
-      });
     }
   }
 
@@ -96,7 +85,6 @@ class Input extends Component {
   handleChange({ target }) {
     const { value } = target;
     this.onChange({ value });
-    this.setState({ value });
   }
 
   select() {
@@ -149,7 +137,7 @@ class Input extends Component {
             type={
               type === 'password' && this.state.showPassword ? 'text' : type
             }
-            value={this.state.value}
+            value={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
             autoComplete={autoComplete ? null : 'new-password'}

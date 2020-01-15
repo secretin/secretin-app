@@ -13,6 +13,7 @@ class ChangePasswordShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
     loading: PropTypes.bool,
+    status: PropTypes.oneOf(['initial', 'success', 'failure']),
     error: PropTypes.string,
     newPass1: PropTypes.string,
     newPass2: PropTypes.string,
@@ -37,6 +38,7 @@ class ChangePasswordShow extends Component {
       errors: state.get('error'),
       shown: state.get('shown'),
       loading: state.get('loading'),
+      status: state.get('status'),
       newPass1: state.get('newPass1'),
       newPass2: state.get('newPass2'),
     };
@@ -44,10 +46,6 @@ class ChangePasswordShow extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      success: false,
-    };
     this.handleChangePassword = this.handleChangePassword.bind(this);
   }
 
@@ -55,18 +53,6 @@ class ChangePasswordShow extends Component {
     OptionsActions.changePassword({
       newPass: this.props.newPass1,
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.loading && !nextProps.loading && nextProps.error === '') {
-      this.setState({
-        success: true,
-      });
-    } else {
-      this.setState({
-        success: false,
-      });
-    }
   }
 
   render() {
@@ -79,7 +65,7 @@ class ChangePasswordShow extends Component {
           <span className="text">Change master password</span>
         </Modal.Header>
 
-        {!this.state.success ? (
+        {this.props.status !== 'success' ? (
           <Modal.Body>
             <Input
               name="newPass1"
