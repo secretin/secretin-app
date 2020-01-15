@@ -87,17 +87,16 @@ class SecretField extends Component {
           actions={new Immutable.List(actions)}
         />
         <div className="secret-field-action">
-          {this.props.field.type === 'password' &&
-            this.props.canUpdate && (
-              <Button
-                title="Generate password"
-                buttonStyle="icon"
-                onClick={this.onGenerate}
-                tabIndex="-1"
-              >
-                <Icon id="generate" size="small" />
-              </Button>
-            )}
+          {this.props.field.type === 'password' && this.props.canUpdate && (
+            <Button
+              title="Generate password"
+              buttonStyle="icon"
+              onClick={this.onGenerate}
+              tabIndex="-1"
+            >
+              <Icon id="generate" size="small" />
+            </Button>
+          )}
         </div>
       </div>
     );
