@@ -21,8 +21,7 @@
     "gh-pages": "^2.2.0",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
-    "raw-loader": "^4.0.0",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "2.1.8"
   },
   "dependencies": {
     "alt": "^0.18.6",
