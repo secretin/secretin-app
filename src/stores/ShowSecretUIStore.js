@@ -109,16 +109,14 @@ class ShowSecretUIStore {
     this.waitFor(MetadataStore);
     this.setState(
       this.state
-        .update(
-          'secret',
-          secret =>
-            secret
-              ? secret.merge(
-                  MetadataStore.getById(this.state.secret.id)
-                    .toMap()
-                    .remove('data')
-                )
-              : null
+        .update('secret', secret =>
+          secret
+            ? secret.merge(
+                MetadataStore.getById(this.state.secret.id)
+                  .toMap()
+                  .remove('data')
+              )
+            : null
         )
         .set('isUpdating', false)
         .set('errors', new Immutable.Map())

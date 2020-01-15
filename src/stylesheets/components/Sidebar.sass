@@ -1,7 +1,7 @@
 .sidebar
   position: relative
-  flex: 0 0 240px
-  width: 240px
+  flex: 0 0 30vw
+  min-width: 90px
   &:after
     content: ''
     position: absolute
@@ -19,29 +19,43 @@
   height: 50px
   color: rgba($color-brand, .4)
   border-bottom: 1px solid rgba($color-brand, .05)
-  a
-    color: inherit
-    text-decoration: inherit
+  @media screen and (max-width: $width-small)
+    font-size: 12px
+    margin: 0 5px
+    height: 30px
+
+a
+  color: inherit
+  text-decoration: inherit
 
 .sidebar-menu
   list-style: none
   margin: 20px
   padding: 0
+  @media screen and (max-width: $width-small)
+    margin: 5px
 
 .sidebar-menu-item
   margin: 0
   padding: 0
 
+.sidebar-menu-item--home
+  @media screen and (max-width: $width-small)
+    display: none
+
 .sidebar-menu-link
   display: flex
   flex-direction: row
   align-items: center
-  height: 44px
+  min-height: 44px
   font-size: 15px
   color: inherit
   padding: 0 12px 0 8px
   margin: 0 0 2px
   border-radius: 3px
+  @media screen and (max-width: $width-small)
+    font-size: 12px
+    padding: 0 4px 0 2px
 
 .sidebar-menu-link:hover
   background-color: rgba($color-brand, .1)

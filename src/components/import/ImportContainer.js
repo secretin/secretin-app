@@ -104,9 +104,7 @@ class ImportContainer extends Component {
                 <Spinner />
                 {this.props.importTotal !== 0 && (
                   <div className="import-progress-title">
-                    {`Importing... ${this.props.importStatus} / ${
-                      this.props.importTotal
-                    }`}
+                    {`Importing... ${this.props.importStatus} / ${this.props.importTotal}`}
                   </div>
                 )}
               </div>

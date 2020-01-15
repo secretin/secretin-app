@@ -70,6 +70,7 @@ function Sidebar() {
             {currentUser.username}
           </SidebarMenuLink>
           <div className="sidebar-separator" />
+
           <SidebarMenuLink to="/secrets/all/">
             <Icon id="apps" size="base" />
             All

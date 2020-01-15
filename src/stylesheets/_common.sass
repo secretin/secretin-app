@@ -1,3 +1,6 @@
+ /* Under this width, we start removing bits of the UI*/
+$width-small: 500px
+
 *
   -webkit-font-smoothing: antialiased
   box-sizing: border-box
@@ -24,6 +27,8 @@ body,
   padding: 20px
   flex-direction: column
   align-items: stretch
+  @media screen and (max-width: $width-small)
+    padding: 5px
 
 h1, h2, h3, h4, h5, h6
   margin: 0
