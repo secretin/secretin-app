@@ -14,19 +14,14 @@ class UserConnectProgress extends Component {
   };
 
   static getDerivedStateFromProps({ status: nextStatus }) {
-    const { status: currentStatus } = this.props;
-
     const nextMessage =
       nextStatus instanceof DecryptMetadataStatus
         ? 'Updating your secrets...'
         : nextStatus.message;
 
-    if (nextMessage !== currentStatus.message) {
-      return {
-        message: nextMessage,
-      };
-    }
-    return null;
+    return {
+      message: nextMessage,
+    };
   }
 
   constructor(props) {
