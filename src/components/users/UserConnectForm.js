@@ -108,7 +108,7 @@ class UserConnect extends Component {
           error={this.props.errors.get('password')}
           autoComplete
         />
-        {this.props.errors.get('totp') &&
+        {this.props.errors.get('totp') && (
           <Input
             name="token"
             label="Token"
@@ -118,8 +118,9 @@ class UserConnect extends Component {
             disabled={this.props.loading}
             error={this.props.errors.get('token')}
             autoFocus
-          />}
-        {this.state.signup &&
+          />
+        )}
+        {this.state.signup && (
           <Input
             name="confirmPassword"
             label="Confirm password"
@@ -128,7 +129,8 @@ class UserConnect extends Component {
             onChange={this.handleChange}
             disabled={this.props.loading}
             error={this.props.errors.get('confirmPassword')}
-          />}
+          />
+        )}
 
         <Button
           type="submit"
@@ -142,29 +144,31 @@ class UserConnect extends Component {
         </Button>
         <div className="user-connect-create">
           <span>
-            {this.state.signup
-              ? <span>
-                  I already have an account,&nbsp;
-                  <a
-                    onClick={() => {
-                      this.toggleSignup(!this.state.signup);
-                    }}
-                    tabIndex="-1"
-                  >
-                    sign in
-                  </a>
-                </span>
-              : <span>
-                  I don&apos;t have an account,&nbsp;
-                  <a
-                    onClick={() => {
-                      this.toggleSignup(!this.state.signup);
-                    }}
-                    tabIndex="-1"
-                  >
-                    create one
-                  </a>
-                </span>}
+            {this.state.signup ? (
+              <span>
+                I already have an account,&nbsp;
+                <a
+                  onClick={() => {
+                    this.toggleSignup(!this.state.signup);
+                  }}
+                  tabIndex="-1"
+                >
+                  sign in
+                </a>
+              </span>
+            ) : (
+              <span>
+                I don&apos;t have an account,&nbsp;
+                <a
+                  onClick={() => {
+                    this.toggleSignup(!this.state.signup);
+                  }}
+                  tabIndex="-1"
+                >
+                  create one
+                </a>
+              </span>
+            )}
           </span>
         </div>
       </Form>

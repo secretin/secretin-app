@@ -36,11 +36,7 @@ class ImportersMandatoryFields extends Component {
         />
       );
     });
-    return (
-      <div>
-        {inputs}
-      </div>
-    );
+    return <div>{inputs}</div>;
   }
 }
 

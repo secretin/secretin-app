@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'react-router-dom/Link';
-import NavLink from 'react-router-dom/NavLink';
+import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import secretin from 'utils/secretin';

@@ -21,9 +21,7 @@ function Flash({ type, children }) {
       <div className="flash-icon">
         <Icon id={type} size="small" />
       </div>
-      <div className="flash-content">
-        {children}
-      </div>
+      <div className="flash-content">{children}</div>
     </div>
   );
 }

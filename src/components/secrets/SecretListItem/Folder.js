@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import Immutable from 'immutable';
-import Link from 'react-router-dom/Link';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import MetadataActions from 'actions/MetadataActions';
@@ -61,9 +61,7 @@ function SecretListItemFolder(props) {
       <td className="secret-list-item-column secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
-        <span className="muted">
-          {secret.lastModifiedBy}
-        </span>
+        <span className="muted">{secret.lastModifiedBy}</span>
       </td>
       <td className="secret-list-item-column secret-list-item-column--shared-with">
         {users.size > 0 ? <UserAvatars users={users} /> : '––'}

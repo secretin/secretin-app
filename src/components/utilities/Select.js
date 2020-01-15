@@ -54,14 +54,14 @@ class Select extends Component {
 
     return (
       <div className={className}>
-        {this.props.label &&
+        {this.props.label && (
           <label htmlFor={this.id}>
             {this.props.label}
-            {this.props.actions.size > 0 &&
-              <span className="input-label-actions">
-                {this.props.actions}
-              </span>}
-          </label>}
+            {this.props.actions.size > 0 && (
+              <span className="input-label-actions">{this.props.actions}</span>
+            )}
+          </label>
+        )}
         <div className="input--type-select--input">
           <select
             ref={ref => {
@@ -72,11 +72,11 @@ class Select extends Component {
             title={this.props.title}
             onChange={this.onChange}
           >
-            {this.props.options.map(option =>
+            {this.props.options.map(option => (
               <option key={option[0]} value={option[0]}>
                 {option[1]}
               </option>
-            )}
+            ))}
           </select>
           <Icon id="arrow-down" />
         </div>

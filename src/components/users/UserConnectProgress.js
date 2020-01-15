@@ -38,17 +38,13 @@ class UserConnectProgress extends Component {
 
   render() {
     const { state, total } = this.props.status;
-    const width = `${Math.round(state / total * 100)}%`;
+    const width = `${Math.round((state / total) * 100)}%`;
     const style = { width };
     return (
       <div className="user-connect-progress">
         <div className="user-connect-progress-bar" style={style} />
-        <div className="user-connect-progress-text">
-          {this.state.message}
-        </div>
-        <div className="user-connect-progress-title">
-          {width}
-        </div>
+        <div className="user-connect-progress-text">{this.state.message}</div>
+        <div className="user-connect-progress-title">{width}</div>
       </div>
     );
   }

@@ -74,24 +74,28 @@ class SecretList extends Component {
     return (
       <div className="page">
         <div className="page-header">
-          {filtered
-            ? <div className="breadcrumb">
-                <Title icon={icon} title={title} link={link} />
-              </div>
-            : <SecretListBreadcrumb folders={this.props.folders} />}
+          {filtered ? (
+            <div className="breadcrumb">
+              <Title icon={icon} title={title} link={link} />
+            </div>
+          ) : (
+            <SecretListBreadcrumb folders={this.props.folders} />
+          )}
           <SecretListRefresh />
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {AppUIStore.getState().get('status') !== null &&
-          <UserConnectProgress status={AppUIStore.getState().get('status')} />}
+        {AppUIStore.getState().get('status') !== null && (
+          <UserConnectProgress status={AppUIStore.getState().get('status')} />
+        )}
         <div className="page-content">
           {!this.props.showAll &&
             !this.props.showMine &&
-            !this.props.showShared &&
-            <div className="page-content-actions">
-              <SecretListNew folder={this.props.folder} />
-            </div>}
+            !this.props.showShared && (
+              <div className="page-content-actions">
+                <SecretListNew folder={this.props.folder} />
+              </div>
+            )}
           <SecretListContent
             filtered={
               this.props.showAll || this.props.showMine || this.props.showShared

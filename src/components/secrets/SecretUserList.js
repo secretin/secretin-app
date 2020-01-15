@@ -55,7 +55,7 @@ class SecretUserList extends Component {
       <div className="secret-users">
         <div className="secret-users-list">
           {this.props.secret.users
-            .map(user =>
+            .map(user => (
               <SecretUserListItem
                 key={user.id}
                 user={user}
@@ -71,14 +71,15 @@ class SecretUserList extends Component {
                 onChangeUserRights={this.onChangeUserRights}
                 onRemoveUserRights={this.onRemoveUserRights}
               />
-            )
+            ))
             .toArray()}
         </div>
-        {canShare &&
+        {canShare && (
           <SecretUserListNew
             secret={this.props.secret}
             errors={this.props.errors}
-          />}
+          />
+        )}
       </div>
     );
   }

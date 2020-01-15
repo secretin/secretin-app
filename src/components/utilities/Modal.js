@@ -19,10 +19,11 @@ function Modal(props) {
       onBackdropClick={props.onClose}
     >
       <div className="modal-dialog">
-        {props.onClose &&
+        {props.onClose && (
           <button className="modal-dialog-close" onClick={props.onClose}>
             <Icon id="close" size="small" />
-          </button>}
+          </button>
+        )}
 
         {props.children}
       </div>
@@ -44,11 +45,7 @@ Modal.defaultProps = {
 };
 
 function ModalBody(props) {
-  return (
-    <div className="modal-body">
-      {props.children}
-    </div>
-  );
+  return <div className="modal-body">{props.children}</div>;
 }
 ModalBody.propTypes = {
   children: PropTypes.oneOfType([
@@ -61,9 +58,7 @@ ModalBody.propTypes = {
 function ModalHeader(props) {
   return (
     <div className="modal-header">
-      <h2 className="modal-header-title">
-        {props.title || props.children}
-      </h2>
+      <h2 className="modal-header-title">{props.title || props.children}</h2>
     </div>
   );
 }
@@ -77,11 +72,7 @@ ModalHeader.propTypes = {
 };
 
 function ModalFooter(props) {
-  return (
-    <div className="modal-footer">
-      {props.children}
-    </div>
-  );
+  return <div className="modal-footer">{props.children}</div>;
 }
 ModalFooter.propTypes = {
   children: PropTypes.oneOfType([

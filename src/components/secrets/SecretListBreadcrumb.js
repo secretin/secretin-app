@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import NavLink from 'react-router-dom/NavLink';
+import { NavLink } from 'react-router-dom';
 
 import { buildSecretURL } from 'utils/URLHelper';
 import MetadataStore from 'stores/MetadataStore';
@@ -81,11 +81,7 @@ function SecretListBreadcrumb({ folders, withTitle }) {
       );
   }
 
-  return (
-    <div className="breadcrumb">
-      {breadcrumb}
-    </div>
-  );
+  return <div className="breadcrumb">{breadcrumb}</div>;
 }
 SecretListBreadcrumb.propTypes = propTypes;
 SecretListBreadcrumb.defaultProps = defaultProps;
