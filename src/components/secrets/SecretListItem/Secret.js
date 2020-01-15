@@ -58,9 +58,7 @@ function SecretListItemSecret({
       <td className="secret-list-item-column secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
-        <span className="muted">
-          {secret.lastModifiedBy}
-        </span>
+        <span className="muted">{secret.lastModifiedBy}</span>
       </td>
       <td className="secret-list-item-column secret-list-item-column--shared-with">
         {users.size > 0 ? <UserAvatars users={users} /> : '––'}

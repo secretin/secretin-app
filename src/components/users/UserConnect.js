@@ -84,14 +84,16 @@ class UserConnect extends Component {
 
     return (
       <div className="user-connect">
-        {this.state.showShortpass
-          ? <UserConnectShortPass
-              savedUsername={savedUsername}
-              loading={loading}
-              error={errors.get('shortlogin')}
-              onCancel={this.hideShortpass}
-            />
-          : <UserConnectForm loading={loading} errors={errors} />}
+        {this.state.showShortpass ? (
+          <UserConnectShortPass
+            savedUsername={savedUsername}
+            loading={loading}
+            error={errors.get('shortlogin')}
+            onCancel={this.hideShortpass}
+          />
+        ) : (
+          <UserConnectForm loading={loading} errors={errors} />
+        )}
       </div>
     );
   }

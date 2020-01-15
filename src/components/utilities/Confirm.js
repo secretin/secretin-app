@@ -54,14 +54,9 @@ class Confirm extends Component {
   render() {
     return (
       <Modal show centered onClose={this.promise.reject}>
-        {this.props.title &&
-          <Modal.Header>
-            {this.props.title}
-          </Modal.Header>}
+        {this.props.title && <Modal.Header>{this.props.title}</Modal.Header>}
 
-        <Modal.Body>
-          {this.props.text}
-        </Modal.Body>
+        <Modal.Body>{this.props.text}</Modal.Body>
 
         <Modal.Footer>
           <Button

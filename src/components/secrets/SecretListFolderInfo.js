@@ -14,7 +14,7 @@ function SecretListFolderInfo({ folder }) {
     .sortBy(secret => secret.get('title').toLowerCase());
   return (
     <tbody className="secret-list-content-table-body">
-      {!folder.has('root') &&
+      {!folder.has('root') && (
         <tr className="secret-list-folder">
           <td colSpan="4" className="secret-list-folder-info">
             <SecretListBreadcrumb
@@ -22,11 +22,12 @@ function SecretListFolderInfo({ folder }) {
               withTitle={false}
             />
           </td>
-        </tr>}
+        </tr>
+      )}
       {secrets
-        .map(secret =>
+        .map(secret => (
           <SecretListItemFolderSecret key={secret.id} secret={secret} />
-        )
+        ))
         .toArray()}
     </tbody>
   );

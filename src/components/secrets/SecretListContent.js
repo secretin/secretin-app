@@ -33,7 +33,10 @@ class SecretListContent extends Component {
       'secret-list-content-table--is-dragging': this.props.isDragging,
     });
     const fuzzyRegexp = new RegExp(
-      this.props.searchQuery.split('').map(c => escapeRegExp(c)).join('.*'),
+      this.props.searchQuery
+        .split('')
+        .map(c => escapeRegExp(c))
+        .join('.*'),
       'i'
     );
 
@@ -120,23 +123,25 @@ class SecretListContent extends Component {
             <th className="secret-list-item-column--actions" />
           </tr>
         </thead>
-        {this.props.filtered
-          ? filteredFolders
-              .map((folder, id) =>
-                <SecretListFolderInfo key={id} folder={folder} />
-              )
-              .toArray()
-          : <tbody className="secret-list-content-table-body">
-              {filteredSecrets
-                .map(secret =>
-                  <SecretListItem
-                    key={secret.id}
-                    secret={secret}
-                    folders={this.props.folders}
-                  />
-                )
-                .toArray()}
-            </tbody>}
+        {this.props.filtered ? (
+          filteredFolders
+            .map((folder, id) => (
+              <SecretListFolderInfo key={id} folder={folder} />
+            ))
+            .toArray()
+        ) : (
+          <tbody className="secret-list-content-table-body">
+            {filteredSecrets
+              .map(secret => (
+                <SecretListItem
+                  key={secret.id}
+                  secret={secret}
+                  folders={this.props.folders}
+                />
+              ))
+              .toArray()}
+          </tbody>
+        )}
       </table>
     );
   }

@@ -91,34 +91,39 @@ class SecretShow extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          {this.props.secret.type === 'windows' &&
+          {this.props.secret.type === 'windows' && (
             <Flash type="info">
               This secret is used for your Windows domain authentication. It
               cannot be deleted.
-            </Flash>}
+            </Flash>
+          )}
           <Tabs
             id="secret-tabs"
             activeKey={this.props.tab}
             onSelect={this.handleChangeTab}
           >
-            {this.props.secret.type !== 'folder' &&
+            {this.props.secret.type !== 'folder' && (
               <Tab eventKey="details" title="Details">
-                {this.props.secret.type === 'windows'
-                  ? <WindowsSecretEdit isUpdating={this.props.isUpdating} />
-                  : <SecretEdit
-                      isUpdating={this.props.isUpdating}
-                      canUpdate={canUpdate}
-                    />}
-              </Tab>}
+                {this.props.secret.type === 'windows' ? (
+                  <WindowsSecretEdit isUpdating={this.props.isUpdating} />
+                ) : (
+                  <SecretEdit
+                    isUpdating={this.props.isUpdating}
+                    canUpdate={canUpdate}
+                  />
+                )}
+              </Tab>
+            )}
 
-            {this.props.secret.type !== 'windows' &&
+            {this.props.secret.type !== 'windows' && (
               <Tab eventKey="access" title="Who has access">
                 <SecretUserList
                   isUpdating={this.props.isUpdating}
                   errors={this.props.errors}
                   secret={this.props.secret}
                 />
-              </Tab>}
+              </Tab>
+            )}
           </Tabs>
         </Modal.Body>
 
@@ -131,7 +136,7 @@ class SecretShow extends Component {
           >
             Close
           </Button>
-          {this.props.isEditing &&
+          {this.props.isEditing && (
             <Button
               type="submit"
               buttonStyle="primary"
@@ -139,7 +144,8 @@ class SecretShow extends Component {
               disabled={this.props.isUpdating}
             >
               Save
-            </Button>}
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     );

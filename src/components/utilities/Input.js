@@ -129,14 +129,14 @@ class Input extends Component {
 
     return (
       <div className={className}>
-        {label &&
+        {label && (
           <label htmlFor={this.id}>
             {label}
-            {actions.size > 0 &&
-              <span className="input-label-actions">
-                {actions}
-              </span>}
-          </label>}
+            {actions.size > 0 && (
+              <span className="input-label-actions">{actions}</span>
+            )}
+          </label>
+        )}
 
         <div className="input--wrapper">
           <input
@@ -158,7 +158,7 @@ class Input extends Component {
             readOnly={readOnly}
             {...inputProps}
           />
-          {type === 'password' &&
+          {type === 'password' && (
             <div className="input--password-show">
               <Button
                 title="Show"
@@ -171,12 +171,10 @@ class Input extends Component {
                   size="small"
                 />
               </Button>
-            </div>}
+            </div>
+          )}
         </div>
-        {error &&
-          <span className="input-error">
-            {error}
-          </span>}
+        {error && <span className="input-error">{error}</span>}
       </div>
     );
   }

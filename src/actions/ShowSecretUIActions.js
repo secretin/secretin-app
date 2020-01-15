@@ -17,8 +17,8 @@ class ShowSecretUIActions {
     this.showModal({ secret, tab });
     return dispatch => {
       dispatch();
-      if(secret.type === 'folder') {
-        this.showSecretSuccess({secret})
+      if (secret.type === 'folder') {
+        this.showSecretSuccess({ secret });
       } else {
         secretin.getSecret(secret.id).then(data => {
           const raw = !data.fields ? { fields: data } : data;

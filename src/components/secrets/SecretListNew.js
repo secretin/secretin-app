@@ -30,7 +30,8 @@ function SecretListNew({ folder }) {
         size="small"
         disabled={!canWrite}
         onClick={() =>
-          NewSecretUIActions.showModal({ folder: folderId, isFolder: false })}
+          NewSecretUIActions.showModal({ folder: folderId, isFolder: false })
+        }
       >
         <Icon id="add-secret" size="small" />
         Add secret
@@ -41,7 +42,8 @@ function SecretListNew({ folder }) {
         size="small"
         disabled={!canWrite}
         onClick={() =>
-          NewSecretUIActions.showModal({ folder: folderId, isFolder: true })}
+          NewSecretUIActions.showModal({ folder: folderId, isFolder: true })
+        }
       >
         <Icon id="add-folder" size="small" />
         Create folder

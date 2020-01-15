@@ -79,38 +79,41 @@ class ChangePasswordShow extends Component {
           <span className="text">Change master password</span>
         </Modal.Header>
 
-        {!this.state.success
-          ? <Modal.Body>
-              <Input
-                name="newPass1"
-                label="New password"
-                value={this.props.newPass1}
-                onChange={OptionsActions.changeNewPass1}
-                type="password"
-                disabled={this.props.loading}
-              />
-              {this.props.newPass1.length > 0 &&
-                <span className="options-changepassword">
-                  <Input
-                    name="newPass2"
-                    label="Retype"
-                    value={this.props.newPass2}
-                    onChange={OptionsActions.changeNewPass2}
-                    type="password"
-                    disabled={this.props.loading}
-                  />
-                </span>}
-              <div className="options-changepassword-infos">
-                {this.props.error === '' &&
-                  this.props.newPass1.length > 0 &&
-                  this.props.newPass1 !== this.props.newPass2 &&
-                  'Passwords mismatch'}
-                {this.props.error !== '' && this.props.error}
-              </div>
-            </Modal.Body>
-          : <Modal.Body>
-              <div className="options-changepassword-success">Success</div>
-            </Modal.Body>}
+        {!this.state.success ? (
+          <Modal.Body>
+            <Input
+              name="newPass1"
+              label="New password"
+              value={this.props.newPass1}
+              onChange={OptionsActions.changeNewPass1}
+              type="password"
+              disabled={this.props.loading}
+            />
+            {this.props.newPass1.length > 0 && (
+              <span className="options-changepassword">
+                <Input
+                  name="newPass2"
+                  label="Retype"
+                  value={this.props.newPass2}
+                  onChange={OptionsActions.changeNewPass2}
+                  type="password"
+                  disabled={this.props.loading}
+                />
+              </span>
+            )}
+            <div className="options-changepassword-infos">
+              {this.props.error === '' &&
+                this.props.newPass1.length > 0 &&
+                this.props.newPass1 !== this.props.newPass2 &&
+                'Passwords mismatch'}
+              {this.props.error !== '' && this.props.error}
+            </div>
+          </Modal.Body>
+        ) : (
+          <Modal.Body>
+            <div className="options-changepassword-success">Success</div>
+          </Modal.Body>
+        )}
 
         <Modal.Footer>
           <Button
@@ -120,7 +123,7 @@ class ChangePasswordShow extends Component {
           >
             Close
           </Button>
-          {this.props.newPass1.length > 0 &&
+          {this.props.newPass1.length > 0 && (
             <Button
               type="button"
               buttonStyle="primary"
@@ -128,7 +131,8 @@ class ChangePasswordShow extends Component {
               disabled={this.props.newPass1 !== this.props.newPass2}
             >
               Change it
-            </Button>}
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     );

@@ -20,7 +20,9 @@ class SecretEditableTitle extends Component {
   }
 
   componentWillReceiveProps({ secret: { title: nextTitle } }) {
-    const { secret: { title: currentTitle } } = this.props;
+    const {
+      secret: { title: currentTitle },
+    } = this.props;
 
     if (currentTitle !== nextTitle) {
       this.setState({ title: nextTitle });

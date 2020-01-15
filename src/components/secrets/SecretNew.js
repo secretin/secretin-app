@@ -60,13 +60,14 @@ class SecretNew extends Component {
               autoSelect
               required
             />
-            {!isFolder &&
+            {!isFolder && (
               <SecretFields
                 fields={this.props.data.fields}
                 onChange={NewSecretUIActions.changeField}
                 isNew
                 canUpdate
-              />}
+              />
+            )}
           </Form>
         </Modal.Body>
 

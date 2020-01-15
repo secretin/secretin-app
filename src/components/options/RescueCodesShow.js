@@ -75,9 +75,7 @@ class QRCodeShow extends Component {
             If you lose access to your secure token and your code generator, a
             recovery code is the only way to recover your account.
           </p>
-          <pre>
-            {rescueCodes.join(' ')}
-          </pre>
+          <pre>{rescueCodes.join(' ')}</pre>
           <p>
             <a
               href={window.URL.createObjectURL(

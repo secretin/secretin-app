@@ -19,7 +19,7 @@ class SecretFields extends Component {
 
     return (
       <div className="secret-fields">
-        {this.props.fields.map(field =>
+        {this.props.fields.map(field => (
           <SecretField
             key={field.id}
             field={field}
@@ -27,7 +27,7 @@ class SecretFields extends Component {
             isNew={this.props.isNew}
             canUpdate={this.props.canUpdate}
           />
-        )}
+        ))}
       </div>
     );
   }

@@ -62,7 +62,7 @@ class OptionsContainer extends Component {
               >
                 Activate two-factor authentication
               </Checkbox>
-              {options.get('totp') &&
+              {options.get('totp') && (
                 <div className="options-section-subitem">
                   <RescueCodesShow />
                   <Button
@@ -72,7 +72,8 @@ class OptionsContainer extends Component {
                   >
                     Generate rescue Codes
                   </Button>
-                </div>}
+                </div>
+              )}
             </div>
 
             <div className="options-section-item">
@@ -95,7 +96,7 @@ class OptionsContainer extends Component {
                 Activate auto logout
               </Checkbox>
 
-              {options.get('timeToClose') > 0 &&
+              {options.get('timeToClose') > 0 && (
                 <div className="options-section-subitem">
                   {'Disconnect me after '}
                   <Input
@@ -114,7 +115,8 @@ class OptionsContainer extends Component {
                     disabled={!AppUIStore.isOnline()}
                   />
                   <b> min</b>
-                </div>}
+                </div>
+              )}
             </div>
           </div>
           <div className="options-section">

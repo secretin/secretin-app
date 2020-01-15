@@ -73,35 +73,41 @@ class SecretListItemOptions extends Component {
           <Icon id="more-vert" size="small" />
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {secret.type !== 'folder' &&
+          {secret.type !== 'folder' && (
             <Dropdown.MenuItem onSelect={this.handleShow}>
               Show
-            </Dropdown.MenuItem>}
-          {canShare &&
+            </Dropdown.MenuItem>
+          )}
+          {canShare && (
             <Dropdown.MenuItem
               onSelect={this.handleShare}
               disabled={!AppUIStore.isOnline()}
             >
               Share
-            </Dropdown.MenuItem>}
+            </Dropdown.MenuItem>
+          )}
 
-          {(parentFolderId || secret.canBeDeleted()) &&
+          {(parentFolderId || secret.canBeDeleted()) && (
             <div>
               <Dropdown.MenuItem divider />
 
-              {parentFolderId &&
+              {parentFolderId && (
                 <Dropdown.MenuItem onSelect={this.handleMoveToParent}>
-                  Remove from&nbsp;<b>{folder.title}</b>
-                </Dropdown.MenuItem>}
+                  Remove from&nbsp;
+                  <b>{folder.title}</b>
+                </Dropdown.MenuItem>
+              )}
 
-              {secret.canBeDeleted() &&
+              {secret.canBeDeleted() && (
                 <Dropdown.MenuItem
                   onSelect={this.handleDelete}
                   disabled={!AppUIStore.isOnline()}
                 >
                   Delete
-                </Dropdown.MenuItem>}
-            </div>}
+                </Dropdown.MenuItem>
+              )}
+            </div>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     );

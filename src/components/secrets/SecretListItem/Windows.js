@@ -26,9 +26,7 @@ function SecretListItemWindows({ secret }) {
       <td className="secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
-        <span className="muted">
-          {secret.lastModifiedBy}
-        </span>
+        <span className="muted">{secret.lastModifiedBy}</span>
       </td>
       <td className="secret-list-item-column--shared-with" />
       <td className="secret-list-item-column--actions" />

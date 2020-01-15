@@ -94,36 +94,38 @@ class ImportContainer extends Component {
             Supported type are <i>secret-in</i>, <i>keepass</i>
           </span>
           {((this.props.success || this.props.importing) &&
-            ((this.props.success &&
+            ((this.props.success && (
               <div className="import-progress">
                 <Icon id="done" size={120} />
                 <div className="import-progress-title">Done!</div>
-              </div>) ||
+              </div>
+            )) || (
               <div className="import-progress">
                 <Spinner />
-                {this.props.importTotal !== 0 &&
+                {this.props.importTotal !== 0 && (
                   <div className="import-progress-title">
-                    {`Importing... ${this.props.importStatus} / ${this.props
-                      .importTotal}`}
-                  </div>}
-              </div>)) ||
-            <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
-          {this.props.error !== '' &&
-            <span>
-              {this.props.error}
-            </span>}
-          {this.props.mandatoryFields.size > 0 &&
+                    {`Importing... ${this.props.importStatus} / ${
+                      this.props.importTotal
+                    }`}
+                  </div>
+                )}
+              </div>
+            ))) || <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
+          {this.props.error !== '' && <span>{this.props.error}</span>}
+          {this.props.mandatoryFields.size > 0 && (
             <ImportMandatoryFields
               mandatoryFields={this.props.mandatoryFields}
-            />}
-          {this.props.importType !== '' &&
+            />
+          )}
+          {this.props.importType !== '' && (
             <Button
               buttonStyle="primary"
               className="button button--style-default button--size-base"
               onClick={this.handleStartParsing}
             >
               Import from {this.props.importType}
-            </Button>}
+            </Button>
+          )}
         </div>
       </div>
     );

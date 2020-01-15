@@ -99,14 +99,16 @@ class App extends Component {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-          {this.props.connected
-            ? <Layout />
-            : <UserConnect
-                savedUsername={this.props.savedUsername}
-                loading={this.props.loading}
-                errors={this.props.errors}
-                status={this.props.status}
-              />}
+          {this.props.connected ? (
+            <Layout />
+          ) : (
+            <UserConnect
+              savedUsername={this.props.savedUsername}
+              loading={this.props.loading}
+              errors={this.props.errors}
+              status={this.props.status}
+            />
+          )}
           <span className="secretin-version">
             secretin-lib v{Secretin.version}
           </span>
