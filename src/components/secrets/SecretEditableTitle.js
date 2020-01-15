@@ -1,48 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import MetadataActions from 'actions/MetadataActions';
-import Secret from 'models/Secret';
-
 class SecretEditableTitle extends Component {
   static propTypes = {
-    secret: PropTypes.instanceOf(Secret),
+    title: PropTypes.string,
     canUpdate: PropTypes.bool,
     isUpdating: PropTypes.bool,
+    onSubmit: PropTypes.func,
   };
-
-  static getDerivedStateFromProps(nextProps) {
-    const {
-      secret: { title: nextTitle },
-    } = nextProps;
-    const {
-      secret: { title: currentTitle },
-    } = this.props;
-
-    if (currentTitle !== nextTitle) {
-      return { title: nextTitle };
-    }
-    return null;
-  }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      title: props.secret.title,
+      title: props.title,
     };
   }
 
-  handleSubmit = ({ target }) => {
-    if (target.value !== this.props.secret.title) {
-      setTimeout(() => {
-        MetadataActions.renameSecret({
-          secret: this.props.secret,
-          newTitle: target.value,
-        });
-      });
-    }
-  };
+  handleSubmit = () => this.props.onSubmit(this.state.title);
 
   handleKeyDown = ({ key, target }) => {
     if (key === 'Enter') {
