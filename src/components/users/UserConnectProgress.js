@@ -13,15 +13,7 @@ class UserConnectProgress extends Component {
     }),
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      message: '',
-    };
-  }
-
-  componentWillReceiveProps({ status: nextStatus }) {
+  static getDerivedStateFromProps({ status: nextStatus }) {
     const { status: currentStatus } = this.props;
 
     const nextMessage =
@@ -30,10 +22,19 @@ class UserConnectProgress extends Component {
         : nextStatus.message;
 
     if (nextMessage !== currentStatus.message) {
-      this.setState({
+      return {
         message: nextMessage,
-      });
+      };
     }
+    return null;
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: '',
+    };
   }
 
   render() {

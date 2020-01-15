@@ -51,6 +51,19 @@ class Input extends Component {
     debounce: 0,
   };
 
+  // If props.value changes, the new value should override state.value
+  static getDerivedStateFromProps(nextProps) {
+    const { value: oldValue } = this.props;
+    const { value: newValue } = nextProps;
+
+    if (newValue !== oldValue) {
+      return {
+        value: newValue,
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
@@ -67,16 +80,6 @@ class Input extends Component {
   componentDidMount() {
     if (this.props.autoSelect) {
       setTimeout(() => this.input.select(), 0);
-    }
-  }
-
-  componentWillReceiveProps({ value: newValue }) {
-    const { value: oldValue } = this.props;
-
-    if (newValue !== oldValue) {
-      this.setState({
-        value: newValue,
-      });
     }
   }
 

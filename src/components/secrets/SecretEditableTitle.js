@@ -11,22 +11,26 @@ class SecretEditableTitle extends Component {
     isUpdating: PropTypes.bool,
   };
 
+  static getDerivedStateFromProps(nextProps) {
+    const {
+      secret: { title: nextTitle },
+    } = nextProps;
+    const {
+      secret: { title: currentTitle },
+    } = this.props;
+
+    if (currentTitle !== nextTitle) {
+      return { title: nextTitle };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       title: props.secret.title,
     };
-  }
-
-  componentWillReceiveProps({ secret: { title: nextTitle } }) {
-    const {
-      secret: { title: currentTitle },
-    } = this.props;
-
-    if (currentTitle !== nextTitle) {
-      this.setState({ title: nextTitle });
-    }
   }
 
   handleSubmit = ({ target }) => {

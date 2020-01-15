@@ -42,6 +42,18 @@ class ChangePasswordShow extends Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    if (this.props.loading && !nextProps.loading && nextProps.error === '') {
+      return {
+        success: true,
+      };
+    }
+
+    return {
+      success: false,
+    };
+  }
+
   constructor(props) {
     super(props);
 
@@ -55,18 +67,6 @@ class ChangePasswordShow extends Component {
     OptionsActions.changePassword({
       newPass: this.props.newPass1,
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.loading && !nextProps.loading && nextProps.error === '') {
-      this.setState({
-        success: true,
-      });
-    } else {
-      this.setState({
-        success: false,
-      });
-    }
   }
 
   render() {
