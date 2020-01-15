@@ -9,6 +9,7 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       secrets: PropTypes.string,
+      path: PropTypes.string,
     }),
   }),
   showAll: PropTypes.bool,

@@ -5,25 +5,30 @@
   "homepage": "https://secret-in.me",
   "main": "electron.js",
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "electron": "^1.7.8",
-    "electron-packager": "^9.1.0",
-    "eslint": "^3.19.0",
-    "eslint-config-prettier": "^2.3.0",
-    "eslint-import-resolver-webpack": "^0.8.3",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-prettier": "^2.1.2",
-    "gh-pages": "^1.0.0",
+    "babel-eslint": "^10.0.3",
+    "electron": "^7.1.9",
+    "electron-packager": "^14.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-react-app": "^5.1.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "gh-pages": "^2.2.0",
     "node-sass": "^4.13.0",
-    "prettier": "^1.5.3",
-    "raw-loader": "^0.5.1",
-    "react-scripts": "1.0.10"
+    "prettier": "^1.19.1",
+    "raw-loader": "^4.0.0",
+    "react-scripts": "^3.3.0"
   },
   "dependencies": {
     "alt": "^0.18.6",
     "alt-utils": "^2.0.0",
     "classnames": "^2.2.6",
-    "copy-to-clipboard": "^3.0.8",
+    "copy-to-clipboard": "^3.2.0",
     "immutable": "^3.8.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -50,13 +55,24 @@
     "electron": "yarn run build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
     "dev-electron": "yarn run build && electron .",
     "lint": "node_modules/.bin/eslint src/",
-    "prettify": "node_modules/.bin/eslint src/ --fix",
     "test": "yarn run lint && react-scripts test --env=jsdom"
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
   },
   "resolutions": {
-    "electron-download": "4.1.0"
+    "electron-download": "4.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

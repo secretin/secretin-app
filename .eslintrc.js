@@ -34,6 +34,7 @@ module.exports = {
     }],
 
     'import/no-named-default': 0, // travis don't like this rule
+    'react/no-deprecated': 'warn',
   },
 
   settings: {
