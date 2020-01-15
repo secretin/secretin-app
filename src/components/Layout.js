@@ -1,7 +1,7 @@
 import React from 'react';
-import Switch from 'react-router-dom/Switch';
-import Route from 'react-router-dom/Route';
-import Redirect from 'react-router-dom/Redirect';
+import {Switch} from 'react-router-dom';
+import {Route} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 import Sidebar from 'components/Sidebar';
 import SecretShow from 'components/secrets/SecretShow';
