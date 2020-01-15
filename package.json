@@ -18,7 +18,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
-    "gh-pages": "^2.2.0",
+    "gh-pages": "^1.0.0",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
     "react-scripts": "2.1.8"
@@ -54,7 +54,7 @@
     "electron": "yarn run build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
     "dev-electron": "yarn run build && electron .",
     "lint": "node_modules/.bin/eslint src/",
-    "test": "yarn run lint && react-scripts test --env=jsdom"
+    "test": "yarn run lint"
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
