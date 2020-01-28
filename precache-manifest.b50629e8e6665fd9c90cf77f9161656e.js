@@ -1,4 +1,3 @@
-window.location.href = "https://onestla.tech/";
 self.__precacheManifest = [
   {
     "revision": "42ac5946195a7306e2a5",
