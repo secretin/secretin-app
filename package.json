@@ -43,7 +43,8 @@
     "react-router-dom": "^5.1.2",
     "secretin": "^2.1.1",
     "url-join": "^4.0.1",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "snyk": "^1.316.1"
   },
   "scripts": {
     "deploy": "scripts/deploy.sh",
@@ -54,7 +55,9 @@
     "electron": "yarn run build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
     "dev-electron": "yarn run build && electron .",
     "lint": "node_modules/.bin/eslint src/",
-    "test": "yarn run lint"
+    "test": "yarn run lint",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
@@ -73,5 +76,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "snyk": true
 }
