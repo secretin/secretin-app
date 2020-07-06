@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { uniqueId, debounce } from 'lodash';
+import { uniqueId } from 'lodash';
 import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
@@ -54,7 +54,7 @@ class Input extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = debounce(this.onChange.bind(this), props.debounce);
+    this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
