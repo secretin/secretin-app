@@ -1,11 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import secretin from 'utils/secretin';
-import AppUIStore from 'stores/AppUIStore';
 import Icon from 'components/utilities/Icon';
 
 function download(filename, text) {
@@ -55,12 +55,13 @@ function exportDb() {
 }
 
 function Sidebar() {
-  const currentUser = AppUIStore.getCurrentUser();
+  const currentUser = useSelector(state => state.AppUI.currentUser);
+  const isOnline = useSelector(state => state.AppUI.online);
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <Link to="/" title={AppUIStore.isOnline() && secretin.api.db}>
-          {AppUIStore.isOnline() ? 'Secret-In.me' : 'Offline'}
+        <Link to="/" title={isOnline && secretin.api.db}>
+          {isOnline ? 'Secret-In.me' : 'Offline'}
         </Link>
       </div>
       <div className="sidebar-content">
