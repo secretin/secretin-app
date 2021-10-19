@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { BrowserRouter as Router } from 'react-router-dom';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import secretin from 'utils/secretin';
 import Secretin from 'secretin';
 
-import AppUIActions from 'actions/AppUIActions';
-import AppUIStore from 'stores/AppUIStore';
-import OptionsStore from 'stores/OptionsStore';
-import MetadataStore from 'stores/MetadataStore';
+import * as AppUIActions from 'slices/AppUISlice';
 
 import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
@@ -19,37 +15,15 @@ class App extends Component {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
-    options: PropTypes.instanceOf(Immutable.Map),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    options: PropTypes.object,
+    errors: PropTypes.object,
     status: PropTypes.shape({
       message: PropTypes.string,
       statue: PropTypes.number,
       total: PropTypes.number,
     }),
+    dispatch: PropTypes.func,
   };
-
-  static getStores() {
-    return [AppUIStore, OptionsStore, MetadataStore];
-  }
-
-  static getPropsFromStores() {
-    const {
-      savedUsername,
-      loading,
-      errors,
-      connected,
-      status,
-    } = AppUIStore.getState();
-    return {
-      secrets: MetadataStore.getSecretsInFolder(),
-      options: OptionsStore.getOptions(),
-      savedUsername,
-      loading,
-      connected,
-      errors,
-      status,
-    };
-  }
 
   constructor(props) {
     super(props);
@@ -57,23 +31,25 @@ class App extends Component {
 
     this.onAppFocus = this.onAppFocus.bind(this);
     this.onAppBlur = this.onAppBlur.bind(this);
+    this.handleConnectionChange = this.handleConnectionChange.bind(this);
 
     window.addEventListener('focus', this.onAppFocus);
     window.addEventListener('blur', this.onAppBlur);
   }
 
   componentDidMount() {
-    secretin.addEventListener(
-      'connectionChange',
-      AppUIActions.connectionChange
-    );
+    secretin.addEventListener('connectionChange', this.handleConnectionChange);
   }
 
   componentWillUnmount() {
     secretin.removeEventListener(
       'connectionChange',
-      AppUIActions.connectionChange
+      this.handleConnectionChange
     );
+  }
+
+  handleConnectionChange() {
+    this.props.dispatch(AppUIActions.connectionChange());
   }
 
   onAppFocus() {
@@ -88,7 +64,7 @@ class App extends Component {
       const delay = options.get('timeToClose') * 60 * 1000;
       if (delay > 0) {
         this.disconnectingEvent = setTimeout(
-          AppUIActions.disconnectUser,
+          this.props.dispatch(AppUIActions.disconnectUser()),
           delay
         );
       }
@@ -118,4 +94,20 @@ class App extends Component {
   }
 }
 
-export default connectToStores(App);
+const mapStateToProps = state => {
+  const { savedUsername, loading, errors, connected, status } = state.AppUI;
+  // TODO : implement corresponding selectors
+  // const secrets = MetadataStore.getSecretsInFolder();
+  // const options = OptionsStore.getOptions();
+  return {
+    savedUsername,
+    loading,
+    errors,
+    connected,
+    status,
+    secrets: {},
+    options: {},
+  };
+};
+
+export default connect(mapStateToProps)(App);
