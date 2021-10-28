@@ -177,9 +177,6 @@ class UserConnectForm extends Component {
 
 const mapStateToProps = state => {
   const { online } = state.AppUI;
-  // TODO : implement corresponding selectors
-  // const secrets = MetadataStore.getSecretsInFolder();
-  // const options = OptionsStore.getOptions();
   return {
     isOnline: online,
   };

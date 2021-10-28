@@ -1,14 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import store from 'stores/store';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import Immutable from 'immutable';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import MetadataActions from 'actions/MetadataActions';
+import * as MetadataActions from 'slices/MetadataSlice';
 
 import { buildSecretURL } from 'utils/URLHelper';
-import AppUIStore from 'stores/AppUIStore';
+
 import UserAvatars from 'components/users/UserAvatars';
 import Icon from 'components/utilities/Icon';
 
@@ -27,7 +29,9 @@ function SecretListItemFolder(props) {
   const { secret, folders, isDragging, canDrop, isOver } = props;
   const { connectDragSource, connectDropTarget } = props;
 
-  const currentUser = AppUIStore.getCurrentUser();
+  const currentUser = useSelector(state => state.AppUI.currentUser);
+  const isOnline = useSelector(state => state.AppUI.online);
+
   const secretRights = secret.getIn(['users', currentUser.username, 'rights']);
   const users = secret.users
     .toList()
@@ -54,7 +58,7 @@ function SecretListItemFolder(props) {
   return connectDropTarget(
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {secretRights > 0 && (AppUIStore.isOnline() || users.size === 0)
+        {secretRights > 0 && (isOnline || users.size === 0)
           ? connectDragSource(link)
           : link}
       </td>
@@ -90,7 +94,7 @@ const itemTarget = {
   },
 
   canDrop({ secret: targetSecret }, monitor) {
-    const { username: currentUserId } = AppUIStore.getCurrentUser();
+    const { username: currentUserId } = store.getState().AppUI.currentUser;
     const { secret: draggedSecret } = monitor.getItem();
 
     return (

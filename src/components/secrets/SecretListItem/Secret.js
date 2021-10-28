@@ -1,10 +1,11 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import classNames from 'classnames';
 
-import AppUIStore from 'stores/AppUIStore';
-import ShowSecretUIActions from 'actions/ShowSecretUIActions';
+import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
+
 import UserAvatars from 'components/users/UserAvatars';
 
 import Icon from 'components/utilities/Icon';
@@ -24,7 +25,10 @@ function SecretListItemSecret({
   isDragging,
   connectDragSource,
 }) {
-  const currentUser = AppUIStore.getCurrentUser();
+  const currentUser = useSelector(state => state.AppUI.currentUser);
+  const isOnline = useSelector(state => state.AppUI.online);
+  const dispatch = useDispatch();
+
   const users = secret.users
     .toList()
     .filterNot(user => user.id === currentUser.username);
@@ -37,7 +41,7 @@ function SecretListItemSecret({
   const link = (
     <div>
       <a
-        onClick={() => ShowSecretUIActions.showSecret({ secret })}
+        onClick={() => dispatch(ShowSecretUIActions.showSecret({ secret }))}
         tabIndex="-1"
       >
         <Icon id={secret.getIcon()} size="base" />
@@ -51,7 +55,7 @@ function SecretListItemSecret({
   return (
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {secretRights > 0 && (AppUIStore.isOnline() || users.size === 0)
+        {secretRights > 0 && (isOnline || users.size === 0)
           ? connectDragSource(link)
           : link}
       </td>

@@ -98,4 +98,4 @@ class UserConnect extends Component {
   }
 }
 
-export default connect(mapStateToProps)(UserConnect);
+export default connect()(UserConnect);

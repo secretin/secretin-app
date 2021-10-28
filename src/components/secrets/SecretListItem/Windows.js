@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ShowSecretUIActions from 'actions/ShowSecretUIActions';
@@ -10,11 +11,12 @@ const propTypes = {
 };
 
 function SecretListItemWindows({ secret }) {
+  const dispatch = useDispatch();
   return (
     <tr className="secret-list-item">
       <td className="secret-list-item-column--title">
         <a
-          onClick={() => ShowSecretUIActions.showSecret({ secret })}
+          onClick={() => dispatch(ShowSecretUIActions.showSecret({ secret }))}
           tabIndex="-1"
         >
           <Icon id={secret.getIcon()} size="base" />

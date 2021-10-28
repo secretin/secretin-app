@@ -36,7 +36,7 @@ export const MetadataSlice = createSlice({
       const { secret, user, rights } = action.payload;
       state.metadata[secret.id].users.map(userToUpdate => {
         if (userToUpdate.id === user.id) {
-          return userToUpdate.set('rights', rights);
+          return { ...userToUpdate, rights };
         }
         return userToUpdate;
       });
