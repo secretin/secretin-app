@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import secretin from 'utils/secretin';
 
-import AppUIActions from 'actions/AppUIActions';
+import * as AppUIActions from 'stores/AppUISlice';
 
 import UserConnectForm from './UserConnectForm';
 import UserConnectShortPass from './UserConnectShortPass';
@@ -12,12 +12,13 @@ class UserConnect extends Component {
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     status: PropTypes.shape({
       message: PropTypes.string,
       state: PropTypes.number,
       total: PropTypes.number,
     }),
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
@@ -42,16 +43,20 @@ class UserConnect extends Component {
     }
 
     if (this.state.signup) {
-      AppUIActions.createUser({
-        username: this.state.username,
-        password: this.state.password,
-      });
+      this.props.dispatch(
+        AppUIActions.createUser({
+          username: this.state.username,
+          password: this.state.password,
+        })
+      );
     } else {
-      AppUIActions.loginUser({
-        username: this.state.username,
-        password: this.state.password,
-        token: this.state.token,
-      });
+      this.props.dispatch(
+        AppUIActions.loginUser({
+          username: this.state.username,
+          password: this.state.password,
+          token: this.state.token,
+        })
+      );
     }
   }
 
@@ -82,7 +87,7 @@ class UserConnect extends Component {
           <UserConnectShortPass
             savedUsername={savedUsername}
             loading={loading}
-            error={errors.get('shortlogin')}
+            error={errors.shortlogin}
             onCancel={this.hideShortpass}
           />
         ) : (
@@ -93,4 +98,4 @@ class UserConnect extends Component {
   }
 }
 
-export default UserConnect;
+export default connect(mapStateToProps)(UserConnect);

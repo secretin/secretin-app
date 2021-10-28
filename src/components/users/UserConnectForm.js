@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import Immutable from 'immutable';
 import secretin from 'utils/secretin';
 
-import AppUIActions from 'actions/AppUIActions';
-import AppUIStore from 'stores/AppUIStore';
+import * as AppUIActions from 'stores/AppUISlice';
 
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
-class UserConnect extends Component {
+class UserConnectForm extends Component {
   static propTypes = {
     loading: PropTypes.bool,
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
+    isOnline: PropTypes.bool,
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
@@ -39,17 +40,21 @@ class UserConnect extends Component {
     }
 
     if (this.state.signup) {
-      AppUIActions.createUser({
-        username: this.state.username,
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword,
-      });
+      this.props.dispatch(
+        AppUIActions.createUser({
+          username: this.state.username,
+          password: this.state.password,
+          confirmPassword: this.state.confirmPassword,
+        })
+      );
     } else {
-      AppUIActions.loginUser({
-        username: this.state.username,
-        password: this.state.password,
-        token: this.state.token,
-      });
+      this.props.dispatch(
+        AppUIActions.loginUser({
+          username: this.state.username,
+          password: this.state.password,
+          token: this.state.token,
+        })
+      );
     }
   }
 
@@ -75,7 +80,7 @@ class UserConnect extends Component {
       >
         <h2
           className="user-connect-title"
-          title={AppUIStore.isOnline() && secretin.api.db}
+          title={this.props.isOnline && secretin.api.db}
         >
           Secret-in.me
           <small>{status}</small>
@@ -170,4 +175,14 @@ class UserConnect extends Component {
   }
 }
 
-export default UserConnect;
+const mapStateToProps = state => {
+  const { online } = state.AppUI;
+  // TODO : implement corresponding selectors
+  // const secrets = MetadataStore.getSecretsInFolder();
+  // const options = OptionsStore.getOptions();
+  return {
+    isOnline: online,
+  };
+};
+
+export default connect(mapStateToProps)(UserConnectForm);

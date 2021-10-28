@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -7,7 +8,7 @@ import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 import { confirm } from 'components/utilities/Confirm';
 
-import AppUIActions from 'actions/AppUIActions';
+import * as AppUIActions from 'stores/AppUISlice';
 
 class UserConnectShortPass extends Component {
   static propTypes = {
@@ -15,6 +16,7 @@ class UserConnectShortPass extends Component {
     loading: PropTypes.bool,
     error: PropTypes.string,
     onCancel: PropTypes.func,
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
@@ -36,7 +38,9 @@ class UserConnectShortPass extends Component {
   }
 
   handleSubmit() {
-    AppUIActions.shortLogin({ shortpass: this.state.shortpass });
+    this.props.dispatch(
+      AppUIActions.shortLogin({ shortpass: this.state.shortpass })
+    );
   }
 
   handleDisable() {
@@ -46,7 +50,7 @@ class UserConnectShortPass extends Component {
       acceptLabel: 'Disable short pass',
       cancelLabel: 'Cancel',
       onAccept: () => {
-        AppUIActions.disableShortLogin();
+        this.props.dispatch(AppUIActions.disableShortLogin());
         return this.props.onCancel();
       },
       onCancel: () => ({}),
@@ -95,4 +99,4 @@ class UserConnectShortPass extends Component {
   }
 }
 
-export default UserConnectShortPass;
+export default connect()(UserConnectShortPass);
