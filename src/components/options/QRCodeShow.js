@@ -1,43 +1,29 @@
 import React, { Component } from 'react';
+import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
 import Secretin from 'secretin';
 import QRCode from 'qrcode.react';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import Immutable from 'immutable';
 
 import Form from 'components/utilities/Form';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 
-import OptionsStore from 'stores/OptionsStore';
-import OptionsActions from 'actions/OptionsActions';
+import * as OptionsActions from 'slices/OptionsSlice';
 
 class QRCodeShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     loading: PropTypes.bool,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
     shown: false,
-    errors: new Immutable.Map(),
+    errors: {},
     loading: false,
   };
-
-  static getStores() {
-    return [OptionsStore];
-  }
-
-  static getPropsFromStores() {
-    const state = OptionsStore.getState();
-    return {
-      errors: state.get('errors'),
-      shown: state.get('showQRCode'),
-      loading: state.get('loading'),
-    };
-  }
 
   static getDerivedStateFromProps(nextProps) {
     if (!nextProps.shown) {
@@ -70,12 +56,12 @@ class QRCodeShow extends Component {
   }
 
   handleSubmit() {
-    OptionsActions.activateTotp(this.state);
+    this.props.actions.activateTotp(this.state);
   }
 
   render() {
     return (
-      <Modal show={this.props.shown} onClose={OptionsActions.hideQRCode}>
+      <Modal show={this.props.shown} onClose={this.props.actions.hideQRCode}>
         <Modal.Header>
           <span className="text">Activate Two-Factor authentication</span>
         </Modal.Header>
@@ -108,7 +94,7 @@ class QRCodeShow extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={OptionsActions.hideQRCode}
+            onClick={this.props.actions.hideQRCode}
           >
             Close
           </Button>
@@ -126,4 +112,17 @@ class QRCodeShow extends Component {
   }
 }
 
-export default connectToStores(QRCodeShow);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(OptionsActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { errors, showQRCode, loading } = state.Options;
+  return {
+    errors,
+    shown: showQRCode,
+    loading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(QRCodeShow);

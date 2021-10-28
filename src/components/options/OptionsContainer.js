@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
+import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
-import connectToStores from 'alt-utils/lib/connectToStores';
 
-import AppUIStore from 'stores/AppUIStore';
 import ShortLoginShow from 'components/options/ShortLoginShow';
 import QRCodeShow from 'components/options/QRCodeShow';
 import RescueCodesShow from 'components/options/RescueCodesShow';
@@ -13,34 +11,24 @@ import Checkbox from 'components/utilities/Checkbox';
 import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
 
-import OptionsActions from 'actions/OptionsActions';
-
-import OptionsStore from 'stores/OptionsStore';
+import * as OptionsActions from 'slices/OptionsSlice';
 
 class OptionsContainer extends Component {
   static propTypes = {
-    options: PropTypes.instanceOf(Immutable.Map),
-    newPass: PropTypes.instanceOf(Immutable.Map),
+    options: PropTypes.object,
+    newPass: PropTypes.object,
+    isOnline: PropTypes.bool,
+    actions: PropTypes.object,
   };
 
-  static getStores() {
-    return [OptionsStore];
-  }
-
-  static getPropsFromStores() {
-    return {
-      options: OptionsStore.getOptions(),
-    };
-  }
-
   onChangeTimeToClose({ value }) {
-    OptionsActions.changeTimeToClose({
+    this.props.actions.changeTimeToClose({
       timeToClose: parseInt(value, 10) || 0,
     });
   }
 
   render() {
-    const { options } = this.props;
+    const { options, isOnline } = this.props;
     return (
       <div className="page">
         <div className="page-header">
@@ -57,8 +45,8 @@ class OptionsContainer extends Component {
               <QRCodeShow />
               <Checkbox
                 checked={options.get('totp')}
-                onChange={OptionsActions.toggleTotp}
-                disabled={!AppUIStore.isOnline()}
+                onChange={this.props.actions.toggleTotp}
+                disabled={isOnline}
               >
                 Activate two-factor authentication
               </Checkbox>
@@ -68,7 +56,7 @@ class OptionsContainer extends Component {
                   <Button
                     size="small"
                     buttonStyle="default"
-                    onClick={OptionsActions.showRescueCodes}
+                    onClick={this.props.actions.showRescueCodes}
                   >
                     Generate rescue Codes
                   </Button>
@@ -80,8 +68,8 @@ class OptionsContainer extends Component {
               <ShortLoginShow />
               <Checkbox
                 checked={options.get('shortLogin')}
-                onChange={OptionsActions.toggleShortLogin}
-                disabled={!AppUIStore.isOnline()}
+                onChange={this.props.actions.toggleShortLogin}
+                disabled={isOnline}
               >
                 Activate ShortLogin
               </Checkbox>
@@ -90,8 +78,8 @@ class OptionsContainer extends Component {
             <div className="options-section-item">
               <Checkbox
                 checked={options.get('timeToClose') > 0}
-                onChange={OptionsActions.toggleAutoLogout}
-                disabled={!AppUIStore.isOnline()}
+                onChange={this.props.actions.toggleAutoLogout}
+                disabled={isOnline}
               >
                 Activate auto logout
               </Checkbox>
@@ -112,7 +100,7 @@ class OptionsContainer extends Component {
                       step: 5,
                     }}
                     debounce={800}
-                    disabled={!AppUIStore.isOnline()}
+                    disabled={isOnline}
                   />
                   <b> min</b>
                 </div>
@@ -125,8 +113,8 @@ class OptionsContainer extends Component {
               <Button
                 type="button"
                 buttonStyle="warning"
-                onClick={OptionsActions.showChangePassword}
-                disabled={!AppUIStore.isOnline()}
+                onClick={this.props.actions.showChangePassword}
+                disabled={isOnline}
               >
                 Change master password
               </Button>
@@ -137,4 +125,18 @@ class OptionsContainer extends Component {
     );
   }
 }
-export default connectToStores(OptionsContainer);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(OptionsActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { options } = state.Options;
+  const { online } = state.AppUI;
+  return {
+    options,
+    isOnline: online,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OptionsContainer);

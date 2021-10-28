@@ -1,40 +1,26 @@
 import React, { Component } from 'react';
+import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import Immutable from 'immutable';
 
 import Form from 'components/utilities/Form';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 
-import OptionsStore from 'stores/OptionsStore';
-import OptionsActions from 'actions/OptionsActions';
+import * as OptionsActions from 'slices/OptionsSlice';
 
-class QRCodeShow extends Component {
+class ShortLoginShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
     loading: PropTypes.bool,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
     shown: false,
-    errors: new Immutable.Map(),
+    errors: {},
     loading: false,
   };
-
-  static getStores() {
-    return [OptionsStore];
-  }
-
-  static getPropsFromStores() {
-    const state = OptionsStore.getState();
-    return {
-      errors: state.get('errors'),
-      shown: state.get('showShortLogin'),
-      loading: state.get('loading'),
-    };
-  }
 
   static getDerivedStateFromProps(nextProps) {
     if (!nextProps.shown) {
@@ -63,14 +49,17 @@ class QRCodeShow extends Component {
   }
 
   handleSubmit() {
-    OptionsActions.activateShortLogin({
+    this.props.actions.activateShortLogin({
       shortpass: this.state.shortpass,
     });
   }
 
   render() {
     return (
-      <Modal show={this.props.shown} onClose={OptionsActions.hideShortLogin}>
+      <Modal
+        show={this.props.shown}
+        onClose={this.props.actions.hideShortLogin}
+      >
         <Modal.Header>
           <span className="text">Trust this device</span>
         </Modal.Header>
@@ -92,7 +81,7 @@ class QRCodeShow extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={OptionsActions.hideShortLogin}
+            onClick={this.props.actions.hideShortLogin}
           >
             Close
           </Button>
@@ -110,4 +99,17 @@ class QRCodeShow extends Component {
   }
 }
 
-export default connectToStores(QRCodeShow);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(OptionsActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { errors, showShortLogin, loading } = state.Options;
+  return {
+    errors,
+    shown: showShortLogin,
+    loading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShortLoginShow);

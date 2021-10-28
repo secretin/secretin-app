@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
+import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import Immutable from 'immutable';
 import moment from 'moment';
 
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 
-import AppUIStore from 'stores/AppUIStore';
-import OptionsStore from 'stores/OptionsStore';
-import OptionsActions from 'actions/OptionsActions';
+import * as OptionsActions from 'slices/OptionsSlice';
 
 function getFile({ username, rescueCodes }) {
   const codes = rescueCodes.map((code, i) => `${i + 1}. ${code}`).toArray();
@@ -28,33 +25,23 @@ function getFile({ username, rescueCodes }) {
   return new Blob([content], { type: 'text/plain;charset=utf-8;' });
 }
 
-class QRCodeShow extends Component {
+class RescueCodesShow extends Component {
   static propTypes = {
     shown: PropTypes.bool,
-    rescueCodes: PropTypes.instanceOf(Immutable.List),
+    rescueCodes: PropTypes.array,
+    currentUser: PropTypes.object,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
     shown: false,
-    rescueCodes: new Immutable.List(),
+    rescueCodes: [],
   };
-
-  static getStores() {
-    return [OptionsStore];
-  }
-
-  static getPropsFromStores() {
-    const state = OptionsStore.getState();
-    return {
-      rescueCodes: state.get('rescueCodes'),
-      shown: state.get('showRescueCodes'),
-    };
-  }
 
   constructor(props) {
     super(props);
 
-    this.currentUser = AppUIStore.getCurrentUser();
+    this.currentUser = props.currentUser;
   }
 
   render() {
@@ -62,7 +49,10 @@ class QRCodeShow extends Component {
     const { username } = this.currentUser;
 
     return (
-      <Modal show={this.props.shown} onClose={OptionsActions.hideRescueCodes}>
+      <Modal
+        show={this.props.shown}
+        onClose={this.props.actions.hideRescueCodes}
+      >
         <Modal.Header>
           <span className="text">Rescue codes</span>
         </Modal.Header>
@@ -92,7 +82,7 @@ class QRCodeShow extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={OptionsActions.hideRescueCodes}
+            onClick={this.props.actions.hideRescueCodes}
           >
             Close
           </Button>
@@ -102,4 +92,18 @@ class QRCodeShow extends Component {
   }
 }
 
-export default connectToStores(QRCodeShow);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(OptionsActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { rescueCodes, showRescueCodes } = state.Options;
+  const { currentUser } = state.AppUI;
+  return {
+    rescueCodes,
+    shown: showRescueCodes,
+    currentUser,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RescueCodesShow);
