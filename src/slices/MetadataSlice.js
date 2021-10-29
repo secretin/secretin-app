@@ -117,7 +117,8 @@ export const updateSecret = ({ secret, data }) => dispatch => {
       );
     })
     .catch(error => {
-      dispatch(updateSecretFailure({ error }));
+      // TODO
+      // dispatch(updateSecretFailure({ error }));
       throw error;
     });
 };
@@ -133,7 +134,8 @@ export const renameSecret = ({ secret, newTitle }) => dispatch => {
       );
     })
     .catch(error => {
-      dispatch(renameSecretFailure({ error }));
+      // TODO
+      // dispatch(renameSecretFailure({ error }));
       throw error;
     });
 };
@@ -175,17 +177,19 @@ export const createSecretUserRights = ({
     })
     .catch(error => {
       if (error instanceof FriendNotFoundError) {
-        return dispatch(
-          createSecretUserRightsFailure({
-            error: { username: 'User not found' },
-          })
-        );
+        // TODO
+        // return dispatch(
+        //   createSecretUserRightsFailure({
+        //     error: { username: 'User not found' },
+        //   })
+        // );
       }
-      dispatch(
-        createSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
-        })
-      );
+      // TODO
+      // dispatch(
+      //   createSecretUserRightsFailure({
+      //     error: { unknown: 'Unknown error' },
+      //   })
+      // );
       throw error;
     });
 };
@@ -201,11 +205,12 @@ export const updateSecretUserRights = ({
       dispatch(updateSecretUserRightsSuccess({ secret, user, rights }))
     )
     .catch(error => {
-      dispatch(
-        updateSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
-        })
-      );
+      // TODO
+      // dispatch(
+      //   updateSecretUserRightsFailure({
+      //     error: { unknown: 'Unknown error' },
+      //   })
+      // );
       throw error;
     });
 };
@@ -215,11 +220,12 @@ export const deleteSecretUserRights = ({ secret, user }) => dispatch => {
     .unshareSecret(secret.id, user.username)
     .then(() => dispatch(deleteSecretUserRightsSuccess({ secret, user })))
     .catch(error => {
-      dispatch(
-        deleteSecretUserRightsFailure({
-          error: { unknown: 'Unknown error' },
-        })
-      );
+      // TODO
+      // dispatch(
+      //   deleteSecretUserRightsFailure({
+      //     error: { unknown: 'Unknown error' },
+      //   })
+      // );
       throw error;
     });
 };
@@ -237,11 +243,12 @@ export const addSecretToFolder = ({ secret, folder }) => dispatch => {
       )
     )
     .catch(error => {
-      dispatch(
-        addSecretToFolderFailure({
-          error: { unknown: 'Unknown error' },
-        })
-      );
+      // TODO
+      // dispatch(
+      //   addSecretToFolderFailure({
+      //     error: { unknown: 'Unknown error' },
+      //   })
+      // );
       throw error;
     });
 };
@@ -262,11 +269,12 @@ export const removeSecretFromCurrentFolder = ({
       )
     )
     .catch(error => {
-      dispatch(
-        removeSecretFromCurrentFolderFailure({
-          error: { unknown: 'Unknown error' },
-        })
-      );
+      // TODO
+      // dispatch(
+      //   removeSecretFromCurrentFolderFailure({
+      //     error: { unknown: 'Unknown error' },
+      //   })
+      // );
       throw error;
     });
 };
