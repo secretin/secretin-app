@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { uniqueId, noop } from 'lodash';
 import classNames from 'classnames';
 
@@ -16,18 +15,18 @@ class Select extends Component {
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
-    options: PropTypes.instanceOf(Immutable.List),
+    options: PropTypes.array,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
     size: PropTypes.string,
-    actions: PropTypes.instanceOf(Immutable.List),
+    actions: PropTypes.array,
   };
 
   static defaultProps = {
     disabled: false,
     size: 'base',
     onChange: noop,
-    actions: new Immutable.List(),
+    actions: [],
   };
 
   constructor(props) {

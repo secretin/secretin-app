@@ -84,7 +84,7 @@ class QRCodeShow extends Component {
               value={this.state.token}
               onChange={this.handleChange}
               onSubmit={this.handleSubmit}
-              error={this.props.errors.get('totp')}
+              error={this.props.errors.totp}
               autoFocus
             />
           </Form>

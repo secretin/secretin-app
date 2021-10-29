@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import SecretList from 'components/secrets/SecretList';
 
@@ -48,8 +47,7 @@ function SecretListContainer({
     return <SecretList secrets={secrets} showShared />;
   }
 
-  const path = params.path ? params.path.split('/') : [];
-  const folders = new Immutable.List(path);
+  const folders = params.path ? params.path.split('/') : [];
   const folderId = folders.last();
   const folder = metadata[folderId];
   // TODO build actual selector : getSecretsInFolder(folderId)

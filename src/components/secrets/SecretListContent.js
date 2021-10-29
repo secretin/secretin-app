@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import classNames from 'classnames';
 import { escapeRegExp } from 'lodash';
 
@@ -11,9 +10,9 @@ import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
 class SecretListContent extends Component {
   static propTypes = {
     filtered: PropTypes.bool,
-    secrets: PropTypes.instanceOf(Immutable.Map),
+    secrets: PropTypes.object,
     isDragging: PropTypes.bool,
-    folders: PropTypes.instanceOf(Immutable.List),
+    folders: PropTypes.array,
     searchQuery: PropTypes.string,
     endDecrypt: PropTypes.bool,
   };
@@ -43,7 +42,7 @@ class SecretListContent extends Component {
       fuzzyRegexp.test(secret.title)
     );
 
-    let filteredFolders = new Immutable.Map();
+    let filteredFolders = {};
 
     const currentUser = useSelector(state => state.AppUI.currentUser);
     const allFolders = useSelector(
@@ -53,62 +52,40 @@ class SecretListContent extends Component {
 
     if (this.props.filtered) {
       filteredSecrets.forEach(secret => {
-        let folderSeq = secret
-          .getIn(['users', currentUser.username, 'folders'])
-          .entrySeq()
-          .first();
-        if (typeof folderSeq === 'undefined') {
-          folderSeq = ['ROOT'];
+        let folder = secret.users[currentUser.username].folders[0];
+        if (typeof folder === 'undefined') {
+          folder = 'ROOT';
         }
-        filteredFolders = filteredFolders.setIn(
-          [folderSeq[0], 'secrets', secret.id],
-          secret
-        );
-        if (folderSeq[0] === 'ROOT') {
-          filteredFolders = filteredFolders.setIn([folderSeq[0], 'name'], '');
-          filteredFolders = filteredFolders.setIn([folderSeq[0], 'root'], true);
+        filteredFolders[folder].secrets[secret.id] = secret;
+        if (folder === 'ROOT') {
+          filteredFolders[folder].name = '';
+          filteredFolders[folder].root = true;
         } else {
           let root = false;
-          let breadcrumb = Immutable.List();
-          let currentFolder = folderSeq;
+          let breadcrumb = [];
+          let currentFolder = folder;
           while (!root) {
-            root = allFolders
-              .getIn([
-                currentFolder[0],
-                'users',
-                currentUser.username,
-                'folders',
-              ])
-              .has('ROOT');
-            breadcrumb = breadcrumb.unshift(currentFolder[0]);
-            currentFolder = allFolders
-              .getIn([
-                currentFolder[0],
-                'users',
-                currentUser.username,
-                'folders',
-              ])
-              .entrySeq()
-              .first();
+            root = allFolders.currentFolder.users[
+              currentUser.username
+            ].folders.includes('ROOT');
+
+            breadcrumb = breadcrumb.unshift(currentFolder);
+            currentFolder =
+              allFolders.currentFolder.users[currentUser.username].folders[0];
           }
-          filteredFolders = filteredFolders.setIn(
-            [folderSeq[0], 'name'],
-            breadcrumb.join('/')
-          );
-          filteredFolders = filteredFolders.setIn(
-            [folderSeq[0], 'breadcrumb'],
-            breadcrumb
-          );
+          filteredFolders[folder].name = breadcrumb.join('/');
+          filteredFolders[folder].breadcrumb = breadcrumb;
         }
       });
-
-      filteredFolders = filteredFolders
-        .sortBy(folder => folder.get('name').toLowerCase())
-        .sortBy(folder => !folder.has('root'));
+      // TODO : figure out sorting
+      // filteredFolders = filteredFolders
+      //   .sortBy(folder => folder.name').toLowerCase())
+      //   .sortBy(folder => !folder.has('root'));
     } else {
-      filteredSecrets = filteredSecrets.sortBy(secret =>
-        secret.get('title').toLowerCase()
-      );
+      // TODO : figure out sorting
+      // filteredSecrets = filteredSecrets.sortBy(secret =>
+      //   secret.title').toLowerCase()
+      // );
     }
 
     return (
@@ -126,22 +103,18 @@ class SecretListContent extends Component {
           </tr>
         </thead>
         {this.props.filtered ? (
-          filteredFolders
-            .map((folder, id) => (
-              <SecretListFolderInfo key={id} folder={folder} />
-            ))
-            .toArray()
+          Object.entries(filteredFolders).map(([id, folder]) => (
+            <SecretListFolderInfo key={id} folder={folder} />
+          ))
         ) : (
           <tbody className="secret-list-content-table-body">
-            {filteredSecrets
-              .map(secret => (
-                <SecretListItem
-                  key={secret.id}
-                  secret={secret}
-                  folders={this.props.folders}
-                />
-              ))
-              .toArray()}
+            {filteredSecrets.map(secret => (
+              <SecretListItem
+                key={secret.id}
+                secret={secret}
+                folders={this.props.folders}
+              />
+            ))}
           </tbody>
         )}
       </table>

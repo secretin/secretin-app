@@ -44,13 +44,13 @@ class OptionsContainer extends Component {
             <div className="options-section-item">
               <QRCodeShow />
               <Checkbox
-                checked={options.get('totp')}
+                checked={options.totp}
                 onChange={this.props.actions.toggleTotp}
                 disabled={isOnline}
               >
                 Activate two-factor authentication
               </Checkbox>
-              {options.get('totp') && (
+              {options.totp && (
                 <div className="options-section-subitem">
                   <RescueCodesShow />
                   <Button
@@ -67,7 +67,7 @@ class OptionsContainer extends Component {
             <div className="options-section-item">
               <ShortLoginShow />
               <Checkbox
-                checked={options.get('shortLogin')}
+                checked={options.shortLogin}
                 onChange={this.props.actions.toggleShortLogin}
                 disabled={isOnline}
               >
@@ -77,21 +77,21 @@ class OptionsContainer extends Component {
 
             <div className="options-section-item">
               <Checkbox
-                checked={options.get('timeToClose') > 0}
+                checked={options.timeToClose > 0}
                 onChange={this.props.actions.toggleAutoLogout}
                 disabled={isOnline}
               >
                 Activate auto logout
               </Checkbox>
 
-              {options.get('timeToClose') > 0 && (
+              {options.timeToClose > 0 && (
                 <div className="options-section-subitem">
                   {'Disconnect me after '}
                   <Input
                     name="timeToClose"
                     label=""
                     size="small"
-                    value={options.get('timeToClose')}
+                    value={options.timeToClose}
                     onChange={this.onChangeTimeToClose}
                     type="number"
                     inputProps={{

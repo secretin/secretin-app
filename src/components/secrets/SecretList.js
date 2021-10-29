@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
-import Immutable from 'immutable';
 
 import Secret from 'models/Secret';
 
@@ -19,8 +18,8 @@ import Title from 'components/utilities/Title';
 class SecretList extends Component {
   static propTypes = {
     folder: PropTypes.instanceOf(Secret),
-    folders: PropTypes.instanceOf(Immutable.List),
-    secrets: PropTypes.instanceOf(Immutable.Map),
+    folders: PropTypes.array,
+    secrets: PropTypes.object,
     searchQuery: PropTypes.string,
     isDragging: PropTypes.bool,
     showAll: PropTypes.bool,
@@ -30,8 +29,8 @@ class SecretList extends Component {
   };
 
   static defaultProps = {
-    folders: new Immutable.List(),
-    secrets: new Immutable.Map(),
+    folders: [],
+    secrets: {},
     searchQuery: '',
     showAll: false,
     showMine: false,

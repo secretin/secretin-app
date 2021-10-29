@@ -93,7 +93,7 @@ class UserConnectForm extends Component {
           value={this.state.username}
           onChange={this.handleChange}
           disabled={this.props.loading}
-          error={this.props.errors.get('username')}
+          error={this.props.errors.username}
           autoFocus
           autoComplete
         />
@@ -104,10 +104,10 @@ class UserConnectForm extends Component {
           value={this.state.password}
           onChange={this.handleChange}
           disabled={this.props.loading}
-          error={this.props.errors.get('password')}
+          error={this.props.errors.password}
           autoComplete
         />
-        {this.props.errors.get('totp') && (
+        {this.props.errors.totp && (
           <Input
             name="token"
             label="Token"
@@ -115,7 +115,7 @@ class UserConnectForm extends Component {
             value={this.state.token}
             onChange={this.handleChange}
             disabled={this.props.loading}
-            error={this.props.errors.get('token')}
+            error={this.props.errors.token}
             autoFocus
           />
         )}
@@ -127,7 +127,7 @@ class UserConnectForm extends Component {
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             disabled={this.props.loading}
-            error={this.props.errors.get('confirmPassword')}
+            error={this.props.errors.confirmPassword}
           />
         )}
 

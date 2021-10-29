@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import SecretField from 'components/secrets/SecretField';
 
 class SecretFields extends Component {
   static propTypes = {
-    fields: PropTypes.instanceOf(Immutable.List),
+    fields: PropTypes.array,
     isNew: PropTypes.bool,
     onChange: PropTypes.func,
     canUpdate: PropTypes.bool,

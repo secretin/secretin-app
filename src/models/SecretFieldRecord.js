@@ -1,28 +1,20 @@
-import Immutable from 'immutable';
 import uuid from 'uuid';
 
-const defaultRecord = {
-  id: null,
-  date: null,
-  type: 'text',
-  label: '',
-  content: '',
-};
-
-class SecretFieldRecord extends (new Immutable.Record(defaultRecord)) {
-  constructor(attributes = new Immutable.Map()) {
-    super(attributes.set('id', attributes.get('id', uuid.v4())));
+class SecretFieldRecord {
+  constructor(raw) {
+    this.id = raw.id || uuid.v4();
+    this.date = raw.date || null;
+    this.type = raw.type || 'text';
+    this.label = raw.label || '';
+    this.content = raw.content || '';
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData).mapKeys(key => {
-      switch (key) {
-        case 'value':
-          return 'content';
-        default:
-          return key;
-      }
-    });
+    const raw = {
+      ...rawData,
+      content: rawData.value,
+    };
+    if (raw.value) delete raw.value;
     return new SecretFieldRecord(raw);
   }
 }

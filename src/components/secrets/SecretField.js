@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
 
@@ -84,7 +83,7 @@ class SecretField extends Component {
           onChange={this.handleChange}
           type={this.props.field.type}
           readOnly={!this.props.canUpdate}
-          actions={new Immutable.List(actions)}
+          actions={actions}
         />
         <div className="secret-field-action">
           {this.props.field.type === 'password' && this.props.canUpdate && (

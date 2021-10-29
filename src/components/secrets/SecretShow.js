@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
 import * as MetadataActions from 'slices/MetadataSlice';
@@ -21,7 +20,7 @@ import { Tabs, Tab } from 'components/utilities/Tabs';
 class SecretShow extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     shown: PropTypes.bool,
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
@@ -58,9 +57,9 @@ class SecretShow extends Component {
     }
 
     const { username: currentUserId } = this.props.currentUser;
-    const users = this.props.secret.users
-      .toList()
-      .filterNot(user => user.id === currentUserId);
+    const users = this.props.secret.users.filter(
+      user => user.id !== currentUserId
+    );
 
     const canUpdate =
       this.props.secret.canBeUpdatedBy(this.props.currentUser) &&

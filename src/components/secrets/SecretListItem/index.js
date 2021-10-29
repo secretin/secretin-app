@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import SecretListItemFolderFolder from './Folder';
 import SecretListItemFolderSecret from './Secret';
 
 const propTypes = {
   secret: PropTypes.any,
-  folders: PropTypes.instanceOf(Immutable.List),
+  folders: PropTypes.array,
 };
 
 function SecretListItem({ secret, folders }) {

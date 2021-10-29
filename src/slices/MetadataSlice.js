@@ -305,23 +305,23 @@ export const removeSecretFromCurrentFolder = ({
 //   }
 
 //   static getAllSecrets() {
-//     const { metadata } = this.getState();
-//     return (
-//       metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map()
-//     );
-//   }
+//   const { metadata } = this.getState();
+//   return (
+//     metadata.filter(secret => secret.type !== 'folder') || new Immutable.Map()
+//   );
+// }
 
 //   static getMySecret() {
 //     return (
-//       this.getAllSecrets().filter(
-//         secret =>
-//           secret.users
-//             .filter(user => user.username === secretin.currentUser.username)
-//             .first()
-//             .get('rights') === 2
-//       ) || new Immutable.Map()
-//     );
-//   }
+// this.getAllSecrets().filter(
+//   secret =>
+//     secret.users
+//       .filter(user => user.username === secretin.currentUser.username)
+//       .first()
+//       .rights') === 2
+// ) || new Immutable.Map()
+//   );
+// }
 
 //   static getSharedSecret() {
 //     return (

@@ -25,13 +25,13 @@ class WindowsSecretEdit extends Component {
     }
 
     const options = this.props.data.fields
-      .sortBy(password => password.date)
+      // TODO : figure out sorting
+      // .sortBy(password => password.date)
       .reverse()
       .map(password => [
         password.content,
         moment(password.date).format('dddd DD MMMM YYYY'),
-      ])
-      .toList();
+      ]);
 
     return (
       <div className="secret-edit">

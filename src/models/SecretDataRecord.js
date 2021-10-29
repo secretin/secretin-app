@@ -1,45 +1,43 @@
-import Immutable from 'immutable';
-
 import SecretFieldRecord from 'models/SecretFieldRecord';
 
-const defaultRecord = {
-  type: 'default',
-  fields: new Immutable.List(),
-};
-
-class SecretDataRecord extends (new Immutable.Record(defaultRecord)) {
-  addNewField(params = new Immutable.Map()) {
-    return this.update('fields', fields =>
-      fields.push(new SecretFieldRecord(params))
-    );
+class SecretDataRecord {
+  constructor(raw) {
+    this.type = raw.type || 'default';
+    this.fields = raw.fields || [];
   }
 
-  static createWithDefaultFields(defaultFieds) {
-    return defaultFieds.reduce(
+  addNewField(params = {}) {
+    this.fields.push(new SecretFieldRecord(params));
+    return this.fields;
+  }
+
+  static createWithDefaultFields(defaultFields) {
+    return defaultFields.reduce(
       (record, field) => record.addNewField(field),
       new SecretDataRecord()
     );
   }
 
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData).map((value, key) => {
+    const raw = Object.entries(rawData).reduce((output, [key, value]) => {
       switch (key) {
         case 'fields':
-          return value
-            .map(field => SecretFieldRecord.createFromRaw(field))
-            .toList();
+          return {
+            ...output,
+            fields: value.map(field => SecretFieldRecord.createFromRaw(field)),
+          };
         default:
-          return value;
+          return output;
       }
-    });
+    }, rawData);
     return new SecretDataRecord(raw);
   }
 }
 
-SecretDataRecord.DEFAULT_FIELDS = new Immutable.List([
-  new Immutable.Map({ label: 'login', type: 'text' }),
-  new Immutable.Map({ label: 'password', type: 'password' }),
-  new Immutable.Map({ label: 'url', type: 'url' }),
-]);
+SecretDataRecord.DEFAULT_FIELDS = [
+  { label: 'login', type: 'text' },
+  { label: 'password', type: 'password' },
+  { label: 'url', type: 'url' },
+];
 
 export default SecretDataRecord;

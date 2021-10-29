@@ -9,26 +9,23 @@ const propTypes = {
 };
 
 function SecretListFolderInfo({ folder }) {
-  const secrets = folder
-    .get('secrets')
-    .sortBy(secret => secret.get('title').toLowerCase());
+  // TODO : figure out sorting
+  const secrets = folder.secrets; // .sortBy(secret => secret.title.toLowerCase());
   return (
     <tbody className="secret-list-content-table-body">
-      {!folder.has('root') && (
+      {!folder.includes('root') && (
         <tr className="secret-list-folder">
           <td colSpan="4" className="secret-list-folder-info">
             <SecretListBreadcrumb
-              folders={folder.get('breadcrumb')}
+              folders={folder.breadcrumb}
               withTitle={false}
             />
           </td>
         </tr>
       )}
-      {secrets
-        .map(secret => (
-          <SecretListItemFolderSecret key={secret.id} secret={secret} />
-        ))
-        .toArray()}
+      {secrets.map(secret => (
+        <SecretListItemFolderSecret key={secret.id} secret={secret} />
+      ))}
     </tbody>
   );
 }

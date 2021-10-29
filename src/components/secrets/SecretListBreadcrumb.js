@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { NavLink } from 'react-router-dom';
 
 import { buildSecretURL } from 'utils/URLHelper';
@@ -10,12 +9,12 @@ import Icon from 'components/utilities/Icon';
 import Title from 'components/utilities/Title';
 
 const propTypes = {
-  folders: PropTypes.instanceOf(Immutable.List),
+  folders: PropTypes.array,
   withTitle: PropTypes.bool,
 };
 
 const defaultProps = {
-  folders: new Immutable.List(),
+  folders: [],
   withTitle: true,
 };
 
@@ -28,11 +27,11 @@ function SecretListBreadcrumb({ folders, withTitle }) {
       memo.push({
         folderId,
         link: buildSecretURL(
-          new Immutable.List([folderId]),
+          [folderId],
           memo.last() ? memo.last().link : undefined
         ),
       }),
-    new Immutable.List()
+    []
   );
 
   let breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
@@ -61,7 +60,7 @@ function SecretListBreadcrumb({ folders, withTitle }) {
           className="breadcrumb-item-separator"
         />
       );
-  }, new Immutable.List());
+  }, []);
 
   if (withTitle) {
     breadcrumb = breadcrumb

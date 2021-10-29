@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import * as MetadataActions from 'slices/MetadataSlice';
 
@@ -17,7 +16,7 @@ import Icon from 'components/utilities/Icon';
 class SecretUserListNew extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     dispatch: PropTypes.func,
   };
 
@@ -37,7 +36,7 @@ class SecretUserListNew extends Component {
 
   handleChange({ name, value }) {
     this.setState({
-      user: this.state.user.set(name, value),
+      user: { ...this.state.user, name: value },
     });
   }
 
@@ -91,7 +90,7 @@ class SecretUserListNew extends Component {
           value={this.state.user.username}
           size="small"
           onChange={this.handleChange}
-          error={this.props.errors.get('username')}
+          error={this.props.errors.username}
         />
         <Select
           name="rights"

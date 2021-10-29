@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { uniqueId, debounce } from 'lodash';
 import classNames from 'classnames';
 
@@ -28,7 +27,7 @@ class Input extends Component {
     autoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
-    actions: PropTypes.instanceOf(Immutable.List),
+    actions: PropTypes.array,
     size: PropTypes.string,
     inputProps: PropTypes.shape({
       min: PropTypes.number,
@@ -46,7 +45,7 @@ class Input extends Component {
     autoComplete: false,
     disabled: false,
     readOnly: false,
-    actions: new Immutable.List(),
+    actions: [],
     size: 'base',
     debounce: 0,
   };

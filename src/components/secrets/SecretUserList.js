@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
 import Secret from 'models/Secret';
 
@@ -22,7 +21,7 @@ function getDisabledReason(cantShare, isCurrentUser) {
 class SecretUserList extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     isUpdating: PropTypes.bool,
     isOnline: PropTypes.bool,
     currentUser: PropTypes.object,
@@ -62,25 +61,23 @@ class SecretUserList extends Component {
     return (
       <div className="secret-users">
         <div className="secret-users-list">
-          {this.props.secret.users
-            .map(user => (
-              <SecretUserListItem
-                key={user.id}
-                user={user}
-                disabled={
-                  !canShare ||
-                  currentUser.username === user.id ||
-                  this.props.isUpdating
-                }
-                disabledReason={getDisabledReason(
-                  !canShare,
-                  currentUser.username === user.id
-                )}
-                onChangeUserRights={this.onChangeUserRights}
-                onRemoveUserRights={this.onRemoveUserRights}
-              />
-            ))
-            .toArray()}
+          {this.props.secret.users.map(user => (
+            <SecretUserListItem
+              key={user.id}
+              user={user}
+              disabled={
+                !canShare ||
+                currentUser.username === user.id ||
+                this.props.isUpdating
+              }
+              disabledReason={getDisabledReason(
+                !canShare,
+                currentUser.username === user.id
+              )}
+              onChangeUserRights={this.onChangeUserRights}
+              onRemoveUserRights={this.onRemoveUserRights}
+            />
+          ))}
         </div>
         {canShare && (
           <SecretUserListNew

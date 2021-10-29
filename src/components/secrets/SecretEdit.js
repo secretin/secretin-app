@@ -23,7 +23,7 @@ class SecretEdit extends Component {
     return (
       <div className="secret-edit">
         <SecretFields
-          fields={this.props.data.get('fields')}
+          fields={this.props.data.fields}
           onChange={
             this.props.canUpdate ? this.props.actions.changeField : () => {}
           }

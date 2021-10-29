@@ -88,7 +88,7 @@ export const showSecret = ({ secret, tab }) => dispatch => {
       const raw = !data.fields ? { fields: data } : data;
       dispatch(
         showSecretSuccess({
-          secret: secret.set('data', SecretDataRecord.createFromRaw(raw)),
+          secret: { ...secret, data: SecretDataRecord.createFromRaw(raw) },
         })
       );
     });

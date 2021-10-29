@@ -29,11 +29,9 @@ function SecretListItemSecret({
   const isOnline = useSelector(state => state.AppUI.online);
   const dispatch = useDispatch();
 
-  const users = secret.users
-    .toList()
-    .filterNot(user => user.id === currentUser.username);
+  const users = secret.users.filter(user => user.id !== currentUser.username);
 
-  const secretRights = secret.getIn(['users', currentUser.username, 'rights']);
+  const secretRights = secret.users[currentUser.username].rights;
   const className = classNames('secret-list-item', {
     'secret-list-item--is-dragging': isDragging,
   });
