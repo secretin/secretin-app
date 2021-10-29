@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
+import * as MetadataActions from 'slices/MetadataSlice';
+
 import Secret from 'models/Secret';
 import User, { UserRights, userRightLabel } from 'models/User';
-import MetadataActions from 'actions/MetadataActions';
 
 import { confirm } from 'components/utilities/Confirm';
 import Input from 'components/utilities/Input';
@@ -16,6 +18,7 @@ class SecretUserListNew extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
     errors: PropTypes.instanceOf(Immutable.Map),
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
@@ -61,11 +64,13 @@ class SecretUserListNew extends Component {
       acceptLabel: 'Share the secret',
       cancelLabel: 'Cancel',
       onAccept: () => {
-        MetadataActions.createSecretUserRights({
-          secret: this.props.secret,
-          user: this.state.user,
-          rights: this.state.user.rights,
-        });
+        this.props.dispatch(
+          MetadataActions.createSecretUserRights({
+            secret: this.props.secret,
+            user: this.state.user,
+            rights: this.state.user.rights,
+          })
+        );
         this.setState({
           user: User.createFromRaw({
             username: '',
@@ -109,4 +114,4 @@ class SecretUserListNew extends Component {
   }
 }
 
-export default SecretUserListNew;
+export default connect()(SecretUserListNew);

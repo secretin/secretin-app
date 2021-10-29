@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import { connect, bindActionCreators } from 'react-redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
 
-import MetadataActions from 'actions/MetadataActions';
-import NewSecretUIActions from 'actions/NewSecretUIActions';
-import NewSecretUIStore from 'stores/NewSecretUIStore';
-import AppUIStore from 'stores/AppUIStore';
+import * as MetadataActions from 'slices/MetadataSlice';
+import * as NewSecretUIActions from 'slices/NewSecretUISlice';
 
 import SecretDataRecord from 'models/SecretDataRecord';
+
 import SecretFields from 'components/secrets/SecretFields';
 import Modal from 'components/utilities/Modal';
 import Form from 'components/utilities/Form';
@@ -21,15 +20,10 @@ class SecretNew extends Component {
     isFolder: PropTypes.bool,
     title: PropTypes.string,
     data: PropTypes.instanceOf(SecretDataRecord),
+    newSecretActions: PropTypes.object,
+    metadataActions: PropTypes.object,
+    isLoading: PropTypes.bool,
   };
-
-  static getStores() {
-    return [NewSecretUIStore];
-  }
-
-  static getPropsFromStores() {
-    return NewSecretUIStore.getState().toObject();
-  }
 
   constructor(props) {
     super(props);
@@ -39,14 +33,17 @@ class SecretNew extends Component {
 
   onSubmit() {
     const { folder, isFolder, title, data } = this.props;
-    MetadataActions.createSecret({ folder, isFolder, title, data });
+    this.props.metadataActions.createSecret({ folder, isFolder, title, data });
   }
 
   render() {
     const { isFolder } = this.props;
 
     return (
-      <Modal show={this.props.shown} onClose={NewSecretUIActions.hideModal}>
+      <Modal
+        show={this.props.shown}
+        onClose={this.props.newSecretActions.hideModal}
+      >
         <Modal.Header title={isFolder ? 'Add new folder' : 'Add new secret'} />
 
         <Modal.Body>
@@ -56,14 +53,14 @@ class SecretNew extends Component {
               name="title"
               value={this.props.title}
               type="text"
-              onChange={NewSecretUIActions.changeTitle}
+              onChange={this.props.newSecretActions.changeTitle}
               autoSelect
               required
             />
             {!isFolder && (
               <SecretFields
                 fields={this.props.data.fields}
-                onChange={NewSecretUIActions.changeField}
+                onChange={this.props.newSecretActions.changeField}
                 isNew
                 canUpdate
               />
@@ -75,14 +72,14 @@ class SecretNew extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={NewSecretUIActions.hideModal}
+            onClick={this.props.newSecretActions.hideModal}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             onClick={this.onSubmit}
-            disabled={AppUIStore.isLoading()}
+            disabled={this.props.isLoading}
           >
             {isFolder ? 'Add folder' : 'Add secret'}
           </Button>
@@ -92,4 +89,16 @@ class SecretNew extends Component {
   }
 }
 
-export default connectToStores(SecretNew);
+const mapDispatchToProps = dispatch => ({
+  newSecretActions: bindActionCreators(NewSecretUIActions, dispatch),
+  metadataActions: bindActionCreators(MetadataActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  return {
+    ...state.NewSecretUI,
+    isLoading: state.AppUI.loading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecretNew);

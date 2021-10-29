@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 import { escapeRegExp } from 'lodash';
-import AppUIStore from 'stores/AppUIStore';
-import MetadataStore from 'stores/MetadataStore';
 
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
@@ -46,10 +45,13 @@ class SecretListContent extends Component {
 
     let filteredFolders = new Immutable.Map();
 
-    const currentUser = AppUIStore.getCurrentUser();
+    const currentUser = useSelector(state => state.AppUI.currentUser);
+    const allFolders = useSelector(
+      state =>
+        state.Metadata.metadata.filter(secret => secret.type === 'folder') || []
+    );
 
     if (this.props.filtered) {
-      const allFolders = MetadataStore.getAllFolders();
       filteredSecrets.forEach(secret => {
         let folderSeq = secret
           .getIn(['users', currentUser.username, 'folders'])

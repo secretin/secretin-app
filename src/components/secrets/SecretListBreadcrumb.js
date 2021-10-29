@@ -1,11 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { NavLink } from 'react-router-dom';
 
 import { buildSecretURL } from 'utils/URLHelper';
-import MetadataStore from 'stores/MetadataStore';
-import AppUIStore from 'stores/AppUIStore';
 
 import Icon from 'components/utilities/Icon';
 import Title from 'components/utilities/Title';
@@ -21,6 +20,9 @@ const defaultProps = {
 };
 
 function SecretListBreadcrumb({ folders, withTitle }) {
+  const currentUser = useSelector(state => state.AppUI.currentUser);
+  const metadata = useSelector(state => state.Metadata.metadata);
+
   const breadcrumbURLs = folders.reduce(
     (memo, folderId) =>
       memo.push({
@@ -34,7 +36,7 @@ function SecretListBreadcrumb({ folders, withTitle }) {
   );
 
   let breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
-    const folder = MetadataStore.getById(folderId);
+    const folder = metadata[folderId];
     if (!folder) {
       return links;
     }
@@ -61,7 +63,6 @@ function SecretListBreadcrumb({ folders, withTitle }) {
       );
   }, new Immutable.List());
 
-  const currentUser = AppUIStore.getCurrentUser();
   if (withTitle) {
     breadcrumb = breadcrumb
       .unshift(

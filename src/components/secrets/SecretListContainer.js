@@ -1,8 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
-import MetadataStore from 'stores/MetadataStore';
 import SecretList from 'components/secrets/SecretList';
 
 const propTypes = {
@@ -29,22 +29,31 @@ function SecretListContainer({
   showMine,
   showShared,
 }) {
+  const metadata = useSelector(state => state.Metadata.metadata);
+  // TODO : better selectors
+  // Currently this is mocked
+  const getAllSecrets = () =>
+    metadata.filter(secret => secret.type !== 'folder') || [];
   if (showAll) {
-    const secrets = MetadataStore.getAllSecrets();
+    const secrets = getAllSecrets();
+
     return <SecretList secrets={secrets} showAll />;
   } else if (showMine) {
-    const secrets = MetadataStore.getMySecret();
+    // TODO build actual selector : getMySecret
+    const secrets = getAllSecrets();
     return <SecretList secrets={secrets} showMine />;
   } else if (showShared) {
-    const secrets = MetadataStore.getSharedSecret();
+    // TODO build actual selector : getSharedSecret
+    const secrets = getAllSecrets();
     return <SecretList secrets={secrets} showShared />;
   }
 
   const path = params.path ? params.path.split('/') : [];
   const folders = new Immutable.List(path);
   const folderId = folders.last();
-  const folder = MetadataStore.getById(folderId);
-  const secrets = MetadataStore.getSecretsInFolder(folderId);
+  const folder = metadata[folderId];
+  // TODO build actual selector : getSecretsInFolder(folderId)
+  const secrets = getAllSecrets();
 
   return <SecretList folder={folder} folders={folders} secrets={secrets} />;
 }

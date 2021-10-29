@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import moment from 'moment';
 import copyToClipboard from 'copy-to-clipboard';
 
 import SecretDataRecord from 'models/SecretDataRecord';
-import EditSecretUIStore from 'stores/EditSecretUIStore';
+
 import Select from 'components/utilities/Select';
 import Button from 'components/utilities/Button';
 
@@ -14,14 +14,6 @@ class WindowsSecretEdit extends Component {
     data: PropTypes.instanceOf(SecretDataRecord),
     canUpdate: PropTypes.bool,
   };
-
-  static getStores() {
-    return [EditSecretUIStore];
-  }
-
-  static getPropsFromStores() {
-    return { data: EditSecretUIStore.getState().get('data') };
-  }
 
   handleClick = () => {
     copyToClipboard(this.select.getValue(), { debug: true });
@@ -58,4 +50,11 @@ class WindowsSecretEdit extends Component {
   }
 }
 
-export default connectToStores(WindowsSecretEdit);
+const mapStateToProps = state => {
+  const { data } = state.EditSecretUI;
+  return {
+    data,
+  };
+};
+
+export default connect(mapStateToProps)(WindowsSecretEdit);
