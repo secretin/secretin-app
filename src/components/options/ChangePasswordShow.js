@@ -104,11 +104,7 @@ class ChangePasswordShow extends Component {
             <Button
               type="button"
               buttonStyle="primary"
-              onClick={(...args) =>
-                this.props.dispatch(
-                  OptionsActions.handleChangePassword(...args)
-                )
-              }
+              onClick={this.handleChangePassword}
               disabled={this.props.newPass1 !== this.props.newPass2}
             >
               Change it

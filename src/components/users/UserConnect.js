@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import secretin from 'utils/secretin';
 
-import * as AppUIActions from 'stores/AppUISlice';
+import * as AppUIActions from 'slices/AppUISlice';
 
 import UserConnectForm from './UserConnectForm';
 import UserConnectShortPass from './UserConnectShortPass';

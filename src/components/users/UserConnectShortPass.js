@@ -8,7 +8,7 @@ import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 import { confirm } from 'components/utilities/Confirm';
 
-import * as AppUIActions from 'stores/AppUISlice';
+import * as AppUIActions from 'slices/AppUISlice';
 
 class UserConnectShortPass extends Component {
   static propTypes = {

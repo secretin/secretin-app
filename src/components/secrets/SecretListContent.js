@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { escapeRegExp } from 'lodash';
@@ -15,6 +15,8 @@ class SecretListContent extends Component {
     folders: PropTypes.array,
     searchQuery: PropTypes.string,
     endDecrypt: PropTypes.bool,
+    currentUser: PropTypes.object,
+    allFolders: PropTypes.object,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -27,6 +29,7 @@ class SecretListContent extends Component {
   }
 
   render() {
+    const { allFolders, currentUser } = this.props;
     const className = classNames('secret-list-content-table', {
       'secret-list-content-table--is-dragging': this.props.isDragging,
     });
@@ -44,12 +47,6 @@ class SecretListContent extends Component {
 
     let filteredFolders = {};
 
-    const currentUser = useSelector(state => state.AppUI.currentUser);
-    const allFolders = useSelector(
-      state =>
-        state.Metadata.metadata.filter(secret => secret.type === 'folder') || []
-    );
-
     if (this.props.filtered) {
       filteredSecrets.forEach(secret => {
         let folder = secret.users[currentUser.username].folders[0];
@@ -65,13 +62,13 @@ class SecretListContent extends Component {
           let breadcrumb = [];
           let currentFolder = folder;
           while (!root) {
-            root = allFolders.currentFolder.users[
+            root = allFolders[currentFolder].users[
               currentUser.username
             ].folders.includes('ROOT');
 
             breadcrumb = breadcrumb.unshift(currentFolder);
             currentFolder =
-              allFolders.currentFolder.users[currentUser.username].folders[0];
+              allFolders[currentFolder].users[currentUser.username].folders[0];
           }
           filteredFolders[folder].name = breadcrumb.join('/');
           filteredFolders[folder].breadcrumb = breadcrumb;
@@ -122,4 +119,15 @@ class SecretListContent extends Component {
   }
 }
 
-export default SecretListContent;
+const mapStateToProps = state => {
+  const { currentUser } = state.AppUI;
+  const allFolders =
+    state.Metadata.metadata.filter(secret => secret.type === 'folder') || [];
+
+  return {
+    currentUser,
+    allFolders,
+  };
+};
+
+export default connect(mapStateToProps)(SecretListContent);

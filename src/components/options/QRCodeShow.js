@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { connect, bindActionCreators } from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Secretin from 'secretin';
 import QRCode from 'qrcode.react';

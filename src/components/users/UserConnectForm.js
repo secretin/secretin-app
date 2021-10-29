@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import secretin from 'utils/secretin';
 
-import * as AppUIActions from 'stores/AppUISlice';
+import * as AppUIActions from 'slices/AppUISlice';
 
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';

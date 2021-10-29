@@ -92,12 +92,12 @@ export const OptionsSlice = createSlice({
       state.options.timeToClose = timeToClose;
     },
 
-    onChangeNewPass1: (state, action) => {
+    changeNewPass1: (state, action) => {
       const newPass1 = action.payload;
       state.newPass.newPass1 = newPass1.value;
     },
 
-    onChangeNewPass2: (state, action) => {
+    changeNewPass2: (state, action) => {
       const newPass2 = action.payload;
       state.newPass.newPass1 = newPass2.value;
     },
@@ -165,8 +165,8 @@ export const {
   deactivateShortLoginSuccess,
   activateShortLoginSuccess,
   changeDelaySuccess,
-  onChangeNewPass1,
-  onChangeNewPass2,
+  changeNewPass1,
+  changeNewPass2,
   showChangePassword,
   hideChangePassword,
   _changePassword,
