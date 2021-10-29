@@ -1,14 +1,14 @@
 import SecretFieldRecord from 'models/SecretFieldRecord';
 
 class SecretDataRecord {
-  constructor(raw) {
+  constructor(raw = {}) {
     this.type = raw.type || 'default';
     this.fields = raw.fields || [];
   }
 
   addNewField(params = {}) {
     this.fields.push(new SecretFieldRecord(params));
-    return this.fields;
+    return this;
   }
 
   static createWithDefaultFields(defaultFields) {

@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 
 class SecretFieldRecord {
-  constructor(raw) {
+  constructor(raw = {}) {
     this.id = raw.id || uuid.v4();
     this.date = raw.date || null;
     this.type = raw.type || 'text';

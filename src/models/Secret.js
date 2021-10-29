@@ -8,7 +8,7 @@ const CAN_WRITE = 1;
 const CAN_READ = 0;
 
 class Secret {
-  constructor(raw) {
+  constructor(raw = {}) {
     this.id = raw.id || null;
     this.type = raw.type || null;
     this.title = raw.title || null;

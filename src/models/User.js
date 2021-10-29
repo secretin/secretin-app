@@ -20,7 +20,7 @@ export function userRightLabel(accessRights) {
 }
 
 class User {
-  constructor(raw) {
+  constructor(raw = {}) {
     this.id = raw.username || uuid.v4();
     this.username = raw.username || null;
     this.rights = raw.rights || null;
