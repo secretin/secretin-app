@@ -63,22 +63,22 @@ function SecretListBreadcrumb({ folders, withTitle }) {
   }, []);
 
   if (withTitle) {
-    breadcrumb = breadcrumb
-      .unshift(
-        <Icon
-          key="home-sep"
-          id="chevron-right"
-          className="breadcrumb-item-separator"
-        />
-      )
-      .unshift(
-        <Title
-          key="home"
-          title={currentUser.username}
-          icon="home"
-          link="/secrets/"
-        />
-      );
+    breadcrumb.unshift(
+      <Icon
+        key="home-sep"
+        id="chevron-right"
+        className="breadcrumb-item-separator"
+      />
+    );
+
+    breadcrumb.unshift(
+      <Title
+        key="home"
+        title={currentUser.username}
+        icon="home"
+        link="/secrets/"
+      />
+    );
   }
 
   return <div className="breadcrumb">{breadcrumb}</div>;

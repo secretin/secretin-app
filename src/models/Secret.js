@@ -54,6 +54,27 @@ class Secret {
     return this.type !== 'windows';
   }
 
+  getRaw() {
+    const {
+      id,
+      type,
+      title,
+      lastModifiedBy,
+      lastModifiedAt,
+      data,
+      users,
+    } = this;
+    return {
+      id,
+      type,
+      title,
+      lastModifiedBy,
+      lastModifiedAt,
+      data: data.getRaw(),
+      users: users.map(user => user.getRaw()),
+    };
+  }
+
   static createFromRaw(rawData) {
     const raw = Object.entries(rawData).reduce((output, [key, value]) => {
       switch (key) {

@@ -32,7 +32,7 @@ function SecretListContainer({
   // TODO : better selectors
   // Currently this is mocked
   const getAllSecrets = () =>
-    metadata.filter(secret => secret.type !== 'folder') || [];
+    Object.values(metadata).filter(secret => secret.type !== 'folder') || [];
   if (showAll) {
     const secrets = getAllSecrets();
 
@@ -48,7 +48,7 @@ function SecretListContainer({
   }
 
   const folders = params.path ? params.path.split('/') : [];
-  const folderId = folders.last();
+  const folderId = folders[folders.length - 1];
   const folder = metadata[folderId];
   // TODO build actual selector : getSecretsInFolder(folderId)
   const secrets = getAllSecrets();

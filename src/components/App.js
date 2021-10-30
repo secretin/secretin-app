@@ -48,8 +48,8 @@ class App extends Component {
     );
   }
 
-  handleConnectionChange() {
-    this.props.dispatch(AppUIActions.connectionChange());
+  handleConnectionChange({ connection }) {
+    this.props.dispatch(AppUIActions.connectionChange(connection));
   }
 
   onAppFocus() {

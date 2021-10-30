@@ -122,7 +122,9 @@ class SecretListContent extends Component {
 const mapStateToProps = state => {
   const { currentUser } = state.AppUI;
   const allFolders =
-    state.Metadata.metadata.filter(secret => secret.type === 'folder') || [];
+    Object.values(state.Metadata.metadata).filter(
+      secret => secret.type === 'folder'
+    ) || [];
 
   return {
     currentUser,

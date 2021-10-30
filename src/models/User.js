@@ -31,6 +31,16 @@ class User {
     return this.username.length > 0;
   }
 
+  getRaw() {
+    const { id, username, rights, folders } = this;
+    return {
+      id,
+      username,
+      rights,
+      folders,
+    };
+  }
+
   static createFromRaw(rawData) {
     return new User(rawData);
   }

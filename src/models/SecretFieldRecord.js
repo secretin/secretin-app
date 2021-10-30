@@ -9,6 +9,17 @@ class SecretFieldRecord {
     this.content = raw.content || '';
   }
 
+  getRaw() {
+    const { id, date, type, label, content } = this;
+    return {
+      id,
+      date,
+      type,
+      label,
+      content,
+    };
+  }
+
   static createFromRaw(rawData) {
     const raw = {
       ...rawData,

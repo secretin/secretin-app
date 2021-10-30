@@ -86,9 +86,9 @@ export const createSecret = (
       promise = secretin.addFolder(title);
     }
   } else if (folder) {
-    promise = secretin.addSecret(title, data.toJS(), folder);
+    promise = secretin.addSecret(title, data, folder);
   } else {
-    promise = secretin.addSecret(title, data.toJS());
+    promise = secretin.addSecret(title, data);
   }
 
   return promise

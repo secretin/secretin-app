@@ -11,6 +11,14 @@ class SecretDataRecord {
     return this;
   }
 
+  getRaw() {
+    const { type, fields } = this;
+    return {
+      type,
+      fields: fields.map(field => field.getRaw()),
+    };
+  }
+
   static createWithDefaultFields(defaultFields) {
     return defaultFields.reduce(
       (record, field) => record.addNewField(field),

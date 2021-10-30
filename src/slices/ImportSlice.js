@@ -120,7 +120,7 @@ export const importSecrets = ({ file, type, mandatoryFields }) => (
   importers[type]
     .parse(
       file,
-      mandatoryFields.toJS(),
+      mandatoryFields,
       ({ state: importStatus, total: importTotal }) =>
         dispatch(
           importSecretsProgress({
