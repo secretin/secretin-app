@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import SecretDataRecord from 'models/SecretDataRecord';
-
 import * as EditSecretUIActions from 'slices/EditSecretUISlice';
 
 import SecretFields from 'components/secrets/SecretFields';
 
 class SecretEdit extends Component {
   static propTypes = {
-    data: PropTypes.instanceOf(SecretDataRecord),
+    data: PropTypes.object,
     canUpdate: PropTypes.bool,
     actions: PropTypes.object,
   };

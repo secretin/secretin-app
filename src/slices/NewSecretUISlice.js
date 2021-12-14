@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import SecretDataRecord from 'models/SecretDataRecord';
+
+import { createSecretSuccess } from 'slices/AppUISlice';
 
 const getInitialState = () => ({
   shown: false,
@@ -9,7 +10,7 @@ const getInitialState = () => ({
   title: '',
   data: SecretDataRecord.createWithDefaultFields(
     SecretDataRecord.DEFAULT_FIELDS
-  ),
+  ).getRaw(),
 });
 
 export const NewSecretUISlice = createSlice({
@@ -43,7 +44,18 @@ export const NewSecretUISlice = createSlice({
         fieldToUpdate => fieldToUpdate.id === field.id
       );
       state.data.fields[fieldIndex].content = value;
+      // const newFields = state.data.fields.map((_field, index) => {
+      //   if (index === fieldIndex) {
+      //     return { ..._field, content: value };
+      //   }
+      //   return _field;
+      // });
+      // state.data.fields = newFields;
+      // console.log(current(state).data.fields[0].content);
     },
+  },
+  extraReducers: {
+    [createSecretSuccess]: () => getInitialState(),
   },
 });
 

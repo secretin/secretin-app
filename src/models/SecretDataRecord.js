@@ -7,7 +7,7 @@ class SecretDataRecord {
   }
 
   addNewField(params = {}) {
-    this.fields.push(new SecretFieldRecord(params));
+    this.fields.push(new SecretFieldRecord(params).getRaw());
     return this;
   }
 
@@ -15,7 +15,7 @@ class SecretDataRecord {
     const { type, fields } = this;
     return {
       type,
-      fields: fields.map(field => field.getRaw()),
+      fields,
     };
   }
 
@@ -32,7 +32,9 @@ class SecretDataRecord {
         case 'fields':
           return {
             ...output,
-            fields: value.map(field => SecretFieldRecord.createFromRaw(field)),
+            fields: value.map(field =>
+              SecretFieldRecord.createFromRaw(field).getRaw()
+            ),
           };
         default:
           return output;

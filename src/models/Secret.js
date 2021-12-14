@@ -84,7 +84,10 @@ class Secret {
             users: value.map(user => User.createFromRaw(user)),
           };
         case 'data':
-          return { ...output, data: SecretDataRecord.createFromRaw(value) };
+          return {
+            ...output,
+            data: SecretDataRecord.createFromRaw(value).getRaw(),
+          };
         case 'lastModifiedAt':
           return { ...output, lastModifiedAt: moment(value) };
         default:

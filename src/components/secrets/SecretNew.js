@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import * as MetadataActions from 'slices/MetadataSlice';
 import * as NewSecretUIActions from 'slices/NewSecretUISlice';
 
-import SecretDataRecord from 'models/SecretDataRecord';
-
 import SecretFields from 'components/secrets/SecretFields';
 import Modal from 'components/utilities/Modal';
 import Form from 'components/utilities/Form';
@@ -20,7 +18,7 @@ class SecretNew extends Component {
     folder: PropTypes.string,
     isFolder: PropTypes.bool,
     title: PropTypes.string,
-    data: PropTypes.instanceOf(SecretDataRecord),
+    data: PropTypes.object,
     newSecretActions: PropTypes.object,
     metadataActions: PropTypes.object,
     isLoading: PropTypes.bool,

@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import copyToClipboard from 'copy-to-clipboard';
 
-import SecretDataRecord from 'models/SecretDataRecord';
-
 import Select from 'components/utilities/Select';
 import Button from 'components/utilities/Button';
 
 class WindowsSecretEdit extends Component {
   static propTypes = {
-    data: PropTypes.instanceOf(SecretDataRecord),
+    data: PropTypes.object,
     canUpdate: PropTypes.bool,
   };
 
