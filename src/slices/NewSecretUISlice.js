@@ -44,14 +44,6 @@ export const NewSecretUISlice = createSlice({
         fieldToUpdate => fieldToUpdate.id === field.id
       );
       state.data.fields[fieldIndex].content = value;
-      // const newFields = state.data.fields.map((_field, index) => {
-      //   if (index === fieldIndex) {
-      //     return { ..._field, content: value };
-      //   }
-      //   return _field;
-      // });
-      // state.data.fields = newFields;
-      // console.log(current(state).data.fields[0].content);
     },
   },
   extraReducers: {

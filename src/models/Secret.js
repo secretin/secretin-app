@@ -35,7 +35,7 @@ class Secret {
   }
 
   accessRightForUser(user) {
-    return this.users[user.username].rights;
+    return this.users.find(_user => _user.id === user.username).rights;
   }
 
   canBeReadBy(user) {
@@ -81,7 +81,7 @@ class Secret {
         case 'users':
           return {
             ...output,
-            users: value.map(user => User.createFromRaw(user)),
+            users: Object.values(value).map(user => User.createFromRaw(user)),
           };
         case 'data':
           return {

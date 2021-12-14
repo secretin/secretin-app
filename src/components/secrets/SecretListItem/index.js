@@ -15,7 +15,7 @@ function SecretListItem({ secret, folders }) {
   }
   return (
     <SecretListItemFolderSecret
-      parentFolderId={folders.last()}
+      parentFolderId={folders[folders.length - 1]}
       secret={secret}
     />
   );

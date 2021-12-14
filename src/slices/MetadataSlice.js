@@ -2,7 +2,11 @@ import secretin, { Errors } from 'utils/secretin';
 import { createSlice } from '@reduxjs/toolkit';
 import Secret from 'models/Secret';
 
-import { createSecretSuccess, createSecretFailure } from 'slices/AppUISlice';
+import {
+  createSecretSuccess,
+  createSecretFailure,
+  loginUserSuccess,
+} from 'slices/AppUISlice';
 
 const { FriendNotFoundError } = Errors;
 
@@ -13,7 +17,7 @@ const buildSecrets = metadata => {
 // Helper function reused in many actions
 const _rebuildMetadata = (state, action) => {
   const { metadata } = action.payload;
-  state.metadata = buildSecrets(metadata);
+  state.metadata = buildSecrets(Object.values(metadata));
 };
 
 export const MetadataSlice = createSlice({
@@ -23,7 +27,6 @@ export const MetadataSlice = createSlice({
   },
   reducers: {
     loadMetadataSuccess: _rebuildMetadata,
-    createSecretSuccess: _rebuildMetadata,
     deleteSecretSuccess: _rebuildMetadata,
     deleteSecretFailure: _rebuildMetadata,
     addSecretToFolderSuccess: _rebuildMetadata,
@@ -48,6 +51,10 @@ export const MetadataSlice = createSlice({
         userToFilter => userToFilter.id !== user.id
       );
     },
+  },
+  extraReducers: {
+    [createSecretSuccess]: _rebuildMetadata,
+    [loginUserSuccess]: _rebuildMetadata,
   },
 });
 
