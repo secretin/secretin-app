@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { showSecretSuccess } from 'slices/ShowSecretUISlice';
+
 export const EditSecretUISlice = createSlice({
   name: 'EditSecretUI',
   initialState: {
@@ -7,10 +9,6 @@ export const EditSecretUISlice = createSlice({
     data: null,
   },
   reducers: {
-    updateSecret: (state, action) => {
-      state.isEditing = false;
-      state.data = action.payload.secret.data;
-    },
     updateData: (state, action) => {
       state.isEditing = false;
       state.data = action.payload.data;
@@ -29,14 +27,15 @@ export const EditSecretUISlice = createSlice({
       state.data.fields[fieldIndex] = value;
     },
   },
+  extraReducers: {
+    [showSecretSuccess]: (state, action) => {
+      state.isEditing = false;
+      state.data = action.payload.secret.data;
+    },
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  updateSecret,
-  updateData,
-  hideModal,
-  changeField,
-} = EditSecretUISlice.actions;
+export const { updateData, hideModal, changeField } = EditSecretUISlice.actions;
 
 export default EditSecretUISlice.reducer;
