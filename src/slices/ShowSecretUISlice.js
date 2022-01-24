@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import secretin from 'utils/secretin';
 import SecretDataRecord from 'models/SecretDataRecord';
 import Secret from 'models/Secret';
+import { updateSecret, updateSecretSuccess } from 'slices/MetadataSlice';
 
 const getInitialState = () => ({
   secret: null,
@@ -33,38 +34,22 @@ export const ShowSecretUISlice = createSlice({
       const { tab } = action.payload;
       state.tab = tab;
     },
-    updateSecret: (state, action) => {
+    updateSecretFailure: (state, action) => {
+      const { error } = action.payload;
+      state.errors = error;
+      state.isUpdating = false;
+    },
+  },
+  extraReducers: {
+    [updateSecret]: (state, action) => {
       state.isUpdating = true;
       state.errors = {};
     },
-    updateSecretSuccess: (state, action) => {
-      // const { secret } = this.state;
+    [updateSecretSuccess]: (state, action) => {
+      const { metadata } = action.payload;
+      state.secret = state.secret.merge(metadata[state.secret.id]);
       state.isUpdating = false;
       state.errors = {};
-      // TODO : we're supposed to get the secret from the Metadata slice, but this reducer can't access another slice, so we will have to pass it in the action or something
-      // Maybe with a thunk, getState will return the full state ?
-      // this.state.secret = secret ?  : null;
-      // this.setState(
-      //   this.state
-      //     .update('secret', secret =>
-      //       secret
-      //         ? secret.merge(
-      //             MetadataStore.getById(this.state.secret.id)
-      //               .toMap()
-      //               .remove('data')
-      //           )
-      //         : null
-      //     )
-      //     .set('isUpdating', false)
-      //     .set('errors', new Immutable.Map())
-      // );
-    },
-
-    updateSecretFailure: (state, action) => {
-      const { error } = action.payload;
-
-      state.errors = error;
-      state.isUpdating = false;
     },
   },
 });
@@ -75,8 +60,6 @@ export const {
   showSecretSuccess,
   hideModal,
   changeTab,
-  updateSecret,
-  updateSecretSuccess,
   updateSecretFailure,
 } = ShowSecretUISlice.actions;
 

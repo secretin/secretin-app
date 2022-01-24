@@ -7,6 +7,7 @@ import {
   createSecretFailure,
   loginUserSuccess,
 } from 'slices/AppUISlice';
+import { updateSecretFailure } from 'slices/ShowSecretUISlice';
 
 const { FriendNotFoundError } = Errors;
 
@@ -124,8 +125,7 @@ export const updateSecret = ({ secret, data }) => dispatch => {
       );
     })
     .catch(error => {
-      // TODO
-      // dispatch(updateSecretFailure({ error }));
+      dispatch(updateSecretFailure({ error }));
       throw error;
     });
 };
