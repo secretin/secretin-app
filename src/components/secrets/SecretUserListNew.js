@@ -33,7 +33,7 @@ class SecretUserListNew extends Component {
 
   handleChange({ name, value }) {
     this.setState({
-      user: { ...this.state.user, name: value },
+      user: this.state.user.merge({ [name]: value }),
     });
   }
 

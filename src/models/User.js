@@ -31,6 +31,13 @@ class User {
     return this.username.length > 0;
   }
 
+  merge(fields) {
+    Object.entries(fields).forEach(([key, value]) => {
+      this[key] = value;
+    });
+    return this;
+  }
+
   getRaw() {
     const { id, username, rights, folders } = this;
     return {
