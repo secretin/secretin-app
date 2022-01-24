@@ -27,10 +27,7 @@ class SecretUserListNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      user: User.createFromRaw({
-        username: '',
-        rights: 0,
-      }),
+      user: new User(),
     };
   }
 
@@ -71,10 +68,7 @@ class SecretUserListNew extends Component {
           })
         );
         this.setState({
-          user: User.createFromRaw({
-            username: '',
-            rights: 0,
-          }),
+          user: new User(),
         });
       },
       onCancel: () => ({}),

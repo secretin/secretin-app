@@ -163,6 +163,7 @@ const mapStateToProps = state => {
   const { currentUser, online } = state.AppUI;
   return {
     secret,
+    shown: !!secret,
     errors,
     tab,
     isUpdating,

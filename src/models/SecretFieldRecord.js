@@ -23,7 +23,7 @@ class SecretFieldRecord {
   static createFromRaw(rawData) {
     const raw = {
       ...rawData,
-      content: rawData.value,
+      content: rawData.content,
     };
     if (raw.value) delete raw.value;
     return new SecretFieldRecord(raw);

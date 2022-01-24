@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { escapeRegExp } from 'lodash';
+import { escapeRegExp, set } from 'lodash';
 
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
@@ -47,13 +47,16 @@ class SecretListContent extends Component {
 
     let filteredFolders = {};
 
+    const getUser = (users, username) =>
+      users.find(user => user.id === username);
+
     if (this.props.filtered) {
       filteredSecrets.forEach(secret => {
-        let folder = secret.users[currentUser.username].folders[0];
+        let folder = getUser(secret.users, currentUser.username).folders[0];
         if (typeof folder === 'undefined') {
           folder = 'ROOT';
         }
-        filteredFolders[folder].secrets[secret.id] = secret;
+        set(filteredFolders, `${folder}.secrets.${secret.id}`, secret);
         if (folder === 'ROOT') {
           filteredFolders[folder].name = '';
           filteredFolders[folder].root = true;
@@ -62,13 +65,16 @@ class SecretListContent extends Component {
           let breadcrumb = [];
           let currentFolder = folder;
           while (!root) {
-            root = allFolders[currentFolder].users[
+            root = getUser(
+              allFolders[currentFolder].users,
               currentUser.username
-            ].folders.includes('ROOT');
+            ).folders.includes('ROOT');
 
             breadcrumb = breadcrumb.unshift(currentFolder);
-            currentFolder =
-              allFolders[currentFolder].users[currentUser.username].folders[0];
+            currentFolder = getUser(
+              allFolders[currentFolder].users,
+              currentUser.username
+            ).folders[0];
           }
           filteredFolders[folder].name = breadcrumb.join('/');
           filteredFolders[folder].breadcrumb = breadcrumb;

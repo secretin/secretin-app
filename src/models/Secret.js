@@ -70,13 +70,14 @@ class Secret {
       title,
       lastModifiedBy,
       lastModifiedAt,
-      data: data.getRaw(),
+      data: data?.getRaw(),
       users: users.map(user => user.getRaw()),
     };
   }
 
   static createFromRaw(rawData) {
     const raw = Object.entries(rawData).reduce((output, [key, value]) => {
+      if (!value) return output;
       switch (key) {
         case 'users':
           return {

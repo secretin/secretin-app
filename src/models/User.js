@@ -22,8 +22,8 @@ export function userRightLabel(accessRights) {
 class User {
   constructor(raw = {}) {
     this.id = raw.username || uuid.v4();
-    this.username = raw.username || null;
-    this.rights = raw.rights || null;
+    this.username = raw.username || '';
+    this.rights = raw.rights || 0;
     this.folders = raw.folders || {};
   }
 

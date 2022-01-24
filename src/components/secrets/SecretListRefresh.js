@@ -13,7 +13,7 @@ function SecretListRefresh() {
       <Button
         title="Refresh secret list"
         buttonStyle="icon"
-        onClick={() => dispatch(MetadataActions.loadMetadata)}
+        onClick={() => dispatch(MetadataActions.loadMetadata())}
       >
         <Icon id="refresh" />
       </Button>

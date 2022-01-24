@@ -10,10 +10,10 @@ const propTypes = {
 
 function SecretListFolderInfo({ folder }) {
   // TODO : figure out sorting
-  const secrets = folder.secrets; // .sortBy(secret => secret.title.toLowerCase());
+  const secrets = Object.values(folder.secrets); // .sortBy(secret => secret.title.toLowerCase());
   return (
     <tbody className="secret-list-content-table-body">
-      {!folder.includes('root') && (
+      {!folder.root === true && (
         <tr className="secret-list-folder">
           <td colSpan="4" className="secret-list-folder-info">
             <SecretListBreadcrumb
