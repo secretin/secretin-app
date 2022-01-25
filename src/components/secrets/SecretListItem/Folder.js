@@ -31,7 +31,9 @@ function SecretListItemFolder(props) {
   const currentUser = useSelector(state => state.AppUI.currentUser);
   const isOnline = useSelector(state => state.AppUI.online);
 
-  const secretRights = secret.users[currentUser.username].rights;
+  const secretRights = secret.users.find(
+    user => user.id === currentUser.username
+  ).rights;
   const users = secret.users.filter(user => user.id !== currentUser.username);
 
   const className = classNames('secret-list-item', {
@@ -43,7 +45,7 @@ function SecretListItemFolder(props) {
 
   const link = (
     <div>
-      <Link to={buildSecretURL(folders.push(secret.id))}>
+      <Link to={buildSecretURL([...folders, secret.id])}>
         <Icon id={secret.getIcon()} size="base" />
         <span className="text" title={secret.title}>
           {secret.title}
@@ -69,7 +71,7 @@ function SecretListItemFolder(props) {
       </td>
       <td className="secret-list-item-column secret-list-item-column--actions">
         <SecretListItemOptions
-          parentFolderId={folders.last()}
+          parentFolderId={folders[folders.length - 1]}
           secret={secret}
         />
       </td>

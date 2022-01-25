@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import SecretList from 'components/secrets/SecretList';
 
+import { getAllSecrets, getSecretsInFolder } from 'selectors/MetadataSelectors';
+
 const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -29,31 +31,29 @@ function SecretListContainer({
   showShared,
 }) {
   const metadata = useSelector(state => state.Metadata.metadata);
-  // TODO : better selectors
-  // Currently this is mocked
-  const getAllSecrets = () =>
-    Object.values(metadata).filter(secret => secret.type !== 'folder') || [];
+  const allSecrets = useSelector(getAllSecrets);
+  const folders = params.path ? params.path.split('/') : [];
+  const folderId = folders[folders.length - 1];
+  const folderSecrets = useSelector(state =>
+    getSecretsInFolder(state, folderId)
+  );
   if (showAll) {
-    const secrets = getAllSecrets();
+    const secrets = allSecrets;
 
     return <SecretList secrets={secrets} showAll />;
   } else if (showMine) {
     // TODO build actual selector : getMySecret
-    const secrets = getAllSecrets();
+    const secrets = allSecrets;
     return <SecretList secrets={secrets} showMine />;
   } else if (showShared) {
     // TODO build actual selector : getSharedSecret
-    const secrets = getAllSecrets();
+    const secrets = allSecrets;
     return <SecretList secrets={secrets} showShared />;
   }
-
-  const folders = params.path ? params.path.split('/') : [];
-  const folderId = folders[folders.length - 1];
   const folder = metadata[folderId];
-  // TODO build actual selector : getSecretsInFolder(folderId)
-  const secrets = getAllSecrets();
-
-  return <SecretList folder={folder} folders={folders} secrets={secrets} />;
+  return (
+    <SecretList folder={folder} folders={folders} secrets={folderSecrets} />
+  );
 }
 SecretListContainer.propTypes = propTypes;
 SecretListContainer.defaultProps = defaultProps;
