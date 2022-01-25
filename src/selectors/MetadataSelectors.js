@@ -41,10 +41,7 @@ export const getSecretsInFolder = createSelector(
   }
 );
 
-// TODO
-//   static getSharedSecret() {
-//     return (
-//       this.getAllSecrets().filter(secret => secret.users.size > 1) ||
-//       new Immutable.Map()
-//     );
-//   }
+export const getSharedSecrets = createSelector(getAllSecrets, allSecrets => {
+  if (!allSecrets) return [];
+  return allSecrets.filter(secret => secret.users.length > 1);
+});

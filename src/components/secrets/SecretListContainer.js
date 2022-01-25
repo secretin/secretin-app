@@ -8,6 +8,7 @@ import {
   getAllSecrets,
   getMySecrets,
   getSecretsInFolder,
+  getSharedSecrets,
 } from 'selectors/MetadataSelectors';
 
 const propTypes = {
@@ -37,6 +38,7 @@ function SecretListContainer({
   const metadata = useSelector(state => state.Metadata.metadata);
   const allSecrets = useSelector(getAllSecrets);
   const mySecrets = useSelector(getMySecrets);
+  const sharedSecrets = useSelector(getSharedSecrets);
   const folders = params.path ? params.path.split('/') : [];
   const folderId = folders[folders.length - 1];
   const folderSecrets = useSelector(state =>
@@ -47,9 +49,7 @@ function SecretListContainer({
   } else if (showMine) {
     return <SecretList secrets={mySecrets} showMine />;
   } else if (showShared) {
-    // TODO build actual selector : getSharedSecret
-    const secrets = allSecrets;
-    return <SecretList secrets={secrets} showShared />;
+    return <SecretList secrets={sharedSecrets} showShared />;
   }
   const folder = metadata.find(f => f.id === folderId);
   return (
