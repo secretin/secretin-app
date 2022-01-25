@@ -47,7 +47,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.totp}
                 onChange={this.props.actions.toggleTotp}
-                disabled={isOnline}
+                disabled={!isOnline}
               >
                 Activate two-factor authentication
               </Checkbox>
@@ -70,7 +70,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.shortLogin}
                 onChange={this.props.actions.toggleShortLogin}
-                disabled={isOnline}
+                disabled={!isOnline}
               >
                 Activate ShortLogin
               </Checkbox>
@@ -80,7 +80,7 @@ class OptionsContainer extends Component {
               <Checkbox
                 checked={options.timeToClose > 0}
                 onChange={this.props.actions.toggleAutoLogout}
-                disabled={isOnline}
+                disabled={!isOnline}
               >
                 Activate auto logout
               </Checkbox>
@@ -101,7 +101,7 @@ class OptionsContainer extends Component {
                       step: 5,
                     }}
                     debounce={800}
-                    disabled={isOnline}
+                    disabled={!isOnline}
                   />
                   <b> min</b>
                 </div>
@@ -115,7 +115,7 @@ class OptionsContainer extends Component {
                 type="button"
                 buttonStyle="warning"
                 onClick={this.props.actions.showChangePassword}
-                disabled={isOnline}
+                disabled={!isOnline}
               >
                 Change master password
               </Button>
