@@ -3,7 +3,13 @@ import secretin from 'utils/secretin';
 import SecretDataRecord from 'models/SecretDataRecord';
 import Secret from 'models/Secret';
 import User from 'models/User';
-import { updateSecret, updateSecretSuccess } from 'slices/MetadataSlice';
+import {
+  updateSecret,
+  updateSecretSuccess,
+  createSecretUserRightsSuccess,
+  updateSecretUserRightsSuccess,
+  deleteSecretUserRightsSuccess,
+} from 'slices/MetadataSlice';
 
 const getInitialState = () => ({
   secret: null,
@@ -11,6 +17,12 @@ const getInitialState = () => ({
   tab: 'details',
   isUpdating: false,
 });
+
+const _handleError = (state, action) => {
+  const { error } = action.payload;
+  state.errors = error;
+  state.isUpdating = false;
+};
 
 export const ShowSecretUISlice = createSlice({
   name: 'ShowSecretUI',
@@ -35,16 +47,10 @@ export const ShowSecretUISlice = createSlice({
       const { tab } = action.payload;
       state.tab = tab;
     },
-    updateSecretFailure: (state, action) => {
-      const { error } = action.payload;
-      state.errors = error;
-      state.isUpdating = false;
-    },
-    createSecretUserRightsFailure: (state, action) => {
-      const { error } = action.payload;
-      state.errors = error;
-      state.isUpdating = false;
-    },
+    updateSecretFailure: _handleError,
+    createSecretUserRightsFailure: _handleError,
+    updateSecretUserRightsFailure: _handleError,
+    deleteSecretUserRightsFailure: _handleError,
   },
   extraReducers: {
     [updateSecret]: (state, action) => {
@@ -63,6 +69,29 @@ export const ShowSecretUISlice = createSlice({
       state.isUpdating = false;
       state.errors = {};
     },
+    [createSecretUserRightsSuccess]: (state, action) => {
+      const { user, rights } = action.payload;
+      state.secret.users.push(user.merge({ rights }));
+      state.isUpdating = false;
+      state.errors = {};
+    },
+    [updateSecretUserRightsSuccess]: (state, action) => {
+      const { rights, user } = action.payload;
+      state.secret.users = state.secret.users.map(_user => {
+        if (_user.id === user.id) return _user.merge({ rights });
+        return _user;
+      });
+      state.isUpdating = false;
+      state.errors = {};
+    },
+    [deleteSecretUserRightsSuccess]: (state, action) => {
+      const { user } = action.payload;
+      state.secret.users = state.secret.users.filter(
+        userToFilter => userToFilter.id !== user.id
+      );
+      state.isUpdating = false;
+      state.errors = {};
+    },
   },
 });
 
@@ -74,6 +103,8 @@ export const {
   changeTab,
   updateSecretFailure,
   createSecretUserRightsFailure,
+  updateSecretUserRightsFailure,
+  deleteSecretUserRightsFailure,
 } = ShowSecretUISlice.actions;
 
 export const showSecret = ({ secret, tab }) => dispatch => {

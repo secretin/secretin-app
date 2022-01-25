@@ -17,15 +17,6 @@ export const NewSecretUISlice = createSlice({
   name: 'NewSecretUI',
   initialState: getInitialState(),
   reducers: {
-    updateSecretUserRightsSuccess: (state, action) => {
-      const { secret, user, rights } = action.payload;
-      state.metadata[secret.id].users.map(userToUpdate => {
-        if (userToUpdate.id === user.id) {
-          return { ...userToUpdate, rights };
-        }
-        return userToUpdate;
-      });
-    },
     showModal: (state, action) => {
       const { folder, isFolder } = action.payload;
       state.shown = true;
@@ -53,7 +44,6 @@ export const NewSecretUISlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  updateSecretUserRightsSuccess,
   showModal,
   hideModal,
   changeTitle,

@@ -10,6 +10,8 @@ import {
 import {
   updateSecretFailure,
   createSecretUserRightsFailure,
+  updateSecretUserRightsFailure,
+  deleteSecretUserRightsFailure,
 } from 'slices/ShowSecretUISlice';
 
 const { FriendNotFoundError } = Errors;
@@ -17,6 +19,12 @@ const { FriendNotFoundError } = Errors;
 const buildSecrets = metadata => {
   return metadata.map(secret => Secret.createFromRaw(secret));
 };
+
+const getIndex = (state, secretId) =>
+  state.metadata.findIndex(secret => secret.id === secretId);
+
+const getById = (state, secretId) =>
+  state.metadata.find(secret => secret.id === secretId);
 
 // Helper function reused in many actions
 const _rebuildMetadata = (state, action) => {
@@ -41,9 +49,12 @@ export const MetadataSlice = createSlice({
 
     updateSecretUserRightsSuccess: (state, action) => {
       const { secret, user, rights } = action.payload;
-      state.metadata[secret.id].users.map(userToUpdate => {
+      const secretMetadataIndex = getIndex(state, secret.id);
+      state.metadata[secretMetadataIndex].users = state.metadata[
+        secretMetadataIndex
+      ].users.map(userToUpdate => {
         if (userToUpdate.id === user.id) {
-          return { ...userToUpdate, rights };
+          return userToUpdate.merge({ rights });
         }
         return userToUpdate;
       });
@@ -51,7 +62,8 @@ export const MetadataSlice = createSlice({
 
     deleteSecretUserRightsSuccess: (state, action) => {
       const { secret, user } = action.payload;
-      state.metadata[secret.id].users = state.metadata[secret.id].users.filter(
+      const secretMetadata = getById(state, secret.id);
+      secretMetadata.users = secretMetadata.users.filter(
         userToFilter => userToFilter.id !== user.id
       );
     },
@@ -182,6 +194,8 @@ export const createSecretUserRights = ({
       dispatch(
         createSecretUserRightsSuccess({
           metadata: secretin.currentUser.metadatas,
+          user,
+          rights,
         })
       );
     })
@@ -213,12 +227,11 @@ export const updateSecretUserRights = ({
       dispatch(updateSecretUserRightsSuccess({ secret, user, rights }))
     )
     .catch(error => {
-      // TODO
-      // dispatch(
-      //   updateSecretUserRightsFailure({
-      //     error: { unknown: 'Unknown error' },
-      //   })
-      // );
+      dispatch(
+        updateSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        })
+      );
       throw error;
     });
 };
@@ -228,12 +241,11 @@ export const deleteSecretUserRights = ({ secret, user }) => dispatch => {
     .unshareSecret(secret.id, user.username)
     .then(() => dispatch(deleteSecretUserRightsSuccess({ secret, user })))
     .catch(error => {
-      // TODO
-      // dispatch(
-      //   deleteSecretUserRightsFailure({
-      //     error: { unknown: 'Unknown error' },
-      //   })
-      // );
+      dispatch(
+        deleteSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        })
+      );
       throw error;
     });
 };

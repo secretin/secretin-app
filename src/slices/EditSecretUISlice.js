@@ -17,7 +17,6 @@ export const EditSecretUISlice = createSlice({
     changeField: (state, action) => {
       const { field, value } = action.payload;
       state.isEditing = true;
-      // TODO : this is probably broken, check actual structure of the metadata
       const fieldIndex = state.data.fields.findIndex(
         fieldToUpdate => fieldToUpdate.id === field.id
       );
