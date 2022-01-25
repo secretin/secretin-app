@@ -32,7 +32,12 @@ class SecretNew extends Component {
 
   onSubmit() {
     const { folder, isFolder, title, data } = this.props;
-    this.props.metadataActions.createSecret({ folder, isFolder, title, data });
+    this.props.metadataActions.createSecret({
+      folder: folder?.id,
+      isFolder,
+      title,
+      data,
+    });
   }
 
   render() {
@@ -93,10 +98,11 @@ const mapDispatchToProps = dispatch => ({
   metadataActions: bindActionCreators(MetadataActions, dispatch),
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     ...state.NewSecretUI,
     isLoading: state.AppUI.loading,
+    folder: ownProps.folder,
   };
 };
 

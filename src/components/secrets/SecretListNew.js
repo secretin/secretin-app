@@ -26,7 +26,7 @@ function SecretListNew({ folder }) {
 
   return (
     <div className="secret-list-new">
-      <SecretNew />
+      <SecretNew folder={folder} />
       <Button
         title="Add secret"
         buttonStyle="primary"

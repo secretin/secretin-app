@@ -50,7 +50,7 @@ function SecretListContainer({
     const secrets = allSecrets;
     return <SecretList secrets={secrets} showShared />;
   }
-  const folder = metadata[folderId];
+  const folder = metadata.find(f => f.id === folderId);
   return (
     <SecretList folder={folder} folders={folders} secrets={folderSecrets} />
   );
