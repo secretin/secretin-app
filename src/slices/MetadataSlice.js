@@ -158,8 +158,7 @@ export const renameSecret = ({ secret, newTitle }) => dispatch => {
       );
     })
     .catch(error => {
-      // TODO
-      // dispatch(renameSecretFailure({ error }));
+      dispatch(updateSecretFailure({ error }));
       throw error;
     });
 };

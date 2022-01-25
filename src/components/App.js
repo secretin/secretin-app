@@ -6,6 +6,7 @@ import secretin from 'utils/secretin';
 import Secretin from 'secretin';
 
 import * as AppUIActions from 'slices/AppUISlice';
+import { getSecretsInFolder } from 'selectors/MetadataSelectors';
 
 import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
@@ -96,17 +97,16 @@ class App extends Component {
 
 const mapStateToProps = state => {
   const { savedUsername, loading, errors, connected, status } = state.AppUI;
-  // TODO : implement corresponding selectors
-  // const secrets = MetadataStore.getSecretsInFolder();
-  // const options = OptionsStore.getOptions();
+  const secrets = getSecretsInFolder(state);
+  const { options } = state.Options;
   return {
     savedUsername,
     loading,
     errors,
     connected,
     status,
-    secrets: {},
-    options: {},
+    secrets,
+    options,
   };
 };
 
