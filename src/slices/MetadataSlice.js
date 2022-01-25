@@ -301,13 +301,6 @@ export const removeSecretFromCurrentFolder = ({
 
 // TODO : these should be some kind of selectors
 //
-// static getById(secretId) {
-//     const { metadata } = this.getState();
-//     if (!metadata) {
-//       return new Immutable.Map();
-//     }
-//     return metadata.get(secretId);
-//   }
 
 //   static getSecretsInFolder(folderId) {
 //     const { metadata } = this.getState();

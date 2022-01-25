@@ -23,14 +23,16 @@ function SecretListBreadcrumb({ folders, withTitle }) {
   const metadata = useSelector(state => state.Metadata.metadata);
 
   const breadcrumbURLs = folders.reduce(
-    (memo, folderId) =>
-      memo.push({
+    (memo, folderId) => [
+      ...memo,
+      {
         folderId,
         link: buildSecretURL(
           [folderId],
-          memo.last() ? memo.last().link : undefined
+          memo[memo.length - 1] ? memo[memo.length - 1].link : undefined
         ),
-      }),
+      },
+    ],
     []
   );
 

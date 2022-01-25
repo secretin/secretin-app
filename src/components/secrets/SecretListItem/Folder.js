@@ -97,10 +97,11 @@ const itemTarget = {
     const { secret: draggedSecret } = monitor.getItem();
 
     return (
-      draggedSecret.users[currentUserId].rights !== 0 &&
+      draggedSecret.users.find(user => user.id === currentUserId).rights !==
+        0 &&
       targetSecret.type === 'folder' &&
       targetSecret.id !== draggedSecret.id &&
-      targetSecret.users[currentUserId].rights !== 0
+      targetSecret.users.find(user => user.id === currentUserId).rights !== 0
     );
   },
 };
