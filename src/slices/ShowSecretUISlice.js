@@ -40,6 +40,11 @@ export const ShowSecretUISlice = createSlice({
       state.errors = error;
       state.isUpdating = false;
     },
+    createSecretUserRightsFailure: (state, action) => {
+      const { error } = action.payload;
+      state.errors = error;
+      state.isUpdating = false;
+    },
   },
   extraReducers: {
     [updateSecret]: (state, action) => {
@@ -68,6 +73,7 @@ export const {
   hideModal,
   changeTab,
   updateSecretFailure,
+  createSecretUserRightsFailure,
 } = ShowSecretUISlice.actions;
 
 export const showSecret = ({ secret, tab }) => dispatch => {

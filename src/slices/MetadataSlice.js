@@ -7,7 +7,10 @@ import {
   createSecretFailure,
   loginUserSuccess,
 } from 'slices/AppUISlice';
-import { updateSecretFailure } from 'slices/ShowSecretUISlice';
+import {
+  updateSecretFailure,
+  createSecretUserRightsFailure,
+} from 'slices/ShowSecretUISlice';
 
 const { FriendNotFoundError } = Errors;
 
@@ -184,19 +187,17 @@ export const createSecretUserRights = ({
     })
     .catch(error => {
       if (error instanceof FriendNotFoundError) {
-        // TODO
-        // return dispatch(
-        //   createSecretUserRightsFailure({
-        //     error: { username: 'User not found' },
-        //   })
-        // );
+        return dispatch(
+          createSecretUserRightsFailure({
+            error: { username: 'User not found' },
+          })
+        );
       }
-      // TODO
-      // dispatch(
-      //   createSecretUserRightsFailure({
-      //     error: { unknown: 'Unknown error' },
-      //   })
-      // );
+      dispatch(
+        createSecretUserRightsFailure({
+          error: { unknown: 'Unknown error' },
+        })
+      );
       throw error;
     });
 };
