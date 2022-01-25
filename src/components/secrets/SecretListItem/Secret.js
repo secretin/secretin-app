@@ -31,9 +31,8 @@ function SecretListItemSecret({
 
   const users = secret.users.filter(user => user.id !== currentUser.username);
 
-  const secretRights = secret.users.find(
-    user => user.id === currentUser.username
-  ).rights;
+  const secretRights =
+    secret.users.find(user => user.id === currentUser.username)?.rights || 0;
   const className = classNames('secret-list-item', {
     'secret-list-item--is-dragging': isDragging,
   });

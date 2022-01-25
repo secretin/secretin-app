@@ -52,8 +52,9 @@ class SecretListContent extends Component {
 
     if (this.props.filtered) {
       filteredSecrets.forEach(secret => {
-        const usr = getUser(secret.users, currentUser.username);
-        let folder = Object.keys(usr.folders)[0];
+        let folder = 'ROOT';
+        const user = getUser(secret.users, currentUser.username);
+        if (user) folder = Object.keys(user.folders)[0];
         if (typeof folder === 'undefined') {
           folder = 'ROOT';
         }

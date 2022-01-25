@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 
 import SecretList from 'components/secrets/SecretList';
 
-import { getAllSecrets, getSecretsInFolder } from 'selectors/MetadataSelectors';
+import {
+  getAllSecrets,
+  getMySecrets,
+  getSecretsInFolder,
+} from 'selectors/MetadataSelectors';
 
 const propTypes = {
   match: PropTypes.shape({
@@ -32,19 +36,16 @@ function SecretListContainer({
 }) {
   const metadata = useSelector(state => state.Metadata.metadata);
   const allSecrets = useSelector(getAllSecrets);
+  const mySecrets = useSelector(getMySecrets);
   const folders = params.path ? params.path.split('/') : [];
   const folderId = folders[folders.length - 1];
   const folderSecrets = useSelector(state =>
     getSecretsInFolder(state, folderId)
   );
   if (showAll) {
-    const secrets = allSecrets;
-
-    return <SecretList secrets={secrets} showAll />;
+    return <SecretList secrets={allSecrets} showAll />;
   } else if (showMine) {
-    // TODO build actual selector : getMySecret
-    const secrets = allSecrets;
-    return <SecretList secrets={secrets} showMine />;
+    return <SecretList secrets={mySecrets} showMine />;
   } else if (showShared) {
     // TODO build actual selector : getSharedSecret
     const secrets = allSecrets;

@@ -35,7 +35,7 @@ class Secret {
   }
 
   accessRightForUser(user) {
-    return this.users.find(_user => _user.id === user.username).rights;
+    return this.users.find(_user => _user.id === user.username)?.rights || 0;
   }
 
   canBeReadBy(user) {
