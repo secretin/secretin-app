@@ -37,7 +37,7 @@ const _rebuildMetadata = (state, action) => {
 export const MetadataSlice = createSlice({
   name: 'Metadata',
   initialState: {
-    metadata: {},
+    metadata: [],
   },
   reducers: {
     loadMetadataSuccess: _rebuildMetadata,

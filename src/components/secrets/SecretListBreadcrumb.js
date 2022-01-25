@@ -37,31 +37,29 @@ function SecretListBreadcrumb({ folders, withTitle }) {
   );
 
   let breadcrumb = breadcrumbURLs.reduce((links, { folderId, link }, key) => {
-    const folder = metadata[folderId];
+    const folder = metadata?.find(m => m.id === folderId);
     if (!folder) {
       return links;
     }
 
-    return links
-      .push(
-        <div key={key} className="breadcrumb-item">
-          <NavLink
-            to={link}
-            className="breadcrumb-link"
-            activeClassName="breadcrumb-link--active"
-            exact
-          >
-            {folder.title}
-          </NavLink>
-        </div>
-      )
-      .push(
-        <Icon
-          key={`${key}-sep`}
-          id="chevron-right"
-          className="breadcrumb-item-separator"
-        />
-      );
+    return [
+      ...links,
+      <div key={key} className="breadcrumb-item">
+        <NavLink
+          to={link}
+          className="breadcrumb-link"
+          activeClassName="breadcrumb-link--active"
+          exact
+        >
+          {folder.title}
+        </NavLink>
+      </div>,
+      <Icon
+        key={`${key}-sep`}
+        id="chevron-right"
+        className="breadcrumb-item-separator"
+      />,
+    ];
   }, []);
 
   if (withTitle) {
