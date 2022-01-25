@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 export const getAllSecrets = createSelector(
   state => state.Metadata.metadata,
   metadata => {
-    return Object.values(metadata);
+    return Object.values(metadata).filter(secret => secret.type !== 'folder');
   }
 );
 

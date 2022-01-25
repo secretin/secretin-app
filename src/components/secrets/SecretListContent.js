@@ -16,7 +16,7 @@ class SecretListContent extends Component {
     searchQuery: PropTypes.string,
     endDecrypt: PropTypes.bool,
     currentUser: PropTypes.object,
-    allFolders: PropTypes.object,
+    allFolders: PropTypes.array,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,7 +52,8 @@ class SecretListContent extends Component {
 
     if (this.props.filtered) {
       filteredSecrets.forEach(secret => {
-        let folder = getUser(secret.users, currentUser.username).folders[0];
+        const usr = getUser(secret.users, currentUser.username);
+        let folder = Object.keys(usr.folders)[0];
         if (typeof folder === 'undefined') {
           folder = 'ROOT';
         }
@@ -65,16 +66,20 @@ class SecretListContent extends Component {
           let breadcrumb = [];
           let currentFolder = folder;
           while (!root) {
-            root = getUser(
-              allFolders[currentFolder].users,
-              currentUser.username
-            ).folders.includes('ROOT');
+            root = Object.keys(
+              getUser(
+                allFolders.find(fold => fold.id === currentFolder).users,
+                currentUser.username
+              ).folders
+            ).includes('ROOT');
 
-            breadcrumb = breadcrumb.unshift(currentFolder);
-            currentFolder = getUser(
-              allFolders[currentFolder].users,
-              currentUser.username
-            ).folders[0];
+            breadcrumb.unshift(currentFolder);
+            currentFolder = Object.keys(
+              getUser(
+                allFolders.find(fold => fold.id === currentFolder).users,
+                currentUser.username
+              ).folders
+            )[0];
           }
           filteredFolders[folder].name = breadcrumb.join('/');
           filteredFolders[folder].breadcrumb = breadcrumb;

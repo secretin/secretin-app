@@ -98,9 +98,7 @@ class SecretList extends Component {
               </div>
             )}
           <SecretListContent
-            filtered={
-              this.props.showAll || this.props.showMine || this.props.showShared
-            }
+            filtered={filtered}
             secrets={this.props.secrets}
             folders={this.props.folders}
             isDragging={this.props.isDragging}
