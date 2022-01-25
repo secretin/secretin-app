@@ -129,7 +129,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isOnline: online,
     currentUser,
-    folder: metadata[ownProps.secretId],
+    folder: metadata.find(m => m.id === ownProps.secret.id),
   };
 };
 

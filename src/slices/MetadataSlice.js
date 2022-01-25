@@ -6,6 +6,8 @@ import {
   createSecretSuccess,
   createSecretFailure,
   loginUserSuccess,
+  addSecretToFolderFailure,
+  removeSecretFromCurrentFolderFailure,
 } from 'slices/AppUISlice';
 import {
   updateSecretFailure,
@@ -263,12 +265,11 @@ export const addSecretToFolder = ({ secret, folder }) => dispatch => {
       )
     )
     .catch(error => {
-      // TODO
-      // dispatch(
-      //   addSecretToFolderFailure({
-      //     error: { unknown: 'Unknown error' },
-      //   })
-      // );
+      dispatch(
+        addSecretToFolderFailure({
+          error: { unknown: 'Unknown error' },
+        })
+      );
       throw error;
     });
 };
@@ -289,12 +290,11 @@ export const removeSecretFromCurrentFolder = ({
       )
     )
     .catch(error => {
-      // TODO
-      // dispatch(
-      //   removeSecretFromCurrentFolderFailure({
-      //     error: { unknown: 'Unknown error' },
-      //   })
-      // );
+      dispatch(
+        removeSecretFromCurrentFolderFailure({
+          error: { unknown: 'Unknown error' },
+        })
+      );
       throw error;
     });
 };

@@ -89,6 +89,14 @@ export const AppUISlice = createSlice({
       state.errors = error;
       state.status = null;
     },
+    addSecretToFolderFailure: (state, action) => {
+      const { error } = action.payload;
+      state.errors = error;
+    },
+    removeSecretFromCurrentFolderFailure: (state, action) => {
+      const { error } = action.payload;
+      state.errors = error;
+    },
   },
 });
 
@@ -107,6 +115,8 @@ export const {
   onLoginUserProgress,
   loginUserSuccess,
   loginUserFailure,
+  addSecretToFolderFailure,
+  removeSecretFromCurrentFolderFailure,
 } = AppUISlice.actions;
 
 export const disconnectUser = () => dispatch => {

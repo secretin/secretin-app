@@ -89,7 +89,7 @@ const itemSource = {
 const itemTarget = {
   drop({ secret: folder }, monitor) {
     const { secret } = monitor.getItem();
-    MetadataActions.addSecretToFolder({ secret, folder });
+    store.dispatch(MetadataActions.addSecretToFolder({ secret, folder }));
   },
 
   canDrop({ secret: targetSecret }, monitor) {
