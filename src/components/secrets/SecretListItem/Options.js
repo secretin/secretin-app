@@ -90,7 +90,7 @@ class SecretListItemOptions extends Component {
           {canShare && (
             <Dropdown.MenuItem
               onSelect={this.handleShare}
-              disabled={this.props.isOnline}
+              disabled={!this.props.isOnline}
             >
               Share
             </Dropdown.MenuItem>
@@ -110,7 +110,7 @@ class SecretListItemOptions extends Component {
               {secret.canBeDeleted() && (
                 <Dropdown.MenuItem
                   onSelect={this.handleDelete}
-                  disabled={this.props.isOnline}
+                  disabled={!this.props.isOnline}
                 >
                   Delete
                 </Dropdown.MenuItem>
