@@ -54,6 +54,13 @@ class Secret {
     return this.type !== 'windows';
   }
 
+  merge(fields) {
+    Object.entries(fields).forEach(([key, value]) => {
+      this[key] = value;
+    });
+    return this;
+  }
+
   getRaw() {
     const {
       id,

@@ -21,7 +21,7 @@ export const EditSecretUISlice = createSlice({
       const fieldIndex = state.data.fields.findIndex(
         fieldToUpdate => fieldToUpdate.id === field.id
       );
-      state.data.fields[fieldIndex] = value;
+      state.data.fields[fieldIndex].content = value;
     },
   },
   extraReducers: {

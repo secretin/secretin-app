@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import secretin from 'utils/secretin';
 import SecretDataRecord from 'models/SecretDataRecord';
 import Secret from 'models/Secret';
+import User from 'models/User';
 import { updateSecret, updateSecretSuccess } from 'slices/MetadataSlice';
 
 const getInitialState = () => ({
@@ -47,6 +48,12 @@ export const ShowSecretUISlice = createSlice({
     },
     [updateSecretSuccess]: (state, action) => {
       const { metadata } = action.payload;
+      const secretMetadata = metadata[state.secret.id];
+      // The metadata coming back from Secretin has flat user objects indexed by id
+      // Recreate the array of User instances
+      secretMetadata.users = Object.values(secretMetadata.users).map(rawUser =>
+        User.createFromRaw(rawUser)
+      );
       state.secret = state.secret.merge(metadata[state.secret.id]);
       state.isUpdating = false;
       state.errors = {};
