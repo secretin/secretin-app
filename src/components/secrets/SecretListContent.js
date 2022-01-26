@@ -46,6 +46,7 @@ class SecretListContent extends Component {
     );
 
     let filteredFolders = {};
+    let sortedFolders = [];
 
     const getUser = (users, username) =>
       users.find(user => user.id === username);
@@ -65,36 +66,38 @@ class SecretListContent extends Component {
         } else {
           let root = false;
           let breadcrumb = [];
+          let fullName = [];
           let currentFolder = folder;
           while (!root) {
+            const currentFolderDetails = allFolders.find(
+              fold => fold.id === currentFolder
+            );
+            fullName.unshift(currentFolderDetails.title);
             root = Object.keys(
-              getUser(
-                allFolders.find(fold => fold.id === currentFolder).users,
-                currentUser.username
-              ).folders
+              getUser(currentFolderDetails.users, currentUser.username).folders
             ).includes('ROOT');
 
             breadcrumb.unshift(currentFolder);
             currentFolder = Object.keys(
-              getUser(
-                allFolders.find(fold => fold.id === currentFolder).users,
-                currentUser.username
-              ).folders
+              getUser(currentFolderDetails.users, currentUser.username).folders
             )[0];
           }
-          filteredFolders[folder].name = breadcrumb.join('/');
+          filteredFolders[folder].name = fullName.join('/');
           filteredFolders[folder].breadcrumb = breadcrumb;
         }
       });
-      // TODO : figure out sorting
-      // filteredFolders = filteredFolders
-      //   .sortBy(folder => folder.name').toLowerCase())
-      //   .sortBy(folder => !folder.has('root'));
+      sortedFolders = Object.entries(filteredFolders).map(([id, folder]) => ({
+        ...folder,
+        id,
+      }));
+      sortedFolders.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
+      sortedFolders.sort((a, b) => a.root);
     } else {
-      // TODO : figure out sorting
-      // filteredSecrets = filteredSecrets.sortBy(secret =>
-      //   secret.title').toLowerCase()
-      // );
+      filteredSecrets.sort((a, b) =>
+        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      );
     }
 
     return (
@@ -112,8 +115,8 @@ class SecretListContent extends Component {
           </tr>
         </thead>
         {this.props.filtered ? (
-          Object.entries(filteredFolders).map(([id, folder]) => (
-            <SecretListFolderInfo key={id} folder={folder} />
+          sortedFolders.map(folder => (
+            <SecretListFolderInfo key={folder.id} folder={folder} />
           ))
         ) : (
           <tbody className="secret-list-content-table-body">

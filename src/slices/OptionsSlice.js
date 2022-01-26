@@ -215,7 +215,7 @@ export const activateShortLogin = ({ shortpass }) => (dispatch, getState) => {
       )
     )
     .catch(() => {
-      // TODO
+      // Currently the UI can't display this error anyway
       // dispatch(activateShortLoginFailure());
     });
 };
@@ -231,7 +231,7 @@ export const deactivateShortLogin = () => (dispatch, getState) => {
       )
     )
     .catch(() => {
-      // TODO
+      // Currently the UI can't display this error anyway
       // dispatch(deactivateShortLoginFailure());
     });
 };
@@ -289,7 +289,7 @@ export const changeTimeToClose = ({ timeToClose }) => (dispatch, getState) => {
       dispatch(changeDelaySuccess({ timeToClose }));
     })
     .catch(() => {
-      // TODO
+      // Currently the UI can't display this error anyway
       // dispatch(changeDelayFailure());
     });
   return true;

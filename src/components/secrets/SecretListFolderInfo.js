@@ -9,8 +9,10 @@ const propTypes = {
 };
 
 function SecretListFolderInfo({ folder }) {
-  // TODO : figure out sorting
-  const secrets = Object.values(folder.secrets); // .sortBy(secret => secret.title.toLowerCase());
+  const secrets = Object.values(folder.secrets);
+  secrets.sort((a, b) =>
+    a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+  );
   return (
     <tbody className="secret-list-content-table-body">
       {!folder.root === true && (
