@@ -62,10 +62,10 @@ class App extends Component {
     const { connected, options } = this.props;
 
     if (connected && options) {
-      const delay = options.timeToClose * 60 * 1000;
-      if (delay > 0) {
+      if (options.timeToClose > 0) {
+        const delay = options.timeToClose * 60 * 1000;
         this.disconnectingEvent = setTimeout(
-          this.props.dispatch(AppUIActions.disconnectUser()),
+          () => this.props.dispatch(AppUIActions.disconnectUser()),
           delay
         );
       }
