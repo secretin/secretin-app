@@ -136,7 +136,7 @@ class Input extends Component {
             type={
               type === 'password' && this.state.showPassword ? 'text' : type
             }
-            value={this.props.value}
+            defaultValue={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
             autoComplete={autoComplete ? null : 'new-password'}
