@@ -91,7 +91,7 @@ class ImportContainer extends Component {
                 )}
               </div>
             ))) || <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
-          {this.props.error !== '' && <span>{this.props.error}</span>}
+          {this.props.error !== '' && <span>{this.props.error.message}</span>}
           {Object.keys(this.props.mandatoryFields).length > 0 && (
             <ImportMandatoryFields
               mandatoryFields={this.props.mandatoryFields}

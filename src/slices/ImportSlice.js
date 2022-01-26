@@ -77,7 +77,7 @@ export const ImportSlice = createSlice({
 
     changeMandatoryField: (state, action) => {
       const { field, value } = action.payload;
-      state.mandatoryFields[field] = value;
+      state.mandatoryFields[field.name].value = value;
     },
   },
 });
