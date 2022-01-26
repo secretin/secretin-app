@@ -56,7 +56,7 @@ class ImportContainer extends Component {
   componentDidUpdate() {
     if (this.props.success) {
       this.props.metadataActions.loadMetadata();
-      setTimeout(function() {
+      setTimeout(() => {
         this.props.importActions.defaultStore();
       }, 1500);
     }
