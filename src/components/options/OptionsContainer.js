@@ -22,6 +22,11 @@ class OptionsContainer extends Component {
     actions: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.onChangeTimeToClose = this.onChangeTimeToClose.bind(this);
+  }
+
   onChangeTimeToClose({ value }) {
     this.props.actions.changeTimeToClose({
       timeToClose: parseInt(value, 10) || 0,

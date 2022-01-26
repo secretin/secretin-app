@@ -42,7 +42,7 @@ export const OptionsSlice = createSlice({
     },
 
     _toggleShortLogin: (state, action) => {
-      state.showShortLogin = action.payload;
+      state.showShortLogin = !state.showShortLogin;
     },
 
     activateTotpFailure: (state, action) => {
@@ -99,7 +99,7 @@ export const OptionsSlice = createSlice({
 
     changeNewPass2: (state, action) => {
       const newPass2 = action.payload;
-      state.newPass.newPass1 = newPass2.value;
+      state.newPass.newPass2 = newPass2.value;
     },
 
     showChangePassword: (state, action) => {

@@ -117,7 +117,14 @@ class ChangePasswordShow extends Component {
 }
 
 const mapStateToProps = state => {
-  const { error, shown, loading, status, newPass1, newPass2 } = state.Options;
+  const {
+    error,
+    shown,
+    loading,
+    status,
+    newPass1,
+    newPass2,
+  } = state.Options.newPass;
   return {
     error,
     shown,
