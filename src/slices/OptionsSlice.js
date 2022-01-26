@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import secretin from 'utils/secretin';
 import uuid from 'uuid';
 
+import { loginUserSuccess } from 'slices/AppUISlice';
+
 const getInitialState = () => ({
   options: {},
   errors: {},
@@ -24,11 +26,6 @@ export const OptionsSlice = createSlice({
   name: 'Options',
   initialState: getInitialState(),
   reducers: {
-    loadOptions: (state, action) => {
-      const { options } = action.payload;
-      state.options = options;
-    },
-
     _activateTotp: (state, action) => {
       state.loading = true;
     },
@@ -77,6 +74,9 @@ export const OptionsSlice = createSlice({
     deactivateShortLoginSuccess: (state, action) => {
       const { shortLogin } = action.payload;
       state.options.shortLogin = shortLogin;
+      state.showShortLogin = false;
+      state.loading = false;
+      state.errors = {};
     },
 
     activateShortLoginSuccess: (state, action) => {
@@ -148,11 +148,16 @@ export const OptionsSlice = createSlice({
       state.showRescueCodes = false;
     },
   },
+  extraReducers: {
+    [loginUserSuccess]: (state, action) => {
+      const { options } = action.payload;
+      state.options = options;
+    },
+  },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  loadOptions,
   _activateTotp,
   _activateShortLogin,
   _toggleTotp,
@@ -211,6 +216,7 @@ export const activateShortLogin = ({ shortpass }) => (dispatch, getState) => {
       )
     )
     .catch(() => {
+      // TODO
       // dispatch(activateShortLoginFailure());
     });
 };
@@ -226,6 +232,7 @@ export const deactivateShortLogin = () => (dispatch, getState) => {
       )
     )
     .catch(() => {
+      // TODO
       // dispatch(deactivateShortLoginFailure());
     });
 };
@@ -283,6 +290,7 @@ export const changeTimeToClose = ({ timeToClose }) => (dispatch, getState) => {
       dispatch(changeDelaySuccess({ timeToClose }));
     })
     .catch(() => {
+      // TODO
       // dispatch(changeDelayFailure());
     });
   return true;
