@@ -10,7 +10,7 @@ import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
 class SecretListContent extends Component {
   static propTypes = {
     filtered: PropTypes.bool,
-    secrets: PropTypes.object,
+    secrets: PropTypes.array,
     isDragging: PropTypes.bool,
     folders: PropTypes.array,
     searchQuery: PropTypes.string,

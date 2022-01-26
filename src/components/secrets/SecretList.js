@@ -19,7 +19,7 @@ class SecretList extends Component {
   static propTypes = {
     folder: PropTypes.instanceOf(Secret),
     folders: PropTypes.array,
-    secrets: PropTypes.object,
+    secrets: PropTypes.array,
     searchQuery: PropTypes.string,
     isDragging: PropTypes.bool,
     showAll: PropTypes.bool,
