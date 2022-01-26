@@ -19,7 +19,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "gh-pages": "^1.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^5.0.0",
     "prettier": "^1.19.1",
     "react-scripts": "4.0.3"
   },
@@ -32,11 +32,11 @@
     "mousetrap": "^1.6.3",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
-    "react": "^16.12.0",
+    "react": "^17.0.0",
     "react-bootstrap": "^0.32.4",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
-    "react-dom": "^16.12.0",
+    "react-dom": "^17.0.0",
     "react-overlays": "^0.8.3",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.1.2",
@@ -47,14 +47,14 @@
   },
   "scripts": {
     "deploy": "scripts/deploy.sh",
-    "start": "yarn run build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
-    "build": "yarn run build-css && NODE_PATH=./src node_modules/.bin/react-scripts build",
+    "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
+    "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build",
     "build-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css -w",
-    "electron": "yarn run build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
-    "dev-electron": "yarn run build && electron .",
+    "electron": "yarn build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
+    "dev-electron": "yarn build && electron .",
     "lint": "node_modules/.bin/eslint src/",
-    "test": "yarn run lint"
+    "test": "yarn lint"
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
