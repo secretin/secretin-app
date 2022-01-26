@@ -56,7 +56,7 @@ class Select extends Component {
         {this.props.label && (
           <label htmlFor={this.id}>
             {this.props.label}
-            {this.props.actions.size > 0 && (
+            {this.props.actions.length > 0 && (
               <span className="input-label-actions">{this.props.actions}</span>
             )}
           </label>

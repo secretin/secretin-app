@@ -24,7 +24,7 @@ class SecretListContent extends Component {
       nextProps.endDecrypt ||
       nextProps.searchQuery !== this.props.searchQuery ||
       nextProps.filtered !== this.props.filtered ||
-      nextProps.folders.size !== this.props.folders.size
+      nextProps.folders.length !== this.props.folders.length
     );
   }
 

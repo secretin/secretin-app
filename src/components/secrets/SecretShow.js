@@ -64,7 +64,7 @@ class SecretShow extends Component {
 
     const canUpdate =
       this.props.secret.canBeUpdatedBy(this.props.currentUser) &&
-      (this.props.isOnline || users.size === 0);
+      (this.props.isOnline || users.length === 0);
 
     return (
       <Modal

@@ -54,7 +54,7 @@ function SecretListItemSecret({
   return (
     <tr className={className}>
       <td className="secret-list-item-column secret-list-item-column--title">
-        {secretRights > 0 && (isOnline || users.size === 0)
+        {secretRights > 0 && (isOnline || users.length === 0)
           ? connectDragSource(link)
           : link}
       </td>
@@ -64,7 +64,7 @@ function SecretListItemSecret({
         <span className="muted">{secret.lastModifiedBy}</span>
       </td>
       <td className="secret-list-item-column secret-list-item-column--shared-with">
-        {users.size > 0 ? <UserAvatars users={users} /> : '––'}
+        {users.length > 0 ? <UserAvatars users={users} /> : '––'}
       </td>
       <td className="secret-list-item-column secret-list-item-column--actions">
         <SecretListItemOptions

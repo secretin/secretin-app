@@ -119,7 +119,7 @@ class Input extends Component {
         {label && (
           <label htmlFor={this.id}>
             {label}
-            {actions.size > 0 && (
+            {actions.length > 0 && (
               <span className="input-label-actions">{actions}</span>
             )}
           </label>
