@@ -35,11 +35,13 @@ export const OptionsSlice = createSlice({
     },
 
     _toggleTotp: (state, action) => {
-      state.showQRCode = action.payload;
+      const { checked } = action.payload;
+      state.showQRCode = checked;
     },
 
     _toggleShortLogin: (state, action) => {
-      state.showShortLogin = !state.showShortLogin;
+      const { checked } = action.payload;
+      state.showShortLogin = checked;
     },
 
     activateTotpFailure: (state, action) => {
@@ -74,9 +76,6 @@ export const OptionsSlice = createSlice({
     deactivateShortLoginSuccess: (state, action) => {
       const { shortLogin } = action.payload;
       state.options.shortLogin = shortLogin;
-      state.showShortLogin = false;
-      state.loading = false;
-      state.errors = {};
     },
 
     activateShortLoginSuccess: (state, action) => {
@@ -250,7 +249,7 @@ export const changePassword = ({ newPass }) => (dispatch, getState) => {
 };
 
 export const toggleTotp = ({ checked }) => (dispatch, getState) => {
-  dispatch(_toggleTotp());
+  dispatch(_toggleTotp({ checked }));
   if (checked) {
     return true;
   }
@@ -271,7 +270,7 @@ export const showRescueCodes = () => (dispatch, getState) => {
 };
 
 export const toggleShortLogin = ({ checked }) => (dispatch, getState) => {
-  dispatch(_toggleShortLogin());
+  dispatch(_toggleShortLogin({ checked }));
   if (checked) {
     return true;
   }

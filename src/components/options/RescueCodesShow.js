@@ -10,7 +10,7 @@ import Button from 'components/utilities/Button';
 import * as OptionsActions from 'slices/OptionsSlice';
 
 function getFile({ username, rescueCodes }) {
-  const codes = rescueCodes.map((code, i) => `${i + 1}. ${code}`).toArray();
+  const codes = rescueCodes.map((code, i) => `${i + 1}. ${code}`);
   const content = [
     'SAVE YOUR BACKUP CODES',
     'Keep these backup codes somewhere safe but accessible.',
