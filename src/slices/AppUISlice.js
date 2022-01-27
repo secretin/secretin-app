@@ -65,14 +65,8 @@ export const AppUISlice = createSlice({
     },
     disableShortLoginSuccess: _loading,
     onLoginUserProgress: (state, action) => {
-      const { status, currentUser } = action.payload;
-      if (currentUser) {
-        state.status = status;
-        state.connected = true;
-        state.currentUser = currentUser;
-      } else {
-        state.status = status;
-      }
+      const { status } = action.payload;
+      if (status) state.status = { ...status };
     },
     loginUserSuccess: (state, action) => {
       const { currentUser } = action.payload;
@@ -218,11 +212,9 @@ export const loginUserProgress = status => dispatch => {
   const currentUser = secretin.currentUser;
   switch (status.constructor) {
     case DecryptMetadataCacheStatus:
-      return dispatch(onLoginUserProgress({ status }));
     case DecryptMetadataStatus:
-      return dispatch(onLoginUserProgress({ status }));
     case DecryptUserOptionsStatus:
-      return dispatch(onLoginUserProgress({ status, currentUser }));
+      return dispatch(onLoginUserProgress({ status }));
     case EndDecryptMetadataStatus:
       dispatch(
         loginUserSuccess({

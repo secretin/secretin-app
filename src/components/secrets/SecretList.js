@@ -86,9 +86,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {this.props.status !== null && (
-          <UserConnectProgress status={this.props.status} />
-        )}
+        {this.props.status !== null && <UserConnectProgress />}
         <div className="page-content">
           {!this.props.showAll &&
             !this.props.showMine &&
