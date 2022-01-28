@@ -123,7 +123,7 @@ export const createUser = ({
   password,
   confirmPassword,
 }) => dispatch => {
-  dispatch(loading);
+  dispatch(loading());
   if (password !== confirmPassword) {
     setTimeout(
       () =>
@@ -152,6 +152,7 @@ export const createUser = ({
 };
 
 export const loginUser = ({ username, password, token }) => dispatch => {
+  dispatch(loading());
   secretin
     .loginUser(
       username,
@@ -234,6 +235,7 @@ export const loginUserProgress = status => dispatch => {
 };
 
 export const shortLogin = ({ shortpass }) => dispatch => {
+  dispatch(loading());
   secretin
     .shortLogin(
       shortpass,
