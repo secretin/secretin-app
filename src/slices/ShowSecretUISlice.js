@@ -4,7 +4,6 @@ import SecretDataRecord from 'models/SecretDataRecord';
 import Secret from 'models/Secret';
 import User from 'models/User';
 import {
-  updateSecret,
   updateSecretSuccess,
   createSecretUserRightsSuccess,
   updateSecretUserRightsSuccess,
@@ -47,16 +46,16 @@ export const ShowSecretUISlice = createSlice({
       const { tab } = action.payload;
       state.tab = tab;
     },
+    updateSecretStart: (state, action) => {
+      state.isUpdating = true;
+      state.errors = {};
+    },
     updateSecretFailure: _handleError,
     createSecretUserRightsFailure: _handleError,
     updateSecretUserRightsFailure: _handleError,
     deleteSecretUserRightsFailure: _handleError,
   },
   extraReducers: {
-    [updateSecret]: (state, action) => {
-      state.isUpdating = true;
-      state.errors = {};
-    },
     [updateSecretSuccess]: (state, action) => {
       const { metadata } = action.payload;
       const secretMetadata = metadata[state.secret.id];
@@ -101,6 +100,7 @@ export const {
   showSecretSuccess,
   hideModal,
   changeTab,
+  updateSecretStart,
   updateSecretFailure,
   createSecretUserRightsFailure,
   updateSecretUserRightsFailure,

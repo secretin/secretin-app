@@ -10,6 +10,7 @@ import {
   removeSecretFromCurrentFolderFailure,
 } from 'slices/AppUISlice';
 import {
+  updateSecretStart,
   updateSecretFailure,
   createSecretUserRightsFailure,
   updateSecretUserRightsFailure,
@@ -131,6 +132,7 @@ export const createSecret = (
 };
 
 export const updateSecret = ({ secret, data }) => dispatch => {
+  dispatch(updateSecretStart());
   return secretin
     .editSecret(secret.id, data)
     .then(() => {

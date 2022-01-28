@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { showSecretSuccess } from 'slices/ShowSecretUISlice';
 import { hideModal } from 'slices/ShowSecretUISlice';
+import { updateSecretSuccess } from 'slices/MetadataSlice';
 
 export const EditSecretUISlice = createSlice({
   name: 'EditSecretUI',
@@ -31,6 +32,9 @@ export const EditSecretUISlice = createSlice({
     [hideModal]: state => {
       state.isEditing = false;
       state.data = null;
+    },
+    [updateSecretSuccess]: state => {
+      state.isEditing = false;
     },
   },
 });
