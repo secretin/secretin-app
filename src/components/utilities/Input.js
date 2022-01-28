@@ -66,6 +66,9 @@ class Input extends Component {
     if (this.props.autoSelect) {
       setTimeout(() => this.input.select(), 0);
     }
+    if (this.props.autoFocus) {
+      setTimeout(() => this.input.focus(), 0);
+    }
   }
 
   onChange({ value }) {
