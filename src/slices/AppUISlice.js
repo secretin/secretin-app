@@ -63,7 +63,7 @@ export const AppUISlice = createSlice({
       state.errors = action.payload.error;
       state.status = null;
     },
-    disableShortLoginSuccess: _loading,
+    disableShortLoginSuccess: _endLoading,
     onLoginUserProgress: (state, action) => {
       const { status } = action.payload;
       if (status) state.status = { ...status };
@@ -265,6 +265,7 @@ export const shortLogin = ({ shortpass }) => dispatch => {
 };
 
 export const disableShortLogin = () => dispatch => {
+  dispatch(loading());
   secretin.deactivateShortLogin();
   dispatch(disableShortLoginSuccess());
 };
