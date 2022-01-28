@@ -1,9 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
+
+import { disconnectUser } from 'slices/AppUISlice';
 
 import secretin from 'utils/secretin';
 import Icon from 'components/utilities/Icon';
@@ -55,6 +57,10 @@ function exportDb() {
 }
 
 function Sidebar() {
+  const dispatch = useDispatch();
+  const handleLogout = useCallback(() => {
+    dispatch(disconnectUser());
+  }, [dispatch]);
   const currentUser = useSelector(state => state.AppUI.currentUser);
   const isOnline = useSelector(state => state.AppUI.online);
   return (
@@ -100,6 +106,13 @@ function Sidebar() {
             <Icon id="import" size="base" />
             Import secrets
           </SidebarMenuLink>
+          <div className="sidebar-separator" />
+          <li className="sidebar-menu-item">
+            <a className="sidebar-menu-link" onClick={handleLogout}>
+              <Icon id="logout" size="base" />
+              Log out
+            </a>
+          </li>
         </ul>
       </div>
     </div>
