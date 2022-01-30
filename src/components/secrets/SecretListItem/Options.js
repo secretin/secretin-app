@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import AppUIStore from 'stores/AppUIStore';
-import MetadataStore from 'stores/MetadataStore';
-import MetadataActions from 'actions/MetadataActions';
-import ShowSecretUIActions from 'actions/ShowSecretUIActions';
+import * as MetadataActions from 'slices/MetadataSlice';
+import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
 
 import { confirm } from 'components/utilities/Confirm';
 import Dropdown from 'components/utilities/Dropdown';
@@ -14,27 +13,37 @@ class SecretListItemOptions extends Component {
   static propTypes = {
     secret: PropTypes.any,
     parentFolderId: PropTypes.string,
+    folder: PropTypes.object,
+    currentUser: PropTypes.object,
+    isOnline: PropTypes.bool,
+    dispatch: PropTypes.func,
   };
 
   handleShow = () => {
     const { secret } = this.props;
-    ShowSecretUIActions.showSecret({
-      secret,
-      tab: secret.type === 'folder' ? 'access' : 'details',
-    });
+    this.props.dispatch(
+      ShowSecretUIActions.showSecret({
+        secret,
+        tab: secret.type === 'folder' ? 'access' : 'details',
+      })
+    );
   };
 
   handleShare = () => {
     const { secret } = this.props;
-    ShowSecretUIActions.showSecret({ secret, tab: 'access' });
+    this.props.dispatch(
+      ShowSecretUIActions.showSecret({ secret, tab: 'access' })
+    );
   };
 
   handleMoveToParent = () => {
     const { parentFolderId: currentFolderId, secret } = this.props;
-    MetadataActions.removeSecretFromCurrentFolder({
-      secret,
-      currentFolderId,
-    });
+    this.props.dispatch(
+      MetadataActions.removeSecretFromCurrentFolder({
+        secret,
+        currentFolderId,
+      })
+    );
   };
 
   handleDelete = () => {
@@ -53,16 +62,16 @@ class SecretListItemOptions extends Component {
       ),
       acceptLabel: 'Delete the secret',
       cancelLabel: 'Cancel',
-      onAccept: () => MetadataActions.deleteSecret({ secret }),
+      onAccept: () =>
+        this.props.dispatch(MetadataActions.deleteSecret({ secret })),
       onCancel: () => ({}),
     });
     return true;
   };
 
   render() {
-    const { parentFolderId, secret } = this.props;
-    const currentUser = AppUIStore.getCurrentUser();
-    const folder = MetadataStore.getById(parentFolderId);
+    const { parentFolderId, secret, currentUser, folder } = this.props;
+
     const canShare = secret.canBeSharedBy(currentUser);
     if (!canShare && secret.type === 'folder') {
       return null;
@@ -81,7 +90,7 @@ class SecretListItemOptions extends Component {
           {canShare && (
             <Dropdown.MenuItem
               onSelect={this.handleShare}
-              disabled={!AppUIStore.isOnline()}
+              disabled={!this.props.isOnline}
             >
               Share
             </Dropdown.MenuItem>
@@ -101,7 +110,7 @@ class SecretListItemOptions extends Component {
               {secret.canBeDeleted() && (
                 <Dropdown.MenuItem
                   onSelect={this.handleDelete}
-                  disabled={!AppUIStore.isOnline()}
+                  disabled={!this.props.isOnline}
                 >
                   Delete
                 </Dropdown.MenuItem>
@@ -114,4 +123,14 @@ class SecretListItemOptions extends Component {
   }
 }
 
-export default SecretListItemOptions;
+const mapStateToProps = (state, ownProps) => {
+  const { online, currentUser } = state.AppUI;
+  const { metadata } = state.Metadata;
+  return {
+    isOnline: online,
+    currentUser,
+    folder: metadata.find(m => m.id === ownProps.parentFolderId),
+  };
+};
+
+export default connect(mapStateToProps)(SecretListItemOptions);

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+
+import * as MetadataActions from 'slices/MetadataSlice';
 
 import Secret from 'models/Secret';
 import User, { UserRights, userRightLabel } from 'models/User';
-import MetadataActions from 'actions/MetadataActions';
 
 import { confirm } from 'components/utilities/Confirm';
 import Input from 'components/utilities/Input';
@@ -15,7 +16,8 @@ import Icon from 'components/utilities/Icon';
 class SecretUserListNew extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
+    dispatch: PropTypes.func,
   };
 
   constructor(props) {
@@ -25,16 +27,13 @@ class SecretUserListNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      user: User.createFromRaw({
-        username: '',
-        rights: 0,
-      }),
+      user: new User(),
     };
   }
 
   handleChange({ name, value }) {
     this.setState({
-      user: this.state.user.set(name, value),
+      user: this.state.user.merge({ [name]: value }),
     });
   }
 
@@ -61,16 +60,15 @@ class SecretUserListNew extends Component {
       acceptLabel: 'Share the secret',
       cancelLabel: 'Cancel',
       onAccept: () => {
-        MetadataActions.createSecretUserRights({
-          secret: this.props.secret,
-          user: this.state.user,
-          rights: this.state.user.rights,
-        });
+        this.props.dispatch(
+          MetadataActions.createSecretUserRights({
+            secret: this.props.secret,
+            user: this.state.user,
+            rights: this.state.user.rights,
+          })
+        );
         this.setState({
-          user: User.createFromRaw({
-            username: '',
-            rights: 0,
-          }),
+          user: new User(),
         });
       },
       onCancel: () => ({}),
@@ -86,7 +84,7 @@ class SecretUserListNew extends Component {
           value={this.state.user.username}
           size="small"
           onChange={this.handleChange}
-          error={this.props.errors.get('username')}
+          error={this.props.errors.username}
         />
         <Select
           name="rights"
@@ -109,4 +107,4 @@ class SecretUserListNew extends Component {
   }
 }
 
-export default SecretUserListNew;
+export default connect()(SecretUserListNew);

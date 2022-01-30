@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { uniqueId, debounce } from 'lodash';
 import classNames from 'classnames';
 
@@ -28,7 +27,7 @@ class Input extends Component {
     autoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
-    actions: PropTypes.instanceOf(Immutable.List),
+    actions: PropTypes.array,
     size: PropTypes.string,
     inputProps: PropTypes.shape({
       min: PropTypes.number,
@@ -46,7 +45,7 @@ class Input extends Component {
     autoComplete: false,
     disabled: false,
     readOnly: false,
-    actions: new Immutable.List(),
+    actions: [],
     size: 'base',
     debounce: 0,
   };
@@ -66,6 +65,9 @@ class Input extends Component {
   componentDidMount() {
     if (this.props.autoSelect) {
       setTimeout(() => this.input.select(), 0);
+    }
+    if (this.props.autoFocus) {
+      setTimeout(() => this.input.focus(), 0);
     }
   }
 
@@ -120,7 +122,7 @@ class Input extends Component {
         {label && (
           <label htmlFor={this.id}>
             {label}
-            {actions.size > 0 && (
+            {actions.length > 0 && (
               <span className="input-label-actions">{actions}</span>
             )}
           </label>
@@ -137,7 +139,7 @@ class Input extends Component {
             type={
               type === 'password' && this.state.showPassword ? 'text' : type
             }
-            value={this.props.value}
+            defaultValue={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
             autoComplete={autoComplete ? null : 'new-password'}

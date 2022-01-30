@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import Immutable from 'immutable';
 
-import ShowSecretUIActions from 'actions/ShowSecretUIActions';
-import MetadataActions from 'actions/MetadataActions';
-import ShowSecretUIStore from 'stores/ShowSecretUIStore';
-import EditSecretUIStore from 'stores/EditSecretUIStore';
-import AppUIStore from 'stores/AppUIStore';
+import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
+import * as MetadataActions from 'slices/MetadataSlice';
+
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
@@ -23,29 +21,18 @@ import { Tabs, Tab } from 'components/utilities/Tabs';
 class SecretShow extends Component {
   static propTypes = {
     secret: PropTypes.instanceOf(Secret),
-    errors: PropTypes.instanceOf(Immutable.Map),
+    errors: PropTypes.object,
     shown: PropTypes.bool,
     tab: PropTypes.string,
     isUpdating: PropTypes.bool,
     isMetadataUpdating: PropTypes.bool,
     isEditing: PropTypes.bool,
+    data: PropTypes.object,
+    currentUser: PropTypes.object,
+    isOnline: PropTypes.bool,
+    showSecretActions: PropTypes.object,
+    metadataActions: PropTypes.object,
   };
-
-  static getStores() {
-    return [ShowSecretUIStore, EditSecretUIStore];
-  }
-
-  static getPropsFromStores() {
-    const state = ShowSecretUIStore.getState();
-    return {
-      secret: state.secret,
-      errors: state.errors,
-      shown: !!state.secret,
-      tab: state.tab,
-      isUpdating: state.isUpdating,
-      isEditing: EditSecretUIStore.getState().get('isEditing'),
-    };
-  }
 
   constructor(props) {
     super(props);
@@ -55,13 +42,13 @@ class SecretShow extends Component {
   }
 
   handleChangeTab(tab) {
-    ShowSecretUIActions.changeTab({ tab });
+    this.props.showSecretActions.changeTab({ tab });
   }
 
   handleClick() {
-    MetadataActions.updateSecret({
+    this.props.metadataActions.updateSecret({
       secret: this.props.secret,
-      data: EditSecretUIStore.getState().get('data'),
+      data: this.props.data,
     });
   }
 
@@ -70,17 +57,20 @@ class SecretShow extends Component {
       return false;
     }
 
-    const { username: currentUserId } = AppUIStore.getCurrentUser();
-    const users = this.props.secret.users
-      .toList()
-      .filterNot(user => user.id === currentUserId);
+    const { username: currentUserId } = this.props.currentUser;
+    const users = this.props.secret.users.filter(
+      user => user.id !== currentUserId
+    );
 
     const canUpdate =
-      this.props.secret.canBeUpdatedBy(AppUIStore.getCurrentUser()) &&
-      (AppUIStore.isOnline() || users.size === 0);
+      this.props.secret.canBeUpdatedBy(this.props.currentUser) &&
+      (this.props.isOnline || users.length === 0);
 
     return (
-      <Modal show={this.props.shown} onClose={ShowSecretUIActions.hideModal}>
+      <Modal
+        show={this.props.shown}
+        onClose={this.props.showSecretActions.hideModal}
+      >
         <Modal.Header>
           <Icon id={this.props.secret.getIcon()} size="small" />
           <SecretEditableTitle
@@ -90,7 +80,7 @@ class SecretShow extends Component {
             onSubmit={newTitle => {
               if (newTitle !== this.props.secret.title) {
                 setTimeout(() => {
-                  MetadataActions.renameSecret({
+                  this.props.metadataActions.renameSecret({
                     secret: this.props.secret,
                     newTitle,
                   });
@@ -141,7 +131,7 @@ class SecretShow extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={ShowSecretUIActions.hideModal}
+            onClick={this.props.showSecretActions.hideModal}
             disabled={this.props.isUpdating}
           >
             Close
@@ -162,4 +152,26 @@ class SecretShow extends Component {
   }
 }
 
-export default connectToStores(SecretShow);
+const mapDispatchToProps = dispatch => ({
+  showSecretActions: bindActionCreators(ShowSecretUIActions, dispatch),
+  metadataActions: bindActionCreators(MetadataActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { secret, errors, tab, isUpdating } = state.ShowSecretUI;
+  const { isEditing, data } = state.EditSecretUI;
+  const { currentUser, online } = state.AppUI;
+  return {
+    secret,
+    shown: !!secret,
+    errors,
+    tab,
+    isUpdating,
+    isEditing,
+    data,
+    currentUser,
+    isOnline: online,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecretShow);

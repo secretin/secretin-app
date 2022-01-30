@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
-import connectToStores from 'alt-utils/lib/connectToStores';
 
 import Title from 'components/utilities/Title';
 import Button from 'components/utilities/Button';
 import Icon from 'components/utilities/Icon';
 import Spinner from 'components/utilities/Spinner';
 
-import ImportStore from 'stores/ImportStore';
-import ImportActions from 'actions/ImportActions';
-import MetadataActions from 'actions/MetadataActions';
+import * as ImportActions from 'slices/ImportSlice';
+import * as MetadataActions from 'slices/MetadataSlice';
 
 import ImportFileChooser from './ImportFileChooser';
 import ImportMandatoryFields from './ImportMandatoryFields';
@@ -24,27 +23,10 @@ class ImportContainer extends Component {
     success: PropTypes.bool,
     file: PropTypes.string,
     error: PropTypes.string,
-    mandatoryFields: PropTypes.instanceOf(Immutable.Map),
+    mandatoryFields: PropTypes.object,
+    importActions: PropTypes.object,
+    metadataActions: PropTypes.object,
   };
-
-  static getStores() {
-    return [ImportStore];
-  }
-
-  static getPropsFromStores() {
-    const state = ImportStore.getState();
-
-    return {
-      error: state.get('error'),
-      importType: state.get('importType'),
-      importing: state.get('importing'),
-      importStatus: state.get('importStatus'),
-      importTotal: state.get('importTotal'),
-      success: state.get('success'),
-      file: state.get('file'),
-      mandatoryFields: state.get('mandatoryFields'),
-    };
-  }
 
   constructor(props) {
     super(props);
@@ -54,11 +36,11 @@ class ImportContainer extends Component {
   }
 
   handleFileChoosen(file) {
-    ImportActions.detectType({ file });
+    this.props.importActions.detectType({ file });
   }
 
   handleStartParsing() {
-    ImportActions.importSecrets({
+    this.props.importActions.importSecrets({
       file: this.props.file,
       mandatoryFields: this.props.mandatoryFields,
       type: this.props.importType,
@@ -73,9 +55,9 @@ class ImportContainer extends Component {
 
   componentDidUpdate() {
     if (this.props.success) {
-      MetadataActions.loadMetadata();
-      setTimeout(function() {
-        ImportActions.defaultStore();
+      this.props.metadataActions.loadMetadata();
+      setTimeout(() => {
+        this.props.importActions.defaultStore();
       }, 1500);
     }
   }
@@ -109,8 +91,8 @@ class ImportContainer extends Component {
                 )}
               </div>
             ))) || <ImportFileChooser onFileChoosen={this.handleFileChoosen} />}
-          {this.props.error !== '' && <span>{this.props.error}</span>}
-          {this.props.mandatoryFields.size > 0 && (
+          {this.props.error !== '' && <span>{this.props.error.message}</span>}
+          {Object.keys(this.props.mandatoryFields).length > 0 && (
             <ImportMandatoryFields
               mandatoryFields={this.props.mandatoryFields}
             />
@@ -130,4 +112,32 @@ class ImportContainer extends Component {
   }
 }
 
-export default connectToStores(ImportContainer);
+const mapDispatchToProps = dispatch => ({
+  importActions: bindActionCreators(ImportActions, dispatch),
+  metadataActions: bindActionCreators(MetadataActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const {
+    error,
+    importType,
+    importing,
+    importStatus,
+    importTotal,
+    success,
+    file,
+    mandatoryFields,
+  } = state.Import;
+  return {
+    error,
+    importType,
+    importing,
+    importStatus,
+    importTotal,
+    success,
+    file,
+    mandatoryFields,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImportContainer);

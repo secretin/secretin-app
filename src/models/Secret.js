@@ -1,28 +1,27 @@
-import Immutable from 'immutable';
 import moment from 'moment';
 
 import User from 'models/User';
 import SecretDataRecord from 'models/SecretDataRecord';
 
-const defaultRecord = {
-  id: null,
-  type: null,
-  title: null,
-  lastModifiedBy: null,
-  lastModifiedAt: null,
-  users: new Immutable.Map(),
-  data: null,
-};
-
 const CAN_SHARE = 2;
 const CAN_WRITE = 1;
 const CAN_READ = 0;
 
-class Secret extends (new Immutable.Record(defaultRecord)) {
+class Secret {
+  constructor(raw = {}) {
+    this.id = raw.id || null;
+    this.type = raw.type || null;
+    this.title = raw.title || null;
+    this.lastModifiedBy = raw.lastModifiedBy || null;
+    this.lastModifiedAt = raw.lastModifiedAt || null;
+    this.users = raw.users || {};
+    this.data = raw.data || null;
+  }
+
   getIcon() {
     switch (this.type) {
       case 'folder':
-        if (this.users.size > 1) {
+        if (Object.keys(this.users) > 1) {
           return 'folder-shared';
         }
         return 'folder';
@@ -36,7 +35,7 @@ class Secret extends (new Immutable.Record(defaultRecord)) {
   }
 
   accessRightForUser(user) {
-    return this.users.get(user.username).get('rights');
+    return this.users.find(_user => _user.id === user.username)?.rights || 0;
   }
 
   canBeReadBy(user) {
@@ -55,20 +54,54 @@ class Secret extends (new Immutable.Record(defaultRecord)) {
     return this.type !== 'windows';
   }
 
+  merge(fields) {
+    Object.entries(fields).forEach(([key, value]) => {
+      this[key] = value;
+    });
+    return this;
+  }
+
+  getRaw() {
+    const {
+      id,
+      type,
+      title,
+      lastModifiedBy,
+      lastModifiedAt,
+      data,
+      users,
+    } = this;
+    return {
+      id,
+      type,
+      title,
+      lastModifiedBy,
+      lastModifiedAt,
+      data: data?.getRaw(),
+      users: users.map(user => user.getRaw()),
+    };
+  }
+
   static createFromRaw(rawData) {
-    const raw = Immutable.fromJS(rawData).map((value, key) => {
+    const raw = Object.entries(rawData).reduce((output, [key, value]) => {
+      if (!value) return output;
       switch (key) {
         case 'users':
-          return value.map(user => User.createFromRaw(user));
+          return {
+            ...output,
+            users: Object.values(value).map(user => User.createFromRaw(user)),
+          };
         case 'data':
-          return SecretDataRecord.createFromRaw(value);
+          return {
+            ...output,
+            data: SecretDataRecord.createFromRaw(value).getRaw(),
+          };
         case 'lastModifiedAt':
-          return moment(value);
+          return { ...output, lastModifiedAt: moment(value) };
         default:
-          return value;
+          return output;
       }
-    });
-
+    }, rawData);
     return new Secret(raw);
   }
 }

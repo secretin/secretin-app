@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Statuses } from 'utils/secretin';
+import { connect } from 'react-redux';
 
 const { DecryptMetadataStatus } = Statuses;
 
 class UserConnectProgress extends Component {
   static propTypes = {
-    status: PropTypes.shape({
-      message: PropTypes.string,
-      state: PropTypes.number,
-      total: PropTypes.number,
-    }),
+    message: PropTypes.string,
+    state: PropTypes.number,
+    total: PropTypes.number,
   };
 
-  static getDerivedStateFromProps({ status: nextStatus }) {
+  static getDerivedStateFromProps({ message }) {
     const nextMessage =
-      nextStatus instanceof DecryptMetadataStatus
+      message instanceof DecryptMetadataStatus
         ? 'Updating your secrets...'
-        : nextStatus.message;
+        : message;
 
     return {
       message: nextMessage,
@@ -33,7 +32,7 @@ class UserConnectProgress extends Component {
   }
 
   render() {
-    const { state, total } = this.props.status;
+    const { state, total } = this.props;
     const width = `${Math.round((state / total) * 100)}%`;
     const style = { width };
     return (
@@ -46,4 +45,13 @@ class UserConnectProgress extends Component {
   }
 }
 
-export default UserConnectProgress;
+const mapStateToProps = _state => {
+  const { message, state, total } = _state.AppUI.status;
+  return {
+    message,
+    state,
+    total,
+  };
+};
+
+export default connect(mapStateToProps)(UserConnectProgress);

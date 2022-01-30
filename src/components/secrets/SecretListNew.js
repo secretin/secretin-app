@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Secret from 'models/Secret';
-import AppUIStore from 'stores/AppUIStore';
-import NewSecretUIActions from 'actions/NewSecretUIActions';
+
+import * as NewSecretUIActions from 'slices/NewSecretUISlice';
+
 import SecretNew from 'components/secrets/SecretNew';
 import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
@@ -13,24 +15,27 @@ const propTypes = {
 };
 
 function SecretListNew({ folder }) {
+  const currentUser = useSelector(state => state.AppUI.currentUser);
+  const dispatch = useDispatch();
   let folderId = null;
   let canWrite = true;
   if (folder) {
     folderId = folder.id;
-    const currentUser = AppUIStore.getCurrentUser();
     canWrite = folder.canBeUpdatedBy(currentUser);
   }
 
   return (
     <div className="secret-list-new">
-      <SecretNew />
+      <SecretNew folder={folder} />
       <Button
         title="Add secret"
         buttonStyle="primary"
         size="small"
         disabled={!canWrite}
         onClick={() =>
-          NewSecretUIActions.showModal({ folder: folderId, isFolder: false })
+          dispatch(
+            NewSecretUIActions.showModal({ folder: folderId, isFolder: false })
+          )
         }
       >
         <Icon id="add-secret" size="small" />
@@ -42,7 +47,9 @@ function SecretListNew({ folder }) {
         size="small"
         disabled={!canWrite}
         onClick={() =>
-          NewSecretUIActions.showModal({ folder: folderId, isFolder: true })
+          dispatch(
+            NewSecretUIActions.showModal({ folder: folderId, isFolder: true })
+          )
         }
       >
         <Icon id="add-folder" size="small" />

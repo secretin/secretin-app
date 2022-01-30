@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+
 import classNames from 'classnames';
 
 import UserAvatar from 'components/users/UserAvatar';
 
 const propTypes = {
-  users: PropTypes.instanceOf(Immutable.List),
+  users: PropTypes.array,
   size: PropTypes.string,
 };
 
@@ -19,9 +19,9 @@ function UserAvatars({ users, size }) {
 
   return (
     <div className={className}>
-      {users
-        .map(user => <UserAvatar key={user.id} user={user} size={size} />)
-        .toArray()}
+      {users.map(user => (
+        <UserAvatar key={user.id} user={user} size={size} />
+      ))}
     </div>
   );
 }

@@ -1,9 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 
-import MetadataStore from 'stores/MetadataStore';
 import SecretList from 'components/secrets/SecretList';
+
+import {
+  getAllSecrets,
+  getMySecrets,
+  getSecretsInFolder,
+  getSharedSecrets,
+} from 'selectors/MetadataSelectors';
 
 const propTypes = {
   match: PropTypes.shape({
@@ -29,24 +35,26 @@ function SecretListContainer({
   showMine,
   showShared,
 }) {
+  const metadata = useSelector(state => state.Metadata.metadata);
+  const allSecrets = useSelector(getAllSecrets);
+  const mySecrets = useSelector(getMySecrets);
+  const sharedSecrets = useSelector(getSharedSecrets);
+  const folders = params.path ? params.path.split('/') : [];
+  const folderId = folders[folders.length - 1];
+  const folderSecrets = useSelector(state =>
+    getSecretsInFolder(state, folderId)
+  );
   if (showAll) {
-    const secrets = MetadataStore.getAllSecrets();
-    return <SecretList secrets={secrets} showAll />;
+    return <SecretList secrets={allSecrets} showAll />;
   } else if (showMine) {
-    const secrets = MetadataStore.getMySecret();
-    return <SecretList secrets={secrets} showMine />;
+    return <SecretList secrets={mySecrets} showMine />;
   } else if (showShared) {
-    const secrets = MetadataStore.getSharedSecret();
-    return <SecretList secrets={secrets} showShared />;
+    return <SecretList secrets={sharedSecrets} showShared />;
   }
-
-  const path = params.path ? params.path.split('/') : [];
-  const folders = new Immutable.List(path);
-  const folderId = folders.last();
-  const folder = MetadataStore.getById(folderId);
-  const secrets = MetadataStore.getSecretsInFolder(folderId);
-
-  return <SecretList folder={folder} folders={folders} secrets={secrets} />;
+  const folder = metadata.find(f => f.id === folderId);
+  return (
+    <SecretList folder={folder} folders={folders} secrets={folderSecrets} />
+  );
 }
 SecretListContainer.propTypes = propTypes;
 SecretListContainer.defaultProps = defaultProps;

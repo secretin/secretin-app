@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import Input from 'components/utilities/Input';
 
 class ImportMandatoryField extends Component {
   static propTypes = {
-    field: PropTypes.instanceOf(Immutable.Map),
+    field: PropTypes.object,
     onChange: PropTypes.func,
   };
 
@@ -29,11 +28,11 @@ class ImportMandatoryField extends Component {
         ref={ref => {
           this.input = ref;
         }}
-        label={this.props.field.get('name')}
-        name={this.props.field.get('name')}
-        value={this.props.field.get('value')}
+        label={this.props.field.name}
+        name={this.props.field.name}
+        value={this.props.field.value}
         onChange={this.handleChange}
-        type={this.props.field.get('type')}
+        type={this.props.field.type}
       />
     );
   }

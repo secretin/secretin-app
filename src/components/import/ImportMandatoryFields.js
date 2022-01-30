@@ -1,38 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import ImportStore from 'stores/ImportStore';
+
 import ImportMandatoryField from './ImportMandatoryField';
 
-import ImportActions from 'actions/ImportActions';
+import * as ImportActions from 'slices/ImportSlice';
 
 class ImportersMandatoryFields extends Component {
   static propTypes = {
-    mandatoryFields: PropTypes.instanceOf(Immutable.Map),
+    mandatoryFields: PropTypes.object,
+    actions: PropTypes.object,
   };
 
-  static getStores() {
-    return [ImportStore];
-  }
-
-  static getPropsFromStores() {
-    const state = ImportStore.getState();
-
-    return {
-      mandatoryFields: state.get('mandatoryFields'),
-    };
-  }
-
   render() {
-    const keys = Object.keys(this.props.mandatoryFields.toJS());
+    const keys = Object.keys(this.props.mandatoryFields);
     const inputs = [];
     keys.forEach(key => {
       inputs.push(
         <ImportMandatoryField
           key={key}
-          field={this.props.mandatoryFields.get(key)}
-          onChange={ImportActions.changeMandatoryField}
+          field={this.props.mandatoryFields[key]}
+          onChange={this.props.actions.changeMandatoryField}
         />
       );
     });
@@ -40,4 +29,18 @@ class ImportersMandatoryFields extends Component {
   }
 }
 
-export default connectToStores(ImportersMandatoryFields);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ImportActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { mandatoryFields } = state.Import;
+  return {
+    mandatoryFields,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ImportersMandatoryFields);

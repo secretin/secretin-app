@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
 
-import SecretDataRecord from 'models/SecretDataRecord';
+import * as EditSecretUIActions from 'slices/EditSecretUISlice';
 
-import EditSecretUIActions from 'actions/EditSecretUIActions';
-import EditSecretUIStore from 'stores/EditSecretUIStore';
 import SecretFields from 'components/secrets/SecretFields';
 
 class SecretEdit extends Component {
   static propTypes = {
-    data: PropTypes.instanceOf(SecretDataRecord),
+    data: PropTypes.object,
     canUpdate: PropTypes.bool,
+    actions: PropTypes.object,
   };
-
-  static getStores() {
-    return [EditSecretUIStore];
-  }
-
-  static getPropsFromStores() {
-    return { data: EditSecretUIStore.getState().get('data') };
-  }
 
   render() {
     if (!this.props.data) {
@@ -30,9 +22,9 @@ class SecretEdit extends Component {
     return (
       <div className="secret-edit">
         <SecretFields
-          fields={this.props.data.get('fields')}
+          fields={this.props.data.fields}
           onChange={
-            this.props.canUpdate ? EditSecretUIActions.changeField : () => {}
+            this.props.canUpdate ? this.props.actions.changeField : () => {}
           }
           canUpdate={this.props.canUpdate}
         />
@@ -41,4 +33,15 @@ class SecretEdit extends Component {
   }
 }
 
-export default connectToStores(SecretEdit);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(EditSecretUIActions, dispatch),
+});
+
+const mapStateToProps = state => {
+  const { data } = state.EditSecretUI;
+  return {
+    data,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecretEdit);

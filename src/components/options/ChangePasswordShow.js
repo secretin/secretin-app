@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import connectToStores from 'alt-utils/lib/connectToStores';
 
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 
-import OptionsStore from 'stores/OptionsStore';
-import OptionsActions from 'actions/OptionsActions';
+import * as OptionsActions from 'slices/OptionsSlice';
 
 class ChangePasswordShow extends Component {
   static propTypes = {
@@ -17,6 +16,7 @@ class ChangePasswordShow extends Component {
     error: PropTypes.string,
     newPass1: PropTypes.string,
     newPass2: PropTypes.string,
+    dispatch: PropTypes.func,
   };
 
   static defaultProps = {
@@ -27,39 +27,24 @@ class ChangePasswordShow extends Component {
     error: '',
   };
 
-  static getStores() {
-    return [OptionsStore];
-  }
-
-  static getPropsFromStores() {
-    const state = OptionsStore.getNewPass();
-
-    return {
-      errors: state.get('error'),
-      shown: state.get('shown'),
-      loading: state.get('loading'),
-      status: state.get('status'),
-      newPass1: state.get('newPass1'),
-      newPass2: state.get('newPass2'),
-    };
-  }
-
   constructor(props) {
     super(props);
     this.handleChangePassword = this.handleChangePassword.bind(this);
   }
 
   handleChangePassword() {
-    OptionsActions.changePassword({
-      newPass: this.props.newPass1,
-    });
+    this.props.dispatch(
+      OptionsActions.changePassword({
+        newPass: this.props.newPass1,
+      })
+    );
   }
 
   render() {
     return (
       <Modal
         show={this.props.shown}
-        onClose={OptionsActions.hideChangePassword}
+        onClose={() => this.props.dispatch(OptionsActions.hideChangePassword())}
       >
         <Modal.Header>
           <span className="text">Change master password</span>
@@ -71,7 +56,9 @@ class ChangePasswordShow extends Component {
               name="newPass1"
               label="New password"
               value={this.props.newPass1}
-              onChange={OptionsActions.changeNewPass1}
+              onChange={(...args) =>
+                this.props.dispatch(OptionsActions.changeNewPass1(...args))
+              }
               type="password"
               disabled={this.props.loading}
             />
@@ -81,7 +68,9 @@ class ChangePasswordShow extends Component {
                   name="newPass2"
                   label="Retype"
                   value={this.props.newPass2}
-                  onChange={OptionsActions.changeNewPass2}
+                  onChange={(...args) =>
+                    this.props.dispatch(OptionsActions.changeNewPass2(...args))
+                  }
                   type="password"
                   disabled={this.props.loading}
                 />
@@ -105,7 +94,9 @@ class ChangePasswordShow extends Component {
           <Button
             type="reset"
             buttonStyle="default"
-            onClick={OptionsActions.hideChangePassword}
+            onClick={() =>
+              this.props.dispatch(OptionsActions.hideChangePassword())
+            }
           >
             Close
           </Button>
@@ -125,4 +116,23 @@ class ChangePasswordShow extends Component {
   }
 }
 
-export default connectToStores(ChangePasswordShow);
+const mapStateToProps = state => {
+  const {
+    error,
+    shown,
+    loading,
+    status,
+    newPass1,
+    newPass2,
+  } = state.Options.newPass;
+  return {
+    error,
+    shown,
+    loading,
+    status,
+    newPass1,
+    newPass2,
+  };
+};
+
+export default connect(mapStateToProps)(ChangePasswordShow);

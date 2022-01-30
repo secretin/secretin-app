@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
-import Immutable from 'immutable';
 
-import AppUIStore from 'stores/AppUIStore';
 import Secret from 'models/Secret';
+
 import SecretListContent from 'components/secrets/SecretListContent';
 import SecretListBreadcrumb from 'components/secrets/SecretListBreadcrumb';
 import SecretListRefresh from 'components/secrets/SecretListRefresh';
@@ -18,18 +18,19 @@ import Title from 'components/utilities/Title';
 class SecretList extends Component {
   static propTypes = {
     folder: PropTypes.instanceOf(Secret),
-    folders: PropTypes.instanceOf(Immutable.List),
-    secrets: PropTypes.instanceOf(Immutable.Map),
+    folders: PropTypes.array,
+    secrets: PropTypes.array,
     searchQuery: PropTypes.string,
     isDragging: PropTypes.bool,
     showAll: PropTypes.bool,
     showMine: PropTypes.bool,
     showShared: PropTypes.bool,
+    status: PropTypes.string,
   };
 
   static defaultProps = {
-    folders: new Immutable.List(),
-    secrets: new Immutable.Map(),
+    folders: [],
+    secrets: {},
     searchQuery: '',
     showAll: false,
     showMine: false,
@@ -85,9 +86,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {AppUIStore.getState().get('status') !== null && (
-          <UserConnectProgress status={AppUIStore.getState().get('status')} />
-        )}
+        {this.props.status !== null && <UserConnectProgress />}
         <div className="page-content">
           {!this.props.showAll &&
             !this.props.showMine &&
@@ -97,14 +96,12 @@ class SecretList extends Component {
               </div>
             )}
           <SecretListContent
-            filtered={
-              this.props.showAll || this.props.showMine || this.props.showShared
-            }
+            filtered={filtered}
             secrets={this.props.secrets}
             folders={this.props.folders}
             isDragging={this.props.isDragging}
             searchQuery={this.state.searchQuery}
-            endDecrypt={AppUIStore.getState().get('status') === null}
+            endDecrypt={this.props.status === null}
           />
         </div>
       </div>
@@ -118,6 +115,13 @@ function layerCollect(monitor) {
   };
 }
 
+const mapStateToProps = state => {
+  const { status } = state.AppUI;
+  return {
+    status,
+  };
+};
+
 export default new DragDropContext(HTML5Backend)(
-  DragLayer(layerCollect)(SecretList)
+  DragLayer(layerCollect)(connect(mapStateToProps)(SecretList))
 );

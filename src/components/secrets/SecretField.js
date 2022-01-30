@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
-
-import SecretFieldRecord from 'models/SecretFieldRecord';
 
 import Input from 'components/utilities/Input';
 import Icon from 'components/utilities/Icon';
@@ -12,7 +9,7 @@ import Button from 'components/utilities/Button';
 
 class SecretField extends Component {
   static propTypes = {
-    field: PropTypes.instanceOf(SecretFieldRecord),
+    field: PropTypes.object,
     onChange: PropTypes.func,
     isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
@@ -84,7 +81,7 @@ class SecretField extends Component {
           onChange={this.handleChange}
           type={this.props.field.type}
           readOnly={!this.props.canUpdate}
-          actions={new Immutable.List(actions)}
+          actions={actions}
         />
         <div className="secret-field-action">
           {this.props.field.type === 'password' && this.props.canUpdate && (
