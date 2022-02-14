@@ -5,6 +5,7 @@ import Secret from 'models/Secret';
 import {
   createSecretSuccess,
   createSecretFailure,
+  loginUserProgress,
   loginUserSuccess,
   addSecretToFolderFailure,
   removeSecretFromCurrentFolderFailure,
@@ -92,13 +93,15 @@ export const {
 } = MetadataSlice.actions;
 
 export const loadMetadata = () => dispatch => {
-  secretin.refreshUser().then(() => {
-    dispatch(
-      loadMetadataSuccess({
-        metadata: secretin.currentUser.metadatas,
-      })
-    );
-  });
+  secretin
+    .refreshUser(true, (...args) => dispatch(loginUserProgress(...args)))
+    .then(() => {
+      dispatch(
+        loadMetadataSuccess({
+          metadata: secretin.currentUser.metadatas,
+        })
+      );
+    });
 };
 
 export const createSecret = (
@@ -192,7 +195,6 @@ export const createSecretUserRights = ({
 }) => dispatch => {
   return secretin
     .shareSecret(secret.id, user.username, rights)
-    .then(() => secretin.refreshUser())
     .then(() => {
       dispatch(
         createSecretUserRightsSuccess({
