@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import secretin from 'utils/secretin';
 
 import * as AppUIActions from 'slices/AppUISlice';
 
@@ -19,6 +18,7 @@ class UserConnect extends Component {
       total: PropTypes.number,
     }),
     dispatch: PropTypes.func,
+    showShortpass: PropTypes.bool,
   };
 
   constructor(props) {
@@ -27,13 +27,11 @@ class UserConnect extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleSignup = this.toggleSignup.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.hideShortpass = this.hideShortpass.bind(this);
 
     this.state = {
       signup: false,
       username: '',
       password: '',
-      showShortpass: secretin.canITryShortLogin(),
     };
   }
 
@@ -72,23 +70,16 @@ class UserConnect extends Component {
     });
   }
 
-  hideShortpass() {
-    this.setState({
-      showShortpass: false,
-    });
-  }
-
   render() {
     const { savedUsername, loading, errors } = this.props;
 
     return (
       <div className="user-connect">
-        {this.state.showShortpass ? (
+        {this.props.showShortpass ? (
           <UserConnectShortPass
             savedUsername={savedUsername}
             loading={loading}
             error={errors.shortlogin}
-            onCancel={this.hideShortpass}
           />
         ) : (
           <UserConnectForm loading={loading} errors={errors} />
@@ -98,4 +89,11 @@ class UserConnect extends Component {
   }
 }
 
-export default connect()(UserConnect);
+const mapStateToProps = state => {
+  const { showShortpass } = state.AppUI;
+  return {
+    showShortpass,
+  };
+};
+
+export default connect(mapStateToProps)(UserConnect);
