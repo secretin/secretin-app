@@ -1,0 +1,16 @@
+name: Checks
+
+on:
+  pull_request
+
+jobs:
+  check:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.16.0'
+      - run: yarn --immutable
+      - run: yarn test
