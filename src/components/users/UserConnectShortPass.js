@@ -51,7 +51,6 @@ class UserConnectShortPass extends Component {
       cancelLabel: 'Cancel',
       onAccept: () => {
         this.props.dispatch(AppUIActions.disableShortLogin());
-        return this.props.onCancel();
       },
       onCancel: () => ({}),
     });

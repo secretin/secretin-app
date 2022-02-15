@@ -34,6 +34,7 @@ export const AppUISlice = createSlice({
     errors: {},
     currentUser: null,
     status: null,
+    showShortpass: secretin.canITryShortLogin(),
   },
   reducers: {
     loading: _loading,
@@ -91,6 +92,9 @@ export const AppUISlice = createSlice({
       const { error } = action.payload;
       state.errors = error;
     },
+    hideShortpass: state => {
+      state.showShortpass = false;
+    },
   },
 });
 
@@ -111,6 +115,7 @@ export const {
   loginUserFailure,
   addSecretToFolderFailure,
   removeSecretFromCurrentFolderFailure,
+  hideShortpass,
 } = AppUISlice.actions;
 
 export const disconnectUser = () => dispatch => {
@@ -255,19 +260,23 @@ export const shortLogin = ({ shortpass }) => dispatch => {
         })
       );
     })
-    .catch(() =>
+    .catch(() => {
       dispatch(
         loginUserFailure({
           error: { shortlogin: 'Invalid shortpass' },
         })
-      )
-    );
+      );
+      setTimeout(() => {
+        dispatch(hideShortpass());
+      }, 1000);
+    });
 };
 
 export const disableShortLogin = () => dispatch => {
   dispatch(loading());
   secretin.deactivateShortLogin();
   dispatch(disableShortLoginSuccess());
+  dispatch(hideShortpass());
 };
 
 export default AppUISlice.reducer;
