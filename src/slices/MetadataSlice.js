@@ -134,22 +134,27 @@ export const createSecret = (
     });
 };
 
-export const updateSecret = ({ secret, data }) => dispatch => {
+export const updateSecret = ({ secret, data }) => async dispatch => {
   dispatch(updateSecretStart());
-  return secretin
-    .editSecret(secret.id, data)
-    .then(() => {
-      dispatch(
-        updateSecretSuccess({
-          metadata: secretin.currentUser.metadatas,
-          data,
-        })
-      );
-    })
-    .catch(error => {
-      dispatch(updateSecretFailure({ error }));
-      throw error;
-    });
+  try {
+    const payload = { data };
+    await secretin.editSecret(secret.id, data);
+    try {
+      payload.history = await secretin.getHistory(secret.id);
+    } catch (err) {
+      payload.history = [];
+      console.log(err);
+    }
+    dispatch(
+      updateSecretSuccess({
+        ...payload,
+        metadata: secretin.currentUser.metadatas,
+      })
+    );
+  } catch (error) {
+    dispatch(updateSecretFailure({ error }));
+    throw error;
+  }
 };
 
 export const renameSecret = ({ secret, newTitle }) => dispatch => {

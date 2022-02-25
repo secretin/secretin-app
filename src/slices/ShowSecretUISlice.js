@@ -66,7 +66,7 @@ export const ShowSecretUISlice = createSlice({
   },
   extraReducers: {
     [updateSecretSuccess]: (state, action) => {
-      const { metadata } = action.payload;
+      const { metadata, history } = action.payload;
       const secretMetadata = metadata[state.secret.id];
       // The metadata coming back from Secretin has flat user objects indexed by id
       // Recreate the array of User instances
@@ -74,6 +74,7 @@ export const ShowSecretUISlice = createSlice({
         User.createFromRaw(rawUser)
       );
       state.secret = state.secret.merge(metadata[state.secret.id]);
+      state.secret.history = history;
       state.isUpdating = false;
       state.errors = {};
     },
