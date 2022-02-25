@@ -15,6 +15,7 @@ const getInitialState = () => ({
   errors: {},
   tab: 'details',
   isUpdating: false,
+  historyDepth: 0,
 });
 
 const _handleError = (state, action) => {
@@ -41,6 +42,7 @@ export const ShowSecretUISlice = createSlice({
     hideModal: (state, action) => {
       state.secret = null;
       state.errors = {};
+      state.historyDepth = 0;
     },
     changeTab: (state, action) => {
       const { tab } = action.payload;
@@ -49,6 +51,13 @@ export const ShowSecretUISlice = createSlice({
     updateSecretStart: (state, action) => {
       state.isUpdating = true;
       state.errors = {};
+    },
+    historyShowOlder: state => {
+      if (state.historyDepth + 1 < state.secret.history.length)
+        state.historyDepth += 1;
+    },
+    historyShowMoreRecent: state => {
+      if (state.historyDepth - 1 >= 0) state.historyDepth -= 1;
     },
     updateSecretFailure: _handleError,
     createSecretUserRightsFailure: _handleError,
@@ -105,23 +114,30 @@ export const {
   createSecretUserRightsFailure,
   updateSecretUserRightsFailure,
   deleteSecretUserRightsFailure,
+  historyShowOlder,
+  historyShowMoreRecent,
 } = ShowSecretUISlice.actions;
 
-export const showSecret = ({ secret, tab }) => dispatch => {
+export const showSecret = ({ secret, tab }) => async dispatch => {
   dispatch(showModal({ secret, tab }));
   if (secret.type === 'folder') {
     dispatch(showSecretSuccess({ secret }));
   } else {
-    secretin.getSecret(secret.id).then(data => {
-      const raw = !data.fields ? { fields: data } : data;
-      const secretWithData = Secret.createFromRaw(secret.getRaw());
-      secretWithData.data = SecretDataRecord.createFromRaw(raw).getRaw();
-      dispatch(
-        showSecretSuccess({
-          secret: secretWithData,
-        })
-      );
-    });
+    const data = await secretin.getSecret(secret.id);
+    const raw = !data.fields ? { fields: data } : data;
+    const secretWithData = Secret.createFromRaw(secret.getRaw());
+    secretWithData.data = SecretDataRecord.createFromRaw(raw).getRaw();
+    try {
+      secretWithData.history = await secretin.getHistory(secret.id);
+    } catch (error) {
+      console.log(error);
+      secretWithData.history = [];
+    }
+    dispatch(
+      showSecretSuccess({
+        secret: secretWithData,
+      })
+    );
   }
 };
 

@@ -9,12 +9,11 @@ import * as MetadataActions from 'slices/MetadataSlice';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretShowHeader from 'components/secrets/SecretShowHeader';
 import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
-import SecretEditableTitle from 'components/secrets/SecretEditableTitle';
 import Modal from 'components/utilities/Modal';
 import Flash from 'components/utilities/Flash';
-import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
 
@@ -32,6 +31,7 @@ class SecretShow extends Component {
     isOnline: PropTypes.bool,
     showSecretActions: PropTypes.object,
     metadataActions: PropTypes.object,
+    historyDepth: PropTypes.number,
   };
 
   constructor(props) {
@@ -72,21 +72,23 @@ class SecretShow extends Component {
         onClose={this.props.showSecretActions.hideModal}
       >
         <Modal.Header>
-          <Icon id={this.props.secret.getIcon()} size="small" />
-          <SecretEditableTitle
+          <SecretShowHeader
+            icon={this.props.secret.getIcon()}
             title={this.props.secret.title}
-            canUpdate={canUpdate}
+            canEditTitle={canUpdate}
             isUpdating={this.props.isUpdating}
-            onSubmit={newTitle => {
-              if (newTitle !== this.props.secret.title) {
-                setTimeout(() => {
-                  this.props.metadataActions.renameSecret({
-                    secret: this.props.secret,
-                    newTitle,
-                  });
+            onEditTitle={newTitle => {
+              setTimeout(() => {
+                this.props.metadataActions.renameSecret({
+                  secret: this.props.secret,
+                  newTitle,
                 });
-              }
+              });
             }}
+            historyCount={this.props?.secret?.history?.length}
+            historyDepth={this.props.historyDepth}
+            onHistoryPrevious={this.props.showSecretActions.historyShowOlder}
+            onHistoryNext={this.props.showSecretActions.historyShowMoreRecent}
           />
         </Modal.Header>
 
@@ -109,7 +111,12 @@ class SecretShow extends Component {
                 ) : (
                   <SecretEdit
                     isUpdating={this.props.isUpdating}
-                    canUpdate={canUpdate}
+                    canUpdate={canUpdate && this.props.historyDepth === 0}
+                    data={
+                      this.props.historyDepth > 0 &&
+                      this.props.secret?.history[this.props.historyDepth]
+                        ?.secret
+                    }
                   />
                 )}
               </Tab>
@@ -136,7 +143,7 @@ class SecretShow extends Component {
           >
             Close
           </Button>
-          {this.props.isEditing && (
+          {this.props.isEditing && this.props.historyDepth === 0 && (
             <Button
               type="submit"
               buttonStyle="primary"
@@ -158,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => {
-  const { secret, errors, tab, isUpdating } = state.ShowSecretUI;
+  const { secret, errors, tab, isUpdating, historyDepth } = state.ShowSecretUI;
   const { isEditing, data } = state.EditSecretUI;
   const { currentUser, online } = state.AppUI;
   return {
@@ -170,6 +177,7 @@ const mapStateToProps = state => {
     isEditing,
     data,
     currentUser,
+    historyDepth,
     isOnline: online,
   };
 };
