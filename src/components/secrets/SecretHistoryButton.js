@@ -7,16 +7,14 @@ import Icon from 'components/utilities/Icon';
 const SecretHistoryButton = ({ side, disabled, onClick }) => {
   return (
     <div className="secret-history-button">
-      {!disabled && (
-        <Button
-          title={side}
-          buttonStyle="icon"
-          disabled={disabled}
-          onClick={onClick}
-        >
-          <Icon id={side === 'previous' ? 'import' : 'export'} />
-        </Button>
-      )}
+      <Button
+        title={side}
+        buttonStyle="icon"
+        disabled={disabled}
+        onClick={onClick}
+      >
+        <Icon id={side} />
+      </Button>
     </div>
   );
 };
