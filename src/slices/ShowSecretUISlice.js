@@ -56,7 +56,7 @@ export const ShowSecretUISlice = createSlice({
       if (state.historyDepth + 1 < state.secret.history.length)
         state.historyDepth += 1;
     },
-    historyShowMoreRecent: state => {
+    historyShowNewer: state => {
       if (state.historyDepth - 1 >= 0) state.historyDepth -= 1;
     },
     updateSecretFailure: _handleError,
@@ -116,7 +116,7 @@ export const {
   updateSecretUserRightsFailure,
   deleteSecretUserRightsFailure,
   historyShowOlder,
-  historyShowMoreRecent,
+  historyShowNewer,
 } = ShowSecretUISlice.actions;
 
 export const showSecret = ({ secret, tab }) => async dispatch => {

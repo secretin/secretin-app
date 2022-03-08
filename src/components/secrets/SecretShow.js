@@ -10,6 +10,7 @@ import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
 import SecretShowHeader from 'components/secrets/SecretShowHeader';
+import SecretHistory from 'components/secrets/SecretHistory';
 import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
 import Modal from 'components/utilities/Modal';
@@ -31,7 +32,6 @@ class SecretShow extends Component {
     isOnline: PropTypes.bool,
     showSecretActions: PropTypes.object,
     metadataActions: PropTypes.object,
-    historyDepth: PropTypes.number,
   };
 
   constructor(props) {
@@ -85,10 +85,6 @@ class SecretShow extends Component {
                 });
               });
             }}
-            historyCount={this.props?.secret?.history?.length}
-            historyDepth={this.props.historyDepth}
-            onHistoryPrevious={this.props.showSecretActions.historyShowOlder}
-            onHistoryNext={this.props.showSecretActions.historyShowMoreRecent}
           />
         </Modal.Header>
 
@@ -111,12 +107,8 @@ class SecretShow extends Component {
                 ) : (
                   <SecretEdit
                     isUpdating={this.props.isUpdating}
-                    canUpdate={canUpdate && this.props.historyDepth === 0}
-                    data={
-                      this.props.historyDepth > 0 &&
-                      this.props.secret?.history[this.props.historyDepth]
-                        ?.secret
-                    }
+                    canUpdate={canUpdate}
+                    data={this.props.secret.fields}
                   />
                 )}
               </Tab>
@@ -131,6 +123,12 @@ class SecretShow extends Component {
                 />
               </Tab>
             )}
+
+            {this.props.secret?.history?.length > 1 && (
+              <Tab eventKey="history" title="History">
+                <SecretHistory />
+              </Tab>
+            )}
           </Tabs>
         </Modal.Body>
 
@@ -143,7 +141,7 @@ class SecretShow extends Component {
           >
             Close
           </Button>
-          {this.props.isEditing && this.props.historyDepth === 0 && (
+          {this.props.isEditing && (
             <Button
               type="submit"
               buttonStyle="primary"
@@ -165,7 +163,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => {
-  const { secret, errors, tab, isUpdating, historyDepth } = state.ShowSecretUI;
+  const { secret, errors, tab, isUpdating } = state.ShowSecretUI;
   const { isEditing, data } = state.EditSecretUI;
   const { currentUser, online } = state.AppUI;
   return {
@@ -177,7 +175,6 @@ const mapStateToProps = state => {
     isEditing,
     data,
     currentUser,
-    historyDepth,
     isOnline: online,
   };
 };
