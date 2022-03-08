@@ -14,39 +14,54 @@ class SecretHistory extends Component {
     historyDepth: PropTypes.number,
     historyCount: PropTypes.number,
     modifiedAt: PropTypes.string,
+    isLatest: PropTypes.bool,
+    isOldest: PropTypes.bool,
     dispatch: PropTypes.func,
     actions: PropTypes.object,
   };
 
   render() {
-    const { historyDepth, historyCount } = this.props;
+    const {
+      historyDepth,
+      historyCount,
+      modifiedAt,
+      isLatest,
+      isOldest,
+      data,
+    } = this.props;
+    const { historyShowOlder, historyShowNewer } = this.props.actions;
+    const color = isLatest ? '#1abc9c' : '#afafaf';
     return (
       <div className="secret-history">
-        <div className="secret-history-header">
+        <div
+          className="secret-history-header"
+          style={{
+            backgroundColor: color,
+            borderColor: color,
+          }}
+        >
           <div className="secret-history-navigation">
             <SecretHistoryButton
               disabled={historyDepth >= historyCount - 1}
               side="previous"
-              onClick={this.props.actions.historyShowOlder}
+              onClick={historyShowOlder}
             />
             <SecretHistoryButton
               disabled={historyDepth <= 0}
               side="next"
-              onClick={this.props.actions.historyShowNewer}
+              onClick={historyShowNewer}
             />
           </div>
           <span
-            title={moment(this.props.modifiedAt).format('MMM Do, YYYY HH:mm')}
+            style={{ color: 'white', fontWeight: '600' }}
+            title={moment(modifiedAt).format('MMM Do, YYYY HH:mm')}
           >
-            {moment(this.props.modifiedAt).fromNow()}
+            {isLatest && '(latest)'}
+            {isOldest && '(oldest)'} {moment(modifiedAt).fromNow()}
           </span>
         </div>
         <div className="secret-history-fields">
-          <SecretEdit
-            isUpdating={false}
-            canUpdate={false}
-            data={this.props.data}
-          />
+          <SecretEdit isUpdating={false} canUpdate={false} data={data} />
         </div>
       </div>
     );
@@ -60,6 +75,8 @@ const mapStateToProps = state => {
     modifiedAt: secret?.history[historyDepth]?.lastModifiedAt,
     historyCount: secret?.history.length,
     historyDepth,
+    isLatest: historyDepth === 0,
+    isOldest: historyDepth + 1 >= secret?.history.length,
   };
 };
 
