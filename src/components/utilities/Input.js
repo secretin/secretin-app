@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { uniqueId, debounce } from 'lodash';
+import { uniqueId } from 'lodash';
 import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
@@ -53,7 +53,6 @@ class Input extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = debounce(this.onChange.bind(this), props.debounce);
     this.handleChange = this.handleChange.bind(this);
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
@@ -71,22 +70,17 @@ class Input extends Component {
     }
   }
 
-  onChange({ value }) {
-    this.props.onChange({
-      name: this.props.name,
-      value,
-    });
-  }
-
   onTogglePasswordShow() {
     this.setState({
       showPassword: !this.state.showPassword,
     });
   }
 
-  handleChange({ target }) {
-    const { value } = target;
-    this.onChange({ value });
+  handleChange(event) {
+    this.props.onChange({
+      name: this.props.name,
+      value: event.target.value,
+    });
   }
 
   select() {
@@ -139,7 +133,7 @@ class Input extends Component {
             type={
               type === 'password' && this.state.showPassword ? 'text' : type
             }
-            defaultValue={this.props.value}
+            value={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
             autoComplete={autoComplete ? null : 'new-password'}

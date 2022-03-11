@@ -37,8 +37,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(EditSecretUIActions, dispatch),
 });
 
-const mapStateToProps = state => {
-  const { data } = state.EditSecretUI;
+const mapStateToProps = (state, ownProps) => {
+  const data = ownProps.data || state.EditSecretUI.data;
   return {
     data,
   };

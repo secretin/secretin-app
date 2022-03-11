@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'components/App';
-import registerServiceWorker from 'utils/registerServiceWorker';
+import { unregister } from 'utils/registerServiceWorker';
 
 import store from 'stores/store';
 import { Provider } from 'react-redux';
@@ -18,7 +18,7 @@ ReactDOM.render(
   rootEl
 );
 if (typeof window.process === 'undefined') {
-  registerServiceWorker();
+  unregister(); // Get rid of the service worker, we don't need it
 }
 
 // if (module.hot) {

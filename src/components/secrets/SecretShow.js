@@ -9,12 +9,12 @@ import * as MetadataActions from 'slices/MetadataSlice';
 import Secret from 'models/Secret';
 
 import SecretEdit from 'components/secrets/SecretEdit';
+import SecretShowHeader from 'components/secrets/SecretShowHeader';
+import SecretHistory from 'components/secrets/SecretHistory';
 import WindowsSecretEdit from 'components/secrets/WindowsSecretEdit';
 import SecretUserList from 'components/secrets/SecretUserList';
-import SecretEditableTitle from 'components/secrets/SecretEditableTitle';
 import Modal from 'components/utilities/Modal';
 import Flash from 'components/utilities/Flash';
-import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
 import { Tabs, Tab } from 'components/utilities/Tabs';
 
@@ -72,20 +72,18 @@ class SecretShow extends Component {
         onClose={this.props.showSecretActions.hideModal}
       >
         <Modal.Header>
-          <Icon id={this.props.secret.getIcon()} size="small" />
-          <SecretEditableTitle
+          <SecretShowHeader
+            icon={this.props.secret.getIcon()}
             title={this.props.secret.title}
-            canUpdate={canUpdate}
+            canEditTitle={canUpdate}
             isUpdating={this.props.isUpdating}
-            onSubmit={newTitle => {
-              if (newTitle !== this.props.secret.title) {
-                setTimeout(() => {
-                  this.props.metadataActions.renameSecret({
-                    secret: this.props.secret,
-                    newTitle,
-                  });
+            onEditTitle={newTitle => {
+              setTimeout(() => {
+                this.props.metadataActions.renameSecret({
+                  secret: this.props.secret,
+                  newTitle,
                 });
-              }
+              });
             }}
           />
         </Modal.Header>
@@ -110,6 +108,7 @@ class SecretShow extends Component {
                   <SecretEdit
                     isUpdating={this.props.isUpdating}
                     canUpdate={canUpdate}
+                    data={this.props.secret.fields}
                   />
                 )}
               </Tab>
@@ -122,6 +121,12 @@ class SecretShow extends Component {
                   errors={this.props.errors}
                   secret={this.props.secret}
                 />
+              </Tab>
+            )}
+
+            {this.props.secret?.history?.length > 1 && (
+              <Tab eventKey="history" title="History">
+                <SecretHistory />
               </Tab>
             )}
           </Tabs>
