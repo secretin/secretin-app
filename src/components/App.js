@@ -73,6 +73,27 @@ class App extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-undef
+    const shortCommit = SECRETIN_APP_COMMIT
+      ? // eslint-disable-next-line no-undef
+        SECRETIN_APP_COMMIT.substr(0, 7)
+      : '';
+    // eslint-disable-next-line no-undef
+    const secretinAppVersion = SECRETIN_APP_COMMIT ? (
+      <span className="secretin-version">
+        secretin-app{' '}
+        <a
+          // eslint-disable-next-line no-undef
+          href={`https://github.com/secretin/secretin-app/commit/${SECRETIN_APP_COMMIT}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {shortCommit}
+        </a>
+      </span>
+    ) : (
+      <span className="secretin-version">secretin-app dev</span>
+    );
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
@@ -89,6 +110,7 @@ class App extends Component {
           <span className="secretin-version">
             secretin-lib v{Secretin.version}
           </span>
+          {secretinAppVersion}
         </div>
       </Router>
     );
