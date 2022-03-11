@@ -15,8 +15,7 @@ function Modal(props) {
       className={className}
       backdropClassName="modal-backdrop"
       show={props.show}
-      onHide={props.onClose}
-      onBackdropClick={props.onClose}
+      onHide={props.closeOnBackdropClick ? props.onClose : undefined}
     >
       <div className="modal-dialog">
         {props.onClose && (
@@ -39,6 +38,7 @@ Modal.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   onClose: PropTypes.func,
+  closeOnBackdropClick: PropTypes.bool,
 };
 Modal.defaultProps = {
   centered: false,
