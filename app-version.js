@@ -1,0 +1,1 @@
+const SECRETIN_APP_COMMIT = '0639cc30aaba2f1fcc5bc12ec768caa85f070a69';
