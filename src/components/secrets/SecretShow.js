@@ -69,6 +69,7 @@ class SecretShow extends Component {
     return (
       <Modal
         show={this.props.shown}
+        closeOnBackdropClick={!this.props.isEditing}
         onClose={this.props.showSecretActions.hideModal}
       >
         <Modal.Header>
@@ -139,7 +140,7 @@ class SecretShow extends Component {
             onClick={this.props.showSecretActions.hideModal}
             disabled={this.props.isUpdating}
           >
-            Close
+            {this.props.isEditing ? 'Cancel' : 'Close'}
           </Button>
           {this.props.isEditing && (
             <Button
