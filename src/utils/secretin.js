@@ -1,5 +1,5 @@
 import Secretin from 'secretin';
-import { SecretinBrowserAdapter } from 'secretin/dist/adapters/browser';
+import SecretinBrowserAdapter from 'secretin/dist/adapters/browser.umd';
 
 const serverURI = process.env.REACT_APP_API_SECRETIN
   ? process.env.REACT_APP_API_SECRETIN
