@@ -82,8 +82,12 @@ class UserConnectForm extends Component {
           className="user-connect-title"
           title={this.props.isOnline && secretin.api.db}
         >
-          Secret-in.me
-          <small>{status}</small>
+          <img
+            src="/logo.svg"
+            style={{ width: '70%' }}
+            alt="logo"
+            title={this.props.isOnline ? 'Secret-In.me' : 'Offline'}
+          />
         </h2>
 
         <Input
