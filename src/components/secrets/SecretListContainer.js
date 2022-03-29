@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { defaultMemoize } from 'reselect';
+import equal from 'fast-deep-equal/es6';
 
 import SecretList from 'components/secrets/SecretList';
 
@@ -29,6 +31,13 @@ const defaultProps = {
   showShared: false,
 };
 
+const getFolders = defaultMemoize(
+  params => {
+    return params.path ? params.path.split('/') : [];
+  },
+  (previousVal, currentVal) => equal(previousVal, currentVal)
+);
+
 function SecretListContainer({
   match: { params },
   showAll,
@@ -39,7 +48,7 @@ function SecretListContainer({
   const allSecrets = useSelector(getAllSecrets);
   const mySecrets = useSelector(getMySecrets);
   const sharedSecrets = useSelector(getSharedSecrets);
-  const folders = params.path ? params.path.split('/') : [];
+  const folders = getFolders(params);
   const folderId = folders[folders.length - 1];
   const folderSecrets = useSelector(state =>
     getSecretsInFolder(state, folderId)
@@ -58,5 +67,7 @@ function SecretListContainer({
 }
 SecretListContainer.propTypes = propTypes;
 SecretListContainer.defaultProps = defaultProps;
+
+SecretListContainer.whyDidYouRender = true;
 
 export default SecretListContainer;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
@@ -16,6 +15,7 @@ import UserConnectProgress from 'components/users/UserConnectProgress';
 import Title from 'components/utilities/Title';
 
 class SecretList extends Component {
+  static whyDidYouRender = true;
   static propTypes = {
     folder: PropTypes.instanceOf(Secret),
     folders: PropTypes.array,
@@ -86,7 +86,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {this.props.status !== null && <UserConnectProgress />}
+        <UserConnectProgress />
         <div className="page-content">
           {!this.props.showAll &&
             !this.props.showMine &&
@@ -115,13 +115,6 @@ function layerCollect(monitor) {
   };
 }
 
-const mapStateToProps = state => {
-  const { status } = state.AppUI;
-  return {
-    status,
-  };
-};
-
 export default new DragDropContext(HTML5Backend)(
-  DragLayer(layerCollect)(connect(mapStateToProps)(SecretList))
+  DragLayer(layerCollect)(SecretList)
 );

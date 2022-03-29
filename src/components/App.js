@@ -12,17 +12,13 @@ import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
 
 class App extends Component {
+  static whyDidYouRender = true;
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,
     connected: PropTypes.bool,
     options: PropTypes.object,
     errors: PropTypes.object,
-    status: PropTypes.shape({
-      message: PropTypes.string,
-      statue: PropTypes.number,
-      total: PropTypes.number,
-    }),
     dispatch: PropTypes.func,
   };
 
@@ -104,7 +100,6 @@ class App extends Component {
               savedUsername={this.props.savedUsername}
               loading={this.props.loading}
               errors={this.props.errors}
-              status={this.props.status}
             />
           )}
           <span className="secretin-version">
@@ -118,7 +113,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { savedUsername, loading, errors, connected, status } = state.AppUI;
+  const { savedUsername, loading, errors, connected } = state.AppUI;
   const secrets = getSecretsInFolder(state);
   const { options } = state.Options;
   return {
@@ -126,7 +121,6 @@ const mapStateToProps = state => {
     loading,
     errors,
     connected,
-    status,
     secrets,
     options,
   };
