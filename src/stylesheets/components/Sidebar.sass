@@ -9,7 +9,7 @@
     right: 0
     top: 0
     bottom: 0
-    border-left: 1px solid rgba($color-brand, .05)
+    border-left: 1px solid rgba($color-ocean-my-secret-in, .05)
 
 .sidebar-header
   display: flex
@@ -19,7 +19,7 @@
   font-weight: $font-weight-semibold
   height: 50px
   color: rgba($color-brand, .4)
-  border-bottom: 1px solid rgba($color-brand, .05)
+  border-bottom: 1px solid rgba($color-ocean-my-secret-in, .05)
   a
     color: inherit
     text-decoration: inherit
@@ -38,6 +38,12 @@
 .sidebar-menu-item
   margin: 0
   padding: 0
+
+.sidebar-menu-item .icon
+  fill: $color-ocean-my-secret-in
+
+.sidebar-menu-item .icon--id-logout
+  fill: $color-error
 
 .sidebar-menu-item--home
   @media screen and (max-width: $width-small)
@@ -70,4 +76,4 @@
 .sidebar-separator
   margin-top: 20px
   margin-bottom: 20px
-  border-bottom: 1px solid rgba($color-brand, 0.05)
+  border-bottom: 1px solid rgba($color-ocean-my-secret-in, 0.05)

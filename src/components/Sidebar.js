@@ -67,7 +67,12 @@ function Sidebar() {
     <div className="sidebar">
       <div className="sidebar-header">
         <Link to="/" title={isOnline && secretin.api.db}>
-          {isOnline ? 'Secret-In.me' : 'Offline'}
+          <img
+            src="/logo.svg"
+            style={{ width: '100%' }}
+            alt="logo"
+            title={isOnline ? 'Secret-In.me' : 'Offline'}
+          ></img>
         </Link>
       </div>
       <div className="sidebar-content">

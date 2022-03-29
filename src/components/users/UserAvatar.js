@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import User from 'models/User';
 
 const COLORS = [
-  'green-sea',
+  'emerland',
   'nephritis',
   'belize-hole',
   'wisteria',
   'midnight-blue',
-  'orange',
+  'sun-flower',
   'pumpkin',
   'pomegranate',
   'silver',

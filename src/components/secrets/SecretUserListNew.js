@@ -15,6 +15,7 @@ import Icon from 'components/utilities/Icon';
 
 class SecretUserListNew extends Component {
   static propTypes = {
+    knownFriendList: PropTypes.array,
     secret: PropTypes.instanceOf(Secret),
     errors: PropTypes.object,
     dispatch: PropTypes.func,
@@ -84,6 +85,7 @@ class SecretUserListNew extends Component {
           value={this.state.user.username}
           size="small"
           onChange={this.handleChange}
+          autoCompleteFromList={this.props.knownFriendList}
           error={this.props.errors.username}
         />
         <Select
@@ -107,4 +109,11 @@ class SecretUserListNew extends Component {
   }
 }
 
-export default connect()(SecretUserListNew);
+const mapStateToProps = state => {
+  const { knownFriendList } = state.Metadata;
+  return {
+    knownFriendList,
+  };
+};
+
+export default connect(mapStateToProps)(SecretUserListNew);
