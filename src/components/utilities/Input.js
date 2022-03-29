@@ -124,7 +124,9 @@ class Input extends Component {
 
     const filteredAutoCompleteList =
       this.props.value.length > 0
-        ? autoCompleteFromList.filter(elem => elem.includes(this.props.value))
+        ? autoCompleteFromList.filter(elem =>
+            elem.toLowerCase().includes(this.props.value.toLowerCase())
+          )
         : [];
 
     return (
