@@ -34,6 +34,13 @@ const getById = (state, secretId) =>
 const _rebuildMetadata = (state, action) => {
   const { metadata } = action.payload;
   state.metadata = buildSecrets(Object.values(metadata));
+  const friendList = new Set();
+  Object.values(metadata).forEach(metadatum => {
+    Object.values(metadatum.users).forEach(user => {
+      friendList.add(user.username);
+    });
+  });
+  state.knownFriendList = Array.from(friendList).sort();
 };
 
 export const MetadataSlice = createSlice({

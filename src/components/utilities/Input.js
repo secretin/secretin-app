@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Icon from 'components/utilities/Icon';
 import Button from 'components/utilities/Button';
+import Dropdown from 'components/utilities/Dropdown';
 
 class Input extends Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class Input extends Component {
     autoFocus: PropTypes.bool,
     autoSelect: PropTypes.bool,
     autoComplete: PropTypes.bool,
+    autoCompleteFromList: PropTypes.array,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
     actions: PropTypes.array,
@@ -43,6 +45,7 @@ class Input extends Component {
     autoFocus: false,
     autoSelect: false,
     autoComplete: false,
+    autoCompleteFromList: [],
     disabled: false,
     readOnly: false,
     actions: [],
@@ -57,6 +60,7 @@ class Input extends Component {
     this.onTogglePasswordShow = this.onTogglePasswordShow.bind(this);
     this.id = uniqueId(`${this.props.name}_input_`);
     this.state = {
+      autoCompleteSelected: false,
       showPassword: false,
     };
   }
@@ -77,10 +81,16 @@ class Input extends Component {
   }
 
   handleChange(event) {
+    this.setState({ autoCompleteSelected: false });
     this.props.onChange({
       name: this.props.name,
       value: event.target.value,
     });
+  }
+
+  handleAutoCompleteSelect(value) {
+    this.setState({ autoCompleteSelected: true });
+    this.props.onChange({ name: this.props.name, value });
   }
 
   select() {
@@ -109,7 +119,15 @@ class Input extends Component {
       readOnly,
       actions,
       inputProps,
+      autoCompleteFromList,
     } = this.props;
+
+    const filteredAutoCompleteList =
+      this.props.value.length > 0
+        ? autoCompleteFromList.filter(elem =>
+            elem.toLowerCase().includes(this.props.value.toLowerCase())
+          )
+        : [];
 
     return (
       <div className={className}>
@@ -136,12 +154,30 @@ class Input extends Component {
             value={this.props.value}
             onChange={this.handleChange}
             placeholder={placeholder}
-            autoComplete={autoComplete ? null : 'new-password'}
+            autoComplete={autoComplete ? 'on' : 'off'}
             autoFocus={autoFocus}
             disabled={disabled}
             readOnly={readOnly}
             {...inputProps}
           />
+          {!this.state.autoCompleteSelected &&
+            filteredAutoCompleteList.length > 0 && (
+              <Dropdown
+                id="input--auto-complete-list"
+                open={Boolean(this.props.value.length > 0)}
+              >
+                <Dropdown.Menu>
+                  {filteredAutoCompleteList.slice(0, 5).map(elem => (
+                    <Dropdown.MenuItem
+                      key={elem}
+                      onSelect={() => this.handleAutoCompleteSelect(elem)}
+                    >
+                      {elem}
+                    </Dropdown.MenuItem>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
           {type === 'password' && (
             <div className="input--password-show">
               <Button
