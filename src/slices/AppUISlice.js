@@ -157,6 +157,7 @@ export const createUser = ({
 };
 
 export const loginUser = ({ username, password, token }) => dispatch => {
+  console.time('decrypt');
   dispatch(loading());
   secretin
     .loginUser(
@@ -214,13 +215,26 @@ export const loginUser = ({ username, password, token }) => dispatch => {
     });
 };
 
-export const loginUserProgress = status => dispatch => {
+export const loginUserProgress = status => (dispatch, getState) => {
   const currentUser = secretin.currentUser;
   switch (status.constructor) {
     case DecryptMetadataCacheStatus:
     case DecryptMetadataStatus:
-    case DecryptUserOptionsStatus:
+    case DecryptUserOptionsStatus: {
+      const prevStatus = getState().AppUI.status;
+      if (prevStatus) {
+        const { state, total } = prevStatus;
+        if (
+          state &&
+          total &&
+          Math.round((status.state / status.total) * 100) ===
+            Math.round((state / total) * 100)
+        ) {
+          return; // Progress % did not change, prevent dispatch
+        }
+      }
       return dispatch(onLoginUserProgress({ status }));
+    }
     case EndDecryptMetadataStatus:
       dispatch(
         loginUserSuccess({
@@ -233,6 +247,7 @@ export const loginUserProgress = status => dispatch => {
           metadata: currentUser.metadatas,
         })
       );
+      console.timeEnd('decrypt');
       return dispatch(onLoginUserProgress({ status: null }));
     default:
       return;

@@ -68,6 +68,4 @@ function SecretListContainer({
 SecretListContainer.propTypes = propTypes;
 SecretListContainer.defaultProps = defaultProps;
 
-SecretListContainer.whyDidYouRender = true;
-
 export default SecretListContainer;

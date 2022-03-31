@@ -12,7 +12,6 @@ import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
 
 class App extends Component {
-  static whyDidYouRender = true;
   static propTypes = {
     savedUsername: PropTypes.string,
     loading: PropTypes.bool,

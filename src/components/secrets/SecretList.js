@@ -15,7 +15,6 @@ import UserConnectProgress from 'components/users/UserConnectProgress';
 import Title from 'components/utilities/Title';
 
 class SecretList extends Component {
-  static whyDidYouRender = true;
   static propTypes = {
     folder: PropTypes.instanceOf(Secret),
     folders: PropTypes.array,
