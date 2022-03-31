@@ -101,10 +101,12 @@ class App extends Component {
               errors={this.props.errors}
             />
           )}
-          <span className="secretin-version">
-            secretin-lib v{Secretin.version}
-          </span>
-          {secretinAppVersion}
+          <div className="footer">
+            <span className="secretin-version">
+              secretin-lib v{Secretin.version}
+            </span>
+            {secretinAppVersion}
+          </div>
         </div>
       </Router>
     );

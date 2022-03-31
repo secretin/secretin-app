@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { escapeRegExp, set } from 'lodash';
+import { List, AutoSizer } from 'react-virtualized';
 
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
@@ -100,36 +101,52 @@ class SecretListContent extends Component {
       );
     }
 
+    const renderFilteredRow = ({ index, key, style }) => {
+      const folder = sortedFolders[index];
+      return (
+        <div key={key} style={style}>
+          <SecretListFolderInfo key={folder.id} folder={folder} />
+        </div>
+      );
+    };
+
+    const renderStandardRow = ({ index, key, style }) => {
+      const secret = filteredSecrets[index];
+      return (
+        <div key={key} style={style}>
+          <SecretListItem
+            key={secret.id}
+            secret={secret}
+            folders={this.props.folders}
+          />
+        </div>
+      );
+    };
+
     return (
-      <table className={className}>
-        <thead className="secret-list-content-table-header">
-          <tr>
-            <th className="secret-list-item-column--title">Title</th>
-            <th className="secret-list-item-column--last-modified">
-              Last modified
-            </th>
-            <th className="secret-list-item-column--shared-with">
-              Shared with
-            </th>
-            <th className="secret-list-item-column--actions" />
-          </tr>
-        </thead>
-        {this.props.filtered ? (
-          sortedFolders.map(folder => (
-            <SecretListFolderInfo key={folder.id} folder={folder} />
-          ))
-        ) : (
-          <tbody className="secret-list-content-table-body">
-            {filteredSecrets.map(secret => (
-              <SecretListItem
-                key={secret.id}
-                secret={secret}
-                folders={this.props.folders}
-              />
-            ))}
-          </tbody>
-        )}
-      </table>
+      <div>
+        <div className={className}>
+          <AutoSizer>
+            {({ width, height }) => {
+              return (
+                <List
+                  width={width}
+                  height={height}
+                  rowHeight={50}
+                  rowRenderer={
+                    this.props.filtered ? renderFilteredRow : renderStandardRow
+                  }
+                  rowCount={
+                    this.props.filtered
+                      ? sortedFolders.length
+                      : filteredSecrets.length
+                  }
+                />
+              );
+            }}
+          </AutoSizer>
+        </div>
+      </div>
     );
   }
 }

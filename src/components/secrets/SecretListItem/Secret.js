@@ -52,27 +52,27 @@ function SecretListItemSecret({
   );
 
   return (
-    <tr className={className}>
-      <td className="secret-list-item-column secret-list-item-column--title">
+    <div className={className}>
+      <div className="secret-list-item-column secret-list-item-column--title">
         {secretRights > 0 && (isOnline || users.length === 0)
           ? connectDragSource(link)
           : link}
-      </td>
-      <td className="secret-list-item-column secret-list-item-column--last-modified">
+      </div>
+      <div className="secret-list-item-column secret-list-item-column--last-modified">
         {secret.lastModifiedAt.fromNow()}
         {' - '}
         <span className="muted">{secret.lastModifiedBy}</span>
-      </td>
-      <td className="secret-list-item-column secret-list-item-column--shared-with">
+      </div>
+      <div className="secret-list-item-column secret-list-item-column--shared-with">
         {users.length > 0 ? <UserAvatars users={users} /> : '––'}
-      </td>
-      <td className="secret-list-item-column secret-list-item-column--actions">
+      </div>
+      <div className="secret-list-item-column secret-list-item-column--actions">
         <SecretListItemOptions
           parentFolderId={parentFolderId}
           secret={secret}
         />
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 SecretListItemSecret.propTypes = propTypes;

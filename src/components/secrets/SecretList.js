@@ -94,6 +94,18 @@ class SecretList extends Component {
                 <SecretListNew folder={this.props.folder} />
               </div>
             )}
+          <div className="secret-list-content-table-header">
+            <div>
+              <div className="secret-list-item-column--title">Title</div>
+              <div className="secret-list-item-column--last-modified">
+                Last modified
+              </div>
+              <div className="secret-list-item-column--shared-with">
+                Shared with
+              </div>
+              <div className="secret-list-item-column--actions" />
+            </div>
+          </div>
           <SecretListContent
             filtered={filtered}
             secrets={this.props.secrets}

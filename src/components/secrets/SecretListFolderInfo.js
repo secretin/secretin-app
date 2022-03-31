@@ -16,21 +16,21 @@ function SecretListFolderInfo({ folder }) {
     return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
   });
   return (
-    <tbody className="secret-list-content-table-body">
+    <div className="secret-list-content-table-body">
       {!folder.root === true && (
-        <tr className="secret-list-folder">
-          <td colSpan="4" className="secret-list-folder-info">
+        <div className="secret-list-folder">
+          <div colSpan="4" className="secret-list-folder-info">
             <SecretListBreadcrumb
               folders={folder.breadcrumb}
               withTitle={false}
             />
-          </td>
-        </tr>
+          </div>
+        </div>
       )}
       {secrets.map(secret => (
         <SecretListItemFolderSecret key={secret.id} secret={secret} />
       ))}
-    </tbody>
+    </div>
   );
 }
 
