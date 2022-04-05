@@ -28,7 +28,7 @@
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mousetrap": "^1.6.3",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
