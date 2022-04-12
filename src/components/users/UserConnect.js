@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import secretin from 'utils/secretin';
+
 import * as AppUIActions from 'slices/AppUISlice';
 
 import UserConnectForm from './UserConnectForm';
 import UserConnectShortPass from './UserConnectShortPass';
+import moment from 'moment';
 
 class UserConnect extends Component {
   static propTypes = {
@@ -71,18 +74,38 @@ class UserConnect extends Component {
   }
 
   render() {
-    const { savedUsername, loading, errors } = this.props;
+    const { savedUsername, loading, errors, showShortpass } = this.props;
+    const shortLoginActivationDate = secretin.getShortLoginActivationDate();
+    const shortLoginExpired = shortLoginActivationDate
+      ? moment(shortLoginActivationDate)
+          .add(7, 'days')
+          .isBefore(moment())
+      : false;
 
     return (
       <div className="user-connect">
-        {this.props.showShortpass ? (
+        {showShortpass && !shortLoginExpired ? (
           <UserConnectShortPass
             savedUsername={savedUsername}
             loading={loading}
             error={errors.shortlogin}
           />
         ) : (
-          <UserConnectForm loading={loading} errors={errors} />
+          <UserConnectForm
+            loading={loading}
+            savedUsername={savedUsername ? savedUsername : ''}
+            errors={{
+              ...errors,
+              ...(shortLoginActivationDate && shortLoginExpired
+                ? {
+                    shortLoginExpired: {
+                      message: `Your shortpass has expired `,
+                      info: `Previous shortpass will automatically reactivate for your account ${savedUsername} if you sign-in.`,
+                    },
+                  }
+                : {}),
+            }}
+          />
         )}
       </div>
     );

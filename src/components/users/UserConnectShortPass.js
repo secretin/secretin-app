@@ -7,8 +7,10 @@ import Form from 'components/utilities/Form';
 import Button from 'components/utilities/Button';
 import Input from 'components/utilities/Input';
 import { confirm } from 'components/utilities/Confirm';
+import secretin from 'utils/secretin';
 
 import * as AppUIActions from 'slices/AppUISlice';
+import moment from 'moment';
 
 class UserConnectShortPass extends Component {
   static propTypes = {
@@ -57,6 +59,7 @@ class UserConnectShortPass extends Component {
   }
 
   render() {
+    const shortLoginActivationDate = secretin.getShortLoginActivationDate();
     return (
       <Form
         className="user-connect-form"
@@ -66,9 +69,12 @@ class UserConnectShortPass extends Component {
         <h2 className="user-connect-title">
           Hello again {this.props.savedUsername}!
         </h2>
-
         <Input
-          label="Shortpass"
+          label={`Shortpass${shortLoginActivationDate &&
+            ' (expires ' +
+              moment(shortLoginActivationDate)
+                .add(7, 'days')
+                .fromNow()})`}
           name="shortpass"
           value={this.state.shortpass}
           type="password"

@@ -11758,10 +11758,10 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-secretin@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/secretin/-/secretin-2.2.1.tgz#454fd0871fe2b8f3f3f86187c435f87a84ff6db3"
-  integrity sha512-wiVc6sweFliYY4Fa3oVnjAfDdaXilotB+4bZEFff3KNJy0lASe8yo2Ya62kWZJxsblvCgRb9k3/bGUYckWmO/w==
+secretin@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/secretin/-/secretin-2.3.2.tgz#744219d22653aed69b798cebc7f1474e68b7d674"
+  integrity sha512-iLR4deq/JJOFxNY/c4oQQKfVM4liopdCi6V38TrxvFYayGdrtszNUH2g8ucJy0X/shTErT4YFnc2e1UNqWRSbQ==
 
 select-hose@^2.0.0:
   version "2.0.0"
