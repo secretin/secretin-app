@@ -103,7 +103,6 @@ class SecretListContent extends Component {
 
     const renderStandardRow = ({ index, key, style }) => {
       const secret = filteredSecrets[index];
-      if (secret.type === 'folder') console.log('rendering folder');
       return (
         <div key={key} style={style}>
           <SecretListItem
