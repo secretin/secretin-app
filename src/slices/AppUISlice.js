@@ -47,6 +47,7 @@ export const AppUISlice = createSlice({
     },
     disconnectUserSuccess: state => {
       state.savedUsername = secretin.getSavedUsername();
+      state.showShortpass = secretin.canITryShortLogin();
       state.loading = false;
       state.connected = false;
       state.errors = {};
@@ -263,7 +264,7 @@ export const shortLogin = ({ shortpass }) => dispatch => {
     .catch(() => {
       dispatch(
         loginUserFailure({
-          error: { shortlogin: 'Invalid shortpass' },
+          error: { shortlogin: 'Expired shortpass' },
         })
       );
       setTimeout(() => {

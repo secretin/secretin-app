@@ -29,7 +29,7 @@ class OptionsContainer extends Component {
 
   onChangeTimeToClose({ value }) {
     this.props.actions.changeTimeToClose({
-      timeToClose: parseInt(value, 10) || 0,
+      timeToClose: value === '' ? -1 : parseInt(value, 10) || 0,
     });
   }
 
@@ -83,21 +83,25 @@ class OptionsContainer extends Component {
 
             <div className="options-section-item">
               <Checkbox
-                checked={options.timeToClose > 0}
+                checked={options.timeToClose !== 0}
                 onChange={this.props.actions.toggleAutoLogout}
                 disabled={!isOnline}
               >
                 Activate auto logout
               </Checkbox>
 
-              {options.timeToClose > 0 && (
+              {(options.timeToClose === -1 || options.timeToClose > 0) && (
                 <div className="options-section-subitem">
                   {'Disconnect me after '}
                   <Input
                     name="timeToClose"
                     label=""
                     size="small"
-                    value={options.timeToClose}
+                    value={
+                      options.timeToClose === -1
+                        ? ''
+                        : options.timeToClose.toString()
+                    }
                     onChange={this.onChangeTimeToClose}
                     type="number"
                     inputProps={{
@@ -105,7 +109,6 @@ class OptionsContainer extends Component {
                       max: 60,
                       step: 5,
                     }}
-                    debounce={800}
                     disabled={!isOnline}
                   />
                   <b> min</b>
