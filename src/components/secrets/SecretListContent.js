@@ -20,16 +20,6 @@ class SecretListContent extends Component {
     allFolders: PropTypes.array,
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextProps.endDecrypt ||
-      nextProps.searchQuery !== this.props.searchQuery ||
-      nextProps.filtered !== this.props.filtered ||
-      nextProps.folders.length !== this.props.folders.length ||
-      nextProps.isDragging !== this.props.isDragging
-    );
-  }
-
   render() {
     const { allFolders, currentUser } = this.props;
     const className = classNames('secret-list-content-table', {
