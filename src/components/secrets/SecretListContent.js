@@ -25,7 +25,8 @@ class SecretListContent extends Component {
       nextProps.endDecrypt ||
       nextProps.searchQuery !== this.props.searchQuery ||
       nextProps.filtered !== this.props.filtered ||
-      nextProps.folders.length !== this.props.folders.length
+      nextProps.folders.length !== this.props.folders.length ||
+      nextProps.isDragging !== this.props.isDragging
     );
   }
 
@@ -112,6 +113,7 @@ class SecretListContent extends Component {
 
     const renderStandardRow = ({ index, key, style }) => {
       const secret = filteredSecrets[index];
+      if (secret.type === 'folder') console.log('rendering folder');
       return (
         <div key={key} style={style}>
           <SecretListItem
