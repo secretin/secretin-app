@@ -7,6 +7,7 @@ import { List, AutoSizer } from 'react-virtualized';
 
 import SecretListItem from 'components/secrets/SecretListItem';
 import SecretListFolderInfo from 'components/secrets/SecretListFolderInfo';
+import SecretListItemFolderSecret from 'components/secrets/SecretListItem/Secret';
 
 class SecretListContent extends Component {
   static propTypes = {
@@ -38,7 +39,7 @@ class SecretListContent extends Component {
     );
 
     let filteredFolders = {};
-    let sortedFolders = [];
+    let sortedFolderRows = [];
 
     const getUser = (users, username) =>
       users.find(user => user.id === username);
@@ -78,14 +79,30 @@ class SecretListContent extends Component {
           filteredFolders[folder].breadcrumb = breadcrumb;
         }
       });
-      sortedFolders = Object.entries(filteredFolders).map(([id, folder]) => ({
-        ...folder,
-        id,
-      }));
+      let sortedFolders = Object.entries(filteredFolders).map(
+        ([id, folder]) => ({
+          ...folder,
+          id,
+        })
+      );
       sortedFolders.sort((a, b) =>
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
       sortedFolders.sort((a, b) => a.root);
+      sortedFolderRows = sortedFolders
+        .map(folder => {
+          const secrets = Object.values(folder.secrets);
+          secrets.sort((a, b) => {
+            if (a.title === null) return 1;
+            if (b.title === null) return -1;
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+          });
+          return [
+            { rowType: 'header', rowData: folder },
+            ...secrets.map(secret => ({ rowType: 'row', rowData: secret })),
+          ];
+        })
+        .flat();
     } else {
       filteredSecrets.sort((a, b) =>
         a.title.toLowerCase().localeCompare(b.title.toLowerCase())
@@ -93,10 +110,18 @@ class SecretListContent extends Component {
     }
 
     const renderFilteredRow = ({ index, key, style }) => {
-      const folder = sortedFolders[index];
+      const { rowType, rowData } = sortedFolderRows[index];
+      if (rowType === 'header') {
+        return (
+          <div key={key} style={style}>
+            <SecretListFolderInfo key={rowData.id} folder={rowData} />
+          </div>
+        );
+      }
+
       return (
         <div key={key} style={style}>
-          <SecretListFolderInfo key={folder.id} folder={folder} />
+          <SecretListItemFolderSecret key={rowData.id} secret={rowData} />
         </div>
       );
     };
@@ -123,13 +148,24 @@ class SecretListContent extends Component {
                 <List
                   width={width}
                   height={height}
-                  rowHeight={50}
+                  rowHeight={({ index }) => {
+                    if (
+                      this.props.filtered &&
+                      sortedFolderRows[index].rowType === 'header'
+                    ) {
+                      const folder = sortedFolderRows[index].rowData;
+                      if (folder.root) return 0;
+                      return 75;
+                    }
+
+                    return 50;
+                  }}
                   rowRenderer={
                     this.props.filtered ? renderFilteredRow : renderStandardRow
                   }
                   rowCount={
                     this.props.filtered
-                      ? sortedFolders.length
+                      ? sortedFolderRows.length
                       : filteredSecrets.length
                   }
                 />

@@ -21,7 +21,11 @@ export default configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types
-        ignoredActions: ['AppUI/onLoginUserProgress', 'AppUI/loginUserSuccess'],
+        ignoredActions: [
+          'AppUI/onLoginUserProgress',
+          'AppUI/loginUserSuccess',
+          'Metadata/addSecretToFolderSuccess',
+        ],
         // Ignore these paths in the state
         ignoredPaths: ['AppUI.currentUser', 'Metadata.metadata'],
       },
