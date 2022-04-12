@@ -139,6 +139,15 @@ class SecretListContent extends Component {
       );
     };
 
+    const getRowHeight = ({ index }) => {
+      if (this.props.filtered && sortedFolderRows[index].rowType === 'header') {
+        const folder = sortedFolderRows[index].rowData;
+        if (folder.root) return 0;
+        return 75;
+      }
+      return 50;
+    };
+
     return (
       <div>
         <div className={className}>
@@ -148,18 +157,7 @@ class SecretListContent extends Component {
                 <List
                   width={width}
                   height={height}
-                  rowHeight={({ index }) => {
-                    if (
-                      this.props.filtered &&
-                      sortedFolderRows[index].rowType === 'header'
-                    ) {
-                      const folder = sortedFolderRows[index].rowData;
-                      if (folder.root) return 0;
-                      return 75;
-                    }
-
-                    return 50;
-                  }}
+                  rowHeight={getRowHeight}
                   rowRenderer={
                     this.props.filtered ? renderFilteredRow : renderStandardRow
                   }
