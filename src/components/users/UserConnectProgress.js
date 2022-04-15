@@ -7,6 +7,7 @@ const { DecryptMetadataStatus } = Statuses;
 
 class UserConnectProgress extends Component {
   static propTypes = {
+    show: PropTypes.bool,
     message: PropTypes.string,
     state: PropTypes.number,
     total: PropTypes.number,
@@ -32,6 +33,7 @@ class UserConnectProgress extends Component {
   }
 
   render() {
+    if (!this.props.show) return null;
     const { state, total } = this.props;
     const width = `${Math.round((state / total) * 100)}%`;
     const style = { width };
@@ -46,8 +48,14 @@ class UserConnectProgress extends Component {
 }
 
 const mapStateToProps = _state => {
+  const status = _state.AppUI.status;
+  if (!status)
+    return {
+      show: false,
+    };
   const { message, state, total } = _state.AppUI.status;
   return {
+    show: true,
     message,
     state,
     total,
