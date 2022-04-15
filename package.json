@@ -47,7 +47,8 @@
     "reselect": "^4.1.5",
     "secretin": "^2.2.1",
     "url-join": "^4.0.1",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "deploy": "scripts/deploy.sh",
@@ -58,7 +59,9 @@
     "electron": "yarn build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
     "dev-electron": "yarn build && electron .",
     "lint": "node_modules/.bin/eslint src/",
-    "test": "yarn lint"
+    "test": "yarn lint",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "eslintConfig": {
     "extends": "./.eslintrc.js"
@@ -77,5 +80,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "snyk": true
 }
