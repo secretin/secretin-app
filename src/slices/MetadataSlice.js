@@ -1,6 +1,7 @@
 import secretin, { Errors } from 'utils/secretin';
 import { createSlice } from '@reduxjs/toolkit';
 import Secret from 'models/Secret';
+import { disconnectUserSuccess } from 'slices/AppUISlice';
 
 import {
   createSecretSuccess,
@@ -43,11 +44,15 @@ const _rebuildMetadata = (state, action) => {
   state.knownFriendList = Array.from(friendList).sort();
 };
 
+function getInitialState() {
+  return {
+    metadata: [],
+  };
+}
+
 export const MetadataSlice = createSlice({
   name: 'Metadata',
-  initialState: {
-    metadata: [],
-  },
+  initialState: getInitialState(),
   reducers: {
     loadMetadataSuccess: _rebuildMetadata,
     deleteSecretSuccess: _rebuildMetadata,
@@ -82,6 +87,7 @@ export const MetadataSlice = createSlice({
   extraReducers: {
     [createSecretSuccess]: _rebuildMetadata,
     [loginUserSuccess]: _rebuildMetadata,
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 

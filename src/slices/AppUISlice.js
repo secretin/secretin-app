@@ -120,8 +120,7 @@ export const {
 } = AppUISlice.actions;
 
 export const disconnectUser = () => dispatch => {
-  secretin.currentUser.disconnect();
-  dispatch(disconnectUserSuccess());
+  window.location.reload();
 };
 
 export const createUser = ({

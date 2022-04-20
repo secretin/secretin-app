@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import importers from 'utils/importers';
 import { findKey } from 'lodash';
+import { disconnectUserSuccess } from 'slices/AppUISlice';
 
 const getInitialState = () => ({
   importType: '',
@@ -79,6 +80,9 @@ export const ImportSlice = createSlice({
       const { field, value } = action.payload;
       state.mandatoryFields[field.name].value = value;
     },
+  },
+  extraReducers: {
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 

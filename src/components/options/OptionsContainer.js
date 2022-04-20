@@ -25,6 +25,15 @@ class OptionsContainer extends Component {
   constructor(props) {
     super(props);
     this.onChangeTimeToClose = this.onChangeTimeToClose.bind(this);
+    this.onChangeDefaultUsername = this.onChangeDefaultUsername.bind(this);
+    this.onSaveDefaultUsername = this.onSaveDefaultUsername.bind(this);
+    this.state = {
+      defaultUsername: props.options.defaultUsername,
+    };
+  }
+
+  onChangeDefaultUsername({ value }) {
+    this.setState({ defaultUsername: value });
   }
 
   onChangeTimeToClose({ value }) {
@@ -33,8 +42,18 @@ class OptionsContainer extends Component {
     });
   }
 
+  onSaveDefaultUsername() {
+    this.props.actions.changeDefaultUsername({
+      defaultUsername: this.state.defaultUsername,
+    });
+  }
+
   render() {
-    const { options, isOnline } = this.props;
+    const {
+      options,
+      isOnline,
+      options: { defaultUsername = '' },
+    } = this.props;
     return (
       <div className="page">
         <div className="page-header">
@@ -44,6 +63,37 @@ class OptionsContainer extends Component {
         </div>
 
         <div className="page-content options">
+          <div className="options-section">
+            <h3 className="options-section-title">Experience</h3>
+            <div className="options-section-item">
+              <Input
+                name="defaultUsername"
+                label="Default username"
+                size="small"
+                value={this.state.defaultUsername}
+                onChange={this.onChangeDefaultUsername}
+                disabled={!isOnline}
+              />
+              <div className="options-section-subitem-save">
+                <Button
+                  type="button"
+                  buttonStyle={
+                    this.state.defaultUsername === defaultUsername
+                      ? 'default'
+                      : 'primary'
+                  }
+                  onClick={this.onSaveDefaultUsername}
+                  size="small"
+                  disabled={
+                    !isOnline || this.state.defaultUsername === defaultUsername
+                  }
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </div>
+
           <div className="options-section">
             <h3 className="options-section-title">Security</h3>
 

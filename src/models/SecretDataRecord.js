@@ -1,5 +1,4 @@
 import SecretFieldRecord from 'models/SecretFieldRecord';
-import { Utils } from 'secretin';
 
 class SecretDataRecord {
   constructor(raw = {}) {
@@ -22,12 +21,6 @@ class SecretDataRecord {
 
   static createWithDefaultFields(defaultFields) {
     return defaultFields.reduce((record, field) => {
-      if (field.type === 'password') {
-        return record.addNewField({
-          ...field,
-          content: Utils.PasswordGenerator.generatePassword(),
-        });
-      }
       return record.addNewField(field);
     }, new SecretDataRecord());
   }

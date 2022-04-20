@@ -3,13 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { showSecretSuccess } from 'slices/ShowSecretUISlice';
 import { hideModal } from 'slices/ShowSecretUISlice';
 import { updateSecretSuccess } from 'slices/MetadataSlice';
+import { disconnectUserSuccess } from 'slices/AppUISlice';
+
+function getInitialState() {
+  return {
+    isEditing: false,
+    data: null,
+  };
+}
 
 export const EditSecretUISlice = createSlice({
   name: 'EditSecretUI',
-  initialState: {
-    isEditing: false,
-    data: null,
-  },
+  initialState: getInitialState(),
   reducers: {
     updateData: (state, action) => {
       state.isEditing = false;
@@ -36,6 +41,7 @@ export const EditSecretUISlice = createSlice({
     [updateSecretSuccess]: state => {
       state.isEditing = false;
     },
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 

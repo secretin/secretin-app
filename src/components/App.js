@@ -60,7 +60,7 @@ class App extends Component {
       if (options.timeToClose > 0) {
         const delay = options.timeToClose * 60 * 1000;
         this.disconnectingEvent = setTimeout(
-          () => this.props.dispatch(AppUIActions.disconnectUser()),
+          () => window.location.reload(),
           delay
         );
       }
