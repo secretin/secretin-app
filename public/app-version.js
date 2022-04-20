@@ -1,1 +1,1 @@
-const SECRETIN_APP_COMMIT = 'master';
+const SECRETIN_APP_COMMIT = 'develop';
