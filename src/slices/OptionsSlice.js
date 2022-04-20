@@ -2,7 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import secretin from 'utils/secretin';
 import uuid from 'uuid';
 
-import { loginUserSuccess } from 'slices/AppUISlice';
+import {
+  loginUserSuccess,
+  createUserSuccess,
+  disconnectUserSuccess,
+} from 'slices/AppUISlice';
 
 const getInitialState = () => ({
   options: {},
@@ -91,6 +95,11 @@ export const OptionsSlice = createSlice({
       state.options.timeToClose = timeToClose;
     },
 
+    changeDefaultUsernameSuccess: (state, action) => {
+      const { defaultUsername } = action.payload;
+      state.options.defaultUsername = defaultUsername;
+    },
+
     changeNewPass1: (state, action) => {
       const newPass1 = action.payload;
       state.newPass.newPass1 = newPass1.value;
@@ -152,6 +161,8 @@ export const OptionsSlice = createSlice({
       const { options } = action.payload;
       state.options = options;
     },
+    [createUserSuccess]: getInitialState,
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 
@@ -169,6 +180,7 @@ export const {
   deactivateShortLoginSuccess,
   activateShortLoginSuccess,
   changeDelaySuccess,
+  changeDefaultUsernameSuccess,
   changeNewPass1,
   changeNewPass2,
   showChangePassword,
@@ -280,6 +292,22 @@ export const toggleShortLogin = ({ checked }) => (dispatch, getState) => {
 export const toggleAutoLogout = ({ checked }) => (dispatch, getState) => {
   const delay = checked ? 30 : 0;
   return dispatch(changeTimeToClose({ timeToClose: delay }));
+};
+
+export const changeDefaultUsername = ({ defaultUsername }) => (
+  dispatch,
+  getState
+) => {
+  secretin
+    .editOption('defaultUsername', defaultUsername)
+    .then(() => {
+      dispatch(changeDefaultUsernameSuccess({ defaultUsername }));
+    })
+    .catch(() => {
+      // Currently the UI can't display this error anyway
+      // dispatch(changeDelayFailure());
+    });
+  return true;
 };
 
 export const changeTimeToClose = ({ timeToClose }) => (dispatch, getState) => {

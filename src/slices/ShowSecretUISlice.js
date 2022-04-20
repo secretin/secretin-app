@@ -10,6 +10,8 @@ import {
   deleteSecretUserRightsSuccess,
 } from 'slices/MetadataSlice';
 
+import { disconnectUserSuccess } from 'slices/AppUISlice';
+
 const getInitialState = () => ({
   secret: null,
   errors: {},
@@ -101,6 +103,7 @@ export const ShowSecretUISlice = createSlice({
       state.isUpdating = false;
       state.errors = {};
     },
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 

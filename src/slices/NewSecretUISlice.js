@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SecretDataRecord from 'models/SecretDataRecord';
 
-import { createSecretSuccess } from 'slices/AppUISlice';
+import { createSecretSuccess, disconnectUserSuccess } from 'slices/AppUISlice';
+import secretin from 'utils/secretin';
+import { Utils } from 'secretin';
 
 const getInitialState = () => ({
   shown: false,
@@ -23,6 +25,17 @@ export const NewSecretUISlice = createSlice({
       state.title = `Untitled ${isFolder ? 'folder' : 'secret'}`;
       state.folder = folder;
       state.isFolder = isFolder;
+      const loginIndex = state.data.fields.findIndex(
+        fieldToUpdate => fieldToUpdate.label === 'login'
+      );
+      const passwordIndex = state.data.fields.findIndex(
+        fieldToUpdate => fieldToUpdate.label === 'password'
+      );
+      state.data.fields[loginIndex].content =
+        secretin.currentUser.options?.defaultUsername ?? '';
+      state.data.fields[
+        passwordIndex
+      ].content = Utils.PasswordGenerator.generatePassword();
     },
     hideModal: () => getInitialState(),
     changeTitle: (state, action) => {
@@ -38,7 +51,8 @@ export const NewSecretUISlice = createSlice({
     },
   },
   extraReducers: {
-    [createSecretSuccess]: () => getInitialState(),
+    [createSecretSuccess]: getInitialState,
+    [disconnectUserSuccess]: getInitialState,
   },
 });
 
