@@ -120,9 +120,9 @@ class SecretField extends Component {
                 <Dropdown.MenuItem onSelect={this.onGenerateAlphanum}>
                   Generate alphanumeric
                 </Dropdown.MenuItem>
-                <Dropdown.MenuItem onSelect={this.onGeneratePronounceable}>
+                {/* <Dropdown.MenuItem onSelect={this.onGeneratePronounceable}>
                   Generate pronounceable
-                </Dropdown.MenuItem>
+                </Dropdown.MenuItem> */}
               </Dropdown.Menu>
             </Dropdown>
           )}
