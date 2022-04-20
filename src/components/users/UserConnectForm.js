@@ -9,6 +9,7 @@ import * as AppUIActions from 'slices/AppUISlice';
 import Form from 'components/utilities/Form';
 import Input from 'components/utilities/Input';
 import Button from 'components/utilities/Button';
+import Icon from 'components/utilities/Icon';
 
 class UserConnectForm extends Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class UserConnectForm extends Component {
     errors: PropTypes.object,
     isOnline: PropTypes.bool,
     dispatch: PropTypes.func,
+    savedUsername: PropTypes.string,
   };
 
   constructor(props) {
@@ -27,7 +29,7 @@ class UserConnectForm extends Component {
 
     this.state = {
       signup: false,
-      username: '',
+      username: props.savedUsername,
       password: '',
       confirmPassword: '',
       showShortpass: secretin.canITryShortLogin(),
@@ -89,7 +91,6 @@ class UserConnectForm extends Component {
             title={this.props.isOnline ? 'Secret-In.me' : 'Offline'}
           />
         </h2>
-
         <Input
           name="username"
           label="Username"
@@ -98,7 +99,7 @@ class UserConnectForm extends Component {
           onChange={this.handleChange}
           disabled={this.props.loading}
           error={this.props.errors.username}
-          autoFocus
+          autoFocus={this.props.savedUsername === ''}
           autoComplete
         />
         <Input
@@ -109,7 +110,7 @@ class UserConnectForm extends Component {
           onChange={this.handleChange}
           disabled={this.props.loading}
           error={this.props.errors.password}
-          autoComplete
+          autoFocus={this.props.savedUsername !== ''}
         />
         {this.props.errors.totp && (
           <Input
@@ -133,6 +134,16 @@ class UserConnectForm extends Component {
             disabled={this.props.loading}
             error={this.props.errors.confirmPassword}
           />
+        )}
+
+        {this.props.errors.shortLoginExpired && (
+          <h3 className="tooltip">
+            {this.props.errors.shortLoginExpired.message}
+            <Icon id="info" size={13} />
+            <span className="tooltiptext">
+              {this.props.errors.shortLoginExpired.info}
+            </span>
+          </h3>
         )}
 
         <Button
