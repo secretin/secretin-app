@@ -113,9 +113,10 @@ class UserConnect extends Component {
 }
 
 const mapStateToProps = state => {
-  const { showShortpass } = state.AppUI;
+  const { showShortpass, status } = state.AppUI;
   return {
     showShortpass,
+    status,
   };
 };
 

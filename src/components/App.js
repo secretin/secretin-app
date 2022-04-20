@@ -18,11 +18,6 @@ class App extends Component {
     connected: PropTypes.bool,
     options: PropTypes.object,
     errors: PropTypes.object,
-    status: PropTypes.shape({
-      message: PropTypes.string,
-      statue: PropTypes.number,
-      total: PropTypes.number,
-    }),
     dispatch: PropTypes.func,
   };
 
@@ -104,13 +99,14 @@ class App extends Component {
               savedUsername={this.props.savedUsername}
               loading={this.props.loading}
               errors={this.props.errors}
-              status={this.props.status}
             />
           )}
-          <span className="secretin-version">
-            secretin-lib v{Secretin.version}
-          </span>
-          {secretinAppVersion}
+          <div className="footer">
+            <span className="secretin-version">
+              secretin-lib v{Secretin.version}
+            </span>
+            {secretinAppVersion}
+          </div>
         </div>
       </Router>
     );
@@ -118,7 +114,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { savedUsername, loading, errors, connected, status } = state.AppUI;
+  const { savedUsername, loading, errors, connected } = state.AppUI;
   const secrets = getSecretsInFolder(state);
   const { options } = state.Options;
   return {
@@ -126,7 +122,6 @@ const mapStateToProps = state => {
     loading,
     errors,
     connected,
-    status,
     secrets,
     options,
   };

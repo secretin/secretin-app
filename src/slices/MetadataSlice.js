@@ -100,9 +100,11 @@ export const {
 } = MetadataSlice.actions;
 
 export const loadMetadata = () => dispatch => {
+  console.time('refresh');
   secretin
     .refreshUser(true, (...args) => dispatch(loginUserProgress(...args)))
     .then(() => {
+      console.timeEnd('refresh');
       dispatch(
         loadMetadataSuccess({
           metadata: secretin.currentUser.metadatas,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
@@ -86,7 +85,7 @@ class SecretList extends Component {
           <SecretListSearch onChange={this.onSearch} />
         </div>
 
-        {this.props.status !== null && <UserConnectProgress />}
+        <UserConnectProgress />
         <div className="page-content">
           {!this.props.showAll &&
             !this.props.showMine &&
@@ -95,6 +94,18 @@ class SecretList extends Component {
                 <SecretListNew folder={this.props.folder} />
               </div>
             )}
+          <div className="secret-list-content-table-header">
+            <div>
+              <div className="secret-list-item-column--title">Title</div>
+              <div className="secret-list-item-column--last-modified">
+                Last modified
+              </div>
+              <div className="secret-list-item-column--shared-with">
+                Shared with
+              </div>
+              <div className="secret-list-item-column--actions" />
+            </div>
+          </div>
           <SecretListContent
             filtered={filtered}
             secrets={this.props.secrets}
@@ -115,13 +126,6 @@ function layerCollect(monitor) {
   };
 }
 
-const mapStateToProps = state => {
-  const { status } = state.AppUI;
-  return {
-    status,
-  };
-};
-
 export default new DragDropContext(HTML5Backend)(
-  DragLayer(layerCollect)(connect(mapStateToProps)(SecretList))
+  DragLayer(layerCollect)(SecretList)
 );

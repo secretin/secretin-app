@@ -17,4 +17,17 @@ export default configureStore({
     Options: OptionsReducer,
     Import: ImportReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: [
+          'AppUI/onLoginUserProgress',
+          'AppUI/loginUserSuccess',
+          'Metadata/addSecretToFolderSuccess',
+        ],
+        // Ignore these paths in the state
+        ignoredPaths: ['AppUI.currentUser', 'Metadata.metadata'],
+      },
+    }),
 });
