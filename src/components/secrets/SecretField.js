@@ -51,11 +51,6 @@ class SecretField extends Component {
     this.handleChange({
       value: Utils.PasswordGenerator.generatePassword({
         readable: true,
-        contentRules: {
-          numbers: true,
-          mixedCase: true,
-          symbols: false,
-        },
       }),
     });
   }
