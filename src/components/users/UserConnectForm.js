@@ -99,7 +99,7 @@ class UserConnectForm extends Component {
           onChange={this.handleChange}
           disabled={this.props.loading}
           error={this.props.errors.username}
-          autoFocus={this.props.savedUsername === '' ? true : false}
+          autoFocus={this.props.savedUsername === ''}
           autoComplete
         />
         <Input
@@ -110,7 +110,7 @@ class UserConnectForm extends Component {
           onChange={this.handleChange}
           disabled={this.props.loading}
           error={this.props.errors.password}
-          autoFocus={this.props.savedUsername === '' ? false : true}
+          autoFocus={this.props.savedUsername !== ''}
         />
         {this.props.errors.totp && (
           <Input
