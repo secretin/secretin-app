@@ -39,10 +39,10 @@ function SecretListNew({ folder }) {
         }
       >
         <Icon id="add-secret" size="small" />
-        Add secret
+        Secret
       </Button>
       <Button
-        title="Add secret"
+        title="Add folder"
         buttonStyle="primary"
         size="small"
         disabled={!canWrite}
@@ -53,7 +53,7 @@ function SecretListNew({ folder }) {
         }
       >
         <Icon id="add-folder" size="small" />
-        Create folder
+        Folder
       </Button>
     </div>
   );
