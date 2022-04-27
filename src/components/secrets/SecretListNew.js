@@ -12,9 +12,10 @@ import Button from 'components/utilities/Button';
 
 const propTypes = {
   folder: PropTypes.instanceOf(Secret),
+  showAddFolder: PropTypes.bool,
 };
 
-function SecretListNew({ folder }) {
+function SecretListNew({ folder, showAddFolder }) {
   const currentUser = useSelector(state => state.AppUI.currentUser);
   const dispatch = useDispatch();
   let folderId = null;
@@ -41,20 +42,22 @@ function SecretListNew({ folder }) {
         <Icon id="add-secret" size="small" />
         Secret
       </Button>
-      <Button
-        title="Add folder"
-        buttonStyle="primary"
-        size="small"
-        disabled={!canWrite}
-        onClick={() =>
-          dispatch(
-            NewSecretUIActions.showModal({ folder: folderId, isFolder: true })
-          )
-        }
-      >
-        <Icon id="add-folder" size="small" />
-        Folder
-      </Button>
+      {showAddFolder && (
+        <Button
+          title="Add folder"
+          buttonStyle="primary"
+          size="small"
+          disabled={!canWrite}
+          onClick={() =>
+            dispatch(
+              NewSecretUIActions.showModal({ folder: folderId, isFolder: true })
+            )
+          }
+        >
+          <Icon id="add-folder" size="small" />
+          Folder
+        </Button>
+      )}
     </div>
   );
 }

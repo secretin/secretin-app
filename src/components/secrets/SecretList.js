@@ -71,6 +71,7 @@ class SecretList extends Component {
       link = '/secrets/shared/';
       filtered = true;
     }
+
     return (
       <div className="page">
         <div className="page-header">
@@ -87,13 +88,16 @@ class SecretList extends Component {
 
         <UserConnectProgress />
         <div className="page-content">
-          {!this.props.showAll &&
-            !this.props.showMine &&
-            !this.props.showShared && (
-              <div className="page-content-actions">
-                <SecretListNew folder={this.props.folder} />
-              </div>
-            )}
+          <div className="page-content-actions">
+            <SecretListNew
+              showAddFolder={
+                !this.props.showAll &&
+                !this.props.showMine &&
+                !this.props.showShared
+              }
+              folder={this.props.folder}
+            />
+          </div>
           <div className="secret-list-content-table-header">
             <div>
               <div className="secret-list-item-column--title">Title</div>
