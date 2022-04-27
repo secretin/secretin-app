@@ -122,12 +122,12 @@ class Footer extends Component {
                   </p>
                   <p>
                     If it&apos;s your first time here, you can create a user and
-                    start to save your secret.
+                    start saving your secrets.
                   </p>
                   <p>
-                    Be careful, all your secrets would be protected with the
+                    Be careful, all your secrets will be protected by the
                     password you pick. There is <b>no way</b> to retrieve your
-                    secret if you forgot your passwor !
+                    secrets if you forget your password !
                   </p>
                   <p>
                     This secret manager is freely provided with{' '}
@@ -144,18 +144,18 @@ class Footer extends Component {
                     </a>
                   </p>
                   <p>
-                    If you enjoy it, please consider to{' '}
+                    If you enjoy it, please consider {' '}
                     <a
                       href="https://donorbox.org/secret-in-me/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <b>donate !</b>
+                      <b>donating !</b>
                     </a>{' '}
                   </p>
                   <p>
-                    It&apos;ll help us supporting hosting costs (~50$ per
-                    months).
+                    It&apos;ll help us support hosting costs (~50$ per
+                    month).
                   </p>
                 </div>
               </Modal.Body>
