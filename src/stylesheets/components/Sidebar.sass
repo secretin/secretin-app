@@ -27,6 +27,8 @@
     font-size: 12px
     margin: 0 5px
     height: 30px
+  @media screen and (max-height: $width-small)
+    height: 40px
 
 .sidebar-menu
   list-style: none
@@ -34,6 +36,8 @@
   padding: 0
   @media screen and (max-width: $width-small)
     margin: 5px
+  @media screen and (max-height: $width-small)
+    margin: 10px 20px 10px 20px
 
 .sidebar-menu-item
   margin: 0
@@ -62,6 +66,8 @@
   @media screen and (max-width: $width-small)
     font-size: 12px
     padding: 0 4px 0 2px
+  @media screen and (max-height: $width-small)
+    min-height: 20px
 
 .sidebar-menu-link:hover
   background-color: rgba($color-brand, .1)
@@ -77,3 +83,6 @@
   margin-top: 20px
   margin-bottom: 20px
   border-bottom: 1px solid rgba($color-ocean-my-secret-in, 0.05)
+  @media screen and (max-height: $width-small)
+    margin-top: 7px
+    margin-bottom: 7px

@@ -149,28 +149,26 @@ class SecretListContent extends Component {
     };
 
     return (
-      <div>
-        <div className={className}>
-          <AutoSizer>
-            {({ width, height }) => {
-              return (
-                <List
-                  width={width}
-                  height={height}
-                  rowHeight={getRowHeight}
-                  rowRenderer={
-                    this.props.filtered ? renderFilteredRow : renderStandardRow
-                  }
-                  rowCount={
-                    this.props.filtered
-                      ? sortedFolderRows.length
-                      : filteredSecrets.length
-                  }
-                />
-              );
-            }}
-          </AutoSizer>
-        </div>
+      <div className={className}>
+        <AutoSizer>
+          {({ width, height }) => {
+            return (
+              <List
+                width={width}
+                height={height}
+                rowHeight={getRowHeight}
+                rowRenderer={
+                  this.props.filtered ? renderFilteredRow : renderStandardRow
+                }
+                rowCount={
+                  this.props.filtered
+                    ? sortedFolderRows.length
+                    : filteredSecrets.length
+                }
+              />
+            );
+          }}
+        </AutoSizer>
       </div>
     );
   }
