@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router } from 'react-router-dom';
 import secretin from 'utils/secretin';
-import Secretin from 'secretin';
 
 import * as AppUIActions from 'slices/AppUISlice';
 import { getSecretsInFolder } from 'selectors/MetadataSelectors';
+import Footer from 'components/Footer';
 
 import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
@@ -68,27 +68,6 @@ class App extends Component {
   }
 
   render() {
-    // eslint-disable-next-line no-undef
-    const shortCommit = SECRETIN_APP_COMMIT
-      ? // eslint-disable-next-line no-undef
-        SECRETIN_APP_COMMIT.substr(0, 7)
-      : '';
-    // eslint-disable-next-line no-undef
-    const secretinAppVersion = SECRETIN_APP_COMMIT ? (
-      <span className="secretin-version">
-        secretin-app{' '}
-        <a
-          // eslint-disable-next-line no-undef
-          href={`https://github.com/secretin/secretin-app/commit/${SECRETIN_APP_COMMIT}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {shortCommit}
-        </a>
-      </span>
-    ) : (
-      <span className="secretin-version">secretin-app dev</span>
-    );
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
@@ -101,12 +80,7 @@ class App extends Component {
               errors={this.props.errors}
             />
           )}
-          <div className="footer">
-            <span className="secretin-version">
-              secretin-lib v{Secretin.version}
-            </span>
-            {secretinAppVersion}
-          </div>
+          <Footer />
         </div>
       </Router>
     );
