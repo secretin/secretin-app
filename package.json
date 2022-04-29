@@ -45,7 +45,7 @@
     "react-router-dom": "^5.1.2",
     "react-virtualized": "^9.22.3",
     "reselect": "^4.1.5",
-    "secretin": "^2.3.4",
+    "secretin": "^2.4.0",
     "url-join": "^4.0.1",
     "uuid": "^3.3.3"
   },
