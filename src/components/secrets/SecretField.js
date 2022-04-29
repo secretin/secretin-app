@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
 
+import Dropdown from 'components/utilities/Dropdown';
 import Input from 'components/utilities/Input';
 import Icon from 'components/utilities/Icon';
-import Button from 'components/utilities/Button';
 
 class SecretField extends Component {
   static propTypes = {
@@ -20,6 +20,8 @@ class SecretField extends Component {
 
     this.onCopy = this.onCopy.bind(this);
     this.onGenerate = this.onGenerate.bind(this);
+    this.onGenerateAlphanum = this.onGenerateAlphanum.bind(this);
+    this.onGeneratePronounceable = this.onGeneratePronounceable.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -28,12 +30,29 @@ class SecretField extends Component {
   }
 
   onGenerate() {
-    this.handleChange({ value: '' });
-    setTimeout(() => {
-      this.handleChange({
-        value: Utils.PasswordGenerator.generatePassword(),
-      });
-    }, 100);
+    this.handleChange({
+      value: Utils.PasswordGenerator.generatePassword(),
+    });
+  }
+
+  onGenerateAlphanum() {
+    this.handleChange({
+      value: Utils.PasswordGenerator.generatePassword({
+        contentRules: {
+          numbers: true,
+          mixedCase: true,
+          symbols: false,
+        },
+      }),
+    });
+  }
+
+  onGeneratePronounceable() {
+    this.handleChange({
+      value: Utils.PasswordGenerator.generatePassword({
+        readable: true,
+      }),
+    });
   }
 
   handleChange({ value }) {
@@ -85,14 +104,22 @@ class SecretField extends Component {
         />
         <div className="secret-field-action">
           {this.props.field.type === 'password' && this.props.canUpdate && (
-            <Button
-              title="Generate password"
-              buttonStyle="icon"
-              onClick={this.onGenerate}
-              tabIndex="-1"
-            >
-              <Icon id="generate" size="small" />
-            </Button>
+            <Dropdown id="password-generation-options" pullRight>
+              <Dropdown.Toggle>
+                <Icon id="generate" size="small" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.MenuItem onSelect={this.onGenerate}>
+                  Generate strong
+                </Dropdown.MenuItem>
+                <Dropdown.MenuItem onSelect={this.onGenerateAlphanum}>
+                  Generate alphanumeric
+                </Dropdown.MenuItem>
+                <Dropdown.MenuItem onSelect={this.onGeneratePronounceable}>
+                  Generate pronounceable
+                </Dropdown.MenuItem>
+              </Dropdown.Menu>
+            </Dropdown>
           )}
         </div>
       </div>
