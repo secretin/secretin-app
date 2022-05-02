@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.16.0'
+          node-version: '16.15.0'
       - run: yarn --immutable
       - run: yarn test
