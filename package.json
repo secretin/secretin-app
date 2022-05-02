@@ -7,8 +7,8 @@
   "devDependencies": {
     "@welldone-software/why-did-you-render": "^6.2.3",
     "babel-eslint": "^10.0.3",
-    "electron": "^7.1.9",
-    "electron-packager": "^14.2.0",
+    "electron": "^18.2.0",
+    "electron-packager": "^15.5.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-config-react-app": "^5.1.0",
@@ -20,7 +20,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "gh-pages": "^1.0.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.1",
     "prettier": "^1.19.1",
     "react-scripts": "4.0.3"
   },
@@ -52,7 +52,7 @@
   "scripts": {
     "deploy": "scripts/deploy.sh",
     "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
-    "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build",
+    "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build && ./scripts/post-build.sh",
     "build-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css -w",
     "electron": "yarn build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
