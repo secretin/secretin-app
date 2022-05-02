@@ -55,7 +55,9 @@
     "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build && ./scripts/post-build.sh",
     "build-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css -w",
-    "electron": "yarn build && node_modules/.bin/electron-packager ./ --platform=all --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
+    "__electron": "yarn build && node_modules/.bin/electron-packager ./ --arch=x64 --asar --overwrite --ignore=scripts --ignore=.gitignore --ignore=yarn.lock --ignore=.travis.yml --ignore=.*.zip --ignore=public --ignore=.nvmrc --ignore=.eslintrc.js --ignore=node_modules --ignore=src",
+    "electron": "yarn __electron -- --platform=all",
+    "electron:mac": "yarn __electron -- --platform=darwin --icon build/icons/icon-512x512.icns",
     "dev-electron": "yarn build && electron .",
     "lint": "node_modules/.bin/eslint src/",
     "test": "yarn lint"
