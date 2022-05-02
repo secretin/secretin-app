@@ -60,6 +60,12 @@ class UserConnectShortPass extends Component {
 
   render() {
     const shortLoginActivationDate = secretin.getShortLoginActivationDate();
+    const expirationEstimation = shortLoginActivationDate
+      ? ' (expires ' +
+        moment(shortLoginActivationDate)
+          .add(7, 'days')
+          .fromNow()
+      : '';
     return (
       <Form
         className="user-connect-form"
@@ -70,11 +76,7 @@ class UserConnectShortPass extends Component {
           Hello again {this.props.savedUsername}!
         </h2>
         <Input
-          label={`Shortpass${shortLoginActivationDate &&
-            ' (expires ' +
-              moment(shortLoginActivationDate)
-                .add(7, 'days')
-                .fromNow()})`}
+          label={`Shortpass${expirationEstimation}`}
           name="shortpass"
           value={this.state.shortpass}
           type="password"

@@ -14,9 +14,10 @@ const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-let api = process.env.REACT_APP_API_SECRETIN || 'http://devapi.secret-in.me:3000'
+let api =
+  process.env.REACT_APP_API_SECRETIN || 'http://devapi.secret-in.me:3000';
 const prefix = 'file';
-process.argv.forEach((argv) => {
+process.argv.forEach(argv => {
   if (argv.startsWith('--secretin-api')) {
     api = argv.substring(15);
   }
@@ -27,6 +28,10 @@ function createWindow() {
     if (request.url.indexOf('/static/') > -1) {
       const url = request.url.split('/static/')[1];
       callback({ path: path.join(__dirname, 'build/static', decodeURI(url)) });
+    } else if (request.url.endsWith('/app-version.js')) {
+      callback({ path: path.join(__dirname, 'build/app-version.js') });
+    } else if (request.url.endsWith('/logo.svg')) {
+      callback({ path: path.join(__dirname, 'build/logo.svg') });
     } else {
       callback({ path: path.join(__dirname, 'build/index.html') });
     }
