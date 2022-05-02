@@ -38,10 +38,19 @@ function createWindow() {
   });
 
   // Create the browser window.
+
+  const iconPath = path.join(__dirname, 'build/icons/icon-512x512.png');
+
   win = new BrowserWindow({
     width: 1000,
     height: 800,
+    icon: iconPath,
   });
+
+  if (process.platform === 'darwin') {
+    app.dock.setIcon(iconPath);
+  }
+
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/build/index.html?api=${api}`);
 
