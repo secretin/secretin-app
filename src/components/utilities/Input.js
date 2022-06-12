@@ -81,7 +81,10 @@ class Input extends Component {
   }
 
   handleChange(event) {
-    this.setState({ autoCompleteSelected: false });
+    if (this.state.autoCompleteSelected) {
+      this.setState({ autoCompleteSelected: false });
+    }
+
     this.props.onChange({
       name: this.props.name,
       value: event.target.value,
