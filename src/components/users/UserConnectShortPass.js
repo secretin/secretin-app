@@ -64,7 +64,8 @@ class UserConnectShortPass extends Component {
       ? ' (expires ' +
         moment(shortLoginActivationDate)
           .add(7, 'days')
-          .fromNow()
+          .fromNow() +
+        ')'
       : '';
     return (
       <Form
