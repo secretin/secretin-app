@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import secretin from 'utils/secretin';
@@ -73,7 +74,11 @@ class UserConnectForm extends Component {
   }
 
   render() {
-    const status = this.state.signup ? 'Sign up' : 'Sign in';
+    const status = this.state.signup ? (
+      <FormattedMessage id="Sign up" />
+    ) : (
+      <FormattedMessage id="Sign in" />
+    );
     return (
       <Form
         className="user-connect-form"
@@ -93,7 +98,7 @@ class UserConnectForm extends Component {
         </h2>
         <Input
           name="username"
-          label="Username"
+          label={<FormattedMessage id="Username" />}
           type="text"
           value={this.state.username}
           onChange={this.handleChange}
@@ -104,7 +109,7 @@ class UserConnectForm extends Component {
         />
         <Input
           name="password"
-          label="Password"
+          label={<FormattedMessage id="Password" />}
           type="password"
           value={this.state.password}
           onChange={this.handleChange}
@@ -127,7 +132,7 @@ class UserConnectForm extends Component {
         {this.state.signup && (
           <Input
             name="confirmPassword"
-            label="Confirm password"
+            label={<FormattedMessage id="confirmPassword" />}
             type="password"
             value={this.state.confirmPassword}
             onChange={this.handleChange}
@@ -160,26 +165,28 @@ class UserConnectForm extends Component {
           <span>
             {this.state.signup ? (
               <span>
-                I already have an account,&nbsp;
+                <FormattedMessage id="alreadyHaveAccount" />
+                ,&nbsp;
                 <a
                   onClick={() => {
                     this.toggleSignup(!this.state.signup);
                   }}
                   tabIndex="-1"
                 >
-                  sign in
+                  <FormattedMessage id="SignInSubtext" />
                 </a>
               </span>
             ) : (
               <span>
-                I don&apos;t have an account,&nbsp;
+                <FormattedMessage id="dontHaveAccount" />
+                ,&nbsp;
                 <a
                   onClick={() => {
                     this.toggleSignup(!this.state.signup);
                   }}
                   tabIndex="-1"
                 >
-                  create one
+                  <FormattedMessage id="SignUpSubtext" />
                 </a>
               </span>
             )}

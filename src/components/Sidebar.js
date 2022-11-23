@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 
 import secretin from 'utils/secretin';
@@ -79,7 +80,7 @@ function Sidebar() {
 
           <SidebarMenuLink to="/secrets/all/">
             <Icon id="apps" size="base" />
-            All
+            <FormattedMessage id="all" />
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/mine" exact>
             <Icon id="user" size="base" />

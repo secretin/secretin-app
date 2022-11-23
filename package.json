@@ -40,6 +40,7 @@
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.0.0",
+    "react-intl": "^6.2.1",
     "react-overlays": "^0.8.3",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.1.2",

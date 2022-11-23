@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
+import { FormattedMessage } from 'react-intl';
 
 import Secret from 'models/Secret';
 
@@ -57,7 +58,7 @@ class SecretList extends Component {
     let filtered = false;
     if (this.props.showAll) {
       icon = 'apps';
-      title = 'All';
+      title = <FormattedMessage id="all" />;
       link = '/secrets/all/';
       filtered = true;
     } else if (this.props.showMine) {

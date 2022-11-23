@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import Secretin from 'secretin';
 import FooterModal from 'components/FooterModal/index';
+import { supportedLocales, getSupportedBrowserLocale } from '../i18n/strings';
+import Select from 'components/utilities/Select';
 
 const LOCAL_STORAGE_ACKNOWLEDGE_VERSION_KEY = 'Secret-in:acknowledgedVersion';
 const DEFAULT_DEVELOP_COMMITISH = 'develop';
 
 class Footer extends Component {
+  static propTypes = {
+    onChangeLanguage: PropTypes.func,
+  };
   constructor(props) {
     super(props);
     // eslint-disable-next-line no-undef
@@ -20,12 +27,22 @@ class Footer extends Component {
       acknowledgedVersion,
       news: [],
       showModal: acknowledgedVersion ? false : true,
+      defaultLanguage:
+        localStorage.getItem('defaultLanguage') || getSupportedBrowserLocale(),
     };
   }
 
   showNews = () => this.setState({ showModal: true });
 
   hideNews = () => this.setState({ showModal: false });
+
+  onChangeUserLanguage(newLanguage) {
+    localStorage.setItem('defaultLanguage', newLanguage);
+    this.setState({
+      defaultLanguage: newLanguage,
+    });
+    this.props.onChangeLanguage();
+  }
 
   acknowledgeVersion = () => {
     window.localStorage.setItem(
@@ -81,6 +98,8 @@ class Footer extends Component {
 
   render() {
     const shortCommit = this.state.commit ? this.state.commit.substr(0, 7) : '';
+    const { defaultLanguage } = this.state;
+
     return (
       <div className="footer">
         <FooterModal
@@ -129,6 +148,16 @@ class Footer extends Component {
             </a>
           </span>
         </span>
+        <Select
+          value={defaultLanguage}
+          label={<FormattedMessage id="defaultLanguage" />}
+          options={Object.entries(
+            supportedLocales
+          ).map(([localeValue, localeName]) => [localeValue, localeName])}
+          size="extra-small"
+          title={'Preferred language'}
+          onChange={({ value }) => this.onChangeUserLanguage(value)}
+        />
       </div>
     );
   }
