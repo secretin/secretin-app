@@ -84,27 +84,27 @@ function Sidebar() {
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/mine" exact>
             <Icon id="user" size="base" />
-            My secrets
+            <FormattedMessage id="my secrets" />
           </SidebarMenuLink>
           <SidebarMenuLink to="/secrets/shared" exact>
             <Icon id="people" size="base" />
-            Shared secrets
+            <FormattedMessage id="shared secrets" />
           </SidebarMenuLink>
           <div className="sidebar-separator" />
           <SidebarMenuLink to="/settings/">
             <Icon id="gear" size="base" />
-            Settings
+            <FormattedMessage id="settings" />
           </SidebarMenuLink>
           <div className="sidebar-separator" />
           <li className="sidebar-menu-item">
             <a className="sidebar-menu-link" onClick={exportDb}>
               <Icon id="export" size="base" />
-              Export secrets
+              <FormattedMessage id="export secrets" />
             </a>
           </li>
           <SidebarMenuLink to="/import/">
             <Icon id="import" size="base" />
-            Import secrets
+            <FormattedMessage id="import secrets" />
           </SidebarMenuLink>
           <div className="sidebar-separator" />
           <li className="sidebar-menu-item">
@@ -113,7 +113,7 @@ function Sidebar() {
               onClick={() => window.location.reload()}
             >
               <Icon id="logout" size="base" />
-              Log out
+              <FormattedMessage id="logout" />
             </a>
           </li>
         </ul>

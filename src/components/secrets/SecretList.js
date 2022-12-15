@@ -101,12 +101,14 @@ class SecretList extends Component {
           </div>
           <div className="secret-list-content-table-header">
             <div>
-              <div className="secret-list-item-column--title">Title</div>
+              <div className="secret-list-item-column--title">
+                <FormattedMessage id="Title" />
+              </div>
               <div className="secret-list-item-column--last-modified">
-                Last modified
+                <FormattedMessage id="Last modified" />
               </div>
               <div className="secret-list-item-column--shared-with">
-                Shared with
+                <FormattedMessage id="Shared with" />
               </div>
               <div className="secret-list-item-column--actions" />
             </div>

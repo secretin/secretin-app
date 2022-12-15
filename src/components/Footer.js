@@ -141,7 +141,9 @@ class Footer extends Component {
               <span role="img" aria-label="red-heart-emoji">
                 ❤️
               </span>{' '}
-              <b>Donate</b>
+              <b>
+                <FormattedMessage id="donate" />
+              </b>
               <span role="img" aria-label="red-heart-emoji">
                 ❤️
               </span>{' '}
