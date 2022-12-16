@@ -5,13 +5,15 @@
   "homepage": "https://secret-in.me",
   "main": "electron.js",
   "devDependencies": {
+    "@types/react-dom": "^18.0.9",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "electron": "^18.2.0",
     "electron-packager": "^15.5.1",
     "gh-pages": "^1.0.0",
     "node-sass": "^7.0.1",
     "prettier": "^1.19.1",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.3"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
