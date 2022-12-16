@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import Secret from 'models/Secret';
 
@@ -40,7 +41,7 @@ function SecretListNew({ folder, showAddFolder }) {
         }
       >
         <Icon id="add-secret" size="small" />
-        Secret
+        <FormattedMessage id="new secret" />
       </Button>
       {showAddFolder && (
         <Button
@@ -55,7 +56,7 @@ function SecretListNew({ folder, showAddFolder }) {
           }
         >
           <Icon id="add-folder" size="small" />
-          Folder
+          <FormattedMessage id="new folder" />
         </Button>
       )}
     </div>

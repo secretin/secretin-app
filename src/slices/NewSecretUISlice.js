@@ -1,9 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SecretDataRecord from 'models/SecretDataRecord';
+import { createIntl, createIntlCache } from 'react-intl';
 
 import { createSecretSuccess, disconnectUserSuccess } from 'slices/AppUISlice';
 import secretin from 'utils/secretin';
 import { Utils } from 'secretin';
+import { getLocale } from '../i18n/helpers';
+import { getStrings } from '../i18n/strings';
+
+const cache = createIntlCache();
+
+const intl = createIntl(
+  {
+    locale: getLocale(),
+    messages: getStrings(getLocale()),
+  },
+  cache
+);
 
 const getInitialState = () => ({
   shown: false,
@@ -22,7 +35,9 @@ export const NewSecretUISlice = createSlice({
     showModal: (state, action) => {
       const { folder, isFolder } = action.payload;
       state.shown = true;
-      state.title = `Untitled ${isFolder ? 'folder' : 'secret'}`;
+      state.title = intl.formatMessage({
+        id: `Untitled ${isFolder ? 'folder' : 'secret'}`,
+      });
       state.folder = folder;
       state.isFolder = isFolder;
       const loginIndex = state.data.fields.findIndex(

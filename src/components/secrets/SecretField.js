@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import Dropdown from 'components/utilities/Dropdown';
 import Input from 'components/utilities/Input';
@@ -13,6 +14,7 @@ class SecretField extends Component {
     onChange: PropTypes.func,
     isNew: PropTypes.bool,
     canUpdate: PropTypes.bool,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -76,7 +78,7 @@ class SecretField extends Component {
             rel="noopener noreferrer"
             tabIndex="-1"
           >
-            Open
+            <FormattedMessage id="Open" />
           </a>
         );
       }
@@ -84,7 +86,7 @@ class SecretField extends Component {
 
     actions.push(
       <a key="copy" onClick={this.onCopy} tabIndex="-1">
-        Copy
+        <FormattedMessage id="Copy" />
       </a>
     );
 
@@ -94,7 +96,7 @@ class SecretField extends Component {
           ref={ref => {
             this.input = ref;
           }}
-          label={this.props.field.label}
+          label={this.props.intl.formatMessage({ id: this.props.field.label })}
           name={this.props.field.label}
           value={this.props.field.content}
           onChange={this.handleChange}
@@ -110,13 +112,13 @@ class SecretField extends Component {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.MenuItem onSelect={this.onGenerate}>
-                  Generate strong
+                  <FormattedMessage id="Generate strong" />
                 </Dropdown.MenuItem>
                 <Dropdown.MenuItem onSelect={this.onGenerateAlphanum}>
-                  Generate alphanumeric
+                  <FormattedMessage id="Generate alphanumeric" />
                 </Dropdown.MenuItem>
                 <Dropdown.MenuItem onSelect={this.onGeneratePronounceable}>
-                  Generate pronounceable
+                  <FormattedMessage id="Generate pronounceable" />
                 </Dropdown.MenuItem>
               </Dropdown.Menu>
             </Dropdown>
@@ -127,4 +129,4 @@ class SecretField extends Component {
   }
 }
 
-export default SecretField;
+export default injectIntl(SecretField);

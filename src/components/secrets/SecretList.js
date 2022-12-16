@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext, DragLayer } from 'react-dnd';
+import { FormattedMessage } from 'react-intl';
 
 import Secret from 'models/Secret';
 
@@ -57,17 +58,17 @@ class SecretList extends Component {
     let filtered = false;
     if (this.props.showAll) {
       icon = 'apps';
-      title = 'All';
+      title = <FormattedMessage id="all" />;
       link = '/secrets/all/';
       filtered = true;
     } else if (this.props.showMine) {
       icon = 'user';
-      title = 'My secrets';
+      title = <FormattedMessage id="my secrets" />;
       link = '/secrets/mine/';
       filtered = true;
     } else if (this.props.showShared) {
       icon = 'people';
-      title = 'Shared secrets';
+      title = <FormattedMessage id="shared secrets" />;
       link = '/secrets/shared/';
       filtered = true;
     }
@@ -100,12 +101,14 @@ class SecretList extends Component {
           </div>
           <div className="secret-list-content-table-header">
             <div>
-              <div className="secret-list-item-column--title">Title</div>
+              <div className="secret-list-item-column--title">
+                <FormattedMessage id="Title" />
+              </div>
               <div className="secret-list-item-column--last-modified">
-                Last modified
+                <FormattedMessage id="Last modified" />
               </div>
               <div className="secret-list-item-column--shared-with">
-                Shared with
+                <FormattedMessage id="Shared with" />
               </div>
               <div className="secret-list-item-column--actions" />
             </div>

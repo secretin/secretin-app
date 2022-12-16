@@ -13,6 +13,7 @@ const propTypes = {
   disabledReason: PropTypes.string,
   onChangeUserRights: PropTypes.func.isRequired,
   onRemoveUserRights: PropTypes.func.isRequired,
+  intl: PropTypes.object,
 };
 
 function SecretUserListItem(props) {
@@ -22,6 +23,7 @@ function SecretUserListItem(props) {
     disabledReason,
     onChangeUserRights,
     onRemoveUserRights,
+    intl,
   } = props;
 
   return (
@@ -34,7 +36,10 @@ function SecretUserListItem(props) {
       <div className="secret-users-list-item-actions">
         <Select
           value={user.rights}
-          options={UserRights.map(rights => [rights, userRightLabel(rights)])}
+          options={UserRights.map(rights => [
+            rights,
+            intl.formatMessage({ id: userRightLabel(rights) }),
+          ])}
           size="small"
           disabled={disabled}
           title={disabledReason}

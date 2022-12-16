@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import * as MetadataActions from 'slices/MetadataSlice';
 import * as NewSecretUIActions from 'slices/NewSecretUISlice';
@@ -22,6 +23,7 @@ class SecretNew extends Component {
     newSecretActions: PropTypes.object,
     metadataActions: PropTypes.object,
     isLoading: PropTypes.bool,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -47,12 +49,22 @@ class SecretNew extends Component {
         show={this.props.shown}
         onClose={this.props.newSecretActions.hideModal}
       >
-        <Modal.Header title={isFolder ? 'Add new folder' : 'Add new secret'} />
+        <Modal.Header
+          title={
+            isFolder
+              ? this.props.intl.formatMessage({ id: 'create folder title' })
+              : this.props.intl.formatMessage({ id: 'create secret title' })
+          }
+        />
 
         <Modal.Body>
           <Form id="new-secret" onSubmit={this.onSubmit} disabled={false}>
             <Input
-              label={isFolder ? 'Folder title' : 'Secret title'}
+              label={
+                isFolder
+                  ? this.props.intl.formatMessage({ id: 'Folder title' })
+                  : this.props.intl.formatMessage({ id: 'Secret title' })
+              }
               name="title"
               value={this.props.title}
               type="text"
@@ -77,14 +89,18 @@ class SecretNew extends Component {
             buttonStyle="default"
             onClick={this.props.newSecretActions.hideModal}
           >
-            Cancel
+            <FormattedMessage id="Cancel" />
           </Button>
           <Button
             type="submit"
             onClick={this.onSubmit}
             disabled={this.props.isLoading}
           >
-            {isFolder ? 'Add folder' : 'Add secret'}
+            {isFolder ? (
+              <FormattedMessage id="add folder button" />
+            ) : (
+              <FormattedMessage id="add secret button" />
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -105,4 +121,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecretNew);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(SecretNew));

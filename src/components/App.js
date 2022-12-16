@@ -11,6 +11,10 @@ import Footer from 'components/Footer';
 import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
 
+import { IntlProvider } from 'react-intl';
+import { getStrings } from '../i18n/strings';
+import { getLocale, setMomentLocale } from '../i18n/helpers';
+
 class App extends Component {
   static propTypes = {
     savedUsername: PropTypes.string,
@@ -68,21 +72,28 @@ class App extends Component {
   }
 
   render() {
+    setMomentLocale();
     return (
-      <Router basename={process.env.PUBLIC_URL}>
-        <div className="App">
-          {this.props.connected ? (
-            <Layout />
-          ) : (
-            <UserConnect
-              savedUsername={this.props.savedUsername}
-              loading={this.props.loading}
-              errors={this.props.errors}
-            />
-          )}
-          <Footer />
-        </div>
-      </Router>
+      <IntlProvider
+        locale={getLocale()}
+        defaultLocale={getLocale()}
+        messages={getStrings(getLocale())}
+      >
+        <Router basename={process.env.PUBLIC_URL}>
+          <div className="App">
+            {this.props.connected ? (
+              <Layout />
+            ) : (
+              <UserConnect
+                savedUsername={this.props.savedUsername}
+                loading={this.props.loading}
+                errors={this.props.errors}
+              />
+            )}
+            <Footer onChangeLanguage={() => this.forceUpdate()} />
+          </div>
+        </Router>
+      </IntlProvider>
     );
   }
 }

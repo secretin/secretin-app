@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Mousetrap from 'mousetrap';
+import { injectIntl } from 'react-intl';
 
 class SecretListSearch extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -49,7 +51,7 @@ class SecretListSearch extends Component {
             this.searchInput = ref;
           }}
           type="search"
-          placeholder="Search..."
+          placeholder={this.props.intl.formatMessage({ id: 'search' })}
           onChange={this.onChange}
           onKeyDown={this.blur}
         />
@@ -58,4 +60,4 @@ class SecretListSearch extends Component {
   }
 }
 
-export default SecretListSearch;
+export default injectIntl(SecretListSearch);
