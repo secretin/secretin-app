@@ -30,7 +30,7 @@ export const messages = {
     donate: 'Donate',
     all: 'All',
     'my secrets': 'My secrets',
-    'shared secrets': 'shared secrets',
+    'shared secrets': 'Shared secrets',
     settings: 'Settings',
     'export secrets': 'Export secrets',
     'import secrets': 'Importer secrets',
