@@ -6,7 +6,6 @@
   "main": "electron.js",
   "devDependencies": {
     "@welldone-software/why-did-you-render": "^6.2.3",
-    "babel-eslint": "^10.0.3",
     "electron": "^18.2.0",
     "electron-packager": "^15.5.1",
     "gh-pages": "^1.0.0",
@@ -42,7 +41,7 @@
   },
   "scripts": {
     "deploy": "scripts/deploy.sh",
-    "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
+    "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build && ./scripts/post-build.sh",
     "build-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css -w",
