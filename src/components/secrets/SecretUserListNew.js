@@ -12,6 +12,7 @@ import Input from 'components/utilities/Input';
 import Select from 'components/utilities/Select';
 import Button from 'components/utilities/Button';
 import Icon from 'components/utilities/Icon';
+import { injectIntl } from 'react-intl';
 
 class SecretUserListNew extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class SecretUserListNew extends Component {
     secret: PropTypes.instanceOf(Secret),
     errors: PropTypes.object,
     dispatch: PropTypes.func,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -42,9 +44,9 @@ class SecretUserListNew extends Component {
     const { secret } = this.props;
     const { user } = this.state;
     const accessRights = [
-      'read access',
-      'read and write access',
-      'read, write and share access',
+      this.props.intl.formatMessage({ id: 'read access' }),
+      this.props.intl.formatMessage({ id: 'read and write access' }),
+      this.props.intl.formatMessage({ id: 'read, write and share access' }),
     ];
 
     const rights = accessRights[user.rights];
@@ -52,14 +54,19 @@ class SecretUserListNew extends Component {
     const on = secret.title;
 
     confirm({
-      title: 'Are you sure?',
+      title: this.props.intl.formatMessage({ id: 'Are you sure?' }),
       text: (
         <span>
-          You are about to give <b>{rights}</b> to <b>{to}</b> on <b>{on}</b>.
+          {this.props.intl.formatMessage({ id: 'shareWarning' })}
+          &nbsp;<b>{rights}</b>&nbsp;
+          {this.props.intl.formatMessage({ id: 'to' })}
+          &nbsp;<b>{to}</b>&nbsp;
+          {this.props.intl.formatMessage({ id: 'on' })}
+          &nbsp;<b>{on}</b>.
         </span>
       ),
-      acceptLabel: 'Share the secret',
-      cancelLabel: 'Cancel',
+      acceptLabel: this.props.intl.formatMessage({ id: 'Share the secret' }),
+      cancelLabel: this.props.intl.formatMessage({ id: 'Cancel' }),
       onAccept: () => {
         this.props.dispatch(
           MetadataActions.createSecretUserRights({
@@ -81,7 +88,7 @@ class SecretUserListNew extends Component {
       <div className="secret-users-list-new">
         <Input
           name="username"
-          placeholder="User name..."
+          placeholder={`${this.props.intl.formatMessage({ id: 'login' })}...`}
           value={this.state.user.username}
           size="small"
           onChange={this.handleChange}
@@ -93,7 +100,10 @@ class SecretUserListNew extends Component {
           value={this.state.user.rights}
           size="small"
           onChange={this.handleChange}
-          options={UserRights.map(rights => [rights, userRightLabel(rights)])}
+          options={UserRights.map(rights => [
+            rights,
+            this.props.intl.formatMessage({ id: userRightLabel(rights) }),
+          ])}
         />
         <Button
           buttonStyle="icon"
@@ -116,4 +126,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SecretUserListNew);
+export default connect(mapStateToProps)(injectIntl(SecretUserListNew));

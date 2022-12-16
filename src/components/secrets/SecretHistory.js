@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { FormattedMessage } from 'react-intl';
 
 import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
 import SecretHistoryButton from 'components/secrets/SecretHistoryButton';
@@ -56,8 +57,9 @@ class SecretHistory extends Component {
             style={{ color: 'white', fontWeight: '600' }}
             title={moment(modifiedAt).format('MMM Do, YYYY HH:mm')}
           >
-            {isLatest && '(latest)'}
-            {isOldest && '(oldest)'} {moment(modifiedAt).fromNow()}
+            {isLatest && <FormattedMessage id="latest" />}
+            {isOldest && <FormattedMessage id="oldest" />}{' '}
+            {moment(modifiedAt).fromNow()}
           </span>
         </div>
         <div className="secret-history-fields">

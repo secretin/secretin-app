@@ -12,10 +12,8 @@ import UserConnect from 'components/users/UserConnect';
 import Layout from 'components/Layout';
 
 import { IntlProvider } from 'react-intl';
-import { getStrings, getSupportedBrowserLocale } from '../i18n/strings';
-
-const getLocale = () =>
-  localStorage.getItem('defaultLanguage') || getSupportedBrowserLocale();
+import { getStrings } from '../i18n/strings';
+import { getLocale, setMomentLocale } from '../i18n/helpers';
 
 class App extends Component {
   static propTypes = {
@@ -74,6 +72,7 @@ class App extends Component {
   }
 
   render() {
+    setMomentLocale();
     return (
       <IntlProvider
         locale={getLocale()}

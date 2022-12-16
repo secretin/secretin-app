@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
 import * as MetadataActions from 'slices/MetadataSlice';
@@ -32,6 +33,7 @@ class SecretShow extends Component {
     isOnline: PropTypes.bool,
     showSecretActions: PropTypes.object,
     metadataActions: PropTypes.object,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -102,7 +104,10 @@ class SecretShow extends Component {
             onSelect={this.handleChangeTab}
           >
             {this.props.secret.type !== 'folder' && (
-              <Tab eventKey="details" title="Details">
+              <Tab
+                eventKey="details"
+                title={this.props.intl.formatMessage({ id: 'Details' })}
+              >
                 {this.props.secret.type === 'windows' ? (
                   <WindowsSecretEdit isUpdating={this.props.isUpdating} />
                 ) : (
@@ -116,7 +121,10 @@ class SecretShow extends Component {
             )}
 
             {this.props.secret.type !== 'windows' && (
-              <Tab eventKey="access" title="Who has access">
+              <Tab
+                eventKey="access"
+                title={this.props.intl.formatMessage({ id: 'Who has access' })}
+              >
                 <SecretUserList
                   isUpdating={this.props.isUpdating}
                   errors={this.props.errors}
@@ -126,7 +134,10 @@ class SecretShow extends Component {
             )}
 
             {this.props.secret?.history?.length > 1 && (
-              <Tab eventKey="history" title="History">
+              <Tab
+                eventKey="history"
+                title={this.props.intl.formatMessage({ id: 'History' })}
+              >
                 <SecretHistory />
               </Tab>
             )}
@@ -140,7 +151,7 @@ class SecretShow extends Component {
             onClick={this.props.showSecretActions.hideModal}
             disabled={this.props.isUpdating}
           >
-            {this.props.isEditing ? 'Cancel' : 'Close'}
+            <FormattedMessage id={this.props.isEditing ? 'Cancel' : 'Close'} />
           </Button>
           {this.props.isEditing && (
             <Button
@@ -149,7 +160,7 @@ class SecretShow extends Component {
               onClick={this.handleClick}
               disabled={this.props.isUpdating}
             >
-              Save
+              <FormattedMessage id="Save" />
             </Button>
           )}
         </Modal.Footer>
@@ -180,4 +191,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecretShow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(SecretShow));

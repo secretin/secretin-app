@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from 'components/utilities/Modal';
 import Button from 'components/utilities/Button';
 import Welcome from 'components/FooterModal/Welcome';
+import { FormattedMessage } from 'react-intl';
 
 const propTypes = {
   hideNews: PropTypes.func,
@@ -44,11 +45,11 @@ class FooterModal extends Component {
               buttonStyle="default"
               onClick={this.props.hideNews}
             >
-              Close
+              <FormattedMessage id="Close" />
             </Button>
           )}
           <Button type="submit" onClick={this.props.acknowledgeVersion}>
-            Ok
+            OK
           </Button>
         </Modal.Footer>
       </Modal>

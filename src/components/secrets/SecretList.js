@@ -63,12 +63,12 @@ class SecretList extends Component {
       filtered = true;
     } else if (this.props.showMine) {
       icon = 'user';
-      title = 'My secrets';
+      title = <FormattedMessage id="my secrets" />;
       link = '/secrets/mine/';
       filtered = true;
     } else if (this.props.showShared) {
       icon = 'people';
-      title = 'Shared secrets';
+      title = <FormattedMessage id="shared secrets" />;
       link = '/secrets/shared/';
       filtered = true;
     }

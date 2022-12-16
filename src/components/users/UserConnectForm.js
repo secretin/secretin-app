@@ -98,7 +98,7 @@ class UserConnectForm extends Component {
         </h2>
         <Input
           name="username"
-          label={<FormattedMessage id="Username" />}
+          label={<FormattedMessage id="login" />}
           type="text"
           value={this.state.username}
           onChange={this.handleChange}
@@ -109,7 +109,7 @@ class UserConnectForm extends Component {
         />
         <Input
           name="password"
-          label={<FormattedMessage id="Password" />}
+          label={<FormattedMessage id="password" />}
           type="password"
           value={this.state.password}
           onChange={this.handleChange}

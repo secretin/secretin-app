@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl';
 
 import Secret from 'models/Secret';
 
@@ -9,11 +10,13 @@ import * as MetadataActions from 'slices/MetadataSlice';
 import SecretUserListItem from './SecretUserListItem';
 import SecretUserListNew from './SecretUserListNew';
 
-function getDisabledReason(cantShare, isCurrentUser) {
+function getDisabledReason(cantShare, isCurrentUser, intl) {
   if (cantShare) {
-    return "You don't have the permission to share this secret";
+    return intl.formatMessage({
+      id: "You don't have the permission to share this secret",
+    });
   } else if (isCurrentUser) {
-    return "You can't modify or remove yourself";
+    return intl.formatMessage({ id: "You can't modify or remove yourself" });
   }
   return null;
 }
@@ -26,6 +29,7 @@ class SecretUserList extends Component {
     isOnline: PropTypes.bool,
     currentUser: PropTypes.object,
     dispatch: PropTypes.func,
+    intl: PropTypes.object,
   };
 
   constructor(props) {
@@ -72,10 +76,12 @@ class SecretUserList extends Component {
               }
               disabledReason={getDisabledReason(
                 !canShare,
-                currentUser.username === user.id
+                currentUser.username === user.id,
+                this.props.intl
               )}
               onChangeUserRights={this.onChangeUserRights}
               onRemoveUserRights={this.onRemoveUserRights}
+              intl={this.props.intl}
             />
           ))}
         </div>
@@ -98,4 +104,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SecretUserList);
+export default connect(mapStateToProps)(injectIntl(SecretUserList));
