@@ -151,6 +151,13 @@ export const createUser = ({
             })
           );
         }
+        if (error.message.startsWith('The password')) {
+          return dispatch(
+            createUserFailure({
+              error: { password: error.message },
+            })
+          );
+        }
         throw error;
       });
   }
