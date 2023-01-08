@@ -6,8 +6,10 @@ import * as MetadataActions from 'slices/MetadataSlice';
 import * as ShowSecretUIActions from 'slices/ShowSecretUISlice';
 
 import { confirm } from 'components/utilities/Confirm';
-import Dropdown from 'components/utilities/Dropdown';
+// import Dropdown from 'components/utilities/Dropdown';
 import Icon from 'components/utilities/Icon';
+
+import { Dropdown } from 'react-bootstrap';
 
 class SecretListItemOptions extends Component {
   static propTypes = {
@@ -79,44 +81,46 @@ class SecretListItemOptions extends Component {
     return (
       <Dropdown id="secret-action" pullRight>
         <Dropdown.Toggle>
-          <Icon id="more-vert" size="small" />
+          {/* <Icon id="more-vert" size="small" /> */}
+          Fuuu
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {secret.type !== 'folder' && (
-            <Dropdown.MenuItem onSelect={this.handleShow}>
-              Show
-            </Dropdown.MenuItem>
+          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+          {/* {secret.type !== 'folder' && (
+            <Dropdown.Item onSelect={this.handleShow}>Show</Dropdown.Item>
           )}
           {canShare && (
-            <Dropdown.MenuItem
+            <Dropdown.Item
+              as="button"
               onSelect={this.handleShare}
               disabled={!this.props.isOnline}
             >
               Share
-            </Dropdown.MenuItem>
+            </Dropdown.Item>
           )}
 
           {(parentFolderId || secret.canBeDeleted()) && (
             <div>
-              <Dropdown.MenuItem divider />
+              <Dropdown.Divider />
 
               {parentFolderId && (
-                <Dropdown.MenuItem onSelect={this.handleMoveToParent}>
+                <Dropdown.Item as="button" onSelect={this.handleMoveToParent}>
                   Remove from&nbsp;
                   <b>{folder.title}</b>
-                </Dropdown.MenuItem>
+                </Dropdown.Item>
               )}
 
               {secret.canBeDeleted() && (
-                <Dropdown.MenuItem
+                <Dropdown.Item
+                  as="button"
                   onSelect={this.handleDelete}
                   disabled={!this.props.isOnline}
                 >
                   Delete
-                </Dropdown.MenuItem>
+                </Dropdown.Item>
               )}
             </div>
-          )}
+          )} */}
         </Dropdown.Menu>
       </Dropdown>
     );

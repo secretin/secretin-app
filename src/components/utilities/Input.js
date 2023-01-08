@@ -171,12 +171,12 @@ class Input extends Component {
               >
                 <Dropdown.Menu>
                   {filteredAutoCompleteList.slice(0, 5).map(elem => (
-                    <Dropdown.MenuItem
+                    <Dropdown.Item
                       key={elem}
                       onSelect={() => this.handleAutoCompleteSelect(elem)}
                     >
                       {elem}
-                    </Dropdown.MenuItem>
+                    </Dropdown.Item>
                   ))}
                 </Dropdown.Menu>
               </Dropdown>

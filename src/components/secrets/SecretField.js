@@ -111,15 +111,15 @@ class SecretField extends Component {
                 <Icon id="generate" size="small" />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.MenuItem onSelect={this.onGenerate}>
+                <Dropdown.Item onSelect={this.onGenerate}>
                   <FormattedMessage id="Generate strong" />
-                </Dropdown.MenuItem>
-                <Dropdown.MenuItem onSelect={this.onGenerateAlphanum}>
+                </Dropdown.Item>
+                <Dropdown.Item onSelect={this.onGenerateAlphanum}>
                   <FormattedMessage id="Generate alphanumeric" />
-                </Dropdown.MenuItem>
-                <Dropdown.MenuItem onSelect={this.onGeneratePronounceable}>
+                </Dropdown.Item>
+                <Dropdown.Item onSelect={this.onGeneratePronounceable}>
                   <FormattedMessage id="Generate pronounceable" />
-                </Dropdown.MenuItem>
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
