@@ -13,7 +13,7 @@ import { buildSecretURL } from 'utils/URLHelper';
 import UserAvatars from 'components/users/UserAvatars';
 import Icon from 'components/utilities/Icon';
 
-import SecretListItemOptions from './Options';
+import { SecretListItemOptions } from './Options';
 
 const propTypes = {
   secret: PropTypes.any,

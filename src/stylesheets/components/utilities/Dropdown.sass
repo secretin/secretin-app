@@ -15,7 +15,6 @@
 .dropdown-toggle
   position: relative
   z-index: 1
-  display: block
   border: none
   background: none
   padding: 0
@@ -30,8 +29,6 @@
   -webkit-user-select: none
   position: absolute
   z-index: 2
-  visibility: hidden
-  opacity: 0
   width: 250px
   top: 100%
   list-style: none
@@ -55,28 +52,32 @@
 .dropdown-menu-item
   overflow: hidden
 
-.dropdown-menu-item a
+.dropdown-menu-item button
   display: flex
   flex-direction: row
   align-items: center
   height: 24px
+  width: 100%
   color: inherit
   text-decoration: none
   cursor: pointer
   padding: 0 16px
   outline: none
+  border: none
+  background: none
+  font-size: 14px
 
-.dropdown-menu-item a:hover,
-.dropdown-menu-item a:active,
-.dropdown-menu-item a:focus
+.dropdown-menu-item button:hover,
+.dropdown-menu-item button:active,
+.dropdown-menu-item button:focus
   background-color: #EEE
   text-decoration: none
 
-.dropdown-menu-item.disabled a
+.dropdown-menu-item.disabled button
   cursor: not-allowed
   opacity: .4
 
-.dropdown-menu-item.disabled a:hover,
-.dropdown-menu-item.disabled a:active,
-.dropdown-menu-item.disabled a:focus
+.dropdown-menu-item.disabled button:hover,
+.dropdown-menu-item.disabled button:active,
+.dropdown-menu-item.disabled button:focus
   background-color: inherit

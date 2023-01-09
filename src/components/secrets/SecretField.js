@@ -4,9 +4,9 @@ import copyToClipboard from 'copy-to-clipboard';
 import { Utils } from 'secretin';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
-import Dropdown from 'components/utilities/Dropdown';
 import Input from 'components/utilities/Input';
 import Icon from 'components/utilities/Icon';
+import Dropdown from 'components/utilities/Dropdown';
 
 class SecretField extends Component {
   static propTypes = {
@@ -106,18 +106,18 @@ class SecretField extends Component {
         />
         <div className="secret-field-action">
           {this.props.field.type === 'password' && this.props.canUpdate && (
-            <Dropdown id="password-generation-options" pullRight>
-              <Dropdown.Toggle>
-                <Icon id="generate" size="small" />
-              </Dropdown.Toggle>
+            <Dropdown
+              id="password-generation-options"
+              target={<Icon id="generate" size="small" />}
+            >
               <Dropdown.Menu>
-                <Dropdown.Item onSelect={this.onGenerate}>
+                <Dropdown.Item onClick={this.onGenerate}>
                   <FormattedMessage id="Generate strong" />
                 </Dropdown.Item>
-                <Dropdown.Item onSelect={this.onGenerateAlphanum}>
+                <Dropdown.Item onClick={this.onGenerateAlphanum}>
                   <FormattedMessage id="Generate alphanumeric" />
                 </Dropdown.Item>
-                <Dropdown.Item onSelect={this.onGeneratePronounceable}>
+                <Dropdown.Item onClick={this.onGeneratePronounceable}>
                   <FormattedMessage id="Generate pronounceable" />
                 </Dropdown.Item>
               </Dropdown.Menu>
