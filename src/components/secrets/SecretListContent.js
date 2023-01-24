@@ -104,9 +104,11 @@ class SecretListContent extends Component {
         })
         .flat();
     } else {
-      filteredSecrets.sort((a, b) =>
-        a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-      );
+      filteredSecrets.sort((a, b) => {
+        if (a.title === null) return 1;
+        if (b.title === null) return -1;
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+      });
     }
 
     const renderFilteredRow = ({ index, key, style }) => {
