@@ -21,7 +21,7 @@ import { Tabs, Tab } from 'components/utilities/Tabs';
 
 import { StrikePlaceholder } from './PhilippeMartinez';
 
-const MERGUEZ = true;
+const MERGUEZ = false;
 
 class SecretShow extends Component {
   static propTypes = {
