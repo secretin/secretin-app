@@ -5,17 +5,17 @@
     "main.js.map": "/static/js/main.eb3decf6.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.48d21207.js",
     "runtime-main.js.map": "/static/js/runtime-main.48d21207.js.map",
-    "static/js/2.f54d9069.chunk.js": "/static/js/2.f54d9069.chunk.js",
-    "static/js/2.f54d9069.chunk.js.map": "/static/js/2.f54d9069.chunk.js.map",
+    "static/js/2.f99426df.chunk.js": "/static/js/2.f99426df.chunk.js",
+    "static/js/2.f99426df.chunk.js.map": "/static/js/2.f99426df.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.c49d25b8.chunk.css.map": "/static/css/main.c49d25b8.chunk.css.map",
-    "static/js/2.f54d9069.chunk.js.LICENSE.txt": "/static/js/2.f54d9069.chunk.js.LICENSE.txt",
+    "static/js/2.f99426df.chunk.js.LICENSE.txt": "/static/js/2.f99426df.chunk.js.LICENSE.txt",
     "static/media/caisse.5a8425b5.jpg": "/static/media/caisse.5a8425b5.jpg",
     "static/media/onestlatech.123fef2c.png": "/static/media/onestlatech.123fef2c.png"
   },
   "entrypoints": [
     "static/js/runtime-main.48d21207.js",
-    "static/js/2.f54d9069.chunk.js",
+    "static/js/2.f99426df.chunk.js",
     "static/css/main.c49d25b8.chunk.css",
     "static/js/main.eb3decf6.chunk.js"
   ]
