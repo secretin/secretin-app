@@ -5,24 +5,15 @@
   "homepage": "https://secret-in.me",
   "main": "electron.js",
   "devDependencies": {
+    "@types/react-dom": "^18.0.9",
     "@welldone-software/why-did-you-render": "^6.2.3",
-    "babel-eslint": "^10.0.3",
     "electron": "^18.2.0",
     "electron-packager": "^15.5.1",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-config-react-app": "^5.1.0",
-    "eslint-import-resolver-webpack": "^0.12.1",
-    "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
     "gh-pages": "^1.0.0",
     "node-sass": "^7.0.1",
     "prettier": "^1.19.1",
-    "react-scripts": "4.0.3"
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.3"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
@@ -35,11 +26,11 @@
     "mousetrap": "^1.6.3",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
-    "react": "^16.0.0",
+    "react": "^18",
     "react-bootstrap": "^0.32.4",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
-    "react-dom": "^16.0.0",
+    "react-dom": "^18",
     "react-intl": "^6.2.1",
     "react-overlays": "^0.8.3",
     "react-redux": "^7.2.3",
@@ -52,7 +43,7 @@
   },
   "scripts": {
     "deploy": "scripts/deploy.sh",
-    "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src react-scripts start",
+    "start": "yarn build-css && yarn run watch-css & NODE_PATH=./src DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "yarn build-css && NODE_PATH=./src node_modules/.bin/react-scripts build && ./scripts/post-build.sh",
     "build-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css",
     "watch-css": "node_modules/.bin/node-sass src/stylesheets/application.sass src/index.css -w",
@@ -60,11 +51,8 @@
     "electron": "yarn __electron -- --platform=all",
     "electron:mac": "yarn __electron -- --platform=darwin --icon build/icons/icon-512x512.icns",
     "dev-electron": "yarn build && electron .",
-    "lint": "node_modules/.bin/eslint src/",
+    "lint": "eslint src/",
     "test": "yarn lint"
-  },
-  "eslintConfig": {
-    "extends": "./.eslintrc.js"
   },
   "resolutions": {
     "electron-download": "4.1.1"
@@ -80,5 +68,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
